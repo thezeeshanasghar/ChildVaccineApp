@@ -7,10 +7,11 @@
       <Diagram DiagramId="1b163f09951c4cf9bc12e68f3b86d2f1" Name="Diagram1">
         <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="VDModel.DoseRule" Width="1.5" PointX="3" PointY="3.625" />
-        <EntityTypeShape EntityType="VDModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VDModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="false" />
         <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="2.375" />
         <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
         <AssociationConnector Association="VDModel.FK_DoseRule_Vaccine" />
+        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

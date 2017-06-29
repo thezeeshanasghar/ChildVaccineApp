@@ -5,6 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="VDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PMDC" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Dose">
           <Key>
             <PropertyRef Name="ID" />
@@ -67,6 +80,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="VDModelStoreContainer">
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dose" EntityType="Self.Dose" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoseRule" EntityType="Self.DoseRule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -97,6 +111,7 @@
             <End Role="Vaccine" EntitySet="Vaccines" />
             <End Role="DoseRule" EntitySet="DoseRules" />
           </AssociationSet>
+          <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
         </EntityContainer>
         <EntityType Name="Dose">
           <Key>
@@ -163,6 +178,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PMDC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -206,6 +234,20 @@
                 <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="VDModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="PMDC" ColumnName="PMDC" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

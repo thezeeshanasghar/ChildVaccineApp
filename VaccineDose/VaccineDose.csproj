@@ -212,11 +212,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\DoseRuleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DoseController.cs" />
     <Compile Include="Controllers\VaccineController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Doctor.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Dose.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
@@ -229,6 +233,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Model\DoctorDTO.cs" />
     <Compile Include="Model\DoseRuleDTO.cs" />
     <Compile Include="Model\DoseDTO.cs" />
     <Compile Include="Model\Response.cs" />
@@ -260,6 +265,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="doctor.html" />
     <Content Include="dose-rules.html" />
     <Content Include="js\common.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -269,6 +275,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="Global.asax" />
+    <Content Include="js\doctor.js" />
     <Content Include="js\dose-rules.js" />
     <Content Include="js\dose.js" />
     <Content Include="menu.html" />
