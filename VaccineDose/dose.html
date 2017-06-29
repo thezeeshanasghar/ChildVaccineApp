@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css" />
+    <link id="menuImport" href="menu.html" rel="import" />
+    <link id="footerImport" href="footer.html" rel="import" />
+    <link href="style.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container">
+
+        <!--menu will be insert in below div; code written in common.js-->
+        <div id="menu"></div>
+
+        <div class="container">
+            <h2>Vaccine Doses</h2>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
+
+            <div id="alert_message" class="alert alert-dismissible alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                <strong>loading title!</strong>
+                <p>loading message</p>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="tbody"></tbody>
+            </table>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&nbsp;×&nbsp;</button>
+                        <h4 class="modal-title" id="myModalLabel">Add New</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="text" class="form-control" id="ID" style="display:none" />
+
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input type="text" class="form-control" id="Name" placeholder="Name" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--menu will be insert in below div; code written in common.js-->
+        <div id="footer"></div>
+
+
+    </div><!-- /.container -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="js/common.js"></script>
+    <script src="js/dose.js"></script>
+</body>
+</html>
