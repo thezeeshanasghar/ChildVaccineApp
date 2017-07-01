@@ -30,5 +30,6 @@ namespace VaccineDose
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Vaccine> Vaccines { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<Clinic> Clinics { get; set; }
     }
 }

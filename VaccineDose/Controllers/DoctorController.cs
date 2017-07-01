@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using AutoMapper;
-using VaccineDose;
 using System.Collections.Generic;
 
-namespace VaccineDoctor.Controllers
+namespace VaccineDose.Controllers
 {
     public class DoctorController : ApiController
     {
@@ -86,6 +85,23 @@ namespace VaccineDoctor.Controllers
                 dbDoctor.IsApproved = true;
                 entities.SaveChanges();
                 return new Response<string>(true, null, "approved");
+            }
+        }
+
+        [Route("api/doctor/{id}/clinics")]
+        public Response<IEnumerable<ClinicDTO>> GetClinics(int id)
+        {
+            using (VDConnectionString entities = new VDConnectionString())
+            {
+                var doctor = entities.Doctors.FirstOrDefault(c => c.ID == id);
+                if (doctor == null)
+                    return new Response<IEnumerable<ClinicDTO>>(false, "Doctor not found", null);
+                else
+                {
+                    var dbClinics = doctor.Clinics.ToList();
+                    var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
+                    return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
+                }
             }
         }
 

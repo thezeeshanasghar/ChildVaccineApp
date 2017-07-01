@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
-using System.Data.Entity;
-using System.Collections;
 using AutoMapper;
-using System.Threading;
 
 namespace VaccineDose.Controllers
 {
