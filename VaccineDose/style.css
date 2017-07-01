@@ -6,32 +6,3 @@
 .navbar {
     margin-bottom: 20px;
 }
-
-.sidebar-nav {
-    color: #fff;
-    font-size: 32px;
-    line-height: 50px;
-    float: left;
-    cursor: pointer;
-    margin-right: 10px;
-}
-.sb-nav {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 50px;
-    background: beige;
-    border:  solid 1px #dedede;
-    padding: 14px;
-    min-width: 140px;
-    border-radius: 5px;
-}
-.sb-nav ul {margin: 0; padding: 0;list-style-type: none;}
-
-#footer{
-        position: absolute;
-    bottom: 40px;
-    width: 100%;
-    left: 0;
-    text-align: center;
-}
