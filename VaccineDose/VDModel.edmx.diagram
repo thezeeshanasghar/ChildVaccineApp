@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1b163f09951c4cf9bc12e68f3b86d2f1" Name="Diagram1">
-        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="VDModel.DoseRule" Width="1.5" PointX="3" PointY="3.625" />
-        <EntityTypeShape EntityType="VDModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="2.375" />
-        <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
-        <AssociationConnector Association="VDModel.FK_DoseRule_Vaccine" />
-        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="5.375" PointY="3.75" />
-        <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="7.625" PointY="3.75" />
-        <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
+      <Diagram DiagramId="487e0368e5264d0cb617af7b0defbfb0" Name="Diagram1">
+        <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="VDModel.DoseRule" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <AssociationConnector Association="VDModel.FK_Clinic_Doctor" ManuallyRouted="false" />
+        <AssociationConnector Association="VDModel.FK_Dose_Vaccine" ManuallyRouted="false" />
+        <AssociationConnector Association="VDModel.FK_DoseRule_Vaccine" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
