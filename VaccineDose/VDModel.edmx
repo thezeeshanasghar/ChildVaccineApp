@@ -11,11 +11,11 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="OffDays" Type="nvarchar" MaxLength="50" />
-          <Property Name="StartTime" Type="time" Precision="7" />
-          <Property Name="EndTime" Type="time" Precision="7" />
-          <Property Name="Lat" Type="int" />
-          <Property Name="Long" Type="int" />
+          <Property Name="OffDays" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Lat" Type="float" Nullable="false" />
+          <Property Name="Long" Type="float" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Doctor">
@@ -233,11 +233,11 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OffDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StartTime" Type="Time" Precision="7" />
-          <Property Name="EndTime" Type="Time" Precision="7" />
-          <Property Name="Lat" Type="Int32" />
-          <Property Name="Long" Type="Int32" />
+          <Property Name="OffDays" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Long" Type="Double" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
         </EntityType>

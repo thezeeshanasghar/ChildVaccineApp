@@ -6,6 +6,8 @@ $(document).ready(function () {
 //Load Data function  
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+
+    // Get approved doctors
     $.ajax({
         url: "/api/doctor",
         type: "GET",
@@ -22,6 +24,7 @@ function loadData() {
                 html += '<td>' + item.PMDC + '</td>';
                 
                 html += '<td>' +
+                    '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
@@ -33,6 +36,8 @@ function loadData() {
             alert(errormessage.responseText);
         }
     });
+
+    // Get unapproved doctors
     $.ajax({
         url: "/api/doctor/unapproved",
         type: "GET",

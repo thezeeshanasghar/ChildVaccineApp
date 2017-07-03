@@ -17,7 +17,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        public Response<ClinicDTO> Post(ClinicDTO clinicDTO)
+        public Response<ClinicDTO> Post([FromBody] ClinicDTO clinicDTO)
         {
             using (VDConnectionString entities = new VDConnectionString())
             {

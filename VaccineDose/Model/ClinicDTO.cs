@@ -10,10 +10,10 @@ namespace VaccineDose
         public int ID { get; set; }
         public string Name { get; set; }
         public string OffDays { get; set; }
-        public Nullable<System.TimeSpan> StartTime { get; set; }
-        public Nullable<System.TimeSpan> EndTime { get; set; }
-        public Nullable<int> Lat { get; set; }
-        public Nullable<int> Long { get; set; }
+        public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
+        public double Lat { get; set; }
+        public double Long { get; set; }
         public int DoctorID { get; set; }
     }
 }

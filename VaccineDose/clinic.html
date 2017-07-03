@@ -12,6 +12,16 @@
     <link id="menuImport" href="menu.html" rel="import" />
     <link id="footerImport" href="footer.html" rel="import" />
     <link href="style.css" rel="stylesheet" />
+    <style>
+        #Location {
+            width: 100%;
+            height: 250px;
+        }
+
+        #current {
+            padding-top: 10px;
+        }
+    </style
 
 </head>
 <body>
@@ -42,13 +52,7 @@
                             OffDays
                         </th>
                         <th>
-                            Name
-                        </th>
-                        <th>
-                            ID
-                        </th>
-                        <th>
-                            Name
+                            Timings
                         </th>
                         <th>
                             Action
@@ -73,6 +77,27 @@
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control" id="Name" placeholder="Name" />
                             </div>
+
+                            <div class="form-group">
+                                <label for="OffDays">OffDays</label>
+                                <input type="text" class="form-control" id="OffDays" placeholder="Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="StartTime">Strat Time</label>
+                                <input type="time" class="form-control" id="StartTime" placeholder="Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="EndTime">End Time</label>
+                                <input type="time" class="form-control" id="EndTime" placeholder="Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Location</label>
+                                <div id="Location"></div>
+                                <div id="current">Nothing yet...</div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -89,12 +114,46 @@
 
 
     </div><!-- /.container -->
+    <script>
+            var map, myMarker;
+            function initMap() {
+                var myLatLng = { lat: 33.5614494, lng: 73.069301 };
 
+                map = new google.maps.Map(document.getElementById('Location'), {
+                    zoom: 14,
+                    center: myLatLng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+                myMarker = new google.maps.Marker({
+                    position: myLatLng,
+                    draggable: true
+                });
+
+                google.maps.event.addListener(myMarker, 'dragend', function (evt) {
+                    document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
+                });
+
+                google.maps.event.addListener(myMarker, 'dragstart', function (evt) {
+                    document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
+                });
+
+                map.setCenter(myMarker.position);
+                myMarker.setMap(map);
+            }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQiiY3BORTJDHVJ6SFZTiSMk0MoMuU18"></script>
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="js/common.js"></script>
-    <script src="js/dose.js"></script>
+    <script src="js/clinic.js"></script>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            initMap();
+        });
+    </script>
 </body>
 </html>
