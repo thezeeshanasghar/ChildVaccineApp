@@ -14,7 +14,13 @@ namespace VaccineDose
     
     public partial class Child
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Child()
+        {
+            this.ChildVaccines = new HashSet<ChildVaccine>();
+        }
+    
+        public int ID { get; set; }
         public string Name { get; set; }
         public string FatherName { get; set; }
         public string Email { get; set; }
@@ -25,5 +31,8 @@ namespace VaccineDose
         public Nullable<int> PreferredDayOfReminder { get; set; }
         public string City { get; set; }
         public string PreferredShedule { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChildVaccine> ChildVaccines { get; set; }
     }
 }

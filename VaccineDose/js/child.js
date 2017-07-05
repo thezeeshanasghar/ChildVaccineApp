@@ -153,7 +153,12 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                loadData();
+                if (result.IsSuccess) {
+                    loadData();
+                } else {
+                    ShowAlert('Rquest Failed', result.Message, 'error');
+                }
+              
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);

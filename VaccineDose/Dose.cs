@@ -14,10 +14,21 @@ namespace VaccineDose
     
     public partial class Dose
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Dose()
+        {
+            this.ChildVaccines = new HashSet<ChildVaccine>();
+            this.DoseRules = new HashSet<DoseRule>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public int VaccineID { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChildVaccine> ChildVaccines { get; set; }
         public virtual Vaccine Vaccine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoseRule> DoseRules { get; set; }
     }
 }

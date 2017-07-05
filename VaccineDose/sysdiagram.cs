@@ -12,15 +12,12 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class DoseRule
+    public partial class sysdiagram
     {
-        public int ID { get; set; }
-        public int DoseFrom { get; set; }
-        public int DoseTo { get; set; }
-        public int VaccineID { get; set; }
-        public int Days { get; set; }
-    
-        public virtual Dose Dose { get; set; }
-        public virtual Vaccine Vaccine { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

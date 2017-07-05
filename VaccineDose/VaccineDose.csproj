@@ -180,6 +180,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Code\OnlyDateConverter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -211,6 +212,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Child.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChildVaccine.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Clinic.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
@@ -220,6 +230,15 @@
     <Compile Include="Controllers\DoseController.cs" />
     <Compile Include="Controllers\VaccineController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Doctor.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dose.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoseRule.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,6 +246,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Model\ChildDTO.cs" />
+    <Compile Include="Model\ChildVaccineDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />
     <Compile Include="Model\DoseRuleDTO.cs" />
@@ -237,10 +257,21 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vaccine.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="VDModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VDModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VDModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VDModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -253,6 +284,7 @@
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
     <Content Include="dose-rules.html" />
+    <Content Include="js\child.js" />
     <Content Include="js\common.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
