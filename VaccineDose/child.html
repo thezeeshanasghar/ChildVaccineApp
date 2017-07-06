@@ -33,6 +33,9 @@
                 <thead>
                     <tr>
                         <th>
+                            Sr. No
+                        </th>
+                        <th>
                             Name
                         </th>
                         <th>
@@ -71,7 +74,6 @@
                     <div class="modal-body">
                         <form>
                             <input type="text" class="form-control" id="ID" style="display:none" />
-
                             <div class="form-group">
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control" id="Name" placeholder="Name" />
@@ -93,14 +95,21 @@
                                 <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" />
                             </div>
                             <div class="form-group">
-                                <label for="Gender">Gender</label>
-                                <input type="text" class="form-control" id="Gender" placeholder="Gender" />
+                                <label for="Gender">Gender</label><br />
+                                <input type="radio"   name="gender" id="Gender"
+                                       value="male">Male<br />
+                                <input type="radio"   name="gender" id="Gender"
+                                       value="female"  />Female
                             </div>
                                
                             <div class="form-group">
                                 <label for="City">City</label>
-                                <input type="text" class="form-control" id="City" placeholder="City" />
-                            </div>
+                                <select id="City" class="form-control" name="City">
+                                    <option value="Islamabad" selected="selected">Islamabad</option>
+                                    <option value="Lahore">Lahore</option>
+                                    <option value="Multan">Multan</option>
+                                 </select>
+                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">

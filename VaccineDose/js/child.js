@@ -13,8 +13,10 @@ function loadData() {
         dataType: "json",
         success: function (result) {
             var html = '';
+           
             $.each(result.ResponseData, function (key, item) {
                 html += '<tr>';
+                html += '<td>' + (key+1) + '</td>';
                 html += '<td>' + item.Name + '</td>';
                 html += '<td>' + item.FatherName + '</td>';
                 html += '<td>' + item.Email + '</td>';
@@ -23,8 +25,8 @@ function loadData() {
                 html += '<td>' + item.Gender + '</td>';
                 html += '<td>' + item.City + '</td>';
                 html += '<td>' +
-                  '<a href="#" onclick="return getbyID(' + item.Id + ')">Edit</a> | ' +
-                  '<a href="#" onclick="Delele(' + item.Id + ')">Delete</a></td>';
+                  '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
+                  '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
              });
             $('.tbody').html(html);
@@ -48,8 +50,8 @@ function Add() {
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
-        Gender: $('#Gender').val(),
-        City: $('#City').val(),
+        Gender: $("input[name='gender']:checked").val(),
+        City: $('#City').find(":selected").text(),
     };
     $.ajax({
         url: "/api/child",
@@ -89,7 +91,7 @@ function getbyID(ID) {
             $('#Email').val(result.ResponseData.Email);
             $('#DOB').val(result.ResponseData.DOB);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
-            $('#Gender').val(result.ResponseData.Gender);
+            $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
        
             $('#myModal').modal('show');
@@ -116,8 +118,8 @@ function Update() {
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
-        Gender: $('#Gender').val(),
-        City: $('#City').val(),
+        Gender: $("input[name='gender']:checked").val(),
+        City: $('#City').find(":selected").text(),
     };
     $.ajax({
         url: "/api/child/", 
@@ -134,7 +136,7 @@ function Update() {
             $("#Email").val("");
             $("#DOB").val("");
             $("#MobileNumber").val("");
-            $("#Gender").val("");
+            $("input:radio").attr("checked", false);
             $("#City").val("");
         },
         error: function (errormessage) {
@@ -175,7 +177,7 @@ function clearTextBox() {
     $("#Email").val("");
     $("#DOB").val("");
     $("#MobileNumber").val("");
-    $("#Gender").val("");
+    $("input:radio").attr("checked", false);
     $("#City").val("");
     $('#btnUpdate').hide();
     $('#btnAdd').show();
@@ -205,7 +207,7 @@ function validate() {
     else {
         $('#Email').css('border-color', 'lightgrey');
     }
-    if ($('#Gender').val().trim() == "") {
+    if ($("input[type='radio'][name='gender']:checked").val()==false){
         $('#Gender').css('border-color', 'Red');
         isValid = false;
     }
