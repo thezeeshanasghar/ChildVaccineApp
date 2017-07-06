@@ -204,6 +204,8 @@
           <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
           <EntitySet Name="Doses" EntityType="VDModel.Dose" />
           <EntitySet Name="DoseRules" EntityType="VDModel.DoseRule" />
+
+          <EntitySet Name="sysdiagrams" EntityType="VDModel.sysdiagram" />
           <EntitySet Name="Vaccines" EntityType="VDModel.Vaccine" />
           <AssociationSet Name="FK_ChildVaccine_Child" Association="VDModel.FK_ChildVaccine_Child">
             <End Role="Child" EntitySet="Children" />
@@ -325,7 +327,19 @@
           <NavigationProperty Name="Doses" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Vaccine" ToRole="Dose" />
           <NavigationProperty Name="DoseRules" Relationship="VDModel.FK_DoseRule_Vaccine" FromRole="Vaccine" ToRole="DoseRule" />
         </EntityType>
-        <Association Name="FK_ChildVaccine_Child">
+
+        <EntityType Name="Vaccine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MinAge" Type="Int32" />
+          <Property Name="MaxAge" Type="Int32" />
+          <NavigationProperty Name="Doses" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Vaccine" ToRole="Dose" />
+          <NavigationProperty Name="DoseRules" Relationship="VDModel.FK_DoseRule_Vaccine" FromRole="Vaccine" ToRole="DoseRule" />
+        </EntityType>
+         <Association Name="FK_ChildVaccine_Child">
           <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
           <End Type="VDModel.ChildVaccine" Role="ChildVaccine" Multiplicity="*" />
           <ReferentialConstraint>
@@ -479,6 +493,16 @@
                 <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="DoseTo" ColumnName="DoseTo" />
                 <ScalarProperty Name="DoseFrom" ColumnName="DoseFrom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccines">
+            <EntityTypeMapping TypeName="VDModel.Vaccine">
+              <MappingFragment StoreEntitySet="Vaccine">
+                <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
+                <ScalarProperty Name="MinAge" ColumnName="MinAge" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
