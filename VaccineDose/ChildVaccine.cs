@@ -12,17 +12,19 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class Clinic
+    public partial class ChildVaccine
     {
         public int ID { get; set; }
-        public string Name { get; set; }
-        public string OffDays { get; set; }
-        public System.TimeSpan StartTime { get; set; }
-        public System.TimeSpan EndTime { get; set; }
-        public double Lat { get; set; }
-        public double Long { get; set; }
-        public int DoctorID { get; set; }
+        public int ChildId { get; set; }
+        public int DoseId { get; set; }
+        public System.DateTime Date { get; set; }
+        public Nullable<double> Weight { get; set; }
+        public Nullable<double> Height { get; set; }
+        public Nullable<double> Circle { get; set; }
+        public string Brand { get; set; }
+        public bool IsDone { get; set; }
     
-        public virtual Doctor Doctor { get; set; }
+        public virtual Child Child { get; set; }
+        public virtual Dose Dose { get; set; }
     }
 }
