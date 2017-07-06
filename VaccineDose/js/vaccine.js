@@ -44,7 +44,7 @@ function Add() {
     var obj = {
         Name: $('#Name').val(),
         MinAge: $('#MinAge').val(),
-        MaxAge: $('#MinAge').val()
+        MaxAge: $('#MaxAge').val()
     };
     $.ajax({
         url: "/api/vaccine",
