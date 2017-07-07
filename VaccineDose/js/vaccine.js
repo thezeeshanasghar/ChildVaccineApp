@@ -15,7 +15,7 @@ function loadData() {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
                 html += '<tr>';
-                html += '<td>' + item.ID + '</td>';
+                html += '<td>' + (key + 1) + '</td>';
                 html += '<td>' + item.Name + '</td>';
                 html += '<td>' + item.MinAge + '</td>';
                 html += '<td>' + item.MaxAge + '</td>';
