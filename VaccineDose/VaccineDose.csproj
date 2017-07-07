@@ -257,9 +257,6 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>VDModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Vaccine.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>

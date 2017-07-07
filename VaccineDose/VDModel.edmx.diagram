@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="0.75" PointY="9.125" />
         <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="5.375" />
         <EntityTypeShape EntityType="VDModel.DoseRule" Width="1.5" PointX="5.25" PointY="5.25" />
-        <EntityTypeShape EntityType="VDModel.sysdiagram" Width="1.5" PointX="5.75" PointY="8.875" />
         <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="5.375" />
         <AssociationConnector Association="VDModel.FK_ChildVaccine_Child" />
         <AssociationConnector Association="VDModel.FK_ChildVaccine_Dose" />
