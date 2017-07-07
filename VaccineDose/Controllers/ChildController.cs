@@ -46,16 +46,21 @@ namespace VaccineDose.Controllers
                 foreach (Vaccine v in vaccines)
                 {
                     List<Dose> doses = v.Doses.OrderBy(x => x.ID).ToList();
-                   
+                    
                     foreach (Dose d in doses)
                     {
-                        ChildVaccineDTO cvd = new ChildVaccineDTO();
+                        ChildVaccine cvd = new ChildVaccine();
                         cvd.ChildId = childDTO.ID;
+                        cvd.DoseId = d.ID;
                         cvd.IsDone = false;
-                        
-                        
-                        List< DoseRule> doseToRules = d.DoseRules.ToList();
-                        cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
+
+
+                        //List< DoseRule> doseToRules = d.DoseRules.ToList();
+                        //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
+                        cvd.Date = DateTime.Now.AddDays(v.MinAge ?? 0);
+
+                        entities.ChildVaccines.Add(cvd);
+                        entities.SaveChanges();
                     }
                 }
                 List<Dose> doses1 = entities.Doses.ToList();
