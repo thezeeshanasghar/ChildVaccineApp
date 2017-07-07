@@ -17,7 +17,7 @@ function loadData() {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
                 html += '<tr>';
-                html += '<td>' + item.ID + '</td>';
+                html += '<td>' + (key + 1) + '</td>';
                 html += '<td>' + item.FirstName + ' ' + item.LastName + '</td>';
                 html += '<td>' + item.Email + '</td>';
                 html += '<td>' + item.MobileNo + '</td>';
@@ -47,7 +47,8 @@ function loadData() {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
                 html += '<tr>';
-                html += '<td>' + item.ID + '</td>';
+                html += '<td>' + (key + 1) + '</td>';
+
                 html += '<td>' + item.FirstName + ' ' + item.LastName + '</td>';
                 html += '<td>' + item.Email + '</td>';
                 html += '<td>' + item.MobileNo + '</td>';

@@ -15,11 +15,38 @@ function loadData(id) {
         success: function (result) {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
-
+                var DoseFromName = "";
+                var DoseToName = "";
+                     $.ajax({
+                         url: "/api/dose/" + item.DoseFrom,
+                         typr: "GET",
+                         contentType: "application/json;charset=UTF-8",
+                         async:false,
+                         dataType: "json",
+                         success: function (result) {
+                             DoseFromName = result.ResponseData.Name
+                         },
+                         error: function (errormessage) {
+                             alert(errormessage.responseText);
+                         }
+                     });
+                     $.ajax({
+                         url: "/api/dose/" + item.DoseTo,
+                         typr: "GET",
+                         contentType: "application/json;charset=UTF-8",
+                         dataType: "json",
+                         async: false,
+                         success: function (result) {
+                             DoseToName = result.ResponseData.Name
+                         },
+                         error: function (errormessage) {
+                             alert(errormessage.responseText);
+                         }
+                     });
                 html += '<tr>';
-                html += '<td>' + item.ID + '</td>';
-                html += '<td>' + item.DoseFrom + '</td>';
-                html += '<td>' + item.DoseTo + '</td>';
+                html += '<td>' + (key + 1) + '</td>';
+                html += '<td>' + DoseFromName + '</td>';
+                html += '<td>' + DoseToName + '</td>';
                 html += '<td>' + item.Days + '</td>';
                 html += '<td>' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
@@ -33,6 +60,7 @@ function loadData(id) {
         }
     });
 }
+ 
 
 //Add Data Function   
 function Add() {
