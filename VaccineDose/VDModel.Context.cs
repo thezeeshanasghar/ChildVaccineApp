@@ -33,5 +33,6 @@ namespace VaccineDose
         public virtual DbSet<Vaccine> Vaccines { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Vaccine> Vaccines { get; set; }
     }
 }
