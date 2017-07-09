@@ -49,7 +49,7 @@ namespace VaccineDose.Controllers
                     
                     foreach (Dose d in doses)
                     {
-                        ChildVaccine cvd = new ChildVaccine();
+                        Schedule cvd = new Schedule();
                         cvd.ChildId = childDTO.ID;
                         cvd.DoseId = d.ID;
                         cvd.IsDone = false;
@@ -59,7 +59,7 @@ namespace VaccineDose.Controllers
                         //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
                         cvd.Date = DateTime.Now.AddDays(v.MinAge ?? 0);
 
-                        entities.ChildVaccines.Add(cvd);
+                        entities.Schedules.Add(cvd);
                         entities.SaveChanges();
                     }
                 }
@@ -113,18 +113,18 @@ namespace VaccineDose.Controllers
         #endregion
 
         [Route("api/child/{id}/schedule")]
-        public Response<IEnumerable<DoseRuleDTO>> GetDoseRules(int id)
+        public Response<IEnumerable<ScheduleDTO>> GetChildSchedule(int id)
         {
             using (VDConnectionString entities = new VDConnectionString())
             {
-                var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
-                if (vaccine == null)
-                    return new Response<IEnumerable<DoseRuleDTO>>(false, "Vaccine not found", null);
+                var child = entities.Children.FirstOrDefault(c => c.ID == id);
+                if (child == null)
+                    return new Response<IEnumerable<ScheduleDTO>>(false, "Child not found", null);
                 else
                 {
-                    var dbDoseRules = vaccine.DoseRules.ToList();
-                    var doseRulesDTOs = Mapper.Map<List<DoseRuleDTO>>(dbDoseRules);
-                    return new Response<IEnumerable<DoseRuleDTO>>(true, null, doseRulesDTOs);
+                    var dbSchedules = child.Schedules.ToList();
+                    var schedulesDTO = Mapper.Map<List<ScheduleDTO>>(dbSchedules);
+                    return new Response<IEnumerable<ScheduleDTO>>(true, null, schedulesDTO);
                 }
             }
         }

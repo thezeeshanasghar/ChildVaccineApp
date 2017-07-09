@@ -17,7 +17,7 @@ namespace VaccineDose
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Child()
         {
-            this.ChildVaccines = new HashSet<ChildVaccine>();
+            this.Schedules = new HashSet<Schedule>();
         }
     
         public int ID { get; set; }
@@ -33,6 +33,6 @@ namespace VaccineDose
         public string PreferredShedule { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChildVaccine> ChildVaccines { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

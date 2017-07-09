@@ -16,6 +16,7 @@ namespace VaccineDose
                     config.CreateMap<Clinic, ClinicDTO>().ReverseMap();
                     config.CreateMap<Child, ChildDTO>().ReverseMap();
                     config.CreateMap<User, UserDTO>().ReverseMap();
+                    config.CreateMap<Schedule, ScheduleDTO>().ReverseMap();
 
 
                     //Mapper.CreateMap<Source, Destination>().ForMember(dest => dest.SomePropToIgnore, opt => opt.Ignore())
