@@ -25,6 +25,7 @@ function loadData() {
                 html += '<td>' + item.Gender + '</td>';
                 html += '<td>' + item.City + '</td>';
                 html += '<td>' +
+                  '<a href="schedule.html?id=' + item.ID + '">Schedule</a> | ' +
                   '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                   '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
@@ -177,7 +178,7 @@ function clearTextBox() {
     $("#Email").val("");
     $("#DOB").val("");
     $("#MobileNumber").val("");
-    $("input:radio").attr("checked", false);
+    //$("input:radio").attr("checked", false);
     $("#City").val("");
     $('#btnUpdate').hide();
     $('#btnAdd').show();

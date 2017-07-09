@@ -35,8 +35,12 @@ INSERT INTO Dose (Name, VaccineID) VALUES
 ('Rota Virus - Dose 2', 6);
 GO
 
-INSERT INTO DoseRule (DoseFrom, DoseTo, VaccineID, Days) VALUES
+INSERT INTO DoseRule (DoseFrom, DoseTo, VaccineID, [Days]) VALUES
 (3,4,3,40),
 (4,5,3,25),
 (5,6,3,25);
+GO
+
+INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES
+('03331231231','1234','SUPERADMIN');
 GO
