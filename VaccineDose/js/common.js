@@ -1,15 +1,37 @@
 ﻿
 
-window.addEventListener("load", function () {
-    var content = document.getElementById("menuImport").import;
-    var el = content.querySelector('.navbar');
-    document.getElementById("menu").appendChild(el.cloneNode(true));
+//window.addEventListener("load", function () {
+//    var content = document.getElementById("menuImport").import;
+//    var el = content.querySelector('.navbar');
+//    document.getElementById("menu").appendChild(el.cloneNode(true));
 
-    content = document.getElementById("footerImport").import;
-    el = content.querySelector('.footer');
-    document.getElementById("footer").appendChild(el.cloneNode(true));
-}, false);
-
+//    content = document.getElementById("footerImport").import;
+//    el = content.querySelector('.footer');
+//    document.getElementById("footer").appendChild(el.cloneNode(true));
+//}, false);
+$(document).ready(function () {
+    var pageName = document.location.href.match(/[^\/]+$/)[0]
+    if (localStorage.getItem('UserType') == null) {
+        window.location.replace('unAuthorize.html');
+    }
+    //if (localStorage.getItem('UserType') == 'SUPERADMIN') {
+    //     $('#menuChild').hide();
+    //      // document.getElementById("menuItem").children[3].style.display = "none";
+    //}
+    if (localStorage.getItem('UserType') == 'DOCTOR') {
+        if (pageName == 'vaccine.html') {
+            window.location.replace('unAuthorize.html');
+        }
+        $('#menuVaccince').hide();
+    }
+    if (localStorage.getItem('UserType') == 'PARENT') {
+        if (pageName != 'child.html' || pageName != 'index.html') {
+            window.location.replace('unAuthorize.html');
+        }
+        $('#menuDoctor').hide();
+        $('#menuVaccince').hide();
+     }
+});
 
 ///////////////////////////////////////////
 ///     ALERT SHOW HIDE UTILITY METHODS
