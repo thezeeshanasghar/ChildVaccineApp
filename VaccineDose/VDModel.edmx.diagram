@@ -19,7 +19,7 @@
         <AssociationConnector Association="VDModel.FK_DoseRule_Dose" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
         <AssociationConnector Association="VDModel.FK_DoseRule_Vaccine" />
-        </Diagram>
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
