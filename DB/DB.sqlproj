@@ -63,12 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Child.sql" />
-    <Build Include="dbo\Tables\ChildVaccine.sql" />
+    <Build Include="dbo\Tables\Schedule.sql" />
     <Build Include="dbo\Tables\Clinic.sql" />
     <Build Include="dbo\Tables\Doctor.sql" />
     <Build Include="dbo\Tables\Dose.sql" />
     <Build Include="dbo\Tables\DoseRule.sql" />
     <Build Include="dbo\Tables\Vaccine.sql" />
+    <Build Include="dbo\Tables\User.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script_1.PostDeployment1.sql" />

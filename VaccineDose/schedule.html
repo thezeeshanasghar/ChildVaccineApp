@@ -21,8 +21,8 @@
         <div id="menu"></div>
 
         <div class="container">
-            <h2>Child</h2>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
+            <h2>Vaccine Schedule</h2>
+            <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />-->
 
             <div id="alert_message" class="alert alert-dismissible alert-warning">
                 <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
@@ -36,25 +36,25 @@
                             Sr. No
                         </th>
                         <th>
-                            Name
+                            Child
                         </th>
                         <th>
-                           Father Name
+                           Vaccine/Dose
                         </th>
                         <th>
-                           Email
+                           Date
                         </th>
                         <th>
-                          DOB
+                          Weight
                         </th>
                         <th>
-                           Mobile Number
+                           Height
                         </th>
                         <th>
-                           Gender
+                           Circumference
                         </th>
                         <th>
-                          City
+                          Brand
                         </th>
                         <th>
                             Action
@@ -75,38 +75,33 @@
                         <form>
                             <input type="text" class="form-control" id="ID" style="display:none" />
                             <div class="form-group">
-                                <label for="Name">Name</label>
-                                <input type="text" class="form-control" id="Name" placeholder="Name" />
+                                <label for="Child">Child</label>
+                                <input type="text" class="form-control" id="Child" placeholder="Child" />
                             </div>
                             <div class="form-group">
-                                <label for="FatherName">Father Name</label>
-                                <input type="text" class="form-control" id="FatherName" placeholder="Father Name" />
+                                <label for="Dose">Vaccine/Dose</label>
+                                <input type="text" class="form-control" id="Dose" placeholder="Dose" />
                             </div>
                             <div class="form-group">
-                                <label for="Email">Email</label>
-                                <input type="email" class="form-control" id="Email" placeholder="Email" />
+                                <label for="Date">Date</label>
+                                <input type="date" class="form-control" id="Date" placeholder="Date" />
                             </div>
                             <div class="form-group">
-                                <label for="DOB">DOB</label>
-                                <input type="date" class="form-control" id="DOB" placeholder="Date of Birth" />
+                                <label for="Weight">Weight</label>
+                                <input type="number" class="form-control" id="Weight" placeholder="Weight" />
                             </div>
                             <div class="form-group">
-                                <label for="MobileNumber">Mobile Number</label>
-                                <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" />
+                                <label for="Height">Height</label>
+                                <input type="number" class="form-control" id="Height" placeholder="Height" />
                             </div>
                             <div class="form-group">
-                                <label for="Gender">Gender</label><br />
-                                <input type="radio" name="gender" id="Gender" value="BOY" checked="checked" />Boy &nbsp; &nbsp;
-                                <input type="radio" name="gender" id="Gender" value="GIRL" />Girl
+                                <label for="Circumference">Circumference</label><br />
+                                <input type="number" class="form-control" id="Circumference" placeholder="Circle Circumference" />
                             </div>
                                
                             <div class="form-group">
-                                <label for="City">City</label>
-                                <select id="City" class="form-control" name="City">
-                                    <option value="Islamabad" selected="selected">Islamabad</option>
-                                    <option value="Lahore">Lahore</option>
-                                    <option value="Multan">Multan</option>
-                                 </select>
+                                <label for="Brand">Brand</label>
+                                <input type="number" class="form-control" id="Brand" placeholder="Brand" />
                              </div>
                         </form>
                     </div>
@@ -130,6 +125,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="js/common.js"></script>
-    <script src="js/child.js"></script>
+    <script src="js/schedule.js"></script>
 </body>
 </html>

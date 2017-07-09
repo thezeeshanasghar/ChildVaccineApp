@@ -9,7 +9,7 @@ using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
-    [RoutePrefix("api/child")]
+    //[RoutePrefix("api/child")]
     public class ChildController : ApiController
     {
         #region C R U D
@@ -101,11 +101,32 @@ namespace VaccineDose.Controllers
                 {
                     return new Response<string>(false, "Foreign key issue message", null);
                 }
-                else
-                    return new Response<string>(false, ex.Message, null);
+                else {
+                    String message = ex.Message;
+                    message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
+                    message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
+                    return new Response<string>(false, message, null);
+                }
             }
         }
 
         #endregion
+
+        [Route("api/child/{id}/schedule")]
+        public Response<IEnumerable<DoseRuleDTO>> GetDoseRules(int id)
+        {
+            using (VDConnectionString entities = new VDConnectionString())
+            {
+                var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
+                if (vaccine == null)
+                    return new Response<IEnumerable<DoseRuleDTO>>(false, "Vaccine not found", null);
+                else
+                {
+                    var dbDoseRules = vaccine.DoseRules.ToList();
+                    var doseRulesDTOs = Mapper.Map<List<DoseRuleDTO>>(dbDoseRules);
+                    return new Response<IEnumerable<DoseRuleDTO>>(true, null, doseRulesDTOs);
+                }
+            }
+        }
     }
 }
