@@ -299,11 +299,14 @@
     <Content Include="js\clinic.js" />
     <Content Include="js\dose-rules.js" />
     <Content Include="js\dose.js" />
+    <Content Include="js\login.js" />
     <Content Include="js\schedule.js" />
     <Content Include="login.html" />
     <Content Include="menu.html" />
+    <Content Include="schedule.html" />
     <Content Include="style.css" />
     <Content Include="dose.html" />
+    <Content Include="unAuthorize.html" />
     <Content Include="vaccine.html" />
     <Content Include="index.html" />
     <Content Include="Scripts\bootstrap.js" />
