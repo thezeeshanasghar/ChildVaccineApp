@@ -9,7 +9,7 @@ using VaccineDose.Model;
 namespace VaccineDose.Controllers
 {
     [RoutePrefix("api/user")]
-    public class UserController
+    public class UserController: ApiController
     {
         #region C R U D
         public Response<IEnumerable<UserDTO>> Get()
