@@ -49,7 +49,7 @@ namespace VaccineDose.Controllers
                     
                     foreach (Dose d in doses)
                     {
-                        ChildVaccine cvd = new ChildVaccine();
+                        Schedule cvd = new Schedule();
                         cvd.ChildId = childDTO.ID;
                         cvd.DoseId = d.ID;
                         cvd.IsDone = false;
@@ -59,7 +59,7 @@ namespace VaccineDose.Controllers
                         //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
                         cvd.Date = DateTime.Now.AddDays(v.MinAge ?? 0);
 
-                        entities.ChildVaccines.Add(cvd);
+                        entities.Schedules.Add(cvd);
                         entities.SaveChanges();
                     }
                 }

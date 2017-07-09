@@ -12,7 +12,7 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class ChildVaccine
+    public partial class Schedule
     {
         public int ID { get; set; }
         public int ChildId { get; set; }
