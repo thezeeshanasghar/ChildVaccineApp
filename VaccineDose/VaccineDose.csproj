@@ -306,7 +306,7 @@
     <Content Include="schedule.html" />
     <Content Include="style.css" />
     <Content Include="dose.html" />
-    <Content Include="unAuthorize.html" />
+    <Content Include="un-authorize.html" />
     <Content Include="vaccine.html" />
     <Content Include="index.html" />
     <Content Include="Scripts\bootstrap.js" />

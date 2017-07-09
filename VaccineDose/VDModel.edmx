@@ -93,15 +93,7 @@
           <Property Name="Brand" Type="nvarchar" MaxLength="50" />
           <Property Name="IsDone" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MobileNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="UserType" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
+        
         <EntityType Name="Vaccine">
           <Key>
             <PropertyRef Name="ID" />

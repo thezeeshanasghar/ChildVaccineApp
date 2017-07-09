@@ -12,7 +12,7 @@
 $(document).ready(function () {
     var pageName = document.location.href.match(/[^\/]+$/)[0]
     if (localStorage.getItem('UserType') == null) {
-        window.location.replace('unAuthorize.html');
+        window.location.replace('un-authorize.html');
     }
     //if (localStorage.getItem('UserType') == 'SUPERADMIN') {
     //     $('#menuChild').hide();
@@ -20,13 +20,13 @@ $(document).ready(function () {
     //}
     if (localStorage.getItem('UserType') == 'DOCTOR') {
         if (pageName == 'vaccine.html') {
-            window.location.replace('unAuthorize.html');
+            window.location.replace('un-authorize.html');
         }
         $('#menuVaccince').hide();
     }
     if (localStorage.getItem('UserType') == 'PARENT') {
         if (pageName != 'child.html' || pageName != 'index.html') {
-            window.location.replace('unAuthorize.html');
+            window.location.replace('un-authorize.html');
         }
         $('#menuDoctor').hide();
         $('#menuVaccince').hide();

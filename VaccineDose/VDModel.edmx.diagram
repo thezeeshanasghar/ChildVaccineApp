@@ -19,11 +19,7 @@
         <AssociationConnector Association="VDModel.FK_DoseRule_Dose" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
         <AssociationConnector Association="VDModel.FK_DoseRule_Vaccine" />
-        <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="8.25" PointY="4.875" />
-        <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="5.75" PointY="8.875" />
-        <AssociationConnector Association="VDModel.FK_Schedule_Child" />
-        <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
