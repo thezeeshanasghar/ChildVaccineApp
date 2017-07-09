@@ -244,7 +244,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Model\ChildDTO.cs" />
-    <Compile Include="Model\ChildVaccineDTO.cs" />
+    <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />
     <Compile Include="Model\DoseRuleDTO.cs" />
@@ -300,8 +300,10 @@
     <Content Include="js\dose-rules.js" />
     <Content Include="js\dose.js" />
     <Content Include="js\login.js" />
+    <Content Include="js\schedule.js" />
     <Content Include="login.html" />
     <Content Include="menu.html" />
+    <Content Include="schedule.html" />
     <Content Include="style.css" />
     <Content Include="dose.html" />
     <Content Include="unAuthorize.html" />
