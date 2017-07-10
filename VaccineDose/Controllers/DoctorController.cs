@@ -2,6 +2,7 @@
 using System.Web.Http;
 using AutoMapper;
 using System.Collections.Generic;
+using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
@@ -44,12 +45,22 @@ namespace VaccineDose.Controllers
             {
                 Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
                 entities.Doctors.Add(doctorDB);
+                
+                User userDB = new User();
+                userDB.MobileNumber = doctorDTO.MobileNo;
+                userDB.Password = doctorDTO.Password;
+                userDB.UserType = "DOCTOR";
+                entities.Users.Add(userDB);
+                
                 entities.SaveChanges();
                 doctorDTO.ID = doctorDB.ID;
-                return new Response<DoctorDTO>(true, null, doctorDTO);
                 
+                return new Response<DoctorDTO>(true, null, doctorDTO);
+                               
             }
+            
         }
+       
         public Response<DoctorDTO> Put(int Id, DoctorDTO doctorDTO)
         {
             using (VDConnectionString entities = new VDConnectionString())

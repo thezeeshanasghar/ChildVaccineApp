@@ -1,10 +1,178 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-	<meta charset="utf-8" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css" />
+     <link id="footerImport" href="footer.html" rel="import" />
+    <link href="style.css" rel="stylesheet" />
 </head>
 <body>
+    <!--<div id="menu"></div>-->
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Vaccine App</a>
+            </div><!--/.nav-collapse -->
 
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">Home</a></li>
+                    <li id="menu-doctor-signup"><a href="doctor-signup.html">Doctor Signup</a></li>
+                    <li id="menu-vaccine"><a href="vaccine.html">Vaccine</a></li>
+                    <li id="menu-doctor"><a href="doctor.html">Doctor</a></li>
+                    <li id="menu-child"><a href="child.html">Child</a></li>
+                    <li id="menu-logout"><a href="login.html">Logout</a></li>
+                  
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center">Doctor</h1>
+
+        <div id="alert_message" class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+            <strong>loading title!</strong>
+            <p>loading message</p>
+        </div>
+        <form role="form" style="display: block;">
+            <div class="col-sm-6 col-sm-offset-3">
+                     <input type="text" class="form-control" id="ID" style="display:none" />
+                    <div class="form-group">
+                         <input type="text" class="form-control" id="FirstName" placeholder="First Name" />
+                    </div>
+
+                    <div class="form-group">
+                         <input type="text" class="form-control" id="LastName" placeholder="Last Name" />
+                    </div>
+
+                    <div class="form-group">
+                         <input type="email" class="form-control" id="Email" placeholder="Email" />
+                    </div>
+
+                    <div class="form-group">
+                         <input type="password" class="form-control" id="Password" placeholder="Password" />
+                    </div>
+
+                    <div class="form-group">
+                         <input type="text" class="form-control" id="MobileNo" placeholder="Mobile Number" />
+                    </div>
+
+                    <div class="form-group">
+                         <input type="text" class="form-control" id="PMDC" placeholder="PMDC Number" />
+                    </div>
+                 <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                </div>
+                </div>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js/common.js"></script>
+ <script>
+$(document).ready(function () {
+         $('#alert_message').hide();
+     });
+     function Add() {
+         var res = validate();
+         if (res == false) {
+             return false;
+         }
+         var obj = {
+             FirstName: $('#FirstName').val(),
+             LastName: $('#LastName').val(),
+             Email: $('#Email').val(),
+             Password: $('#Password').val(),
+             MobileNo: $('#MobileNo').val(),
+             PMDC: $('#PMDC').val()
+         };
+         $.ajax({
+             url: "/api/doctor",
+             data: JSON.stringify(obj),
+             type: "POST",
+             contentType: "application/json;charset=utf-8",
+             dataType: "json",
+             success: function (result) {
+                 ShowAlert('Registration', 'Your are successfully registered,please waite for the admin approval', 'success');
+                 $('alert_message').show();
+
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+             }
+         });
+     }
+    //Valdidation using jquery  
+     function validate() {
+         var isValid = true;
+
+         if ($('#FirstName').val().trim() == "") {
+             $('#FirstName').css('border-color', 'Red');
+             isValid = false;
+         }
+         else {
+             $('#FirstName').css('border-color', 'lightgrey');
+         }
+
+         if ($('#LastName').val().trim() == "") {
+             $('#LastName').css('border-color', 'Red');
+             isValid = false;
+         }
+         else {
+             $('#LastName').css('border-color', 'lightgrey');
+         }
+
+         if ($('#Email').val().trim() == "") {
+             $('#Email').css('border-color', 'Red');
+             isValid = false;
+         }
+         else {
+             $('#Email').css('border-color', 'lightgrey');
+         }
+
+         if ($('#Password').val().trim() == "") {
+             $('#Password').css('border-color', 'Red');
+             isValid = false;
+         }
+         else {
+             $('#Password').css('border-color', 'lightgrey');
+         }
+
+         if ($('#MobileNo').val().trim() == "") {
+             $('#MobileNo').css('border-color', 'Red');
+             isValid = false;
+         }
+         else {
+             $('#MobileNo').css('border-color', 'lightgrey');
+         }
+
+         if ($('#PMDC').val().trim() == "") {
+             $('#PMDC').css('border-color', 'Red');
+             isValid = false;
+         }
+         else {
+             $('#PMDC').css('border-color', 'lightgrey');
+         }
+
+         return isValid;
+     }
+ </script>
 </body>
 </html>
