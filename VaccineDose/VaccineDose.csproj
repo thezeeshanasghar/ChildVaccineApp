@@ -283,6 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="child.html" />
+    <Content Include="doctor-signup.html" />
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
     <Content Include="dose-rules.html" />
