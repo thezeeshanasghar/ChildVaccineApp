@@ -22,10 +22,15 @@ $(document).ready(function () {
         $('#menu-login').hide();
     }
     else if (localStorage.getItem('UserType') == 'DOCTOR') {
-        if (pageName == 'vaccine.html') {
+        if (pageName == 'vaccine.html'
+            || pageName == 'doctor-signup.html'
+            || pageName == 'doctor.html') {
             window.location.replace('un-authorize.html');
         }
+        $('#menu-doctor').hide();
         $('#menu-vaccine').hide();
+        $('#menu-login').hide();
+        $('#menu-doctor-signup').hide();
     }
     else if (localStorage.getItem('UserType') == 'PARENT') {
         if (pageName == 'doctor.html' || pageName == 'vaccine.html') {

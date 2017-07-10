@@ -19,6 +19,7 @@ function Login() {
                 }
                 else if (result.ResponseData.UserType == "DOCTOR") {
                     localStorage.setItem('UserType', "DOCTOR");
+                    localStorage.setItem('UserID', result.ResponseData.ID);
                 }
                 else if (result.ResponseData.UserType == "PARENT") {
                     localStorage.setItem('UserType', "PARENT");
