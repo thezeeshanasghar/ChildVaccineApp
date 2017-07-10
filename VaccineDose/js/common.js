@@ -14,18 +14,21 @@ $(document).ready(function () {
     if (localStorage.getItem('UserType') == null) {
         HideFromAnonmousUsers();
     }
-    //if (localStorage.getItem('UserType') == 'SUPERADMIN') {
-    //     $('#menuChild').hide();
-    //      // document.getElementById("menuItem").children[3].style.display = "none";
-    //}
-    if (localStorage.getItem('UserType') == 'DOCTOR') {
+    else if (localStorage.getItem('UserType') == 'SUPERADMIN') {
+        if (pageName == 'doctor-signup.html') {
+            window.location.replace('un-authorize.html');
+        }
+        $('#menu-doctor-signup').hide();
+        $('#menu-login').hide();
+    }
+    else if (localStorage.getItem('UserType') == 'DOCTOR') {
         if (pageName == 'vaccine.html') {
             window.location.replace('un-authorize.html');
         }
         $('#menu-vaccine').hide();
     }
-    if (localStorage.getItem('UserType') == 'PARENT') {
-        if (pageName != 'child.html' || pageName != 'index.html') {
+    else if (localStorage.getItem('UserType') == 'PARENT') {
+        if (pageName == 'doctor.html' || pageName == 'vaccine.html') {
             window.location.replace('un-authorize.html');
         }
         $('#menu-doctor').hide();
@@ -66,4 +69,9 @@ function getParameterByName(name) {
         return "";
     else
         return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function logout() {
+    localStorage.clear();
+    window.location = 'index.html';
 }
