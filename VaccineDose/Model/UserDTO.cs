@@ -11,5 +11,6 @@ namespace VaccineDose.Model
         public string MobileNumber { get; set; }
         public string Password { get; set; }
         public string UserType { get; set; }
+        public int DoctorID { get; set; }
     }
 }

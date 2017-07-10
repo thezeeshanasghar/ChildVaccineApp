@@ -5,7 +5,8 @@ function Login() {
         var obj = {
             MobileNumber: $('#MobileNumber').val(),
             Password: $('#Password').val(),
-            UserType:"test"
+            UserType: "test",
+            DoctorID:"0"
         }
         $.ajax({
             url: 'api/user/login',
@@ -20,6 +21,8 @@ function Login() {
                 else if (result.ResponseData.UserType == "DOCTOR") {
                     localStorage.setItem('UserType', "DOCTOR");
                     localStorage.setItem('UserID', result.ResponseData.ID);
+                    localStorage.setItem('DoctorID', result.ResponseData.DoctorID);
+
                 }
                 else if (result.ResponseData.UserType == "PARENT") {
                     localStorage.setItem('UserType', "PARENT");
