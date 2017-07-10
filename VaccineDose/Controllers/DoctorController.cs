@@ -45,12 +45,13 @@ namespace VaccineDose.Controllers
             {
                 Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
                 entities.Doctors.Add(doctorDB);
-                UserDTO userDTO = new UserDTO();
-                userDTO.MobileNumber = doctorDTO.MobileNo;
-                userDTO.Password = doctorDTO.Password;
-                userDTO.UserType = "DOCTOR";
-                User userDB = Mapper.Map<User>(userDTO);
+                
+                User userDB = new User();
+                userDB.MobileNumber = doctorDTO.MobileNo;
+                userDB.Password = doctorDTO.Password;
+                userDB.UserType = "DOCTOR";
                 entities.Users.Add(userDB);
+                
                 entities.SaveChanges();
                 doctorDTO.ID = doctorDB.ID;
                 
