@@ -14,6 +14,7 @@ namespace VaccineDose.Model
         [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime  DOB { get; set; }
         public string MobileNumber { get; set; }
+        public string Password { get; set; }
         public string StreetAddress { get; set; }
         public string Gender { get; set; }
         public int PreferredDayOfReminder { get; set; }

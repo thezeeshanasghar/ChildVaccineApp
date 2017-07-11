@@ -99,7 +99,7 @@ namespace VaccineDose.Controllers
                 }
                 else if (userDTO.UserType.Equals("PARENT"))
                 {
-                    var childDB = entities.Children.Where(x => x.MobileNumber == userDTO.MobileNumber).FirstOrDefault();
+                    var childDB = entities.Children.Where(x => x.MobileNumber == userDTO.MobileNumber).Where(x=>x.Password==userDTO.Password).FirstOrDefault();
                     if (childDB == null)
                         return new Response<UserDTO>(false, "Child not found.", null);
                     else

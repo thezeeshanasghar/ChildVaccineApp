@@ -52,11 +52,21 @@ function Add() {
     if (res == false) {
         return false;
     }
+    var result = [];
+    $('input[type="radio"]:checked').each(function () {
+       
+        result.push(this.value);
+        console.log(result);
+    });
     var obj = {
         Name: $('#Name').val(),
-        OffDays: $('#OffDays').val(),
-        StartTime: $('#StartTime').val(),
+         StartTime: $('#StartTime').val(),
         EndTime: $('#EndTime').val(),
+      //  OffDays: $("input[name='Monday']:checked").val() + "," + $("input[name='Tuesday']:checked").val() + ","
+      //+ $("input[name='Wednesday']:checked").val() + "," + $("input[name='Thursday']:checked").val() + ","
+      //    + $("input[name='Friday']:checked").val() + "," + $("input[name='Saturday']:checked").val() + ","
+        //  + $("input[name='Sunday']:checked").val(),
+        OffDays:result.join(','),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
         DoctorID: DoctorId()
@@ -80,8 +90,7 @@ function Add() {
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
     $('#Name').css('border-color', 'lightgrey');
-    $('#OffDays').css('border-color', 'lightgrey');
-    $('#StartTime').css('border-color', 'lightgrey');
+     $('#StartTime').css('border-color', 'lightgrey');
     $('#EndTime').css('border-color', 'lightgrey');
 
     $.ajax({
@@ -92,8 +101,8 @@ function getbyID(ID) {
         success: function (result) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
-            $('#OffDays').val(result.ResponseData.OffDays);
-            $('#StartTime').val(result.ResponseData.StartTime);
+            
+             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
 
             $('#myModal').modal('show');
@@ -116,11 +125,17 @@ function Update() {
     if (res == false) {
         return false;
     }
+    var result = [];
+    $('input[type="radio"]:checked').each(function () {
+
+        result.push(this.value);
+        console.log(result);
+    });
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
-        OffDays: $('#OffDays').val(),
-        StartTime: $('#StartTime').val(),
+        OffDays: result.join(','),
+         StartTime: $('#StartTime').val(),
         EndTime: $('#EndTime').val(),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
@@ -138,7 +153,7 @@ function Update() {
 
             $('#ID').val("");
             $('#Name').val("");
-            $('#OffDays').val("");
+            $("input:radio").attr("checked", false);
             $('#StartTime').val("");
             $('#EndTime').val("");
         },
