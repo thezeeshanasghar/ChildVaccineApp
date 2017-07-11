@@ -7,13 +7,13 @@ $(document).ready(function () {
 
 function DoctorId() {
     var id = parseInt(getParameterByName("id")) || 0;
-    if (id != 0) {
+    if (id != 0) 
         return id;
-    }
     else {
-        //if (localStorage.getItem('UserType') == 'SUPERADMIN')
-        //     return id;
-        return localStorage.getItem('DoctorID');
+        var id = localStorage.getItem('DoctorID');
+        if (id)
+            return id;
+        else 0;
     }
 }
 //Load Data function  
@@ -95,8 +95,11 @@ function getbyID(ID) {
             $('#OffDays').val(result.ResponseData.OffDays);
             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
-            
-            $('#myModal').modal('show');            
+
+            $('#myModal').modal('show');
+            myMarker.setPosition(new google.maps.LatLng(result.ResponseData.Lat, result.ResponseData.Long));
+
+                    
             $('#btnUpdate').show();
             $('#btnAdd').hide();
         },
@@ -119,8 +122,8 @@ function Update() {
         OffDays: $('#OffDays').val(),
         StartTime: $('#StartTime').val(),
         EndTime: $('#EndTime').val(),
-        Lat: 53.5,
-        Long: 23.4,
+        Lat: myMarker.getPosition().lat(),
+        Long: myMarker.getPosition().lng(),
         DoctorID: DoctorId()
     };
     $.ajax({

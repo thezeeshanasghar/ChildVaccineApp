@@ -9,7 +9,7 @@ using VaccineDose.Model;
 namespace VaccineDose.Controllers
 {
     [RoutePrefix("api/user")]
-    public class UserController: ApiController
+    public class UserController : ApiController
     {
         #region C R U D
         public Response<IEnumerable<UserDTO>> Get()
@@ -82,14 +82,30 @@ namespace VaccineDose.Controllers
             using (VDConnectionString entities = new VDConnectionString())
             {
                 var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
-                var doctorDb = entities.Doctors.Where(x => x.MobileNo == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
+                if (dbUser == null)
+                    return new Response<UserDTO>(false, "Invalid Mobilenumber/Password", null);
+
+
                 UserDTO userDTO = Mapper.Map<UserDTO>(dbUser);
-                if (doctorDb != null)
+                if (userDTO.UserType.Equals("SUPERADMIN"))
+                    return new Response<UserDTO>(true, null, userDTO);
+                else if (userDTO.UserType.Equals("DOCTOR"))
                 {
-                  
-                    userDTO.DoctorID = doctorDb.ID;
+                    var doctorDb = entities.Doctors.Where(x => x.MobileNo == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
+                    if (doctorDb == null)
+                        return new Response<UserDTO>(false, "Doctor not found.", null);
+                    else
+                        userDTO.DoctorID = doctorDb.ID;
                 }
-              
+                else if (userDTO.UserType.Equals("PARENT"))
+                {
+                    var childDB = entities.Children.Where(x => x.MobileNumber == userDTO.MobileNumber).FirstOrDefault();
+                    if (childDB == null)
+                        return new Response<UserDTO>(false, "Child not found.", null);
+                    else
+                        userDTO.ChildID = childDB.ID;
+                }
+
                 return new Response<UserDTO>(true, null, userDTO);
             }
 
