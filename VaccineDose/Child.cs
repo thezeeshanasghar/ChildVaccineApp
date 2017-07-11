@@ -26,6 +26,7 @@ namespace VaccineDose
         public string Email { get; set; }
         public Nullable<System.DateTime> DOB { get; set; }
         public string MobileNumber { get; set; }
+        public string Password { get; set; }
         public string StreetAddress { get; set; }
         public string Gender { get; set; }
         public Nullable<int> PreferredDayOfReminder { get; set; }
