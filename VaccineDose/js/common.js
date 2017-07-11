@@ -20,6 +20,7 @@ $(document).ready(function () {
         }
         $('#menu-doctor-signup').hide();
         $('#menu-login').hide();
+        $('#menu-clinic').hide();
     }
     else if (localStorage.getItem('UserType') == 'DOCTOR') {
         if (pageName == 'vaccine.html'
@@ -33,17 +34,21 @@ $(document).ready(function () {
         $('#menu-doctor-signup').hide();
     }
     else if (localStorage.getItem('UserType') == 'PARENT') {
-        if (pageName == 'doctor.html' || pageName == 'vaccine.html') {
+        if (pageName == 'doctor.html' || pageName == 'vaccine.html'
+            || pageName=='clinic.html') {
             window.location.replace('un-authorize.html');
         }
         $('#menu-doctor').hide();
         $('#menu-vaccine').hide();
+        $('#menu-clinic').hide();
+        $('#menu-doctor-signup').hide();
      }
 });
-
+ 
 function HideFromAnonmousUsers() {
     $('#menu-logout').hide();
     $('#menu-child').hide();
+    $('#menu-clinic').hide();
     $('#menu-doctor').hide();
     $('#menu-vaccine').hide();
 }

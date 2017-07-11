@@ -1,9 +1,21 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
-    var id = parseInt(getParameterByName("id")) || 0;
+    // var id = parseInt(getParameterByName("id")) || 0;
+    var id = DoctorId();
     loadData(id);
 });
 
+function DoctorId() {
+    var id = parseInt(getParameterByName("id")) || 0;
+    if (id != 0) {
+        return id;
+    }
+    else {
+        //if (localStorage.getItem('UserType') == 'SUPERADMIN')
+        //     return id;
+        return localStorage.getItem('DoctorID');
+    }
+}
 //Load Data function  
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
@@ -47,7 +59,7 @@ function Add() {
         EndTime: $('#EndTime').val(),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
-        DoctorID: parseInt(getParameterByName("id")) || 0
+        DoctorID: DoctorId()
     };
     $.ajax({
         url: "/api/clinic",
@@ -56,8 +68,7 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var id = parseInt(getParameterByName("id")) || 0;
-            loadData(id);
+             loadData(DoctorId());
             $('#myModal').modal('hide');
         },
         error: function (errormessage) {
@@ -81,9 +92,9 @@ function getbyID(ID) {
         success: function (result) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
-            $('#OffDays').val(result.ResponseData.Name);
-            $('#StartTime').val(result.ResponseData.Name);
-            $('#EndTime').val(result.ResponseData.Name);
+            $('#OffDays').val(result.ResponseData.OffDays);
+            $('#StartTime').val(result.ResponseData.StartTime);
+            $('#EndTime').val(result.ResponseData.EndTime);
             
             $('#myModal').modal('show');            
             $('#btnUpdate').show();
@@ -110,17 +121,16 @@ function Update() {
         EndTime: $('#EndTime').val(),
         Lat: 53.5,
         Long: 23.4,
-        DoctorID: parseInt(getParameterByName("id")) || 0
+        DoctorID: DoctorId()
     };
     $.ajax({
-        url: "/api/dose/" + $('#ID').val(),
+        url: "/api/clinic/" + $('#ID').val(),
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var id = parseInt(getParameterByName("id")) || 0;
-            loadData(id);
+             loadData(DoctorId());
             $('#myModal').modal('hide');
 
             $('#ID').val("");
@@ -135,6 +145,7 @@ function Update() {
     });
 }
 
+
 //function for deleting record  
 function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
@@ -145,8 +156,7 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                var id = parseInt(getParameterByName("id")) || 0;
-                loadData(id);
+                 loadData(DoctorId());
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);

@@ -82,9 +82,15 @@ namespace VaccineDose.Controllers
             using (VDConnectionString entities = new VDConnectionString())
             {
                 var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
-
-                UserDTO UserDTO = Mapper.Map<UserDTO>(dbUser);
-                return new Response<UserDTO>(true, null, UserDTO);
+                var doctorDb = entities.Doctors.Where(x => x.MobileNo == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
+                UserDTO userDTO = Mapper.Map<UserDTO>(dbUser);
+                if (doctorDb != null)
+                {
+                  
+                    userDTO.DoctorID = doctorDb.ID;
+                }
+              
+                return new Response<UserDTO>(true, null, userDTO);
             }
 
         }
