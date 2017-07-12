@@ -29,7 +29,7 @@ function loadData() {
                   '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                   '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
-             });
+            });
             $('.tbody').html(html);
             HideAlert();
         },
@@ -51,6 +51,7 @@ function Add() {
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
+        Password: $('#Password').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
     };
@@ -79,7 +80,7 @@ function getbyID(ID) {
     $('#MobileNumber').css('border-color', 'lightgrey');
     $('#Gender').css('border-color', 'lightgrey');
     $('#City').css('border-color', 'lightgrey');
-
+    $('#Password').css('border-color', 'lightgrey');
     $.ajax({
         url: "/api/child/" + ID,
         typr: "GET",
@@ -94,7 +95,7 @@ function getbyID(ID) {
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
-       
+            $('#Password').val(result.ResponseData.Password);
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();
@@ -119,6 +120,7 @@ function Update() {
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
+        Password: $('#Password').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
     };
@@ -138,8 +140,10 @@ function Update() {
             $("#DOB").val("");
             $("#MobileNumber").val("");
             $("input:radio").attr("checked", false);
-            $("#City").val("");
-        },
+            $("#City").val("");   
+            $('#Password').val("")
+
+            },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
@@ -178,6 +182,7 @@ function clearTextBox() {
     $("#Email").val("");
     $("#DOB").val("");
     $("#MobileNumber").val("");
+    $('#Password').val(""),
     //$("input:radio").attr("checked", false);
     $("#City").val("");
     $('#btnUpdate').hide();

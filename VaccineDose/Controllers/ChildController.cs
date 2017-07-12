@@ -39,6 +39,11 @@ namespace VaccineDose.Controllers
             {
                 Child clinicDb = Mapper.Map<Child>(childDTO);
                 entities.Children.Add(clinicDb);
+                User userDB = new User();
+                userDB.MobileNumber = childDTO.MobileNumber;
+                userDB.Password = childDTO.Password;
+                userDB.UserType = "PARENT";
+                entities.Users.Add(userDB);
                 entities.SaveChanges();
                 childDTO.ID = clinicDb.ID;
                 // TODO: Generate Schedule here

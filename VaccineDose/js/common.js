@@ -42,6 +42,8 @@ $(document).ready(function () {
         $('#menu-vaccine').hide();
         $('#menu-clinic').hide();
         $('#menu-doctor-signup').hide();
+        $('#menu-login').hide();
+
      }
 });
  
