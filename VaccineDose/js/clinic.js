@@ -48,12 +48,13 @@ function loadData(id) {
 
 //Add Data Function   
 function Add() {
+   
     var res = validate();
     if (res == false) {
         return false;
     }
     var result = [];
-    $('input[type="radio"]:checked').each(function () {
+    $('input[type="checkbox"]:checked').each(function () {
        
         result.push(this.value);
         console.log(result);
@@ -79,7 +80,8 @@ function Add() {
         dataType: "json",
         success: function (result) {
              loadData(DoctorId());
-            $('#myModal').modal('hide');
+             $('#myModal').modal('hide');
+             clearTextBox();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -101,7 +103,7 @@ function getbyID(ID) {
         success: function (result) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
-            
+             //("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
              $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
 
@@ -126,7 +128,7 @@ function Update() {
         return false;
     }
     var result = [];
-    $('input[type="radio"]:checked').each(function () {
+    $('input[type="checkbox"]:checked').each(function () {
 
         result.push(this.value);
         console.log(result);
@@ -153,7 +155,7 @@ function Update() {
 
             $('#ID').val("");
             $('#Name').val("");
-            $("input:radio").attr("checked", false);
+            $("input:checkbox").attr("checked", false);
             $('#StartTime').val("");
             $('#EndTime').val("");
         },
@@ -187,6 +189,9 @@ function Delele(ID) {
 function clearTextBox() {
     $('#ID').val("");
     $('#Name').val("");
+    $("input:checkbox").attr("checked", false);
+    $('#StartTime').val("");
+    $('#EndTime').val("");
 
     $('#btnUpdate').hide();
     $('#btnAdd').show();
