@@ -266,7 +266,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OffDays" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OffDays" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Lat" Type="Double" Nullable="false" />
