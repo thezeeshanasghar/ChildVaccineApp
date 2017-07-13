@@ -17,8 +17,8 @@ function loadData() {
                 html += '<tr>';
                 html += '<td>' + (key + 1) + '</td>';
                 html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.MinAge + '</td>';
-                html += '<td>' + item.MaxAge + '</td>';
+                html += '<td>' + getUserAge(item.MinAge) + '</td>';
+                html += '<td>' + getUserAge(item.MaxAge) + '</td>';
                 html += '<td>' +
                     '<a href="dose.html?id=' + item.ID + '">Doses</a> | ' +
                     '<a href="dose-rules.html?id=' + item.ID + '">Dose Rules</a> | ' +
@@ -180,4 +180,120 @@ function validate() {
     }
    
     return isValid;
+}
+
+function getUserAge(ageNum) {
+    var day = 'At Birth'
+    switch(ageNum)
+    {
+        case null:
+            day = '';
+            break;
+        case 0:
+            day = 'At Birth';
+            break;
+        case 42:
+            day = '6 Weeks';
+            break;
+        case 49:
+            day = '7 Weeks';
+            break;
+        case 56:
+            day = '8 Weeks';
+            break;
+        case 63:
+            day = '9 Weeks';
+            break;
+        case 70:
+            day = '10 Weeks';
+            break;
+        case 77:
+            day = '11 Weeks';
+            break;
+        case 84:
+            day = '12 Weeks';
+            break;
+        case 91:
+            day = '13 Weeks';
+            break;
+        case 98:
+            day = '14 Weeks';
+            break;
+        case 105:
+            day = '15 Weeks';
+            break;
+        case 112:
+            day = '16 Weeks';
+            break;
+        case 119:
+            day = '17 Weeks';
+            break;
+        case 126:
+            day = '18 Weeks';
+            break;
+        case 133:
+            day = '19 Weeks';
+            break;
+        case 140:
+            day = '20 Weeks';
+            break;
+        case 147:
+            day = '21 Weeks';
+            break;
+        case 154:
+            day = '22 Weeks';
+            break;
+        case 161:
+            day = '23 Weeks';
+            break;
+        case 168:
+            day = '24 Weeks';
+            break;
+        case 212:
+            day = '7 Months';
+            break;
+        case 243:
+            day = '8 Months';
+            break;
+        case 273:
+            day = '9 Months';
+            break;
+        case 304:
+            day = '10 Months';
+            break;
+        case 334:
+            day = '11 Months';
+            break;
+        case 365:
+            day = '12 Months';
+            break;
+        case 395:
+            day = '13 Months';
+            break;
+        case 426:
+            day = '14 Months';
+            break;
+        case 456:
+            day = '15 Months';
+            break;
+        case 486:
+            day = '16 Months';
+            break;
+        case 547:
+            day = '1 Year 6 Months';
+            break;
+        case 608:
+            day = '1 Year 8 Months';
+            break;
+        case 730:
+            day = '2 Years';
+            break;
+        case 760:
+            day = '2 Years 1 Month';
+            break;
+        case 1125:
+            day = '3 Year 1 Month';
+            break;
+    }
+    return day;
 }
