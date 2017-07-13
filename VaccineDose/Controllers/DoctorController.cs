@@ -58,7 +58,8 @@ namespace VaccineDose.Controllers
                     entities.SaveChanges();
                     doctorDTO.ID = doctorDB.ID;
 
-                    // TODO USER EMAIL
+                    // send email to doctor
+                     UserEmail.DoctorEmail(doctorDTO);
 
                     return new Response<DoctorDTO>(true, null, doctorDTO);
                 }
