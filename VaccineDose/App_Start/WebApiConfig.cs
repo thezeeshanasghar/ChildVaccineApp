@@ -20,6 +20,9 @@ namespace VaccineDose
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
@@ -30,6 +33,8 @@ namespace VaccineDose
 
             // josn formattor
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            
         }
     }
 }
