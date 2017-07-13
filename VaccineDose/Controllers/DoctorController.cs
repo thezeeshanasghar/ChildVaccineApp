@@ -57,7 +57,9 @@ namespace VaccineDose.Controllers
                     entities.Users.Add(userDB);
                     entities.SaveChanges();
                     doctorDTO.ID = doctorDB.ID;
-                     
+
+                    // TODO USER EMAIL
+
                     return new Response<DoctorDTO>(true, null, doctorDTO);
                 }
                 catch (Exception ex)

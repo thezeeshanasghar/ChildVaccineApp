@@ -11,7 +11,49 @@
     <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css" />
 
     <link href="style.css" rel="stylesheet" />
+    <style>
+        .form-signin {
+            max-width: 430px;
+            padding: 15px;
+            margin: 0 auto;
+        }
 
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                height: auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
+
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                margin-top: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -54,25 +96,28 @@
             </div><!--/.container-fluid -->
 
         </nav>
-        <div class="row">
-            <h1 class="text-center">Login</h1>
-            <form role="form" style="display: block;">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="MobileNumber" placeholder="Mobiel Number" value="">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="Password" placeholder="Password">
-                    </div>
+        
+        <div class="container">
+            <div class="form-signin">
+                <h2 class="form-signin-heading">Please sign in</h2>
 
-                    <div class="form-group">
-                        <input type="button" tabindex="4" onclick="return Login();" class="btn btn-primary" value="Log In" />
-                    </div>
-                </div>
-            </form>
-        </div>
+                <label for="MobileNumber" class="sr-only">Mobile Number</label>
+                <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" required autofocus>
+
+                <label for="Password" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="Password" placeholder="Password" required>
+
+                <!--<div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label></div>-->
+                <button class="btn btn-lg btn-primary btn-block" onclick="return Login();">Sign in</button>
+            </div>
+
+        </div> <!-- /container -->
+
     </div>
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="js/common.js"></script>
