@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using VaccineDose.App_Code;
 using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
@@ -46,6 +47,8 @@ namespace VaccineDose.Controllers
                 entities.Users.Add(userDB);
                 entities.SaveChanges();
                 childDTO.ID = clinicDb.ID;
+                //send email to parent
+                UserEmail.ParentEmail(childDTO);
                 // TODO: Generate Schedule here
                 List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
                 foreach (Vaccine v in vaccines)

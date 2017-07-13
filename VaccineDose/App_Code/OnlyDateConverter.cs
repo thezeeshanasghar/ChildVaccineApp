@@ -27,13 +27,13 @@ namespace VaccineDose.App_Code
 
         public static void ParentEmail(ChildDTO parent)
         {
-            string body = "Hello" + parent.Name
+            string body = "Hello " + "<b>"+parent.Name+"</b>"
               + ", <br>Congratulations you are successfully registered";
             SendEmail(parent.Name, parent.Email, body);
         }
         public static void DoctorEmail(DoctorDTO doctor)
         {
-            string body = "Hello" + doctor.FirstName
+            string body = "Hello " + "<b>" + doctor.FirstName + "</b>"
                 + ", <br>Congratulations you are successfully registered";
             SendEmail(doctor.FirstName, doctor.Email, body);
         }
