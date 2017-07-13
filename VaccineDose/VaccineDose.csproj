@@ -287,6 +287,8 @@
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
     <Content Include="dose-rules.html" />
+    <Content Include="JqueryMobile\VaccineNav.html" />
+    <Content Include="JqueryMobile\VaccineNav.js" />
     <Content Include="js\child.js" />
     <Content Include="js\common.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
