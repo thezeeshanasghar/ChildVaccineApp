@@ -20,7 +20,9 @@
           <Property Name="Gender" Type="nvarchar" MaxLength="50" />
           <Property Name="PreferredDayOfReminder" Type="int" />
           <Property Name="City" Type="nvarchar" MaxLength="50" />
-          <Property Name="PreferredShedule" Type="nvarchar" MaxLength="50" />
+          <Property Name="PreferredSchedule" Type="nvarchar" MaxLength="50" />
+          <Property Name="PreferredDayOfWeek" Type="nvarchar(max)" />
+          <Property Name="IsEPIDone" Type="bit" />
         </EntityType>
         <EntityType Name="Clinic">
           <Key>
@@ -28,7 +30,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="OffDays" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OffDays" Type="nvarchar(max)" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="Lat" Type="float" Nullable="false" />
@@ -209,7 +211,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="VDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="VDConnectionString" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Children" EntityType="VDModel.Child" />
           <EntitySet Name="Clinics" EntityType="VDModel.Clinic" />
           <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
           <EntitySet Name="Doses" EntityType="VDModel.Dose" />
@@ -217,10 +218,6 @@
           <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
           <EntitySet Name="Users" EntityType="VDModel.User" />
           <EntitySet Name="Vaccines" EntityType="VDModel.Vaccine" />
-          <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
-            <End Role="Child" EntitySet="Children" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
           <AssociationSet Name="FK_Clinic_Doctor" Association="VDModel.FK_Clinic_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="Clinic" EntitySet="Clinics" />
@@ -241,25 +238,12 @@
             <End Role="Vaccine" EntitySet="Vaccines" />
             <End Role="DoseRule" EntitySet="DoseRules" />
           </AssociationSet>
+          <EntitySet Name="Children" EntityType="VDModel.Child" />
+          <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
+            <End Role="Child" EntitySet="Children" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Child">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FatherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="DateTime" Precision="0" />
-          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StreetAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PreferredDayOfReminder" Type="Int32" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PreferredShedule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
-        </EntityType>
         <EntityType Name="Clinic">
           <Key>
             <PropertyRef Name="ID" />
@@ -324,8 +308,8 @@
           <Property Name="Circle" Type="Double" />
           <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsDone" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Child" Relationship="VDModel.FK_Schedule_Child" FromRole="Schedule" ToRole="Child" />
           <NavigationProperty Name="Dose" Relationship="VDModel.FK_Schedule_Dose" FromRole="Schedule" ToRole="Dose" />
+          <NavigationProperty Name="Child" Relationship="VDModel.FK_Schedule_Child" FromRole="Schedule" ToRole="Child" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -347,18 +331,6 @@
           <NavigationProperty Name="Doses" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Vaccine" ToRole="Dose" />
           <NavigationProperty Name="DoseRules" Relationship="VDModel.FK_DoseRule_Vaccine" FromRole="Vaccine" ToRole="DoseRule" />
         </EntityType>
-        <Association Name="FK_Schedule_Child">
-          <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
-          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Child">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="ChildId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Clinic_Doctor">
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
           <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="*" />
@@ -419,30 +391,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Child">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FatherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StreetAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreferredDayOfReminder" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreferredSchedule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PreferredDayOfWeek" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsEPIDone" Type="Boolean" />
+          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK_Schedule_Child">
+          <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
+          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ChildId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="VDModelStoreContainer" CdmEntityContainer="VDConnectionString">
-          <EntitySetMapping Name="Children">
-            <EntityTypeMapping TypeName="VDModel.Child">
-              <MappingFragment StoreEntitySet="Child">
-                <ScalarProperty Name="PreferredShedule" ColumnName="PreferredShedule" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PreferredDayOfReminder" ColumnName="PreferredDayOfReminder" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="VDModel.Clinic">
               <MappingFragment StoreEntitySet="Clinic">
@@ -521,6 +507,26 @@
               <MappingFragment StoreEntitySet="Vaccine">
                 <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Children">
+            <EntityTypeMapping TypeName="VDModel.Child">
+              <MappingFragment StoreEntitySet="Child">
+                <ScalarProperty Name="IsEPIDone" ColumnName="IsEPIDone" />
+                <ScalarProperty Name="PreferredDayOfWeek" ColumnName="PreferredDayOfWeek" />
+                <ScalarProperty Name="PreferredSchedule" ColumnName="PreferredSchedule" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PreferredDayOfReminder" ColumnName="PreferredDayOfReminder" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

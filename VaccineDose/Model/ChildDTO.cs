@@ -19,6 +19,10 @@ namespace VaccineDose.Model
         public string Gender { get; set; }
         public int PreferredDayOfReminder { get; set; }
         public string City { get; set; }
-        public string PreferredShedule { get; set; }
+        public string PreferredSchedule { get; set; }
+        public string PreferredDayOfWeek { get; set; }
+        public bool IsEPIDone { get; set; }
+        
+
     }
 }

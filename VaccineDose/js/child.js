@@ -45,12 +45,22 @@ function Add() {
     if (res == false) {
         return false;
     }
-    var obj = {
+    var result = [];
+    $('input[type="checkbox"]:checked').each(function () {
+
+        result.push(this.value);
+        console.log(result);
+    });
+     var obj = {
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
+        IsEPIDone:$("#isEpi").is(':checked'),
         DOB: $('#DOB').val(),
+        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
+        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
         MobileNumber: $('#MobileNumber').val(),
+        PreferredDayOfWeek: result.join(','),
         Password: $('#Password').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
@@ -94,8 +104,29 @@ function getbyID(ID) {
             $('#DOB').val(result.ResponseData.DOB);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
-            $('#City').val(result.ResponseData.City);
+            $('#City').val(result.ResponseData.City);  
+            $('#PreferredDayOfReminder').val(result.ResponseData.PreferredDayOfReminder);
+             $('#PreferredSchedule').val(result.ResponseData.PreferredSchedule);
             $('#Password').val(result.ResponseData.Password);
+            var PreferredDayOfWeek = result.ResponseData.PreferredDayOfWeek.split(",");
+            if ($.inArray("Monday", PreferredDayOfWeek) != -1)
+                $("#Monday").prop('checked', true);
+            if ($.inArray("Tuesday", PreferredDayOfWeek) != -1)
+                $("#Tuesday").prop('checked', true);
+            if ($.inArray("Wednesday", PreferredDayOfWeek) != -1)
+                $("#Wednesday").prop('checked', true);
+            if ($.inArray("Thursday", PreferredDayOfWeek) != -1)
+                $("#Thursday").prop('checked', true);
+            if ($.inArray("Friday", PreferredDayOfWeek) != -1)
+                $("#Friday").prop('checked', true);
+            if ($.inArray("Saturday", PreferredDayOfWeek) != -1)
+                $("#Saturday").prop('checked', true);
+            if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
+                $("#Sunday").prop('checked', true);
+
+            $("input[type=checkbox][value=" + result.ResponseData.PreferredDayOfWeek.split(",")[0] + "]").prop('checked', true);
+
+            $("input[type=checkbox][value=" + result.ResponseData.IsEPIDone + "]").prop('checked', true);
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();
@@ -113,13 +144,22 @@ function Update() {
     if (res == false) {
         return false;
     }
+    var result = [];
+    $('input[type="checkbox"]:checked').each(function () {
+
+        result.push(this.value);
+        console.log(result);
+    });
     var obj = {
-        Id:$("#ID").val(),
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
+        IsEPIDone: $("#isEpi").is(':checked'),
+        PreferredDayOfWeek: result.join(','),
+        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
+        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
         Password: $('#Password').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
@@ -140,6 +180,7 @@ function Update() {
             $("#DOB").val("");
             $("#MobileNumber").val("");
             $("input:radio").attr("checked", false);
+            $("input:checkbox").attr("checked", false);
             $("#City").val("");   
             $('#Password').val("")
 
@@ -194,6 +235,8 @@ function clearTextBox() {
     $('#MobileNumber').css('border-color', 'lightgrey');
     $('#Gender').css('border-color', 'lightgrey');
     $('#City').css('border-color', 'lightgrey');
+    $("input:checkbox").attr("checked", false);
+
 }
 
 //Valdidation using jquery  
