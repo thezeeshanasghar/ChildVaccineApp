@@ -11,6 +11,8 @@
 	[City] [nvarchar](50) NULL,
 	[PreferredShedule] [nvarchar](50) NULL,
  [Password] NVARCHAR(50) NULL, 
+    [PreferredDayOfWeek] NVARCHAR(50) NULL, 
+    [IsEPIDone] BIT NULL, 
     CONSTRAINT [PK_Child] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
