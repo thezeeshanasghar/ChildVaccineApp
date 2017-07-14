@@ -14,14 +14,15 @@ function loadData() {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
                 html += '<tr>';
-                html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.MinAge + '</td>';
-                html += '<td>' + item.MaxAge + '</td>';
-               
+                    html += '<td>' + (key + 1) + '</td>';
+                    html += '<td>' + item.Name + '</td>';
+                    html += '<td>' + item.MinAge + '</td>';
+                    html += '<td>' + item.MaxAge + '</td>';
                 html += '</tr>';
             });
-            $('#tbody').html(html);
+            //$("#table-column-toggle-popup-popup").remove();
+            $('#tbody').html(html).enhanceWithin();
+            $("#t tbody").closest("table#t").table('refresh').trigger('create');
            
         },
         error: function (errormessage) {

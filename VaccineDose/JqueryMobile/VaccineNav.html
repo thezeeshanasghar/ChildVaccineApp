@@ -1,39 +1,72 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-	<meta charset="utf-8" />
-    
+    <title>Vaccine App</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
 
 </head>
 <body>
-    <div data-role="navbar" data-grid="d">
-        <ul>
-            <li><a href="#" class="ui-btn-active">Vaccine App</a></li>
-            <li><a href="#">Two</a></li>
-            <li><a href="#">Three</a></li>
-            <li><a href="">Vaccine</a></li>
-            <li><a href="#">Five</a></li>
-        </ul>
-    </div><!-- /navbar -->
-    <table data-role="table" id="table-column-toggle" data-mode="columntoggle" 
-           class="ui-responsive table-stroke">
-        <thead>
-            <tr>
-                <th data-priority="2">SR. No</th>
-                <th>Name</th>
-                <th data-priority="3">Min Age</th>
-                <th data-priority="1">Max Age</th>
-             </tr>
-        </thead>
-        <tbody id="tbody"> 
-                     
-               
-        </tbody>
-    </table>
+    <!------- PAGE ONE ------->
+    <div data-role="page" id="page-one">
+        <div data-role="header">
+            <h1>Vaccine App</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#page-one" data-transition="slide" class="ui-btn-active" data-icon="home">Home</a></li>
+                    <li><a href="#page-two" data-transition="slide" data-icon="search">Vaccine</a></li>
+                    <li><a href="#" data-icon="search">Dose</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div>
+        <div data-role="main" class="ui-content">
+
+            <table data-role="table" id="t" data-mode="columntoggle" class="ui-responsive table-stroke">
+                <thead>
+                    <tr>
+                        <th>SR. No</th>
+                        <th>Name</th>
+                        <th data-priority="2">Min Age</th>
+                        <th data-priority="1">Max Age</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+
+        </div>
+        <div data-role="footer">
+            <h1>&copy; 2017</h1>
+        </div>
+    </div>
+
+
+
+    <!------- PAGE ONE ------->
+    <div data-role="page" id="page-two">
+        <div data-role="header">
+            <h1>Vaccine App</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#page-one" data-transition="slide" data-icon="home">Home</a></li>
+                    <li><a href="#page-two" data-transition="slide" class="ui-btn-active" data-icon="search">Vaccine</a></li>
+                    <li><a href="#">Dose</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div>
+        <div data-role="main" class="ui-content">
+            under development...
+        </div>
+        <div data-role="footer">
+            <h1>&copy; 2017</h1>
+        </div>
+    </div>
+
+
+
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="VaccineNav.js"></script>
 </body>
 </html>
