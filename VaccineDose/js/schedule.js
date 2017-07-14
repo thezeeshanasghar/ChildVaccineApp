@@ -15,21 +15,9 @@ function loadData(id) {
         success: function (result) {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
-                var child = '';
+               
                 var dose = '';
-                $.ajax({
-                    url: "/api/child/" + item.ChildId,
-                    typr: "GET",
-                    contentType: "application/json;charset=UTF-8",
-                    async: false,
-                    dataType: "json",
-                    success: function (r) {
-                        child = r.ResponseData.Name
-                    },
-                    error: function (e) {
-                        alert(e.responseText);
-                    }
-                });
+               
                 $.ajax({
                     url: "/api/dose/" + item.DoseId,
                     typr: "GET",
@@ -45,7 +33,6 @@ function loadData(id) {
                 });
                 html += '<tr>';
                 html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + child + '</td>';
                 html += '<td>' + dose + '</td>';
                 html += '<td>' + item.Date + '</td>';
                 html += '<td>' + item.Weight + '</td>';

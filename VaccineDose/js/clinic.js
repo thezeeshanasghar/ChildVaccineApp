@@ -103,16 +103,33 @@ function getbyID(ID) {
         success: function (result) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
-             //("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
-             $('#StartTime').val(result.ResponseData.StartTime);
+
+            var OffDays = result.ResponseData.OffDays.split(",");
+            if ($.inArray("Monday", OffDays) != -1)
+                $("#Monday").prop('checked', true);
+            if ($.inArray("Tuesday", OffDays) != -1)
+                $("#Tuesday").prop('checked', true);
+            if ($.inArray("Wednesday", OffDays) != -1)
+                $("#Wednesday").prop('checked', true);
+            if ($.inArray("Thursday", OffDays) != -1)
+                $("#Thursday").prop('checked', true);
+            if ($.inArray("Friday", OffDays) != -1)
+                $("#Friday").prop('checked', true);
+            if ($.inArray("Saturday", OffDays) != -1)
+                $("#Saturday").prop('checked', true);
+            if ($.inArray("Sunday", OffDays) != -1)
+                $("#Sunday").prop('checked', true);
+
+            $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
+            $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
 
             $('#myModal').modal('show');
-            myMarker.setPosition(new google.maps.LatLng(result.ResponseData.Lat, result.ResponseData.Long));
-
-                    
+            
             $('#btnUpdate').show();
             $('#btnAdd').hide();
+
+            //myMarker.setPosition(new google.maps.LatLng(result.ResponseData.Lat, result.ResponseData.Long));
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
