@@ -53,12 +53,13 @@ function Add() {
     if (res == false) {
         return false;
     }
+
     var result = [];
-    $('input[type="checkbox"]:checked').each(function () {
-       
+    $('.OffDays').each(function () {
         result.push(this.value);
         console.log(result);
     });
+
     var obj = {
         Name: $('#Name').val(),
          StartTime: $('#StartTime').val(),
