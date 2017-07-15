@@ -291,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="child.html" />
+    <Content Include="child.jpg" />
     <Content Include="doctor-signup.html" />
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
