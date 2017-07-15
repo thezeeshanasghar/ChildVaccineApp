@@ -148,19 +148,20 @@ function Update() {
     if (res == false) {
         return false;
     }
-    var result = [];
-    $('input[type="checkbox"]:checked').each(function () {
 
+    var result = [];
+    $('.PreferredDayOfWeek').each(function () {
         result.push(this.value);
         console.log(result);
     });
+
     var obj = {
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
-        IsEPIDone: $("#isEpi").is(':checked'),
+        IsEPIDone: $("#IsEPIDone").is(':checked'),
         PreferredDayOfWeek: result.join(','),
         PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
@@ -205,12 +206,10 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                if (result.IsSuccess) {
+                if (result.IsSuccess) 
                     loadData();
-                } else {
+                else 
                     ShowAlert('Rquest Failed', result.Message, 'error');
-                }
-              
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
