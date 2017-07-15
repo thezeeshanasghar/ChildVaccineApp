@@ -16,12 +16,20 @@ namespace VaccineDose.Controllers
         #region C R U D
         public Response<IEnumerable<ChildDTO>> Get()
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbchildren = entities.Children.ToList();
-                IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(dbchildren);
-                return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbchildren = entities.Children.ToList();
+                    IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(dbchildren);
+                    return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                }
             }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+            
         }
 
         public Response<ChildDTO> Get(int Id)
@@ -105,17 +113,19 @@ namespace VaccineDose.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException.Message.Equals("Foreign Key"))
-                {
-                    return new Response<string>(false, "Foreign key issue message", null);
-                }
-                else {
-                    String message = ex.Message;
-                    message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-                    message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
-                    return new Response<string>(false, message, null);
-                }
+                if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+                    return new Response<string>(false, "Cannot delete child because it schedule exits. Delete the child schedule first.", null);
+                else
+                    return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
             }
+        }
+
+        private static string GetMessageFromExceptionObject(Exception ex)
+        {
+            String message = ex.Message;
+            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
+            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
+            return message;
         }
 
         #endregion

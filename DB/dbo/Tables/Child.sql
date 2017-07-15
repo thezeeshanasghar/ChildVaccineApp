@@ -9,7 +9,7 @@
 	[Gender] [nvarchar](50) NULL,
 	[PreferredDayOfReminder] [int] NULL,
 	[City] [nvarchar](50) NULL,
-	[PreferredShedule] [nvarchar](50) NULL,
+	[PreferredSchedule] [nvarchar](50) NULL,
  [Password] NVARCHAR(50) NULL, 
     [PreferredDayOfWeek] NVARCHAR(50) NULL, 
     [IsEPIDone] BIT NULL, 

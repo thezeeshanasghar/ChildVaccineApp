@@ -131,30 +131,24 @@
                                 <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" />
                             </div>
                             <div class="form-group">
-
-                                <label class="col-md-12 control-label" for="checkboxes">Preferred Day of Week</label>
-                                <input id="Monday" type="checkbox" value="Monday" checked="checked" />&nbsp; Monday &nbsp; &nbsp;
-                                <input id="Tuesday" type="checkbox" value="Tuesday" />&nbsp;Tuesday&nbsp;&nbsp;
-                                <input id="Wednesday" type="checkbox" value="Wednesday" />&nbsp;Wednesday &nbsp; &nbsp; <br />
-                                <input id="Thursday" type="checkbox" value="Thursday" />&nbsp;Thursday&nbsp;&nbsp;
-                                &nbsp;<input id="Friday" type="checkbox" value="Friday" />&nbsp;Friday&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;<input id="Saturday" type="checkbox" value="Saturday" />&nbsp;Saturday&nbsp; &nbsp;
-                                &nbsp;&nbsp;&nbsp;<input id="Sunday" type="checkbox" value="Sunday" />&nbsp;Sunday
+                                <label class="col-md-12" style="padding: 0px;">Preferred Day of Week</label>
+                                <input id="Monday" class="PreferredDayOfWeek" type="checkbox" value="Monday" checked="checked" />&nbsp; Monday &nbsp; &nbsp;
+                                <input id="Tuesday" class="PreferredDayOfWeek" type="checkbox" value="Tuesday" />&nbsp;Tuesday&nbsp;&nbsp;
+                                <input id="Wednesday" class="PreferredDayOfWeek" type="checkbox" value="Wednesday" />&nbsp;Wednesday &nbsp; &nbsp; <br />
+                                <input id="Thursday" class="PreferredDayOfWeek" type="checkbox" value="Thursday" />&nbsp;Thursday&nbsp;&nbsp;
+                                &nbsp;<input id="Friday" class="PreferredDayOfWeek" type="checkbox" value="Friday" />&nbsp;Friday&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;<input id="Saturday" class="PreferredDayOfWeek" type="checkbox" value="Saturday" />&nbsp;Saturday&nbsp; &nbsp;
+                                &nbsp;&nbsp;&nbsp;<input id="Sunday" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />&nbsp;Sunday
                             </div>
-                            <div class="form-group">
-
-                                <label class="col-md-12 control-label" for="checkboxes">Is EPI Done</label>
-                                <input type="checkbox" id="isEpi" checked="checked" /> 
-                         
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="Password">Password</label>
                                 <input type="password" class="form-control" id="Password" placeholder="Password" />
                             </div>
                             <div class="form-group">
                                 <label for="Gender">Gender</label><br />
-                                <input type="radio" name="gender" id="Gender" value="BOY" checked="checked" />Boy &nbsp; &nbsp;
-                                <input type="radio" name="gender" id="Gender" value="GIRL" />Girl
+                                <input type="radio" name="gender" id="Gender" value="Boy" checked="checked" />&nbsp;Boy &nbsp; &nbsp;
+                                <input type="radio" name="gender" id="Gender" value="Girl" />&nbsp;Girl
                             </div>
                             <div class="form-group">
                                 <label for="City">City</label>
@@ -168,7 +162,7 @@
                                 <label for="PreferredDayOfReminder">Preferred Day Of Reminder</label>
                                 <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder">
                                     <option value="1" selected="selected">One Day Before</option>
-                                    <option value="2">two Day Before</option>
+                                    <option value="2">Two Day Before</option>
                                   </select>
                              </div>
                             <div class="form-group">
@@ -179,6 +173,9 @@
                                     <option value="CDC">CDC</option>
                                     <option value="NHS">NHS</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="IsEPIDone" checked="checked" /> <b>Is EPI Done</b>
                             </div>
                         </form>
                     </div>

@@ -13,25 +13,28 @@ function loadData() {
         dataType: "json",
         success: function (result) {
             var html = '';
-           
-            $.each(result.ResponseData, function (key, item) {
-                html += '<tr>';
-                html += '<td>' + (key+1) + '</td>';
-                html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.FatherName + '</td>';
-                html += '<td>' + item.Email + '</td>';
-                html += '<td>' + item.DOB + '</td>';
-                html += '<td>' + item.MobileNumber + '</td>';
-                html += '<td>' + item.Gender + '</td>';
-                html += '<td>' + item.City + '</td>';
-                html += '<td>' +
-                  '<a href="schedule.html?id=' + item.ID + '">Schedule</a> | ' +
-                  '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                  '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
-                html += '</tr>';
-            });
-            $('.tbody').html(html);
-            HideAlert();
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + (key + 1) + '</td>';
+                    html += '<td>' + item.Name + '</td>';
+                    html += '<td>' + item.FatherName + '</td>';
+                    html += '<td>' + item.Email + '</td>';
+                    html += '<td>' + item.DOB + '</td>';
+                    html += '<td>' + item.MobileNumber + '</td>';
+                    html += '<td>' + item.Gender + '</td>';
+                    html += '<td>' + item.City + '</td>';
+                    html += '<td>' +
+                      '<a href="schedule.html?id=' + item.ID + '">Schedule</a> | ' +
+                      '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
+                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+                HideAlert();
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -45,17 +48,18 @@ function Add() {
     if (res == false) {
         return false;
     }
-    var result = [];
-    $('input[type="checkbox"]:checked').each(function () {
 
+    var result = [];
+    $('.PreferredDayOfWeek').each(function () {
         result.push(this.value);
         console.log(result);
     });
+
      var obj = {
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
-        IsEPIDone:$("#isEpi").is(':checked'),
+        IsEPIDone: $("#IsEPIDone").is(':checked'),
         DOB: $('#DOB').val(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
         PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
@@ -101,13 +105,14 @@ function getbyID(ID) {
             $('#Name').val(result.ResponseData.Name);
             $('#FatherName').val(result.ResponseData.FatherName);
             $('#Email').val(result.ResponseData.Email);
+            $('#Password').val(result.ResponseData.Password),
             $('#DOB').val(result.ResponseData.DOB);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);  
             $('#PreferredDayOfReminder').val(result.ResponseData.PreferredDayOfReminder);
-             $('#PreferredSchedule').val(result.ResponseData.PreferredSchedule);
-            $('#Password').val(result.ResponseData.Password);
+            $('#PreferredSchedule').val(result.ResponseData.PreferredSchedule);
+
             var PreferredDayOfWeek = result.ResponseData.PreferredDayOfWeek.split(",");
             if ($.inArray("Monday", PreferredDayOfWeek) != -1)
                 $("#Monday").prop('checked', true);
@@ -124,9 +129,8 @@ function getbyID(ID) {
             if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
                 $("#Sunday").prop('checked', true);
 
-            $("input[type=checkbox][value=" + result.ResponseData.PreferredDayOfWeek.split(",")[0] + "]").prop('checked', true);
+            $("#IsEPIDone").attr("checked",result.ResponseData.IsEPIDone)
 
-            $("input[type=checkbox][value=" + result.ResponseData.IsEPIDone + "]").prop('checked', true);
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();
