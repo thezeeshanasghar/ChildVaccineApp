@@ -60,6 +60,7 @@ function Add() {
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
+        IsVerified: $("#IsVerified").is(':checked'),
         DOB: $('#DOB').val(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
         PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
@@ -128,8 +129,9 @@ function getbyID(ID) {
                 $("#Saturday").prop('checked', true);
             if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
                 $("#Sunday").prop('checked', true);
-
-            $("#IsEPIDone").attr("checked",result.ResponseData.IsEPIDone)
+ 
+            $("#IsEPIDone").attr("checked", result.ResponseData.IsEPIDone);
+            $("#IsVerified").attr("checked", result.ResponseData.IsVerified);
 
             $('#myModal').modal('show');
             $('#btnUpdate').show();
@@ -162,6 +164,7 @@ function Update() {
         DOB: $('#DOB').val(),
         MobileNumber: $('#MobileNumber').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
+        IsVerified: $("#IsVerified").is(':checked'),
         PreferredDayOfWeek: result.join(','),
         PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),

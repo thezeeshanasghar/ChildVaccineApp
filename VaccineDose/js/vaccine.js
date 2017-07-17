@@ -171,13 +171,13 @@ function validate() {
     else {
         $('#MinAge').css('border-color', 'lightgrey');
     }
-    if ($('#MaxAge').val().trim() == "") {
-        $('#MaxAge').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#MaxAge').css('border-color', 'lightgrey');
-    }
+    //if ($('#MaxAge').val().trim() == "") {
+    //    $('#MaxAge').css('border-color', 'Red');
+    //    isValid = false;
+    //}
+    //else {
+    //    $('#MaxAge').css('border-color', 'lightgrey');
+    //}
    
     return isValid;
 }
