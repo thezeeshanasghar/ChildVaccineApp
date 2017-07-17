@@ -22,7 +22,8 @@ namespace VaccineDose.Model
         public string PreferredSchedule { get; set; }
         public string PreferredDayOfWeek { get; set; }
         public bool IsEPIDone { get; set; }
-        
+        public bool IsVerified { get; set; }
+
 
     }
 }

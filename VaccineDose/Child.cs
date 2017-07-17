@@ -34,6 +34,7 @@ namespace VaccineDose
         public string PreferredSchedule { get; set; }
         public string PreferredDayOfWeek { get; set; }
         public Nullable<bool> IsEPIDone { get; set; }
+        public Nullable<bool> IsVerified { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Schedule> Schedules { get; set; }

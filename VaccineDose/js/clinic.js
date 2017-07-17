@@ -63,7 +63,8 @@ function Add() {
     var obj = {
         Name: $('#Name').val(),
          StartTime: $('#StartTime').val(),
-        EndTime: $('#EndTime').val(),
+         EndTime: $('#EndTime').val(),
+         PhoneNumber: $('#PhoneNumber').val(),
       //  OffDays: $("input[name='Monday']:checked").val() + "," + $("input[name='Tuesday']:checked").val() + ","
       //+ $("input[name='Wednesday']:checked").val() + "," + $("input[name='Thursday']:checked").val() + ","
       //    + $("input[name='Friday']:checked").val() + "," + $("input[name='Saturday']:checked").val() + ","
@@ -124,7 +125,7 @@ function getbyID(ID) {
             $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
-
+            $('#PhoneNumber').val(result.ResponseData.PhoneNumber);
             $('#myModal').modal('show');
             
             $('#btnUpdate').show();
@@ -156,7 +157,8 @@ function Update() {
         Name: $('#Name').val(),
         OffDays: result.join(','),
          StartTime: $('#StartTime').val(),
-        EndTime: $('#EndTime').val(),
+         EndTime: $('#EndTime').val(),
+         PhoneNumber: $('#PhoneNumber').val(),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
         DoctorID: DoctorId()
@@ -176,6 +178,7 @@ function Update() {
             $("input:checkbox").attr("checked", false);
             $('#StartTime').val("");
             $('#EndTime').val("");
+            $('#PhoneNumber').val("");
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -210,7 +213,7 @@ function clearTextBox() {
     $("input:checkbox").attr("checked", false);
     $('#StartTime').val("");
     $('#EndTime').val("");
-
+    $('#PhoneNumber').val("");
     $('#btnUpdate').hide();
     $('#btnAdd').show();
 

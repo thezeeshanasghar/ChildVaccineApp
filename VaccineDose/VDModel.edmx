@@ -23,6 +23,7 @@
           <Property Name="PreferredSchedule" Type="nvarchar" MaxLength="50" />
           <Property Name="PreferredDayOfWeek" Type="nvarchar(max)" />
           <Property Name="IsEPIDone" Type="bit" />
+          <Property Name="IsVerified" Type="bit" />
         </EntityType>
         <EntityType Name="Clinic">
           <Key>
@@ -36,6 +37,7 @@
           <Property Name="Lat" Type="float" Nullable="false" />
           <Property Name="Long" Type="float" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -257,6 +259,7 @@
           <Property Name="Long" Type="Double" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -410,6 +413,7 @@
           <Property Name="PreferredDayOfWeek" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsEPIDone" Type="Boolean" />
           <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
+          <Property Name="IsVerified" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Schedule_Child">
           <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
@@ -432,6 +436,7 @@
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="VDModel.Clinic">
               <MappingFragment StoreEntitySet="Clinic">
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
                 <ScalarProperty Name="Long" ColumnName="Long" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
@@ -515,6 +520,7 @@
           <EntitySetMapping Name="Children">
             <EntityTypeMapping TypeName="VDModel.Child">
               <MappingFragment StoreEntitySet="Child">
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
                 <ScalarProperty Name="IsEPIDone" ColumnName="IsEPIDone" />
                 <ScalarProperty Name="PreferredDayOfWeek" ColumnName="PreferredDayOfWeek" />
                 <ScalarProperty Name="PreferredSchedule" ColumnName="PreferredSchedule" />

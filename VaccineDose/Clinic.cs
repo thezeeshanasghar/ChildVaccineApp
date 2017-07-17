@@ -22,6 +22,7 @@ namespace VaccineDose
         public double Lat { get; set; }
         public double Long { get; set; }
         public int DoctorID { get; set; }
+        public string PhoneNumber { get; set; }
     
         public virtual Doctor Doctor { get; set; }
     }
