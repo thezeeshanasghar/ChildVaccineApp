@@ -81,7 +81,10 @@ function Add() {
         Email: $('#Email').val(),
         Password: $('#Password').val(),
         MobileNo: $('#MobileNo').val(),
-        PMDC: $('#PMDC').val()
+        PMDC: $('#PMDC').val(),
+        PhoneNo: $("#PhoneNo").val(),
+        ShowPhone: $("#ShowPhone").is(":checked"),
+        ShowMobile: $("#ShowMobile").is(":checked"),
     };
     $.ajax({
         url: "/api/doctor",
@@ -120,8 +123,10 @@ function getbyID(ID) {
             $('#Email').val(result.ResponseData.Email);
             $('#Password').val(result.ResponseData.Password);
             $('#MobileNo').val(result.ResponseData.MobileNo);
+            $('#PhoneNo').val(result.ResponseData.PhoneNo);
             $('#PMDC').val(result.ResponseData.PMDC);
-
+            $("#ShowPhone").attr("checked", result.ResponseData.ShowPhone);
+            $("#ShowMobile").attr("checked", result.ResponseData.ShowMobile);
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();
@@ -146,7 +151,10 @@ function Update() {
         Email: $('#Email').val(),
         Password: $('#Password').val(),
         MobileNo: $('#MobileNo').val(),
-        PMDC: $('#PMDC').val()
+        PMDC: $('#PMDC').val(),
+        PhoneNo: $("#PhoneNo").val(),
+        ShowPhone: $("#ShowPhone").is(":checked"),
+        ShowMobile: $("#ShowMobile").is(":checked"),
     };
     $.ajax({
         url: "/api/doctor/" + $('#ID').val(),

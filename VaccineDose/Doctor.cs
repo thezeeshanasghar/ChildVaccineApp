@@ -28,6 +28,9 @@ namespace VaccineDose
         public string Password { get; set; }
         public string PMDC { get; set; }
         public bool IsApproved { get; set; }
+        public string PhoneNo { get; set; }
+        public Nullable<bool> ShowPhone { get; set; }
+        public Nullable<bool> ShowMobile { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clinic> Clinics { get; set; }
