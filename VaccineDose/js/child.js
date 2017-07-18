@@ -50,7 +50,7 @@ function Add() {
     }
 
     var result = [];
-    $('.PreferredDayOfWeek').each(function () {
+    $('input[name="PreferredDayOfWeek"]:checked').each(function () {
         result.push(this.value);
         console.log(result);
     });
@@ -129,7 +129,9 @@ function getbyID(ID) {
                 $("#Saturday").prop('checked', true);
             if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
                 $("#Sunday").prop('checked', true);
- 
+
+            //$(".PreferredDayOfWeek").attr("checked", result.ResponseData.PreferredDayOfWeek);
+            $("input[type=checkbox][value=" + result.ResponseData.PreferredDayOfWeek.split(",")[0] + "]").prop('checked', true);
             $("#IsEPIDone").attr("checked", result.ResponseData.IsEPIDone);
             $("#IsVerified").attr("checked", result.ResponseData.IsVerified);
 
@@ -152,7 +154,7 @@ function Update() {
     }
 
     var result = [];
-    $('.PreferredDayOfWeek').each(function () {
+    $('input[name="PreferredDayOfWeek"]:checked').each(function () {
         result.push(this.value);
         console.log(result);
     });
