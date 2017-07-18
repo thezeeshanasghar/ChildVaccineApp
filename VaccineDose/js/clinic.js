@@ -55,7 +55,7 @@ function Add() {
     }
 
     var result = [];
-    $('.OffDays').each(function () {
+    $('input[name="OffDays"]:checked').each(function () {
         result.push(this.value);
         console.log(result);
     });
@@ -147,7 +147,7 @@ function Update() {
         return false;
     }
     var result = [];
-    $('input[type="checkbox"]:checked').each(function () {
+    $('input[name="OffDays"]:checked').each(function () {
 
         result.push(this.value);
         console.log(result);
