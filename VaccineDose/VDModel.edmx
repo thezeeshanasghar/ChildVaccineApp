@@ -47,10 +47,13 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="50" />
           <Property Name="MobileNo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PMDC" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="ShowPhone" Type="bit" />
+          <Property Name="ShowMobile" Type="bit" />
         </EntityType>
         <EntityType Name="Dose">
           <Key>
@@ -274,6 +277,9 @@
           <Property Name="PMDC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsApproved" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShowPhone" Type="Boolean" />
+          <Property Name="ShowMobile" Type="Boolean" />
         </EntityType>
         <EntityType Name="Dose">
           <Key>
@@ -451,6 +457,9 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="ShowMobile" ColumnName="ShowMobile" />
+                <ScalarProperty Name="ShowPhone" ColumnName="ShowPhone" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="PMDC" ColumnName="PMDC" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

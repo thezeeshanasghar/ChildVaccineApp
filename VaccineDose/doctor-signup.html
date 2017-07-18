@@ -83,7 +83,17 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="MobileNo" placeholder="Mobile Number" />
                     </div>
-
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" style="padding: 0px;">Show/Hide</label>
+                        <input id="ShowPhone" name="ShowPhone" type="checkbox"  />&nbsp; Phone Number &nbsp; &nbsp;
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" style="padding: 0px;">Show/Hide</label>
+                        <input id="ShowMobile" name="ShowMobile" type="checkbox"  />&nbsp; Mobile Number &nbsp; &nbsp;
+                    </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="PMDC" placeholder="PMDC Number" />
                     </div>
@@ -112,7 +122,10 @@
                     Email: $('#Email').val(),
                     Password: $('#Password').val(),
                     MobileNo: $('#MobileNo').val(),
-                    PMDC: $('#PMDC').val()
+                    PMDC: $('#PMDC').val(),
+                    PhoneNo: $("#PhoneNo").val(),
+                    ShowPhone: $("#ShowPhone").is(":checked"),
+                    ShowMobile: $("#ShowMobile").is(":checked"),
                 };
                 $.ajax({
                     url: "/api/doctor",
