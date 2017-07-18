@@ -31,7 +31,26 @@ function loadData(id) {
         }
     });
 }
-
+function DoseName() {
+    $.ajax({
+        url: "/api/vaccine/" + parseInt(getParameterByName("id")),
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var DoseName = '';
+            $.each(result.ResponseData, function (key, item) {
+                DoseName = result.ResponseData.Name + "-Dose";
+            });
+            $("#Name").val(function(){
+                return this.value = DoseName;
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 //Add Data Function   
 function Add() {
     var res = validate();
@@ -143,6 +162,7 @@ function clearTextBox() {
 
     $('#Name').css('border-color', 'lightgrey');
 }
+
 
 
 //Valdidation using jquery  
