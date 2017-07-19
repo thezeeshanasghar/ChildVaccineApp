@@ -13,6 +13,7 @@
  [Password] NVARCHAR(50) NULL, 
     [PreferredDayOfWeek] NVARCHAR(50) NULL, 
     [IsEPIDone] BIT NULL, 
+    [IsVerified] BIT NULL, 
     CONSTRAINT [PK_Child] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
