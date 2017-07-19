@@ -17,12 +17,13 @@ namespace VaccineDose
         public int ID { get; set; }
         public string Name { get; set; }
         public string OffDays { get; set; }
-        public System.TimeSpan StartTime { get; set; }
-        public System.TimeSpan EndTime { get; set; }
-        public double Lat { get; set; }
-        public double Long { get; set; }
+        public Nullable<System.TimeSpan> StartTime { get; set; }
+        public Nullable<System.TimeSpan> EndTime { get; set; }
+        public Nullable<double> Lat { get; set; }
+        public Nullable<double> Long { get; set; }
         public int DoctorID { get; set; }
         public string PhoneNumber { get; set; }
+        public Nullable<bool> IsOnline { get; set; }
     
         public virtual Doctor Doctor { get; set; }
     }
