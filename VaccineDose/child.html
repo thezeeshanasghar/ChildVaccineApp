@@ -41,23 +41,23 @@
                         <li id="menu-logout"><a onclick="return logout()">Logout</a></li>
                         <li id="menu-login"><a href="login.html">Login</a></li>
                         <!--<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="login.html">Logout</a></li>
-                        </ul>
-                    </li>-->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="login.html">Logout</a></li>
+                            </ul>
+                        </li>-->
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
         </nav>
         <div class="container">
-            <h2>Child</h2>
+            <h2>Child Records</h2>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
 
             <div id="alert_message" class="alert alert-dismissible alert-warning">
@@ -65,7 +65,7 @@
                 <strong>loading title!</strong>
                 <p>loading message</p>
             </div>
-            <table class="table table-bordered table-hover">
+            <!--<table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -75,22 +75,22 @@
                             Name
                         </th>
                         <th>
-                           Father Name
+                            Father Name
                         </th>
                         <th>
-                           Email
+                            Email
                         </th>
                         <th>
-                          DOB
+                            DOB
                         </th>
                         <th>
-                           Mobile Number
+                            Mobile Number
                         </th>
                         <th>
-                           Gender
+                            Gender
                         </th>
                         <th>
-                          City
+                            City
                         </th>
                         <th>
                             Action
@@ -98,7 +98,10 @@
                     </tr>
                 </thead>
                 <tbody class="tbody"></tbody>
-            </table>
+            </table>-->
+            <div class="row" id="childrecords">
+              
+            </div>
         </div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -140,7 +143,7 @@
                                 &nbsp;&nbsp;&nbsp;<input id="Saturday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Saturday" />&nbsp;Saturday&nbsp; &nbsp;
                                 &nbsp;&nbsp;&nbsp;<input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />&nbsp;Sunday
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="Password">Password</label>
                                 <input type="password" class="form-control" id="Password" placeholder="Password" />
@@ -163,8 +166,8 @@
                                 <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder">
                                     <option value="1" selected="selected">One Day Before</option>
                                     <option value="2">Two Day Before</option>
-                                  </select>
-                             </div>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="PreferredSchedule">Preferred Schedule</label>
                                 <select id="PreferredSchedule" class="form-control" name="PreferredSchedule">

@@ -17,22 +17,26 @@ function loadData() {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<tr>';
-                    html += '<td>' + (key + 1) + '</td>';
-                    html += '<td>' + item.Name + '</td>';
-                    html += '<td>' + item.FatherName + '</td>';
-                    html += '<td>' + item.Email + '</td>';
-                    html += '<td>' + item.DOB + '</td>';
-                    html += '<td>' + item.MobileNumber + '</td>';
-                    html += '<td>' + item.Gender + '</td>';
-                    html += '<td>' + item.City + '</td>';
-                    html += '<td>' +
-                      '<a href="schedule.html?id=' + item.ID + '">Schedule</a> | ' +
+                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
+                    html += '<div class="col-md-1">' +
+                        '<img  src="child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
+                        '</div>';
+                    html += '<div class="col-md-6" style="padding:10px;">'
+
+                    html += '<p><b>' + item.Name + '</b></p>';
+                    html += '<div style="margin:10px;">';
+                    html += '<p class="glyphicon glyphicon-calendar">' +
+                        '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
+                        '</br> <p class="glyphicon glyphicon-earphone">' +
+                        '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
+                    html += '</div>';
+                    html +='<div class="col-md-4">' +'<a href="schedule.html?id=' + item.ID + '">Schedule</a> | ' +
                       '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
-                    html += '</tr>';
+                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
+                    html += '</div></div>';
+
                 });
-                $('.tbody').html(html);
+                $("#childrecords").html(html);
                 HideAlert();
             }
         },
