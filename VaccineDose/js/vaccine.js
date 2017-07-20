@@ -21,7 +21,7 @@ function loadData() {
                 html += '<td>' + getUserAge(item.MaxAge) + '</td>';
                 html += '<td>' +
                     '<a href="dose.html?id=' + item.ID + '">Doses</a> | ' +
-                    '<a href="dose-rules.html?id=' + item.ID + '">Dose Rules</a> | ' +
+                    //'<a href="dose-rules.html?id=' + item.ID + '">Dose Rules</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';

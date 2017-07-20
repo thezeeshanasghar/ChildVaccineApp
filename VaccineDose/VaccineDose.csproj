@@ -242,9 +242,6 @@
     <Compile Include="Dose.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DoseRule.cs">
-      <DependentUpon>VDModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

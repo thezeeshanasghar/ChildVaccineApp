@@ -18,7 +18,6 @@ namespace VaccineDose
         public Vaccine()
         {
             this.Doses = new HashSet<Dose>();
-            this.DoseRules = new HashSet<DoseRule>();
         }
     
         public int ID { get; set; }
@@ -28,7 +27,5 @@ namespace VaccineDose
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dose> Doses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoseRule> DoseRules { get; set; }
     }
 }

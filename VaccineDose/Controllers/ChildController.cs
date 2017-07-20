@@ -46,25 +46,29 @@ namespace VaccineDose.Controllers
         {
             using (VDConnectionString entities = new VDConnectionString())
             {
-                Child clinicDb = Mapper.Map<Child>(childDTO);
-                entities.Children.Add(clinicDb);
+                Child childDB = Mapper.Map<Child>(childDTO);
+                entities.Children.Add(childDB);
                 User userDB = new User();
                 userDB.MobileNumber = childDTO.MobileNumber;
                 userDB.Password = childDTO.Password;
                 userDB.UserType = "PARENT";
                 entities.Users.Add(userDB);
                 entities.SaveChanges();
-                childDTO.ID = clinicDb.ID;
+                childDTO.ID = childDB.ID;
                 //send email to parent
                 UserEmail.ParentEmail(childDTO);
                 // TODO: Generate Schedule here
                 List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
                 foreach (Vaccine v in vaccines)
                 {
-                    List<Dose> doses = v.Doses.OrderBy(x => x.ID).ToList();
+                    List<Dose> doses = v.Doses.OrderBy(i => i.DoseOrder).ToList();
                     
+                    int gap = Convert.ToInt32(v.MinAge);
                     foreach (Dose d in doses)
                     {
+                        gap = gap + Convert.ToInt32(d.GapInDays);
+                        DateTime currentDate = DateTime.Now.AddDays(gap);
+                        //DateTime currentDate = (childDB.DOB == null ? DateTime.Now.AddDays(gap) : Convert.ToDateTime(childDB.DOB).AddDays(gap);
                         Schedule cvd = new Schedule();
                         cvd.ChildId = childDTO.ID;
                         cvd.DoseId = d.ID;
@@ -73,7 +77,7 @@ namespace VaccineDose.Controllers
 
                         //List< DoseRule> doseToRules = d.DoseRules.ToList();
                         //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
-                        cvd.Date = DateTime.Now.AddDays(v.MinAge ?? 0);
+                        cvd.Date = currentDate;
 
                         entities.Schedules.Add(cvd);
                         entities.SaveChanges();
@@ -140,7 +144,7 @@ namespace VaccineDose.Controllers
                     return new Response<IEnumerable<ScheduleDTO>>(false, "Child not found", null);
                 else
                 {
-                    var dbSchedules = child.Schedules.ToList();
+                    var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
                     var schedulesDTO = Mapper.Map<List<ScheduleDTO>>(dbSchedules);
                     return new Response<IEnumerable<ScheduleDTO>>(true, null, schedulesDTO);
                 }

@@ -34,7 +34,7 @@ namespace VaccineDose.Controllers
             using (VDConnectionString entities = new VDConnectionString())
             {
                 var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
-                dbDose.Name = doseDTO.Name;
+                dbDose = Mapper.Map<DoseDTO, Dose>(doseDTO, dbDose);
                 entities.SaveChanges();
                 return new Response<DoseDTO>(true, null, doseDTO);
             }

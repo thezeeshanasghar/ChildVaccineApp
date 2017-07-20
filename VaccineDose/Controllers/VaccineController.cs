@@ -49,9 +49,7 @@ namespace VaccineDose.Controllers
             using (VDConnectionString entities = new VDConnectionString())
             {
                 var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
-                dbVaccine.Name = vaccineDTO.Name;
-                dbVaccine.MinAge = vaccineDTO.MinAge;
-                dbVaccine.MaxAge = vaccineDTO.MaxAge;
+                dbVaccine = Mapper.Map<VaccineDTO, Vaccine>(vaccineDTO, dbVaccine);
                 entities.SaveChanges();
                 return new Response<VaccineDTO>(true, null, vaccineDTO);
             }
@@ -87,21 +85,21 @@ namespace VaccineDose.Controllers
             }
         }
 
-        [Route("api/vaccine/{id}/dose-rules")]
-        public Response<IEnumerable<DoseRuleDTO>> GetDoseRules(int id)
-        {
-            using (VDConnectionString entities = new VDConnectionString())
-            {
-                var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
-                if (vaccine == null)
-                    return new Response<IEnumerable<DoseRuleDTO>>(false, "Vaccine not found", null);
-                else
-                {
-                    var dbDoseRules = vaccine.DoseRules.ToList();
-                    var doseRulesDTOs = Mapper.Map<List<DoseRuleDTO>>(dbDoseRules);
-                    return new Response<IEnumerable<DoseRuleDTO>>(true, null, doseRulesDTOs);
-                }
-            }
-        }
+        //[Route("api/vaccine/{id}/dose-rules")]
+        //public Response<IEnumerable<DoseRuleDTO>> GetDoseRules(int id)
+        //{
+        //    using (VDConnectionString entities = new VDConnectionString())
+        //    {
+        //        var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
+        //        if (vaccine == null)
+        //            return new Response<IEnumerable<DoseRuleDTO>>(false, "Vaccine not found", null);
+        //        else
+        //        {
+        //            var dbDoseRules = vaccine.DoseRules.ToList();
+        //            var doseRulesDTOs = Mapper.Map<List<DoseRuleDTO>>(dbDoseRules);
+        //            return new Response<IEnumerable<DoseRuleDTO>>(true, null, doseRulesDTOs);
+        //        }
+        //    }
+        //}
     }
 }

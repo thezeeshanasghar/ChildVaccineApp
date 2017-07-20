@@ -18,6 +18,8 @@ function loadData(id) {
                 html += '<tr>';
                 html += '<td>' + (key + 1) + '</td>';
                 html += '<td>' + item.Name + '</td>';
+                html += '<td>' + item.GapInDays + '</td>';
+                html += '<td>' + item.DoseOrder + '</td>';
                 html += '<td>' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
@@ -40,7 +42,7 @@ function DoseName() {
         success: function (result) {
             var DoseName = '';
             $.each(result.ResponseData, function (key, item) {
-                DoseName = result.ResponseData.Name + "-Dose";
+                DoseName = result.ResponseData.Name + " - Dose";
             });
             $("#Name").val(function(){
                 return this.value = DoseName;
@@ -59,6 +61,8 @@ function Add() {
     }
     var obj = {
         Name: $('#Name').val(),
+        GapInDays: $('#GapInDays').val(),
+        DoseOrder: $('#DoseOrder').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
@@ -81,6 +85,8 @@ function Add() {
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
     $('#Name').css('border-color', 'lightgrey');
+    $('#GapInDays').css('border-color', 'lightgrey');
+    $('#DoseOrder').css('border-color', 'lightgrey');
 
     $.ajax({
         url: "/api/dose/" + ID,
@@ -90,6 +96,8 @@ function getbyID(ID) {
         success: function (result) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
+            $('#GapInDays').val(result.ResponseData.GapInDays);
+            $('#DoseOrder').val(result.ResponseData.DoseOrder);
 
             $('#myModal').modal('show');
             $('#btnUpdate').show();
@@ -111,6 +119,8 @@ function Update() {
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
+        GapInDays: $('#GapInDays').val(),
+        DoseOrder: $('#DoseOrder').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
@@ -156,11 +166,15 @@ function Delele(ID) {
 function clearTextBox() {
     $('#ID').val("");
     $('#Name').val("");
+    $('#GapInDays').val("");
+    $('#DoseOrder').val("");
 
     $('#btnUpdate').hide();
     $('#btnAdd').show();
 
     $('#Name').css('border-color', 'lightgrey');
+    $('#GapInDays').css('border-color', 'lightgrey');
+    $('#DoseOrder').css('border-color', 'lightgrey');
 }
 
 
@@ -175,6 +189,22 @@ function validate() {
     }
     else {
         $('#Name').css('border-color', 'lightgrey');
+    }
+
+    if ($('#GapInDays').val().trim() == "") {
+        $('#GapInDays').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#GapInDays').css('border-color', 'lightgrey');
+    }
+
+    if ($('#DoseOrder').val().trim() == "") {
+        $('#DoseOrder').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#DoseOrder').css('border-color', 'lightgrey');
     }
 
     return isValid;

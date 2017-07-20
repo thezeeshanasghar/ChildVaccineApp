@@ -10,6 +10,8 @@ namespace VaccineDose
         public int ID { get; set; }
         public string Name { get; set; }
         public int VaccineID { get; set; }
+        public int GapInDays { get; set; }
+        public int DoseOrder { get; set; }
         //public virtual Vaccine Vaccine { get; set; }
     }
 }
