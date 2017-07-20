@@ -16,5 +16,7 @@ namespace VaccineDose
         public double Lat { get; set; }
         public double Long { get; set; }
         public int DoctorID { get; set; }
+        public bool IsOnline { get; set; }
+
     }
 }
