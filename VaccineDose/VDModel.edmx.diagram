@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="487e0368e5264d0cb617af7b0defbfb0" Name="Diagram1" ZoomLevel="76">
-        <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="3" PointY="9.25" />
+      <Diagram DiagramId="487e0368e5264d0cb617af7b0defbfb0" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="0.75" PointY="9.25" />
         <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="8.25" PointY="5" />
         <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="5.75" PointY="9" />
         <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="5.375" />
-        <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
         <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="9" PointY="10" />
         <AssociationConnector Association="VDModel.FK_Schedule_Child" />
         <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="5.125" />
         <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
+        <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="3" PointY="9.375" />
+        <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

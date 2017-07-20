@@ -34,7 +34,14 @@ namespace VaccineDose.Controllers
             using (VDConnectionString entities = new VDConnectionString())
             {
                 var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
-                dbClinic = Mapper.Map<ClinicDTO, Clinic>(clinicDTO, dbClinic);
+                if (clinicDTO.IsOnline)
+                {
+                    dbClinic.IsOnline = true;
+                }
+                else {
+                    clinicDTO.IsOnline = false;
+                    dbClinic = Mapper.Map<ClinicDTO, Clinic>(clinicDTO, dbClinic);
+                }
                 entities.SaveChanges();
                 return new Response<ClinicDTO>(true, null, clinicDTO);
             }

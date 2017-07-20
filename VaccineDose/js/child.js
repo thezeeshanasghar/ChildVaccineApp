@@ -23,7 +23,7 @@ function loadData() {
                         '</div>';
                     html += '<div class="col-md-6" style="padding:10px;">'
 
-                    html += '<p><b>' + item.Name + '</b></p>';
+                    html += '<p><h3>' + item.Name + ' '+ item.FatherName +'</h3>';
                     html += '<div style="margin:10px;">';
                     html += '<p class="glyphicon glyphicon-calendar">' +
                         '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
