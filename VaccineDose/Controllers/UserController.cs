@@ -14,44 +14,76 @@ namespace VaccineDose.Controllers
         #region C R U D
         public Response<IEnumerable<UserDTO>> Get()
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbUsers = entities.Users.ToList();
-                IEnumerable<UserDTO> userDTOs = Mapper.Map<IEnumerable<UserDTO>>(dbUsers);
-                return new Response<IEnumerable<UserDTO>>(true, null, userDTOs);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbUsers = entities.Users.ToList();
+                    IEnumerable<UserDTO> userDTOs = Mapper.Map<IEnumerable<UserDTO>>(dbUsers);
+                    return new Response<IEnumerable<UserDTO>>(true, null, userDTOs);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<IEnumerable<UserDTO>>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
         public Response<UserDTO> Get(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbUser = entities.Users.Where(c => c.ID == Id).FirstOrDefault();
-                UserDTO UserDTO = Mapper.Map<UserDTO>(dbUser);
-                return new Response<UserDTO>(true, null, UserDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbUser = entities.Users.Where(c => c.ID == Id).FirstOrDefault();
+                    UserDTO UserDTO = Mapper.Map<UserDTO>(dbUser);
+                    return new Response<UserDTO>(true, null, UserDTO);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
         public Response<UserDTO> Post(UserDTO UserDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                User dbUser = Mapper.Map<User>(UserDTO);
-                entities.Users.Add(dbUser);
-                entities.SaveChanges();
-                UserDTO.ID = dbUser.ID;
-                return new Response<UserDTO>(true, null, UserDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    User dbUser = Mapper.Map<User>(UserDTO);
+                    entities.Users.Add(dbUser);
+                    entities.SaveChanges();
+                    UserDTO.ID = dbUser.ID;
+                    return new Response<UserDTO>(true, null, UserDTO);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
         public Response<UserDTO> Put([FromBody] UserDTO UserDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbUser = entities.Users.Where(c => c.ID == UserDTO.ID).FirstOrDefault();
-                dbUser = Mapper.Map<UserDTO, User>(UserDTO, dbUser);
-                entities.SaveChanges();
-                return new Response<UserDTO>(true, null, UserDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbUser = entities.Users.Where(c => c.ID == UserDTO.ID).FirstOrDefault();
+                    dbUser = Mapper.Map<UserDTO, User>(UserDTO, dbUser);
+                    entities.SaveChanges();
+                    return new Response<UserDTO>(true, null, UserDTO);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
@@ -78,37 +110,50 @@ namespace VaccineDose.Controllers
         [Route("login")]
         public Response<UserDTO> login(UserDTO user)
         {
-
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
-                if (dbUser == null)
-                    return new Response<UserDTO>(false, "Invalid Mobilenumber/Password", null);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
+                    if (dbUser == null)
+                        return new Response<UserDTO>(false, "Invalid Mobilenumber/Password", null);
 
 
-                UserDTO userDTO = Mapper.Map<UserDTO>(dbUser);
-                if (userDTO.UserType.Equals("SUPERADMIN"))
+                    UserDTO userDTO = Mapper.Map<UserDTO>(dbUser);
+                    if (userDTO.UserType.Equals("SUPERADMIN"))
+                        return new Response<UserDTO>(true, null, userDTO);
+                    else if (userDTO.UserType.Equals("DOCTOR"))
+                    {
+                        var doctorDb = entities.Doctors.Where(x => x.MobileNo == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
+                        if (doctorDb == null)
+                            return new Response<UserDTO>(false, "Doctor not found.", null);
+                        else
+                            userDTO.DoctorID = doctorDb.ID;
+                    }
+                    else if (userDTO.UserType.Equals("PARENT"))
+                    {
+                        var childDB = entities.Children.Where(x => x.MobileNumber == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
+                        if (childDB == null)
+                            return new Response<UserDTO>(false, "Child not found.", null);
+                        else
+                            userDTO.ChildID = childDB.ID;
+                    }
+
                     return new Response<UserDTO>(true, null, userDTO);
-                else if (userDTO.UserType.Equals("DOCTOR"))
-                {
-                    var doctorDb = entities.Doctors.Where(x => x.MobileNo == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
-                    if (doctorDb == null)
-                        return new Response<UserDTO>(false, "Doctor not found.", null);
-                    else
-                        userDTO.DoctorID = doctorDb.ID;
                 }
-                else if (userDTO.UserType.Equals("PARENT"))
-                {
-                    var childDB = entities.Children.Where(x => x.MobileNumber == userDTO.MobileNumber).Where(x=>x.Password==userDTO.Password).FirstOrDefault();
-                    if (childDB == null)
-                        return new Response<UserDTO>(false, "Child not found.", null);
-                    else
-                        userDTO.ChildID = childDB.ID;
-                }
-
-                return new Response<UserDTO>(true, null, userDTO);
             }
+            catch(Exception e)
+            {
+                return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
 
+            }
+        }
+        private static string GetMessageFromExceptionObject(Exception ex)
+        {
+            String message = ex.Message;
+            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
+            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
+            return message;
         }
 
     }
