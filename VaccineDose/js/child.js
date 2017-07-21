@@ -1,6 +1,7 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
     loadData();
+  
 });
 
 //Load Data function  
@@ -47,6 +48,17 @@ function loadData() {
         }
     });
 }
+function PasswordGenerator(){
+    
+        var length = 4,
+            charset = "0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        return retVal;
+    
+}
 
 //Add Data Function   
 function Add() {
@@ -72,7 +84,7 @@ function Add() {
         PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
         MobileNumber: $('#MobileNumber').val(),
         PreferredDayOfWeek: result.join(','),
-        Password: $('#Password').val(),
+        Password:   PasswordGenerator(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
     };
@@ -101,8 +113,7 @@ function getbyID(ID) {
     $('#MobileNumber').css('border-color', 'lightgrey');
     $('#Gender').css('border-color', 'lightgrey');
     $('#City').css('border-color', 'lightgrey');
-    $('#Password').css('border-color', 'lightgrey');
-    $.ajax({
+     $.ajax({
         url: "/api/child/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
@@ -112,8 +123,7 @@ function getbyID(ID) {
             $('#Name').val(result.ResponseData.Name);
             $('#FatherName').val(result.ResponseData.FatherName);
             $('#Email').val(result.ResponseData.Email);
-            $('#Password').val(result.ResponseData.Password),
-            $('#DOB').val(result.ResponseData.DOB);
+             $('#DOB').val(result.ResponseData.DOB);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);  
@@ -176,7 +186,6 @@ function Update() {
         PreferredDayOfWeek: result.join(','),
         PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
-        Password: $('#Password').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
     };
@@ -198,8 +207,7 @@ function Update() {
             $("input:radio").attr("checked", false);
             $("input:checkbox").attr("checked", false);
             $("#City").val("");   
-            $('#Password').val("")
-
+            
             },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -237,7 +245,6 @@ function clearTextBox() {
     $("#Email").val("");
     $("#DOB").val("");
     $("#MobileNumber").val("");
-    $('#Password').val(""),
     //$("input:radio").attr("checked", false);
     $("#City").val("");
     $('#btnUpdate').hide();
