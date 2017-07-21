@@ -33,7 +33,7 @@ function loadData() {
                     html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
                  
                     html += '<div class="col-md-1">' +
-                        '<img  src="child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
+                        '<img  src="img/child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
                         '</div>';
                     html += '<div class="col-md-6" style="padding:10px;">'
 

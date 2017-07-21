@@ -288,21 +288,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="child.html" />
-    <Content Include="child.jpg" />
+    <Content Include="img\child.jpg" />
     <Content Include="clinic-selection.html" />
+    <Content Include="css\bootstrap.min.css" />
     <Content Include="doctor-signup.html" />
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
     <Content Include="dose-rules.html" />
     <Content Include="JqueryMobile\VaccineNav.html" />
     <Content Include="JqueryMobile\VaccineNav.js" />
+    <Content Include="js\bootstrap.min.js" />
     <Content Include="js\child.js" />
     <Content Include="js\clinic-selection.js" />
     <Content Include="js\common.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="img\favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="Global.asax" />
@@ -310,12 +312,13 @@
     <Content Include="js\clinic.js" />
     <Content Include="js\dose-rules.js" />
     <Content Include="js\dose.js" />
+    <Content Include="js\jquery.min.js" />
     <Content Include="js\login.js" />
     <Content Include="js\schedule.js" />
     <Content Include="login.html" />
     <Content Include="menu.html" />
     <Content Include="schedule.html" />
-    <Content Include="style.css" />
+    <Content Include="css\style.css" />
     <Content Include="dose.html" />
     <Content Include="un-authorize.html" />
     <Content Include="vaccine.html" />
@@ -341,6 +344,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
