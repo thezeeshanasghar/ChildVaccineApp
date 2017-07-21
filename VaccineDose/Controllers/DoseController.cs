@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using AutoMapper;
+using System;
+
+
 
 namespace VaccineDose.Controllers
 {
@@ -9,50 +12,89 @@ namespace VaccineDose.Controllers
         #region C R U D
         public Response<DoseDTO> Get(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
-                DoseDTO doseDTO = Mapper.Map<DoseDTO>(dbDose);
-                return new Response<DoseDTO>(true, null, doseDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
+                    DoseDTO doseDTO = Mapper.Map<DoseDTO>(dbDose);
+                    return new Response<DoseDTO>(true, null, doseDTO);
+                }
             }
-        }
+            catch (Exception e )
+            {
+                return new Response<DoseDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+         }
+
 
         public Response<DoseDTO> Post(DoseDTO doseDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                Dose doseDb = Mapper.Map<Dose>(doseDTO);
-                entities.Doses.Add(doseDb);
-                entities.SaveChanges();
-                doseDTO.ID = doseDb.ID;
-                return new Response<DoseDTO>(true, null, doseDTO);
-                
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    Dose doseDb = Mapper.Map<Dose>(doseDTO);
+                    entities.Doses.Add(doseDb);
+                    entities.SaveChanges();
+                    doseDTO.ID = doseDb.ID;
+                    return new Response<DoseDTO>(true, null, doseDTO);
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<DoseDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
         public Response<DoseDTO> Put(int Id, DoseDTO doseDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
-                dbDose = Mapper.Map<DoseDTO, Dose>(doseDTO, dbDose);
-                entities.SaveChanges();
-                return new Response<DoseDTO>(true, null, doseDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
+                    dbDose = Mapper.Map<DoseDTO, Dose>(doseDTO, dbDose);
+                    entities.SaveChanges();
+                    return new Response<DoseDTO>(true, null, doseDTO);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<DoseDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
 
         public Response<string> Delete(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
-                entities.Doses.Remove(dbDose);
-                entities.SaveChanges();
-                return new Response<string>(true, null, "record deleted");
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
+                    entities.Doses.Remove(dbDose);
+                    entities.SaveChanges();
+                    return new Response<string>(true, null, "record deleted");
+                }
+            }
+            catch(Exception ex)
+            {
+                if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+                    return new Response<string>(false, "Cannot delete child because it schedule exits. Delete the child schedule first.", null);
+                else
+                    return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
             }
         }
 
         #endregion
+        private static string GetMessageFromExceptionObject(Exception ex)
+        {
+            String message = ex.Message;
+            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
+            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
+            return message;
+        }
 
-        
+
     }
 }

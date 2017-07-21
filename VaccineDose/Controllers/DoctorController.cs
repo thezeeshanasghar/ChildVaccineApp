@@ -13,31 +13,55 @@ namespace VaccineDose.Controllers
         #region C R U D
         public Response<IEnumerable<DoctorDTO>> Get()
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDoctor = entities.Doctors.Where(x=>x.IsApproved==true).ToList();
-                IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
-                return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
+                    IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
+                    return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
         [Route("~/api/doctor/unapproved")]
         public Response<IEnumerable<DoctorDTO>> GetUnApproved()
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDoctor = entities.Doctors.Where(x => x.IsApproved == false).ToList();
-                IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
-                return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(x => x.IsApproved == false).ToList();
+                    IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
+                    return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
         public Response<DoctorDTO> Get(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
-                DoctorDTO doctorDTO = Mapper.Map<DoctorDTO>(dbDoctor);
-                return new Response<DoctorDTO>(true, null, doctorDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
+                    DoctorDTO doctorDTO = Mapper.Map<DoctorDTO>(dbDoctor);
+                    return new Response<DoctorDTO>(true, null, doctorDTO);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
@@ -75,24 +99,44 @@ namespace VaccineDose.Controllers
        
         public Response<DoctorDTO> Put(int Id, DoctorDTO doctorDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
-                dbDoctor = Mapper.Map<DoctorDTO,Doctor>(doctorDTO,dbDoctor);
-                //entities.Entry<Doctor>(dbDoctor).State = System.Data.Entity.EntityState.Modified;
-                entities.SaveChanges();
-                return new Response<DoctorDTO>(true, null, doctorDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
+                    dbDoctor = Mapper.Map<DoctorDTO, Doctor>(doctorDTO, dbDoctor);
+                    //entities.Entry<Doctor>(dbDoctor).State = System.Data.Entity.EntityState.Modified;
+                    entities.SaveChanges();
+                    return new Response<DoctorDTO>(true, null, doctorDTO);
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
         public Response<string> Delete(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
-                entities.Doctors.Remove(dbDoctor);
-                entities.SaveChanges();
-                return new Response<string>(true, null, "record deleted");
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
+                    entities.Doctors.Remove(dbDoctor);
+                    entities.SaveChanges();
+                    return new Response<string>(true, null, "record deleted");
+                }
+            }
+            catch(Exception ex)
+            {
+                {
+                    if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+                        return new Response<string>(false, "Cannot delete child because it schedule exits. Delete the child schedule first.", null);
+                    else
+                        return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
+                }
             }
         }
 
@@ -102,31 +146,53 @@ namespace VaccineDose.Controllers
         [HttpGet]
         public Response<string> Approve(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
-                dbDoctor.IsApproved = true;
-                entities.SaveChanges();
-                return new Response<string>(true, null, "approved");
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
+                    dbDoctor.IsApproved = true;
+                    entities.SaveChanges();
+                    return new Response<string>(true, null, "approved");
+                }
+            }
+            catch(Exception e)
+            {
+                return new Response<string>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
 
         [Route("api/doctor/{id}/clinics")]
         public Response<IEnumerable<ClinicDTO>> GetClinics(int id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var doctor = entities.Doctors.FirstOrDefault(c => c.ID == id);
-                if (doctor == null)
-                    return new Response<IEnumerable<ClinicDTO>>(false, "Doctor not found", null);
-                else
+                using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbClinics = doctor.Clinics.ToList();
-                    var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
-                    return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
+                    var doctor = entities.Doctors.FirstOrDefault(c => c.ID == id);
+                    if (doctor == null)
+                        return new Response<IEnumerable<ClinicDTO>>(false, "Doctor not found", null);
+                    else
+                    {
+                        var dbClinics = doctor.Clinics.ToList();
+                        var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
+                        return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
+                    }
                 }
             }
-        }
+            catch(Exception e)
+            {
+                return new Response<IEnumerable<ClinicDTO>>(false, GetMessageFromExceptionObject(e), null);
 
+            }
+        }
+        private static string GetMessageFromExceptionObject(Exception ex)
+        {
+            String message = ex.Message;
+            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
+            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
+            return message;
+        }
     }
 }
