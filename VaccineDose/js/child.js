@@ -2,7 +2,18 @@
 $(document).ready(function () {
     loadData();
 });
-
+ 
+function DoctorId() {
+    var id = parseInt(getParameterByName("id")) || 0;
+    if (id != 0)
+        return id;
+    else {
+        var id = localStorage.getItem('DoctorID');
+        if (id)
+            return id;
+        else 0;
+    }
+}
 //Load Data function  
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
@@ -75,6 +86,7 @@ function Add() {
         Password: $('#Password').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
+        DoctorID: DoctorId()
     };
     $.ajax({
         url: "/api/child",
