@@ -34,72 +34,93 @@ namespace VaccineDose.Controllers
 
         public Response<ChildDTO> Get(int Id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
-                ChildDTO ClinicDTO = Mapper.Map<ChildDTO>(dbChild);
-                return new Response<ChildDTO>(true, null, ClinicDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
+                    ChildDTO ClinicDTO = Mapper.Map<ChildDTO>(dbChild);
+                    return new Response<ChildDTO>(true, null, ClinicDTO);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
 
         public Response<ChildDTO> Post(ChildDTO childDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                Child childDB = Mapper.Map<Child>(childDTO);
-                entities.Children.Add(childDB);
-                User userDB = new User();
-                userDB.MobileNumber = childDTO.MobileNumber;
-                userDB.Password = childDTO.Password;
-                userDB.UserType = "PARENT";
-                entities.Users.Add(userDB);
-                entities.SaveChanges();
-                childDTO.ID = childDB.ID;
-                //send email to parent
-                UserEmail.ParentEmail(childDTO);
-                // TODO: Generate Schedule here
-                List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
-                foreach (Vaccine v in vaccines)
+                using (VDConnectionString entities = new VDConnectionString())
                 {
-                    List<Dose> doses = v.Doses.OrderBy(i => i.DoseOrder).ToList();
-                    
-                    int gap = Convert.ToInt32(v.MinAge);
-                    foreach (Dose d in doses)
+                    Child childDB = Mapper.Map<Child>(childDTO);
+                    entities.Children.Add(childDB);
+                    User userDB = new User();
+                    userDB.MobileNumber = childDTO.MobileNumber;
+                    userDB.Password = childDTO.Password;
+                    userDB.UserType = "PARENT";
+                    entities.Users.Add(userDB);
+                    entities.SaveChanges();
+                    childDTO.ID = childDB.ID;
+                    //send email to parent
+                    UserEmail.ParentEmail(childDTO);
+                    // TODO: Generate Schedule here
+                    List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
+                    foreach (Vaccine v in vaccines)
                     {
-                        gap = gap + Convert.ToInt32(d.GapInDays);
-                        DateTime currentDate = DateTime.Now.AddDays(gap);
-                        //DateTime currentDate = (childDB.DOB == null ? DateTime.Now.AddDays(gap) : Convert.ToDateTime(childDB.DOB).AddDays(gap);
-                        Schedule cvd = new Schedule();
-                        cvd.ChildId = childDTO.ID;
-                        cvd.DoseId = d.ID;
-                        cvd.IsDone = false;
+                        List<Dose> doses = v.Doses.OrderBy(i => i.DoseOrder).ToList();
+
+                        int gap = Convert.ToInt32(v.MinAge);
+                        foreach (Dose d in doses)
+                        {
+                            gap = gap + Convert.ToInt32(d.GapInDays);
+                            DateTime currentDate = DateTime.Now.AddDays(gap);
+                            //DateTime currentDate = (childDB.DOB == null ? DateTime.Now.AddDays(gap) : Convert.ToDateTime(childDB.DOB).AddDays(gap);
+                            Schedule cvd = new Schedule();
+                            cvd.ChildId = childDTO.ID;
+                            cvd.DoseId = d.ID;
+                            cvd.IsDone = false;
 
 
-                        //List< DoseRule> doseToRules = d.DoseRules.ToList();
-                        //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
-                        cvd.Date = currentDate;
+                            //List< DoseRule> doseToRules = d.DoseRules.ToList();
+                            //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
+                            cvd.Date = currentDate;
 
-                        entities.Schedules.Add(cvd);
-                        entities.SaveChanges();
+                            entities.Schedules.Add(cvd);
+                            entities.SaveChanges();
+                        }
                     }
+                    List<Dose> doses1 = entities.Doses.ToList();
+
+
+
+
+                    return new Response<ChildDTO>(true, null, childDTO);
                 }
-                List<Dose> doses1 = entities.Doses.ToList();
-
-
-
-
-                return new Response<ChildDTO>(true, null, childDTO);
+            }
+            catch (Exception e)
+            {
+                return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
 
         public Response<ChildDTO> Put([FromBody] ChildDTO childDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
-                dbChild = Mapper.Map<ChildDTO, Child>(childDTO, dbChild);
-                entities.SaveChanges();
-                return new Response<ChildDTO>(true, null, childDTO);
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
+                    dbChild = Mapper.Map<ChildDTO, Child>(childDTO, dbChild);
+                    entities.SaveChanges();
+                    return new Response<ChildDTO>(true, null, childDTO);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
 
@@ -137,17 +158,25 @@ namespace VaccineDose.Controllers
         [Route("api/child/{id}/schedule")]
         public Response<IEnumerable<ScheduleDTO>> GetChildSchedule(int id)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-                var child = entities.Children.FirstOrDefault(c => c.ID == id);
-                if (child == null)
-                    return new Response<IEnumerable<ScheduleDTO>>(false, "Child not found", null);
-                else
+                using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
-                    var schedulesDTO = Mapper.Map<List<ScheduleDTO>>(dbSchedules);
-                    return new Response<IEnumerable<ScheduleDTO>>(true, null, schedulesDTO);
+                    var child = entities.Children.FirstOrDefault(c => c.ID == id);
+                    if (child == null)
+                        return new Response<IEnumerable<ScheduleDTO>>(false, "Child not found", null);
+                    else
+                    {
+                        var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
+                        var schedulesDTO = Mapper.Map<List<ScheduleDTO>>(dbSchedules);
+                        return new Response<IEnumerable<ScheduleDTO>>(true, null, schedulesDTO);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
     }
