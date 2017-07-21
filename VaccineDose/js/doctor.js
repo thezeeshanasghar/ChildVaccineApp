@@ -68,6 +68,17 @@ function loadData() {
         }
     });
 }
+function PasswordGenerator() {
+
+    var length = 4,
+        charset = "0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+
+}
 
 //Add Data Function   
 function Add() {
@@ -79,7 +90,7 @@ function Add() {
         FirstName: $('#FirstName').val(),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
-        Password: $('#Password').val(),
+        Password: PasswordGenerator(),
         MobileNo: $('#MobileNo').val(),
         PMDC: $('#PMDC').val(),
         PhoneNo: $("#PhoneNo").val(),
@@ -107,8 +118,7 @@ function getbyID(ID) {
     $('#FirstName').css('border-color', 'lightgrey');
     $('#LastName').css('border-color', 'lightgrey');
     $('#Email').css('border-color', 'lightgrey');
-    $('#Password').css('border-color', 'lightgrey');
-    $('#MobileNo').css('border-color', 'lightgrey');
+     $('#MobileNo').css('border-color', 'lightgrey');
     $('#PMDC').css('border-color', 'lightgrey');
     
     $.ajax({
@@ -121,8 +131,7 @@ function getbyID(ID) {
             $('#FirstName').val(result.ResponseData.FirstName);
             $('#LastName').val(result.ResponseData.LastName);
             $('#Email').val(result.ResponseData.Email);
-            $('#Password').val(result.ResponseData.Password);
-            $('#MobileNo').val(result.ResponseData.MobileNo);
+             $('#MobileNo').val(result.ResponseData.MobileNo);
             $('#PhoneNo').val(result.ResponseData.PhoneNo);
             $('#PMDC').val(result.ResponseData.PMDC);
             $("#ShowPhone").attr("checked", result.ResponseData.ShowPhone);
@@ -149,7 +158,6 @@ function Update() {
         FirstName: $('#FirstName').val(),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
-        Password: $('#Password').val(),
         MobileNo: $('#MobileNo').val(),
         PMDC: $('#PMDC').val(),
         PhoneNo: $("#PhoneNo").val(),
@@ -229,7 +237,6 @@ function clearTextBox() {
     $('#FirstName').css('border-color', 'lightgrey');
     $('#LastName').css('border-color', 'lightgrey');
     $('#Email').css('border-color', 'lightgrey');
-    $('#Password').css('border-color', 'lightgrey');
     $('#MobileNo').css('border-color', 'lightgrey');
     $('#PMDC').css('border-color', 'lightgrey');
 }
@@ -262,15 +269,7 @@ function validate() {
     else {
         $('#Email').css('border-color', 'lightgrey');
     }
-
-    if ($('#Password').val().trim() == "") {
-        $('#Password').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Password').css('border-color', 'lightgrey');
-    }
-
+ 
     if ($('#MobileNo').val().trim() == "") {
         $('#MobileNo').css('border-color', 'Red');
         isValid = false;
