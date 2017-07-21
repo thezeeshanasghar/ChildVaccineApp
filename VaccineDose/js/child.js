@@ -1,7 +1,7 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
     loadData();
-  
+    DisableOffDays();
 });
  
 function DoctorId() {
@@ -61,16 +61,43 @@ function loadData() {
 }
 function PasswordGenerator(){
     
-        var length = 4,
-            charset = "0123456789",
-            retVal = "";
-        for (var i = 0, n = charset.length; i < length; ++i) {
-            retVal += charset.charAt(Math.floor(Math.random() * n));
-        }
-        return retVal;
+    var length = 4,
+        charset = "0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
     
 }
-
+function DisableOffDays() {
+    $.ajax({
+        url: 'api/clinic/doctor-clinic/' + DoctorId(),
+        type: 'Get',
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var OffDays = result.ResponseData.OffDays.split(",");
+            if ($.inArray("Monday", OffDays) != -1)
+                $("#Monday").attr('disabled', true);
+            if ($.inArray("Tuesday", OffDays) != -1)
+                $("#Tuesday").attr('disabled', true);
+            if ($.inArray("Wednesday", OffDays) != -1)
+                $("#Wednesday").attr('disabled', true);
+            if ($.inArray("Thursday", OffDays) != -1)
+                $("#Thursday").attr('disabled', true);
+            if ($.inArray("Friday", OffDays) != -1)
+                $("#Friday").attr('disabled', true);
+            if ($.inArray("Saturday", OffDays) != -1)
+                $("#Saturday").attr('disabled', true);
+            if ($.inArray("Sunday", OffDays) != -1)
+                $("#Sunday").attr('disabled', true);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+        });
+}
 //Add Data Function   
 function Add() {
     var res = validate();
@@ -84,7 +111,7 @@ function Add() {
         console.log(result);
     });
 
-     var obj = {
+    var obj = {
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
@@ -125,7 +152,7 @@ function getbyID(ID) {
     $('#MobileNumber').css('border-color', 'lightgrey');
     $('#Gender').css('border-color', 'lightgrey');
     $('#City').css('border-color', 'lightgrey');
-     $.ajax({
+    $.ajax({
         url: "/api/child/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
@@ -135,7 +162,7 @@ function getbyID(ID) {
             $('#Name').val(result.ResponseData.Name);
             $('#FatherName').val(result.ResponseData.FatherName);
             $('#Email').val(result.ResponseData.Email);
-             $('#DOB').val(result.ResponseData.DOB);
+            $('#DOB').val(result.ResponseData.DOB);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);  
@@ -220,7 +247,7 @@ function Update() {
             $("input:checkbox").attr("checked", false);
             $("#City").val("");   
             
-            },
+        },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
