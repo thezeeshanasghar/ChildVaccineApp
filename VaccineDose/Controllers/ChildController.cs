@@ -57,15 +57,18 @@ namespace VaccineDose.Controllers
                 {
                     Child childDB = Mapper.Map<Child>(childDTO);
                     entities.Children.Add(childDB);
+
                     User userDB = new User();
                     userDB.MobileNumber = childDTO.MobileNumber;
                     userDB.Password = childDTO.Password;
                     userDB.UserType = "PARENT";
                     entities.Users.Add(userDB);
                     entities.SaveChanges();
+
                     childDTO.ID = childDB.ID;
                     //send email to parent
                     UserEmail.ParentEmail(childDTO);
+                    
                     // TODO: Generate Schedule here
                     List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
                     foreach (Vaccine v in vaccines)
@@ -76,27 +79,19 @@ namespace VaccineDose.Controllers
                         foreach (Dose d in doses)
                         {
                             gap = gap + Convert.ToInt32(d.GapInDays);
-                            DateTime currentDate = DateTime.Now.AddDays(gap);
-                            //DateTime currentDate = (childDB.DOB == null ? DateTime.Now.AddDays(gap) : Convert.ToDateTime(childDB.DOB).AddDays(gap);
+                            //DateTime currentDate = DateTime.Now.AddDays(gap);
+                            DateTime currentDate = childDB.DOB == null ? DateTime.Now.AddDays(gap) : Convert.ToDateTime(childDB.DOB).AddDays(gap);
                             Schedule cvd = new Schedule();
                             cvd.ChildId = childDTO.ID;
                             cvd.DoseId = d.ID;
                             cvd.IsDone = false;
 
-
-                            //List< DoseRule> doseToRules = d.DoseRules.ToList();
-                            //cvd.Date = DateTime.Now.AddDays( doseToRules[0].Days );
                             cvd.Date = currentDate;
 
                             entities.Schedules.Add(cvd);
                             entities.SaveChanges();
                         }
                     }
-                    List<Dose> doses1 = entities.Doses.ToList();
-
-
-
-
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
             }
