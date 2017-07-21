@@ -17,7 +17,9 @@ function loadData() {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
                 $.each(result.ResponseData, function (key, item) {
+                    html += '<a href="schedule.html?id=' + item.ID + '">';
                     html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
+                 
                     html += '<div class="col-md-1">' +
                         '<img  src="child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
                         '</div>';
@@ -30,10 +32,10 @@ function loadData() {
                         '</br> <p class="glyphicon glyphicon-earphone">' +
                         '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
                     html += '</div>';
-                    html +='<div class="col-md-4">' +'<a href="schedule.html?id=' + item.ID + '">Schedule</a> | ' +
+                    html +='<div class="col-md-4">' +
                       '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                       '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
-                    html += '</div></div>';
+                    html += '</div></div></a>';
 
                 });
                 $("#childrecords").html(html);

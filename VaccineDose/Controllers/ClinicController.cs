@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using AutoMapper;
+
+using System.Data.Entity;
 using System;
 
 namespace VaccineDose.Controllers
@@ -37,13 +39,11 @@ namespace VaccineDose.Controllers
                     entities.SaveChanges();
                     clinicDTO.ID = clinicDb.ID;
                     return new Response<ClinicDTO>(true, null, clinicDTO);
-
                 }
             }
             catch(Exception e)
             {
                 return new Response<ClinicDTO>(false, GetMessageFromExceptionObject(e), null);
-
             }
         }
         public Response<ClinicDTO> Put(int Id, ClinicDTO clinicDTO)
@@ -95,6 +95,39 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
+        [HttpPut]
+        [Route("api/clinic/editClinic")]
+        public Response<ClinicDTO> EditClinic(ClinicDTO clinicDTO)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbClinic = entities.Clinics.Where(c => c.ID == clinicDTO.ID).FirstOrDefault();
+                    if (clinicDTO.IsOnline)
+                    {
+                        dbClinic.IsOnline = true;
+                        
+                    }
+
+                    var clinicList = entities.Clinics.Where(x => x.DoctorID == clinicDTO.DoctorID).Where(x => x.ID != clinicDTO.ID).ToList();
+                    if (clinicList.Count != 0)
+                        foreach (var clinic in clinicList)
+                        {
+                            clinic.IsOnline = false;
+                            entities.Clinics.Attach(clinic);
+                            entities.Entry(clinic).State = EntityState.Modified;
+                         }
+                    entities.SaveChanges();
+                    return new Response<ClinicDTO>(true, null, clinicDTO);
+                }
+            }
+            catch(Exception ex)
+            {
+                return new Response<ClinicDTO>(false, ex.Message, null);
+            }
+           
+        }
 
         private static string GetMessageFromExceptionObject(Exception ex)
         {
@@ -103,5 +136,6 @@ namespace VaccineDose.Controllers
             message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
             return message;
         }
+
     }
 }

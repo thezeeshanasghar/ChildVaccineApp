@@ -27,12 +27,12 @@ function loadData(id) {
             var html = '';
             $.each(result.ResponseData, function (key, item) {
                 html += '<tr>';
-                html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.OffDays + '</td>';
-                html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
-                html += '<td>' +
-                    '<a href="#" onclick="SelectedClinic(' + item.ID + ')">Select</a>';
+                //html += '<td>' + (key + 1) + '</td>';
+                html += '<td><a href="#" onclick="SelectedClinic(' + item.ID + ')">' + item.Name + '</a></td>';
+                //html += '<td>' + item.OffDays + '</td>';
+                //html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
+                //html += '<td>' +
+                   
                 html += '</tr>';
             });
             $('.tbody').html(html);
@@ -50,7 +50,7 @@ function SelectedClinic(Id) {
         DoctorID:DoctorId()
      }
     $.ajax({
-        url: "/api/clinic/" + Id,
+        url: "/api/clinic/editClinic/",
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
