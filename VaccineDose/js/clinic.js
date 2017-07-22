@@ -20,7 +20,7 @@ function DoctorId() {
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: "/api/doctor/" + id + "/clinics",
+        url: SERVER + "doctor/" +id + "/clinics",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -75,7 +75,7 @@ function Add() {
         DoctorID: DoctorId()
     };
     $.ajax({
-        url: "/api/clinic",
+        url: SERVER + "clinic",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -98,7 +98,7 @@ function getbyID(ID) {
     $('#EndTime').css('border-color', 'lightgrey');
 
     $.ajax({
-        url: "/api/clinic/" + ID,
+        url: SERVER + "clinic/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -168,7 +168,7 @@ function Update() {
         DoctorID: DoctorId()
     };
     $.ajax({
-        url: "/api/clinic/" + $('#ID').val(),
+        url: SERVER + "clinic/" + $('#ID').val(),
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -196,7 +196,7 @@ function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: "/api/clinic/" + ID,
+            url: SERVER + "clinic/" + ID,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",

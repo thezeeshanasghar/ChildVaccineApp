@@ -19,7 +19,7 @@ function GetDoctorIdFromUrlOrLocalStorage() {
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: "/api/child",
+        url: SERVER + "child",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -72,7 +72,7 @@ function PasswordGenerator() {
 }
 function DisableOffDays() {
     $.ajax({
-        url: 'api/doctor/' + GetDoctorIdFromUrlOrLocalStorage() + '/online-clinic',
+        url: SERVER + 'clinic/doctor-clinic/' + GetDoctorIdFromUrlOrLocalStorage(),
         type: 'Get',
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -133,7 +133,7 @@ function Add() {
         GetDoctorIdFromUrlOrLocalStorage: GetDoctorIdFromUrlOrLocalStorage()
     };
     $.ajax({
-        url: "/api/child",
+        url: SERVER + "child",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -158,7 +158,7 @@ function getbyID(ID) {
     $('#Gender').css('border-color', 'lightgrey');
     $('#City').css('border-color', 'lightgrey');
     $.ajax({
-        url: "/api/child/" + ID,
+        url: SERVER + "child/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -234,7 +234,7 @@ function Update() {
         City: $('#City').find(":selected").text(),
     };
     $.ajax({
-        url: "/api/child/",
+        url: SERVER + "child/",
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -264,7 +264,7 @@ function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: "/api/child/" + ID,
+            url: SERVER + "child/" + ID,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",

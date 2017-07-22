@@ -8,7 +8,7 @@ $(document).ready(function () {
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: "/api/child/" + id + "/schedule",
+        url: SERVER + "child/" + id + "/schedule",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -19,7 +19,7 @@ function loadData(id) {
                 var dose = '';
                
                 $.ajax({
-                    url: "/api/dose/" + item.DoseId,
+                    url: SERVER + "dose/" + item.DoseId,
                     typr: "GET",
                     contentType: "application/json;charset=UTF-8",
                     async: false,
