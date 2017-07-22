@@ -24,7 +24,7 @@ namespace VaccineDose.Controllers
                     return new Response<IEnumerable<VaccineDTO>>(true, null, vaccineDTOs);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<IEnumerable<VaccineDTO>>(false, GetMessageFromExceptionObject(e), null);
 
@@ -42,7 +42,7 @@ namespace VaccineDose.Controllers
                     return new Response<VaccineDTO>(true, null, vaccineDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<VaccineDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -65,7 +65,7 @@ namespace VaccineDose.Controllers
 
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<VaccineDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -83,7 +83,7 @@ namespace VaccineDose.Controllers
                     return new Response<VaccineDTO>(true, null, vaccineDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<VaccineDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -102,14 +102,12 @@ namespace VaccineDose.Controllers
                     return new Response<string>(true, null, "record deleted");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                {
-                    if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
-                        return new Response<string>(false, "Cannot delete child because it schedule exits. Delete the child schedule first.", null);
-                    else
-                        return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
-                }
+                if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+                    return new Response<string>(false, "Cannot delete vaccine because it's doses exits. Delete the doses first.", null);
+                else
+                    return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
             }
         }
 
@@ -134,7 +132,7 @@ namespace VaccineDose.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new Response<IEnumerable<DoseDTO>>(false, GetMessageFromExceptionObject(ex), null);
 

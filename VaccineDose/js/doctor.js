@@ -9,7 +9,7 @@ function loadData() {
 
     // Get approved doctors
     $.ajax({
-        url: "/api/doctor",
+        url: SERVER + "doctor",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -25,6 +25,7 @@ function loadData() {
                 
                 html += '<td>' +
                     '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
+                    '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
@@ -39,7 +40,7 @@ function loadData() {
 
     // Get unapproved doctors
     $.ajax({
-        url: "/api/doctor/unapproved",
+        url: SERVER + "doctor/unapproved",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -68,17 +69,6 @@ function loadData() {
         }
     });
 }
-function PasswordGenerator() {
-
-    var length = 4,
-        charset = "0123456789",
-        retVal = "";
-    for (var i = 0, n = charset.length; i < length; ++i) {
-        retVal += charset.charAt(Math.floor(Math.random() * n));
-    }
-    return retVal;
-
-}
 
 //Add Data Function   
 function Add() {
@@ -98,7 +88,7 @@ function Add() {
         ShowMobile: $("#ShowMobile").is(":checked"),
     };
     $.ajax({
-        url: "/api/doctor",
+        url: SERVER + "doctor",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -122,7 +112,7 @@ function getbyID(ID) {
     $('#PMDC').css('border-color', 'lightgrey');
     
     $.ajax({
-        url: "/api/doctor/" + ID,
+        url: SERVER + "doctor/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -165,7 +155,7 @@ function Update() {
         ShowMobile: $("#ShowMobile").is(":checked"),
     };
     $.ajax({
-        url: "/api/doctor/" + $('#ID').val(),
+        url: SERVER + "doctor/" + $('#ID').val(),
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -187,7 +177,7 @@ function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: "/api/doctor/" + ID,
+            url: SERVER + "doctor/" + ID,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
@@ -206,7 +196,7 @@ function Approve(ID) {
     var ans = confirm("Are you sure you want to approve ?");
     if (ans) {
         $.ajax({
-            url: "/api/doctor/approve/" + ID,
+            url: SERVER + "doctor/approve/" + ID,
             type: "GET",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
