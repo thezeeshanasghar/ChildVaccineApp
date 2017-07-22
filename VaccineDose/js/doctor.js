@@ -25,6 +25,7 @@ function loadData() {
                 
                 html += '<td>' +
                     '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
+                    '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
