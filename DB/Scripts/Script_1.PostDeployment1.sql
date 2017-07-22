@@ -18,27 +18,21 @@ INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
 ('Rota Virus', 42, 70);
 GO
 
-INSERT INTO Dose (Name, VaccineID) VALUES
-('BCG - Dose 1', 1),
-('Hepatitis B', 2),
-('Polio - Dose 1', 3),
-('Polio - Dose 2', 3),
-('Polio - Dose 3', 3),
-('Polio - Dose 4', 3),
-('Pentavalent - Dose 1', 4),
-('Pentavalent - Dose 2', 4),
-('Pentavalent - Dose 3', 4),
-('Phneumococal - Dose 1', 5),
-('Phneumococal - Dose 2', 5),
-('Phneumococal - Dose 3', 5),
-('Rota Virus - Dose 1', 6),
-('Rota Virus - Dose 2', 6);
-GO
-
-INSERT INTO DoseRule (DoseFrom, DoseTo, VaccineID, [Days]) VALUES
-(3,4,3,40),
-(4,5,3,25),
-(5,6,3,25);
+INSERT INTO Dose (Name,GapInDays, DoseOrder, VaccineID) VALUES
+('BCG - Dose 1',0,1, 1),
+('Hepatitis B',0 , 1, 2),
+('Polio - Dose 1', 0 , 1, 3),
+('Polio - Dose 2', 45 , 2, 3),
+('Polio - Dose 3', 25 , 3, 3),
+('Polio - Dose 4', 25 , 4, 3),
+('Pentavalent - Dose 1', 42 , 1, 4),
+('Pentavalent - Dose 2', 70,2,  4),
+('Pentavalent - Dose 3', 98,3, 4),
+('Phneumococal - Dose 1',42,1, 5),
+('Phneumococal - Dose 2',70,2, 5),
+('Phneumococal - Dose 3',14,3, 5),
+('Rota Virus - Dose 1', 42,1,  6),
+('Rota Virus - Dose 2', 70,2, 6);
 GO
 
 INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES
