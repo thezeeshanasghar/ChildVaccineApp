@@ -9,7 +9,7 @@ function Login() {
             DoctorID:"0"
         }
         $.ajax({
-            url: 'api/user/login',
+            url: SERVER + 'user/login',
             type: 'post',
             data: JSON.stringify(obj),
             contentType: "application/json;charset=utf-8",
