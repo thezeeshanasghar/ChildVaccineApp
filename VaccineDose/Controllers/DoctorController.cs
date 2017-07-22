@@ -8,7 +8,7 @@ using VaccineDose.App_Code;
 
 namespace VaccineDose.Controllers
 {
-    public class DoctorController : ApiController
+    public class DoctorController : BaseController
     {
         #region C R U D
         public Response<IEnumerable<DoctorDTO>> Get()
@@ -187,12 +187,6 @@ namespace VaccineDose.Controllers
 
             }
         }
-        private static string GetMessageFromExceptionObject(Exception ex)
-        {
-            String message = ex.Message;
-            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
-            return message;
-        }
+      
     }
 }

@@ -9,7 +9,7 @@ using System;
 
 namespace VaccineDose.Controllers
 {
-    public class VaccineController : ApiController
+    public class VaccineController : BaseController
     {
         #region C R U D
 
@@ -114,13 +114,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
-        private static string GetMessageFromExceptionObject(Exception ex)
-        {
-            String message = ex.Message;
-            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
-            return message;
-        }
+       
 
         [Route("api/vaccine/{id}/dosses")]
         public Response<IEnumerable<DoseDTO>> GetDosses(int id)

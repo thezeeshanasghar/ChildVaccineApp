@@ -11,7 +11,7 @@ using VaccineDose.Model;
 namespace VaccineDose.Controllers
 {
     //[RoutePrefix("api/child")]
-    public class ChildController : ApiController
+    public class ChildController : BaseController
     {
         #region C R U D
         public Response<IEnumerable<ChildDTO>> Get()
@@ -140,13 +140,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        private static string GetMessageFromExceptionObject(Exception ex)
-        {
-            String message = ex.Message;
-            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
-            return message;
-        }
+   
 
         #endregion
 

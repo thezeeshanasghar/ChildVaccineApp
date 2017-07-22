@@ -7,7 +7,7 @@ using System;
 
 namespace VaccineDose.Controllers
 {
-    public class ClinicController : ApiController
+    public class ClinicController : BaseController
     {
         #region C R U D
         public Response<ClinicDTO> Get(int Id)
@@ -129,32 +129,6 @@ namespace VaccineDose.Controllers
            
         }
        
-        [HttpGet]
-        [Route("api/clinic/doctor-clinic/{id}")]
-        public Response<ClinicDTO> DoctorClinic(int id)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-
-                    var dbClinic = entities.Clinics.Where(x => x.DoctorID == id).Where(x => x.IsOnline==true).FirstOrDefault();
-                    var clinicDTO = Mapper.Map<ClinicDTO>(dbClinic);
-                      return new Response<ClinicDTO>(true, null, clinicDTO);
-                }
-            }
-            catch (Exception ex)
-            {
-                return new Response<ClinicDTO>(false, ex.Message, null);
-            }
-        }
-        private static string GetMessageFromExceptionObject(Exception ex)
-        {
-            String message = ex.Message;
-            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
-            return message;
-        }
-
+        
     }
 }
