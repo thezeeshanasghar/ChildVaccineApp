@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/bootstrap-timepicker.min.css" rel="stylesheet" />
     <link rel="icon" href="img/favicon.ico">
     <style>
         #Location {
@@ -128,18 +129,24 @@
                             
                             <div class="form-group">
                                 <label for="StartTime">Strat Time</label>
-                                <input type="time" class="form-control" id="StartTime" placeholder="Name" />
+                                <div class="input-group bootstrap-timepicker timepicker">
+                                    <input id="StartTime" type="text" class="form-control input-small" />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="EndTime">End Time</label>
-                                <input type="time" class="form-control" id="EndTime" placeholder="Name" />
+                                <div class="input-group bootstrap-timepicker timepicker">
+                                    <input id="EndTime" type="text" class="form-control input-small" />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label>Location</label>
                                 <div id="Location"></div>
-                                <div id="current">Nothing yet...</div>
+                                <div id="current">Select marker and drag it to your location...</div>
                             </div>
                         </form>
                     </div>
@@ -190,13 +197,17 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <script src="js/bootstrap-timepicker.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/clinic.js"></script>
     <script>
         $('#myModal').on('shown.bs.modal', function () {
             initMap();
+            $('#StartTime').timepicker();
+            $('#EndTime').timepicker();
         });
+
+        
     </script>
 </body>
 </html>

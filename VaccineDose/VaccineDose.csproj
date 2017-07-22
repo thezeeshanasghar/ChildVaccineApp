@@ -286,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="child.html" />
+    <Content Include="css\bootstrap-timepicker.min.css" />
     <Content Include="img\child.jpg" />
     <Content Include="clinic-selection.html" />
     <Content Include="css\bootstrap.min.css" />
@@ -294,6 +295,7 @@
     <Content Include="clinic.html" />
     <Content Include="JqueryMobile\VaccineNav.html" />
     <Content Include="JqueryMobile\VaccineNav.js" />
+    <Content Include="js\bootstrap-timepicker.min.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\child.js" />
     <Content Include="js\clinic-selection.js" />
