@@ -9,7 +9,7 @@ function GetDoctorIdFromUrlOrLocalStorage() {
     if (id != 0)
         return id;
     else {
-        var id = localStorage.getItem('GetDoctorIdFromUrlOrLocalStorage');
+        var id = localStorage.getItem('DoctorID');
         if (id)
             return id;
         else 0;
@@ -61,7 +61,7 @@ function loadData() {
 }
 function DisableOffDays() {
     $.ajax({
-        url: SERVER + 'clinic/doctor-clinic/' + GetDoctorIdFromUrlOrLocalStorage(),
+        url: SERVER + 'doctor/'+GetDoctorIdFromUrlOrLocalStorage()+'/online-clinic/',
         type: 'Get',
         contentType: "application/json;charset=utf-8",
         dataType: "json",
