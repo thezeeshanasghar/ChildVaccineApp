@@ -21,7 +21,7 @@ namespace VaccineDose.Controllers
                     return new Response<ClinicDTO>(true, null, ClinicDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<ClinicDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -41,7 +41,7 @@ namespace VaccineDose.Controllers
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<ClinicDTO>(false, GetMessageFromExceptionObject(e), null);
             }
@@ -66,7 +66,7 @@ namespace VaccineDose.Controllers
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<ClinicDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -107,7 +107,7 @@ namespace VaccineDose.Controllers
                     if (clinicDTO.IsOnline)
                     {
                         dbClinic.IsOnline = true;
-                        
+
                     }
 
                     var clinicList = entities.Clinics.Where(x => x.DoctorID == clinicDTO.DoctorID).Where(x => x.ID != clinicDTO.ID).ToList();
@@ -117,37 +117,19 @@ namespace VaccineDose.Controllers
                             clinic.IsOnline = false;
                             entities.Clinics.Attach(clinic);
                             entities.Entry(clinic).State = EntityState.Modified;
-                         }
+                        }
                     entities.SaveChanges();
                     return new Response<ClinicDTO>(true, null, clinicDTO);
-                }
-            }
-            catch(Exception ex)
-            {
-                return new Response<ClinicDTO>(false, ex.Message, null);
-            }
-           
-        }
-       
-        [HttpGet]
-        [Route("api/clinic/doctor-clinic/{id}")]
-        public Response<ClinicDTO> DoctorClinic(int id)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-
-                    var dbClinic = entities.Clinics.Where(x => x.DoctorID == id).Where(x => x.IsOnline==true).FirstOrDefault();
-                    var clinicDTO = Mapper.Map<ClinicDTO>(dbClinic);
-                      return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
             catch (Exception ex)
             {
                 return new Response<ClinicDTO>(false, ex.Message, null);
             }
+
         }
+
+       
         private static string GetMessageFromExceptionObject(Exception ex)
         {
             String message = ex.Message;

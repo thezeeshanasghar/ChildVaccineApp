@@ -42,7 +42,7 @@ function DoseName() {
         success: function (result) {
             var DoseName = '';
             $.each(result.ResponseData, function (key, item) {
-                DoseName = result.ResponseData.Name + " - Dose";
+                DoseName = result.ResponseData.Name + " - Dose ";
             });
             $("#Name").val(function(){
                 return this.value = DoseName;

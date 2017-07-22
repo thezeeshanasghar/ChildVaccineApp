@@ -123,8 +123,12 @@ function getbyID(ID) {
                 $("#Sunday").prop('checked', true);
 
             $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
+
             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
+            $('#StartTime').timepicker('setTime', result.ResponseData.StartTime);
+            $('#EndTime').timepicker('setTime', result.ResponseData.EndTime);
+
             $('#PhoneNumber').val(result.ResponseData.PhoneNumber);
             $('#myModal').modal('show');
             
