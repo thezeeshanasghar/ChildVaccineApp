@@ -131,7 +131,11 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                loadData();
+                if (!result.IsSuccess) {
+                    ShowAlert('Error', result.Message, 'danger');
+                } else {
+                    loadData();
+                }
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);

@@ -21,6 +21,7 @@ $(document).ready(function () {
         $('#menu-doctor-signup').hide();
         $('#menu-login').hide();
         $('#menu-clinic').hide();
+        $('#menu-child').hide();
     }
     else if (localStorage.getItem('UserType') == 'DOCTOR') {
         if (pageName == 'vaccine.html'
