@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <link rel="icon" href="img/favicon.ico">
 </head>
 <body>
@@ -61,43 +62,10 @@
                 <strong>loading title!</strong>
                 <p>loading message</p>
             </div>
-            <!--<table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            Sr. No
-                        </th>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Father Name
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            DOB
-                        </th>
-                        <th>
-                            Mobile Number
-                        </th>
-                        <th>
-                            Gender
-                        </th>
-                        <th>
-                            City
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="tbody"></tbody>
-            </table>-->
+
             <div class="row" id="childrecords">
-              
             </div>
+
         </div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -122,8 +90,12 @@
                                 <input type="email" class="form-control" id="Email" placeholder="Email" />
                             </div>
                             <div class="form-group">
-                                <label for="DOB">DOB</label>
-                                <input type="date" class="form-control" id="DOB" placeholder="Date of Birth" />
+                                <label for="DOB">Date of Birth</label>
+                                <div id="dob-container">
+                                    <div class="input-group date">
+                                        <input type="text" id="DOB" placeholder="Date of Birth"  class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="MobileNumber">Mobile Number</label>
@@ -197,8 +169,20 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
 
     <script src="js/common.js"></script>
     <script src="js/child.js"></script>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#dob-container .input-group.date').datepicker({
+                format: 'dd-mm-yyyy',
+                todayBtn: true,
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#dob-container .input-group.date').datepicker('update', $("#DOB").val() );
+        });
+    </script>
 </body>
 </html>

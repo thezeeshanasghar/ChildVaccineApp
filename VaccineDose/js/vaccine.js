@@ -7,7 +7,7 @@ $(document).ready(function () {
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: "/api/vaccine",
+        url: SERVER + "vaccine",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -46,7 +46,7 @@ function Add() {
         MaxAge: $('#MaxAge').val()
     };
     $.ajax({
-        url: "/api/vaccine",
+        url: SERVER + "vaccine",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -68,7 +68,7 @@ function getbyID(ID) {
     $('#MaxAge').css('border-color', 'lightgrey');
     
     $.ajax({
-        url: "/api/vaccine/" + ID,
+        url: SERVER + "vaccine/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -102,7 +102,7 @@ function Update() {
         MaxAge: $('#MaxAge').val()
     };
     $.ajax({
-        url: "/api/vaccine/" + $('#ID').val(),
+        url: SERVER + "vaccine/" + $('#ID').val(),
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -126,12 +126,16 @@ function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: "/api/vaccine/" + ID,
+            url: SERVER + "vaccine/" + ID,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                loadData();
+                if (!result.IsSuccess) {
+                    ShowAlert('Error', result.Message, 'danger');
+                } else {
+                    loadData();
+                }
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);

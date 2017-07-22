@@ -1,4 +1,8 @@
-﻿
+﻿var SERVER_IP = 'http://localhost';
+var SERVER_PORT = '4309';
+var SERVER_BASE_PATH = 'api';
+
+var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 
 //window.addEventListener("load", function () {
 //    var content = document.getElementById("menuImport").import;
@@ -21,6 +25,7 @@ $(document).ready(function () {
         $('#menu-doctor-signup').hide();
         $('#menu-login').hide();
         $('#menu-clinic').hide();
+        $('#menu-child').hide();
     }
     else if (localStorage.getItem('UserType') == 'DOCTOR') {
         if (pageName == 'vaccine.html'

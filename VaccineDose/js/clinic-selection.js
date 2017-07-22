@@ -19,7 +19,7 @@ function DoctorId() {
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: "/api/doctor/" + id + "/clinics",
+        url: SERVER + "doctor/" + id + "/clinics",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -50,7 +50,7 @@ function SelectedClinic(Id) {
         DoctorID:DoctorId()
      }
     $.ajax({
-        url: "/api/clinic/editClinic/",
+        url: SERVER + "clinic/editClinic/",
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",

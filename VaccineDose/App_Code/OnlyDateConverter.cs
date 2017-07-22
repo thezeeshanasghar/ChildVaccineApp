@@ -14,7 +14,7 @@ namespace VaccineDose.App_Code
     {
         public OnlyDateConverter()
         {
-            DateTimeFormat = "yyyy-MM-dd";
+            DateTimeFormat = "dd-MM-yyyy";
         }
     }
 

@@ -8,7 +8,7 @@ $(document).ready(function () {
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: "/api/vaccine/" + id + "/dosses",
+        url: SERVER + "vaccine/" + id + "/dosses",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -35,14 +35,14 @@ function loadData(id) {
 }
 function DoseName() {
     $.ajax({
-        url: "/api/vaccine/" + parseInt(getParameterByName("id")),
+        url: SERVER + "vaccine/" + parseInt(getParameterByName("id")),
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
             var DoseName = '';
             $.each(result.ResponseData, function (key, item) {
-                DoseName = result.ResponseData.Name + " - Dose";
+                DoseName = result.ResponseData.Name + " - Dose ";
             });
             $("#Name").val(function(){
                 return this.value = DoseName;
@@ -66,7 +66,7 @@ function Add() {
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
-        url: "/api/dose",
+        url: SERVER + "dose",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -89,7 +89,7 @@ function getbyID(ID) {
     $('#DoseOrder').css('border-color', 'lightgrey');
 
     $.ajax({
-        url: "/api/dose/" + ID,
+        url: SERVER + "dose/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -124,7 +124,7 @@ function Update() {
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
-        url: "/api/dose/" + $('#ID').val(),
+        url: SERVER + "dose/" + $('#ID').val(),
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -147,7 +147,7 @@ function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: "/api/dose/" + ID,
+            url: SERVER + "dose/" + ID,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
