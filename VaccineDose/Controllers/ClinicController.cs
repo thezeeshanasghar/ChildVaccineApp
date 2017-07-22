@@ -7,7 +7,7 @@ using System;
 
 namespace VaccineDose.Controllers
 {
-    public class ClinicController : ApiController
+    public class ClinicController : BaseController
     {
         #region C R U D
         public Response<ClinicDTO> Get(int Id)
@@ -122,21 +122,11 @@ namespace VaccineDose.Controllers
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return new Response<ClinicDTO>(false, ex.Message, null);
             }
-
+           
         }
-
-       
-        private static string GetMessageFromExceptionObject(Exception ex)
-        {
-            String message = ex.Message;
-            message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
-            return message;
-        }
-
     }
 }
