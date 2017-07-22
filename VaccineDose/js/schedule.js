@@ -14,10 +14,11 @@ function loadData(id) {
         dataType: "json",
         success: function (result) {
             var html = '';
+              var map = {};
             $.each(result.ResponseData, function (key, item) {
-               
+
                 var dose = '';
-               
+
                 $.ajax({
                     url: SERVER + "dose/" + item.DoseId,
                     typr: "GET",
@@ -31,20 +32,30 @@ function loadData(id) {
                         alert(e.responseText);
                     }
                 });
-                html += '<tr>';
-                html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + dose + '</td>';
-                html += '<td>' + item.Date + '</td>';
-                html += '<td>' + item.Weight + '</td>';
-                html += '<td>' + item.Height + '</td>';
-                html += '<td>' + item.Circle + '</td>';
-                html += '<td>' + item.Brand + '</td>';
-                html += '<td>' +
-                    '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                    '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
-                html += '</tr>';
+                if (item.Date in map) {
+                    map[item.Date].push(dose);
+                } else {
+                    map[item.Date] = [];
+                    map[item.Date].push(dose);
+                }
             });
-            $('.tbody').html(html);
+
+            for (var key in map) {
+                console.log(key);
+                html += "<h3 style='text-align:center'>" + key + "</h3>";
+                var arr = map[key];
+                for (var index in arr) {
+                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
+                    html += '<div class="col-md-1">' +
+                                            '</div>';
+                    html += '<div class="col-md-6" style="padding:10px;">';
+                    html += '<p><h3>' + arr[index] + '</h3>';
+                    html += '</div></div> ';
+                    console.log('\t' + arr[index]);
+                }
+
+            }
+            $('#schedule').html(html);
             HideAlert();
         },
         error: function (errormessage) {
