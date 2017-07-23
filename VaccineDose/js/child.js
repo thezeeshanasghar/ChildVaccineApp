@@ -4,12 +4,12 @@ $(document).ready(function () {
     DisableOffDays();
 });
 
-function GetDoctorIdFromUrlOrLocalStorage() {
+function GetClinicIdFromUrlOrLocalStorage() {
     var id = parseInt(getParameterByName("id")) || 0;
     if (id != 0)
         return id;
     else {
-        var id = localStorage.getItem('DoctorID');
+        var id = localStorage.getItem('ClinicID');
         if (id)
             return id;
         else 0;
@@ -19,7 +19,7 @@ function GetDoctorIdFromUrlOrLocalStorage() {
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "child",
+        url: SERVER + "clinic/" + GetClinicIdFromUrlOrLocalStorage() + "/childs",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -61,7 +61,7 @@ function loadData() {
 }
 function DisableOffDays() {
     $.ajax({
-        url: SERVER + 'doctor/'+GetDoctorIdFromUrlOrLocalStorage()+'/online-clinic/',
+        url: SERVER + 'clinic/'+ GetClinicIdFromUrlOrLocalStorage(),
         type: 'Get',
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -71,19 +71,19 @@ function DisableOffDays() {
                 if (OffDays.length > 1) {
                     OffDays = OffDays.split(",");
                     if ($.inArray("Monday", OffDays) != -1)
-                        $("#Monday").attr('disabled', true);
+                        $("#Monday").prop('disabled', true);
                     if ($.inArray("Tuesday", OffDays) != -1)
-                        $("#Tuesday").attr('disabled', true);
+                        $("#Tuesday").prop('disabled', true);
                     if ($.inArray("Wednesday", OffDays) != -1)
-                        $("#Wednesday").attr('disabled', true);
+                        $("#Wednesday").prop('disabled', true);
                     if ($.inArray("Thursday", OffDays) != -1)
-                        $("#Thursday").attr('disabled', true);
+                        $("#Thursday").prop('disabled', true);
                     if ($.inArray("Friday", OffDays) != -1)
-                        $("#Friday").attr('disabled', true);
+                        $("#Friday").prop('disabled', true);
                     if ($.inArray("Saturday", OffDays) != -1)
-                        $("#Saturday").attr('disabled', true);
+                        $("#Saturday").prop('disabled', true);
                     if ($.inArray("Sunday", OffDays) != -1)
-                        $("#Sunday").attr('disabled', true);
+                        $("#Sunday").prop('disabled', true);
                 }
             }
         },
@@ -102,24 +102,24 @@ function Add() {
     var result = [];
     $('input[name="PreferredDayOfWeek"]:checked').each(function () {
         result.push(this.value);
-        console.log(result);
     });
 
     var obj = {
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
-        IsEPIDone: $("#IsEPIDone").is(':checked'),
-        IsVerified: $("#IsVerified").is(':checked'),
         DOB: $('#DOB').val(),
-        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
-        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
         MobileNumber: $('#MobileNumber').val(),
         PreferredDayOfWeek: result.join(','),
-        Password: PasswordGenerator(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
-        GetDoctorIdFromUrlOrLocalStorage: GetDoctorIdFromUrlOrLocalStorage()
+        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
+        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
+        IsEPIDone: $("#IsEPIDone").is(':checked'),
+        IsVerified: $("#IsVerified").is(':checked'),
+
+        Password: PasswordGenerator(),
+        ClinicID: GetClinicIdFromUrlOrLocalStorage()
     };
     $.ajax({
         url: SERVER + "child",
@@ -152,7 +152,7 @@ function getbyID(ID) {
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-            $("#ID").val(result.ResponseData.Id);
+            $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
             $('#FatherName').val(result.ResponseData.FatherName);
             $('#Email').val(result.ResponseData.Email);
@@ -179,10 +179,8 @@ function getbyID(ID) {
             if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
                 $("#Sunday").prop('checked', true);
 
-            //$(".PreferredDayOfWeek").attr("checked", result.ResponseData.PreferredDayOfWeek);
-            $("input[type=checkbox][value=" + result.ResponseData.PreferredDayOfWeek.split(",")[0] + "]").prop('checked', true);
-            $("#IsEPIDone").attr("checked", result.ResponseData.IsEPIDone);
-            $("#IsVerified").attr("checked", result.ResponseData.IsVerified);
+            $("#IsEPIDone").prop("checked", result.ResponseData.IsEPIDone);
+            $("#IsVerified").prop("checked", result.ResponseData.IsVerified);
 
             $('#myModal').modal('show');
             $('#btnUpdate').show();
@@ -209,6 +207,7 @@ function Update() {
     });
 
     var obj = {
+        ID: $('#ID').val(),
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
@@ -221,6 +220,7 @@ function Update() {
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
+        ClinicID: GetClinicIdFromUrlOrLocalStorage()
     };
     $.ajax({
         url: SERVER + "child/",
@@ -230,6 +230,7 @@ function Update() {
         dataType: "json",
         success: function (result) {
             loadData();
+
             $('#myModal').modal('hide');
             $('#ID').val("");
             $("#Name").val("");
@@ -237,8 +238,8 @@ function Update() {
             $("#Email").val("");
             $("#DOB").val("");
             $("#MobileNumber").val("");
-            $("input:radio").attr("checked", false);
-            $("input:checkbox").attr("checked", false);
+            
+            $("input:checkbox").prop("checked", false);
             $("#City").val("");
 
         },
@@ -278,10 +279,11 @@ function clearTextBox() {
     $("#Email").val("");
     $("#DOB").val("");
     $("#MobileNumber").val("");
-    //$("input:radio").attr("checked", false);
     $("#City").val("");
+
     $('#btnUpdate').hide();
     $('#btnAdd').show();
+
     $('#Name').css('border-color', 'lightgrey');
     $('#FatherName').css('border-color', 'lightgrey');
     $('#Email').css('border-color', 'lightgrey');
@@ -289,7 +291,7 @@ function clearTextBox() {
     $('#MobileNumber').css('border-color', 'lightgrey');
     $('#Gender').css('border-color', 'lightgrey');
     $('#City').css('border-color', 'lightgrey');
-    $("input:checkbox").attr("checked", false);
+    $("input:checkbox").prop("checked", false);
 
 }
 

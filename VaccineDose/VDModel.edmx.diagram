@@ -9,13 +9,14 @@
         <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="8.25" PointY="5" />
         <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="5.75" PointY="9" />
         <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="5.375" />
-        <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="9" PointY="10" />
-        <AssociationConnector Association="VDModel.FK_Schedule_Child" />
         <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="5.125" />
         <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
         <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="3" PointY="9.375" />
         <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
+        <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="5.25" PointY="11.75" />
+        <AssociationConnector Association="VDModel.FK_Child_Clinic" />
+        <AssociationConnector Association="VDModel.FK_Schedule_Child" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

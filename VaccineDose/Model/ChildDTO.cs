@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using VaccineDose.App_Code;
 
-namespace VaccineDose.Model
+namespace VaccineDose
 {
     public class ChildDTO
     {
@@ -23,7 +22,7 @@ namespace VaccineDose.Model
         public string PreferredDayOfWeek { get; set; }
         public bool IsEPIDone { get; set; }
         public bool IsVerified { get; set; }
-        public int DoctorID { get; set; }
+        public int ClinicID { get; set; }
 
 
     }

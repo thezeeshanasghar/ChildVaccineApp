@@ -2,9 +2,7 @@
 using System.Web.Http;
 using AutoMapper;
 using System.Collections.Generic;
-using VaccineDose.Model;
 using System;
-using VaccineDose.App_Code;
 
 namespace VaccineDose.Controllers
 {
@@ -188,7 +186,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-
+        //TODO:  wehere this method needed or not
         [Route("api/doctor/{id}/online-clinic")]
         public Response<ClinicDTO> GetOnlineClinicOfaDoctor(int id)
         {

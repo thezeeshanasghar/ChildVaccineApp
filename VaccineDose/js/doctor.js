@@ -25,7 +25,6 @@ function loadData() {
                 
                 html += '<td>' +
                     '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
-                    '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
@@ -124,8 +123,8 @@ function getbyID(ID) {
              $('#MobileNo').val(result.ResponseData.MobileNo);
             $('#PhoneNo').val(result.ResponseData.PhoneNo);
             $('#PMDC').val(result.ResponseData.PMDC);
-            $("#ShowPhone").attr("checked", result.ResponseData.ShowPhone);
-            $("#ShowMobile").attr("checked", result.ResponseData.ShowMobile);
+            $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
+            $("#ShowMobile").prop("checked", result.ResponseData.ShowMobile);
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();

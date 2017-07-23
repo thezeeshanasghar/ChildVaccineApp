@@ -26,16 +26,18 @@ namespace VaccineDose
         public string Email { get; set; }
         public Nullable<System.DateTime> DOB { get; set; }
         public string MobileNumber { get; set; }
-        public string Password { get; set; }
         public string StreetAddress { get; set; }
         public string Gender { get; set; }
         public Nullable<int> PreferredDayOfReminder { get; set; }
         public string City { get; set; }
         public string PreferredSchedule { get; set; }
+        public string Password { get; set; }
         public string PreferredDayOfWeek { get; set; }
         public Nullable<bool> IsEPIDone { get; set; }
         public Nullable<bool> IsVerified { get; set; }
+        public Nullable<int> ClinicID { get; set; }
     
+        public virtual Clinic Clinic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Schedule> Schedules { get; set; }
     }

@@ -2,11 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using VaccineDose.App_Code;
-using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
@@ -14,23 +10,6 @@ namespace VaccineDose.Controllers
     public class ChildController : BaseController
     {
         #region C R U D
-        public Response<IEnumerable<ChildDTO>> Get()
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    var dbchildren = entities.Children.ToList();
-                    IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(dbchildren);
-                    return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
-            }
-            
-        }
 
         public Response<ChildDTO> Get(int Id)
         {

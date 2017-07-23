@@ -24,7 +24,7 @@ namespace VaccineDose
         public string Brand { get; set; }
         public bool IsDone { get; set; }
     
-        public virtual Child Child { get; set; }
         public virtual Dose Dose { get; set; }
+        public virtual Child Child { get; set; }
     }
 }

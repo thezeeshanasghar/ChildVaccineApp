@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using VaccineDose.App_Code;
 
-namespace VaccineDose.Model
+namespace VaccineDose
 {
     public class ScheduleDTO
     {

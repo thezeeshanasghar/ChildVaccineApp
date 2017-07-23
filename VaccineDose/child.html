@@ -76,7 +76,8 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <input type="text" class="form-control" id="ID" style="display:none" />
+                            <input type="number" id="ID" style="display:none" />
+
                             <div class="form-group">
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control" id="Name" placeholder="Name" />
@@ -143,11 +144,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="IsEPIDone">(Select only if 9 months are completed)</label><br />
-                                <input type="checkbox" id="IsEPIDone" checked="checked" /> <b>Is EPI Done</b>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" id="IsVerified" checked="checked" /> <b>Verified</b>
+                                
+                                <input type="checkbox" id="IsEPIDone" /> <b>Is EPI Done</b> &nbsp;
+                                <input type="checkbox" id="IsVerified" /> <b>Verified</b> &nbsp;
+                                <small class="text-danger">(Select only if 9 months are completed)</small>
                             </div>
                         </form>
                     </div>

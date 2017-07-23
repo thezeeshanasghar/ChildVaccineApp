@@ -37,6 +37,7 @@ $(document).ready(function () {
         $('#menu-vaccine').hide();
         $('#menu-login').hide();
         $('#menu-doctor-signup').hide();
+        $('#menu-child').hide();
     }
     else if (localStorage.getItem('UserType') == 'PARENT') {
         if (pageName == 'doctor.html' || pageName == 'vaccine.html'

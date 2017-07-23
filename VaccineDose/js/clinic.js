@@ -174,7 +174,7 @@ function Update() {
 
             $('#ID').val("");
             $('#Name').val("");
-            $("input:checkbox").attr("checked", false);
+            $("input:checkbox").prop("checked", false);
             $('#StartTime').val("");
             $('#EndTime').val("");
             $('#PhoneNumber').val("");
@@ -209,7 +209,7 @@ function Delele(ID) {
 function clearTextBox() {
     $('#ID').val("");
     $('#Name').val("");
-    $("input:checkbox").attr("checked", false);
+    $("input:checkbox").prop("checked", false);
     $('#StartTime').val("");
     $('#EndTime').val("");
     $('#PhoneNumber').val("");

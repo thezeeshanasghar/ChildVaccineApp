@@ -14,6 +14,12 @@ namespace VaccineDose
     
     public partial class Clinic
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Clinic()
+        {
+            this.Children = new HashSet<Child>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string OffDays { get; set; }
@@ -26,5 +32,7 @@ namespace VaccineDose
         public Nullable<bool> IsOnline { get; set; }
     
         public virtual Doctor Doctor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Child> Children { get; set; }
     }
 }

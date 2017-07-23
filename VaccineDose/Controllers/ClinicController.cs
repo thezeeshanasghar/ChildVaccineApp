@@ -4,6 +4,7 @@ using AutoMapper;
 
 using System.Data.Entity;
 using System;
+using System.Collections.Generic;
 
 namespace VaccineDose.Controllers
 {
@@ -95,6 +96,32 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
+
+        [Route("api/clinic/{id}/childs")]
+        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaClinic(int id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var clinic = entities.Clinics.FirstOrDefault(c => c.ID == id);
+                    if (clinic == null)
+                        return new Response<IEnumerable<ChildDTO>>(false, "Clinic not found", null);
+                    else
+                    {
+                        var dbChild = clinic.Children.ToList();
+                        var childDTOs = Mapper.Map<List<ChildDTO>>(dbChild);
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+
         [HttpPut]
         [Route("api/clinic/editClinic")]
         public Response<ClinicDTO> EditClinic(ClinicDTO clinicDTO)
