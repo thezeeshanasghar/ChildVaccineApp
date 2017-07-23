@@ -8,6 +8,7 @@
 	[Long] [float] NOT NULL,
 	[DoctorID] [int] NOT NULL,
  [PhoneNumber] NVARCHAR(50) NULL, 
+    [IsOnline] BIT NULL, 
     CONSTRAINT [PK_Clinic] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
