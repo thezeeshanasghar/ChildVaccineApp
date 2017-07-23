@@ -14,51 +14,33 @@ function loadData(id) {
         dataType: "json",
         success: function (result) {
             var html = '';
-            var map = {};
-            var obj = {
-                dose: '',
-                ID: 0
-            };
+            var dateVsArrayOfVaccineScheuleMap = {};
+            
             $.each(result.ResponseData, function (key, item) {
-                var obj = {
-                    dose: '',
-                    ID: 0
+                var vaccineSchedule = {
+                    doseName: item.Dose.Name,
+                    scheduleID: item.ID
                 };
-                obj.ID = item.ID
-                $.ajax({
-                    url: SERVER + "dose/" + item.DoseId,
-                    typr: "GET",
-                    contentType: "application/json;charset=UTF-8",
-                    async: false,
-                    dataType: "json",
-                    success: function (r) {
-                        obj.dose = r.ResponseData.Name
-                    },
-                    error: function (e) {
-                        alert(e.responseText);
-                    }
-                });
-                if (item.Date in map) {
-                    map[item.Date].push(obj);
+                if (item.Date in dateVsArrayOfVaccineScheuleMap) {
+                    dateVsArrayOfVaccineScheuleMap[item.Date].push(vaccineSchedule);
                 } else {
-                    map[item.Date] = [];
-                    map[item.Date].push(obj);
+                    dateVsArrayOfVaccineScheuleMap[item.Date] = [];
+                    dateVsArrayOfVaccineScheuleMap[item.Date].push(vaccineSchedule);
                 }
             });
 
-            for (var key in map) {
-                console.log(key);
+            for (var key in dateVsArrayOfVaccineScheuleMap) {
                 html += "<h3 style='text-align:center'>" + key + "</h3>";
-                var arr = map[key];
+                var arr = dateVsArrayOfVaccineScheuleMap[key];
                 for (var index in arr) {
-                    html += '<a href="#" onclick="return getbyID(' + arr[index].ID + ')">';
+                    html += '<a href="#" onclick="return getbyID(' + arr[index].scheduleID + ')">';
                     html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
                     html += '<div class="col-md-1">' +
                                             '</div>';
                     html += '<div class="col-md-6" style="padding:10px;">';
-                    html += '<p><h3>' + arr[index].dose + '</h3>';
+                    html += '<p><h3>' + arr[index].doseName + '</h3>';
                     html += '</div></div> </a>';
-                    console.log('\t' + arr[index].dose);
+                    console.log('\t' + arr[index].doseName);
                 }
 
             }
@@ -80,9 +62,10 @@ function getbyID(ID) {
         dataType: "json",
         success: function (result) {
             $("#Weight").val(result.ResponseData.Weight),
-             $("#Height").val(result.ResponseData.Height),
+            $("#Height").val(result.ResponseData.Height),
             $("#Circumference").val(result.ResponseData.Circle),
-           $("#Brand").val(result.ResponseData.Brand)
+            $("#Brand").val(result.ResponseData.Brand)
+
             $('#myModal').modal('show');
             $('#btnUpdate').show();
         },
@@ -94,12 +77,12 @@ function getbyID(ID) {
 }
 function Update() {
     var obj = {
-        ID:$("#ID").val(),
-        Weight:$("#Weight").val(),
-        Height:$("#Height").val(),
+        ID: $("#ID").val(),
+        Weight: $("#Weight").val(),
+        Height: $("#Height").val(),
         Circle: $("#Circumference").val(),
-        Brand:$("#Brand").val(),
-        IsDone:"true",
+        Brand: $("#Brand").val(),
+        IsDone: "true",
     }
     $.ajax({
         url: SERVER + "schedule/child-schedule/",
@@ -108,11 +91,11 @@ function Update() {
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-          $("#Weight").val(""),
-          $("#Height").val(""),
-          $("#Circumference").val(""),
-         $("#Brand").val("")
-             $('#myModal').modal('hide');
+            $("#Weight").val(""),
+            $("#Height").val(""),
+            $("#Circumference").val(""),
+           $("#Brand").val("")
+            $('#myModal').modal('hide');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

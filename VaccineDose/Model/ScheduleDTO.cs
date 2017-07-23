@@ -19,6 +19,8 @@ namespace VaccineDose
         public double Circle { get; set; }
         public string Brand { get; set; }
         public bool IsDone { get; set; }
+
+        public DoseDTO Dose { get; set; }
         
     }
 }

@@ -136,7 +136,14 @@ namespace VaccineDose.Controllers
                     else
                     {
                         var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
+                        for(int i = 0; i< dbSchedules.Count; i++) {
+                            var dbSchedule = dbSchedules.ElementAt(i);
+                            dbSchedule.Dose = entities.Schedules.Include("Dose").Where<Schedule>(x => x.ID == dbSchedule.ID).FirstOrDefault().Dose;
+                        }
+
                         var schedulesDTO = Mapper.Map<List<ScheduleDTO>>(dbSchedules);
+                        //foreach (var scheduleDTO in schedulesDTO)
+                        //    scheduleDTO.Dose = Mapper.Map<DoseDTO>(entities.Schedules.Include("Dose").Where<Schedule>(x => x.ID == scheduleDTO.ID).FirstOrDefault<Schedule>().Dose);
                         return new Response<IEnumerable<ScheduleDTO>>(true, null, schedulesDTO);
                     }
                 }
