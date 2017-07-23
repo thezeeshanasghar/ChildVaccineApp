@@ -1,7 +1,13 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
-    loadData();
-    DisableOffDays();
+    if (GetClinicIdFromUrlOrLocalStorage() != 0) {
+        loadData();
+        DisableOffDays();
+    }
+    else {
+        loadChildData();
+    }
+    
 });
 
 function GetClinicIdFromUrlOrLocalStorage() {
@@ -12,14 +18,61 @@ function GetClinicIdFromUrlOrLocalStorage() {
         var id = localStorage.getItem('ClinicID');
         if (id)
             return id;
-        else 0;
+        else return 0;
     }
+}
+function GetChildMobileNumberFromLocalStorage() {
+    var mobileNumber = localStorage.getItem('MobileNumber');
+    return mobileNumber;
 }
 //Load Data function  
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
         url: SERVER + "clinic/" + GetClinicIdFromUrlOrLocalStorage() + "/childs",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var html = '';
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<a href="schedule.html?id=' + item.ID + '">';
+                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
+
+                    html += '<div class="col-md-1">' +
+                        '<img  src="img/child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
+                        '</div>';
+                    html += '<div class="col-md-6" style="padding:10px;">'
+
+                    html += '<p><h3>' + item.Name + ' ' + item.FatherName + '</h3>';
+                    html += '<div style="margin:10px;">';
+                    html += '<p class="glyphicon glyphicon-calendar">' +
+                        '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
+                        '</br> <p class="glyphicon glyphicon-earphone">' +
+                        '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
+                    html += '</div>';
+                    html += '<div class="col-md-4">' +
+                      '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
+                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
+                    html += '</div></div></a>';
+
+                });
+                $("#childrecords").html(html);
+                HideAlert();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+function loadChildData() {
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + "child/" + GetChildMobileNumberFromLocalStorage(),
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",

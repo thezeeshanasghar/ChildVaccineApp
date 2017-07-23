@@ -27,10 +27,11 @@ function Login() {
                     localStorage.setItem('UserType', "DOCTOR");
                     localStorage.setItem('UserID', result.ResponseData.ID);
                     localStorage.setItem('DoctorID', result.ResponseData.DoctorID);
-                    window.location.replace('clinic-selection.html');
+                    window.location.replace('clinic-selection.html'); 
                 }
                 else if (result.ResponseData.UserType == "PARENT") {
                     localStorage.setItem('UserType', "PARENT");
+                    localStorage.setItem('MobileNumber', result.ResponseData.MobileNumber);
                     window.location.replace('index.html');
                 }
                 else  {
