@@ -83,7 +83,7 @@
                             Name
                         </th>
                         <th>
-                            OffDays
+                            Off Days
                         </th>
                         <th>
                             Timings
@@ -203,8 +203,20 @@
     <script>
         $('#myModal').on('shown.bs.modal', function () {
             initMap();
-            $('#StartTime').timepicker();
-            $('#EndTime').timepicker();
+            $('#StartTime').timepicker({
+                minuteStep: 15,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel:false
+            });
+            $('#EndTime').timepicker({
+                minuteStep: 15,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTime').timepicker('setTime', $('#StartTime').val());
+            $('#EndTime').timepicker('setTime', $('#EndTime').val());
         });
 
         

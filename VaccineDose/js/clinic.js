@@ -7,7 +7,7 @@ $(document).ready(function () {
 
 function DoctorId() {
     var id = parseInt(getParameterByName("id")) || 0;
-    if (id != 0) 
+    if (id != 0)
         return id;
     else {
         var id = localStorage.getItem('DoctorID');
@@ -20,7 +20,7 @@ function DoctorId() {
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "doctor/" +id + "/clinics",
+        url: SERVER + "doctor/" + id + "/clinics",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -31,8 +31,9 @@ function loadData(id) {
                 html += '<td>' + (key + 1) + '</td>';
                 html += '<td>' + item.Name + '</td>';
                 html += '<td>' + item.OffDays + '</td>';
-                html += '<td>' + item.StartTime +' - '+ item.EndTime + '</td>';
+                html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
                 html += '<td>' +
+                    '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
                     '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
@@ -48,7 +49,7 @@ function loadData(id) {
 
 //Add Data Function   
 function Add() {
-   
+
     var res = validate();
     if (res == false) {
         return false;
@@ -62,14 +63,10 @@ function Add() {
 
     var obj = {
         Name: $('#Name').val(),
-         StartTime: $('#StartTime').val(),
-         EndTime: $('#EndTime').val(),
-         PhoneNumber: $('#PhoneNumber').val(),
-      //  OffDays: $("input[name='Monday']:checked").val() + "," + $("input[name='Tuesday']:checked").val() + ","
-      //+ $("input[name='Wednesday']:checked").val() + "," + $("input[name='Thursday']:checked").val() + ","
-      //    + $("input[name='Friday']:checked").val() + "," + $("input[name='Saturday']:checked").val() + ","
-        //  + $("input[name='Sunday']:checked").val(),
-        OffDays:result.join(','),
+        StartTime: $('#StartTime').val(),
+        EndTime: $('#EndTime').val(),
+        PhoneNumber: $('#PhoneNumber').val(),
+        OffDays: result.join(','),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
         DoctorID: DoctorId()
@@ -81,9 +78,9 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-             loadData(DoctorId());
-             $('#myModal').modal('hide');
-             clearTextBox();
+            loadData(DoctorId());
+            $('#myModal').modal('hide');
+            clearTextBox();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -94,7 +91,7 @@ function Add() {
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
     $('#Name').css('border-color', 'lightgrey');
-     $('#StartTime').css('border-color', 'lightgrey');
+    $('#StartTime').css('border-color', 'lightgrey');
     $('#EndTime').css('border-color', 'lightgrey');
 
     $.ajax({
@@ -126,12 +123,10 @@ function getbyID(ID) {
 
             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
-            $('#StartTime').timepicker('setTime', result.ResponseData.StartTime);
-            $('#EndTime').timepicker('setTime', result.ResponseData.EndTime);
 
             $('#PhoneNumber').val(result.ResponseData.PhoneNumber);
             $('#myModal').modal('show');
-            
+
             $('#btnUpdate').show();
             $('#btnAdd').hide();
 
@@ -160,9 +155,9 @@ function Update() {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
         OffDays: result.join(','),
-         StartTime: $('#StartTime').val(),
-         EndTime: $('#EndTime').val(),
-         PhoneNumber: $('#PhoneNumber').val(),
+        StartTime: $('#StartTime').val(),
+        EndTime: $('#EndTime').val(),
+        PhoneNumber: $('#PhoneNumber').val(),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
         DoctorID: DoctorId()
@@ -174,7 +169,7 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-             loadData(DoctorId());
+            loadData(DoctorId());
             $('#myModal').modal('hide');
 
             $('#ID').val("");
@@ -201,7 +196,7 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                 loadData(DoctorId());
+                loadData(DoctorId());
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
