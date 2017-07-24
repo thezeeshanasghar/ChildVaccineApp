@@ -311,6 +311,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="Global.asax" />
+    <Content Include="js\doctor-signup.js" />
     <Content Include="js\doctor.js" />
     <Content Include="js\clinic.js" />
     <Content Include="js\dose.js" />

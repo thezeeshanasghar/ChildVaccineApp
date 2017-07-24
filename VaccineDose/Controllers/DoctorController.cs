@@ -77,12 +77,14 @@ namespace VaccineDose.Controllers
                     userDB.Password = doctorDTO.Password;
                     userDB.UserType = "DOCTOR";
                     entities.Users.Add(userDB);
-                    entities.SaveChanges();
                     doctorDTO.ID = doctorDB.ID;
-
+                    doctorDTO.ClinicDTO.DoctorID = doctorDTO.ID;
                     // send email to doctor
                      UserEmail.DoctorEmail(doctorDTO);
-
+                    //add clinic
+                    Clinic clinicDB = Mapper.Map<Clinic>(doctorDTO.ClinicDTO);
+                    entities.Clinics.Add(clinicDB);
+                    entities.SaveChanges();
                     return new Response<DoctorDTO>(true, null, doctorDTO);
                 }
                 catch (Exception ex)
