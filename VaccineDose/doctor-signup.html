@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link href="css/style.css" rel="stylesheet" />
     <link rel="icon" href="img/favicon.ico">
+    <style>
+        #Location {
+            width: 100%;
+            height: 250px;
+        }
+
+        #current {
+            padding-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -35,18 +45,7 @@
                         <li id="menu-child"><a href="child.html">Child</a></li>
                         <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>
                         <li id="menu-login"><a href="login.html">Login</a></li>
-                        <!--<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li class="dropdown-header">Nav header</li>
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="login.html">Logout</a></li>
-                            </ul>
-                        </li>-->
+
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
@@ -60,7 +59,7 @@
                 <p>loading message</p>
             </div>
             <form role="form" style="display: block;">
-                <div class="col-sm-6 col-sm-offset-3">
+                <div id="doctor" class="col-sm-6 col-sm-offset-3">
                     <input type="text" class="form-control" id="ID" style="display:none" />
                     <div class="form-group">
                         <input type="text" class="form-control" id="FirstName" placeholder="First Name" />
@@ -99,111 +98,67 @@
                         <input type="text" class="form-control" id="PMDC" placeholder="PMDC Number" />
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="return Add();">Add</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="ShowHide();">Next</button>
 
+                    </div>
+                </div>
+
+                <div id="clinic" class="col-sm-6 col-sm-offset-3">
+                    <input type="text" class="form-control" id="ID" style="display:none" />
+
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control" id="Name" placeholder="Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="PhoneNumber">Phone Number</label>
+                        <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" />
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-md-12" style="padding: 0px;">Off Days</label>
+                        <input id="Monday" class="OffDays" name="OffDays" type="checkbox" value="Monday" />&nbsp; Monday &nbsp; &nbsp;
+                        <input id="Tuesday" class="OffDays" name="OffDays" type="checkbox" value="Tuesday" />&nbsp;Tuesday&nbsp;&nbsp;
+                        <input id="Wednesday" class="OffDays" name="OffDays" type="checkbox" value="Wednesday" />&nbsp;Wednesday &nbsp; &nbsp; <br />
+                        <input id="Thursday" class="OffDays" name="OffDays" type="checkbox" value="Thursday" />&nbsp;Thursday&nbsp;&nbsp;
+                        &nbsp;<input id="Friday" class="OffDays" name="OffDays" type="checkbox" value="Friday" />&nbsp;Friday&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;<input id="Saturday" class="OffDays" name="OffDays" type="checkbox" value="Saturday" />&nbsp;Saturday&nbsp; &nbsp;
+                        &nbsp;&nbsp;&nbsp;<input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday" />&nbsp;Sunday
+                    </div>
+
+                    <div class="form-group">
+                        <label for="StartTime">Strat Time</label>
+                        <div class="input-group bootstrap-timepicker timepicker">
+                            <input id="StartTime" type="text" class="form-control input-small" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EndTime">End Time</label>
+                        <div class="input-group bootstrap-timepicker timepicker">
+                            <input id="EndTime" type="text" class="form-control input-small" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Location</label>
+                        <div id="Location"></div>
+                        <div id="current">Select marker and drag it to your location...</div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="return Add();">Add</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
     <script src="js/common.js"></script>
-    <script>
-        $(document).ready(function () {
-            HideAlert();
-        });
-        function PasswordGenerator() {
+    <script src="js/doctor-signup.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQiiY3BORTJDHVJ6SFZTiSMk0MoMuU18"></script>
 
-            var length = 4,
-                charset = "0123456789",
-                retVal = "";
-            for (var i = 0, n = charset.length; i < length; ++i) {
-                retVal += charset.charAt(Math.floor(Math.random() * n));
-            }
-            return retVal;
-
-        }
-
-        function Add() {
-            var res = validate();
-            if (res == false) {
-                return false;
-            }
-            var obj = {
-                FirstName: $('#FirstName').val(),
-                LastName: $('#LastName').val(),
-                Email: $('#Email').val(),
-                Password: PasswordGenerator(),
-                MobileNo: $('#MobileNo').val(),
-                PMDC: $('#PMDC').val(),
-                PhoneNo: $("#PhoneNo").val(),
-                ShowPhone: $("#ShowPhone").is(":checked"),
-                ShowMobile: $("#ShowMobile").is(":checked"),
-            };
-            $.ajax({
-                url: "/api/doctor",
-                data: JSON.stringify(obj),
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    ShowAlert('Registration', 'Your are successfully registered,please waite for the admin approval', 'success');
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                }
-            });
-        }
-        //Valdidation using jquery
-        function validate() {
-            var isValid = true;
-
-            if ($('#FirstName').val().trim() == "") {
-                $('#FirstName').css('border-color', 'Red');
-                isValid = false;
-            }
-            else {
-                $('#FirstName').css('border-color', 'lightgrey');
-            }
-
-            if ($('#LastName').val().trim() == "") {
-                $('#LastName').css('border-color', 'Red');
-                isValid = false;
-            }
-            else {
-                $('#LastName').css('border-color', 'lightgrey');
-            }
-
-            if ($('#Email').val().trim() == "") {
-                $('#Email').css('border-color', 'Red');
-                isValid = false;
-            }
-            else {
-                $('#Email').css('border-color', 'lightgrey');
-            }
-
-         
-            if ($('#MobileNo').val().trim() == "") {
-                $('#MobileNo').css('border-color', 'Red');
-                isValid = false;
-            }
-            else {
-                $('#MobileNo').css('border-color', 'lightgrey');
-            }
-
-            if ($('#PMDC').val().trim() == "") {
-                $('#PMDC').css('border-color', 'Red');
-                isValid = false;
-            }
-            else {
-                $('#PMDC').css('border-color', 'lightgrey');
-            }
-
-            return isValid;
-        }
-    </script>
 </body>
 </html>

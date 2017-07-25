@@ -13,5 +13,6 @@
         public bool IsApproved { get; set; }
         public bool ShowPhone { get; set; }
         public bool ShowMobile { get; set; }
+        public ClinicDTO ClinicDTO { get; set; }
     }
 }
