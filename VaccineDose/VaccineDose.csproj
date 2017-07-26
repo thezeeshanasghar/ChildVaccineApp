@@ -290,12 +290,14 @@
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />
+    <Content Include="img\injectionEmpty.png" />
     <Content Include="img\child.jpg" />
     <Content Include="clinic-selection.html" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="doctor-signup.html" />
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
+    <Content Include="img\injectionFilled.png" />
     <Content Include="JqueryMobile\VaccineNav.html" />
     <Content Include="JqueryMobile\VaccineNav.js" />
     <Content Include="js\bootstrap-datepicker.min.js" />
