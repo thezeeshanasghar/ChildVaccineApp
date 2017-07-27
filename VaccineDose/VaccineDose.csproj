@@ -291,6 +291,7 @@
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />
+    <Content Include="custom-schedule.html" />
     <Content Include="img\injectionEmpty.png" />
     <Content Include="img\child.jpg" />
     <Content Include="clinic-selection.html" />
