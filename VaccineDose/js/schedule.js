@@ -19,7 +19,8 @@ function loadData(id) {
             $.each(result.ResponseData, function (key, item) {
                 var vaccineSchedule = {
                     doseName: item.Dose.Name,
-                    scheduleID: item.ID
+                    scheduleID: item.ID,
+                    isDone:item.IsDone
                 };
                 if (item.Date in dateVsArrayOfVaccineScheuleMap) {
                     dateVsArrayOfVaccineScheuleMap[item.Date].push(vaccineSchedule);
@@ -33,13 +34,21 @@ function loadData(id) {
                 html += "<h3 style='text-align:center'>" + key + "</h3>";
                 var arr = dateVsArrayOfVaccineScheuleMap[key];
                 for (var index in arr) {
-                    html += '<a href="#" onclick="return getbyID(' + arr[index].scheduleID + ')">';
+                   
                     html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
                     html += '<div class="col-md-1">' +
                                             '</div>';
                     html += '<div class="col-md-6" style="padding:10px;">';
-                    html += '<p><h3>' + arr[index].doseName + '</h3>';
-                    html += '</div></div> </a>';
+                    html += '<h3>' + arr[index].doseName + '</h3></div>';
+                    html += '<div class="col-md-4" style="padding:10px;">';
+                    html += '<div class="glyphicon glyphicon-calendar" style="height: 40px;"></div>'
+                    html += '<a href="#" onclick="return getbyID(' + arr[index].scheduleID + ')">';
+                    if (arr[index].isDone)  
+                        html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'
+                    else  
+                        html += '<img src="../img/injectionEmpty.png" style="height: 40px;" /></a>'
+ 
+                    html += '</div></div> ';
                     console.log('\t' + arr[index].doseName);
                 }
 
