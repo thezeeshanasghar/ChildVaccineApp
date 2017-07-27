@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -318,6 +319,7 @@
     <Content Include="js\jquery.min.js" />
     <Content Include="js\login.js" />
     <Content Include="js\schedule.js" />
+    <Content Include="js\validator.min.js" />
     <Content Include="login.html" />
     <Content Include="menu.html" />
     <Content Include="schedule.html" />

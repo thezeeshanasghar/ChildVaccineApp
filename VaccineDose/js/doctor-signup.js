@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
     HideAlert();
-     $("#doctor").show();
+    $("#doctor").show();
     $("#clinic").hide();
-  
+
 });
 var map, myMarker;
 function initMap() {
@@ -75,62 +75,29 @@ function Add() {
         }
     });
 }
-function ShowHide() {
-    var res = validate();
-    if (res == false) {
-        return false;
-    }
-    else {
-        initMap();
-        $("#doctor").hide();
-         $("#clinic").show();
-    }
-
-}
-//Valdidation using jquery
 function validate() {
-    var isValid = true;
+    
+        var validator = $('#form2').data("bs.validator");
 
-    if ($('#FirstName').val().trim() == "") {
-        $('#FirstName').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#FirstName').css('border-color', 'lightgrey');
-    }
+        $('#form2').validator('validate');
+        if (validator.hasErrors())
+            return false;
+        else
+            return true;
 
-    if ($('#LastName').val().trim() == "") {
-        $('#LastName').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#LastName').css('border-color', 'lightgrey');
-    }
+    
+}
+function ShowHide(event) {
+        $('#form1').validator('validate');
+    
+        var validator = $('#form1').data("bs.validator");
+        
+        if (!validator.hasErrors()) {
+            initMap();
+            $("#doctor").hide();
+            $("#clinic").show();
+        }
 
-    if ($('#Email').val().trim() == "") {
-        $('#Email').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Email').css('border-color', 'lightgrey');
-    }
-
-
-    if ($('#MobileNo').val().trim() == "") {
-        $('#MobileNo').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#MobileNo').css('border-color', 'lightgrey');
-    }
-
-    if ($('#PMDC').val().trim() == "") {
-        $('#PMDC').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#PMDC').css('border-color', 'lightgrey');
-    }
-
-    return isValid;
+    
+    
 }

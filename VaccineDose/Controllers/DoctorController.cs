@@ -20,7 +20,7 @@ namespace VaccineDose.Controllers
                     return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
 
@@ -38,7 +38,7 @@ namespace VaccineDose.Controllers
                     return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
 
@@ -56,7 +56,7 @@ namespace VaccineDose.Controllers
                     return new Response<DoctorDTO>(true, null, doctorDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -65,38 +65,47 @@ namespace VaccineDose.Controllers
 
         public Response<DoctorDTO> Post(DoctorDTO doctorDTO)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            try
             {
-               
-                try
+                using (VDConnectionString entities = new VDConnectionString())
                 {
+                    // 1- save doctor
                     Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
                     entities.Doctors.Add(doctorDB);
+                    entities.SaveChanges();
+
+                    // 2- add entry into user
                     User userDB = new User();
                     userDB.MobileNumber = doctorDTO.MobileNo;
                     userDB.Password = doctorDTO.Password;
                     userDB.UserType = "DOCTOR";
                     entities.Users.Add(userDB);
-                    doctorDTO.ID = doctorDB.ID;
-                    doctorDTO.ClinicDTO.DoctorID = doctorDTO.ID;
-                    // send email to doctor
-                     UserEmail.DoctorEmail(doctorDTO);
-                    //add clinic
-                    Clinic clinicDB = Mapper.Map<Clinic>(doctorDTO.ClinicDTO);
-                    entities.Clinics.Add(clinicDB);
                     entities.SaveChanges();
-                    return new Response<DoctorDTO>(true, null, doctorDTO);
+
+                    // 3- send email to doctor
+                    doctorDTO.ID = doctorDB.ID;
+                    UserEmail.DoctorEmail(doctorDTO);
+
+                    // 4- check if clinicDto exsist; then save clinic as well
+                    if (doctorDTO.ClinicDTO != null && !String.IsNullOrEmpty(doctorDTO.ClinicDTO.Name))
+                    {
+                        doctorDTO.ClinicDTO.DoctorID = doctorDB.ID;
+
+                        Clinic clinicDB = Mapper.Map<Clinic>(doctorDTO.ClinicDTO);
+                        entities.Clinics.Add(clinicDB);
+                        entities.SaveChanges();
+
+                        doctorDTO.ClinicDTO.ID = clinicDB.ID;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return new Response<DoctorDTO>(false, ex.Message, null);
-                }
-               
-                               
+                return new Response<DoctorDTO>(true, null, doctorDTO);
             }
-            
+            catch (Exception ex)
+            {
+                return new Response<DoctorDTO>(false, ex.Message, null);
+            }
         }
-       
+
         public Response<DoctorDTO> Put(int Id, DoctorDTO doctorDTO)
         {
             try
@@ -110,7 +119,7 @@ namespace VaccineDose.Controllers
                     return new Response<DoctorDTO>(true, null, doctorDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -129,7 +138,7 @@ namespace VaccineDose.Controllers
                     return new Response<string>(true, null, "record deleted");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 {
                     if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
@@ -156,7 +165,7 @@ namespace VaccineDose.Controllers
                     return new Response<string>(true, null, "approved");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<string>(false, GetMessageFromExceptionObject(e), null);
 
@@ -181,7 +190,7 @@ namespace VaccineDose.Controllers
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<IEnumerable<ClinicDTO>>(false, GetMessageFromExceptionObject(e), null);
 
@@ -201,7 +210,7 @@ namespace VaccineDose.Controllers
                         return new Response<ClinicDTO>(false, "Doctor not found", null);
                     else
                     {
-                        var dbClinic = doctor.Clinics.Where(x => x.IsOnline==true).FirstOrDefault();
+                        var dbClinic = doctor.Clinics.Where(x => x.IsOnline == true).FirstOrDefault();
                         if (dbClinic == null)
                             return new Response<ClinicDTO>(false, "Clinic not found", null);
                         var clinicDTO = Mapper.Map<ClinicDTO>(dbClinic);
