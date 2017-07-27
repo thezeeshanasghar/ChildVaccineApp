@@ -14,23 +14,27 @@ function loadData() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var html = '';
-            $.each(result.ResponseData, function (key, item) {
-                html += '<tr>';
-                html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + item.FirstName + ' ' + item.LastName + '</td>';
-                html += '<td>' + item.Email + '</td>';
-                html += '<td>' + item.MobileNo + '</td>';
-                html += '<td>' + item.PMDC + '</td>';
-                
-                html += '<td>' +
-                    '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
-                    '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                    '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
-                html += '</tr>';
-            });
-            $('.tbody').html(html);
-            
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var html = '';
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + (key + 1) + '</td>';
+                    html += '<td>' + item.FirstName + ' ' + item.LastName + '</td>';
+                    html += '<td>' + item.Email + '</td>';
+                    html += '<td>' + item.MobileNo + '</td>';
+                    html += '<td>' + item.PMDC + '</td>';
+
+                    html += '<td>' +
+                        '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
+                        '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -53,7 +57,7 @@ function loadData() {
                 html += '<td>' + item.Email + '</td>';
                 html += '<td>' + item.MobileNo + '</td>';
                 html += '<td>' + item.PMDC + '</td>';
-                
+
                 html += '<td>' +
                     '<a href="#" onclick="return Approve(' + item.ID + ')">Approve</a> | ' +
                     '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
@@ -107,9 +111,9 @@ function getbyID(ID) {
     $('#FirstName').css('border-color', 'lightgrey');
     $('#LastName').css('border-color', 'lightgrey');
     $('#Email').css('border-color', 'lightgrey');
-     $('#MobileNo').css('border-color', 'lightgrey');
+    $('#MobileNo').css('border-color', 'lightgrey');
     $('#PMDC').css('border-color', 'lightgrey');
-    
+
     $.ajax({
         url: SERVER + "doctor/" + ID,
         typr: "GET",
@@ -120,7 +124,7 @@ function getbyID(ID) {
             $('#FirstName').val(result.ResponseData.FirstName);
             $('#LastName').val(result.ResponseData.LastName);
             $('#Email').val(result.ResponseData.Email);
-             $('#MobileNo').val(result.ResponseData.MobileNo);
+            $('#MobileNo').val(result.ResponseData.MobileNo);
             $('#PhoneNo').val(result.ResponseData.PhoneNo);
             $('#PMDC').val(result.ResponseData.PMDC);
             $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
@@ -206,7 +210,7 @@ function Approve(ID) {
                     //do what you need here
                     loadData();
                 }, 2000);
-                
+
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -258,7 +262,7 @@ function validate() {
     else {
         $('#Email').css('border-color', 'lightgrey');
     }
- 
+
     if ($('#MobileNo').val().trim() == "") {
         $('#MobileNo').css('border-color', 'Red');
         isValid = false;

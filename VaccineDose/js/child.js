@@ -181,8 +181,13 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
-            $('#myModal').modal('hide');
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                loadData();
+                $('#myModal').modal('hide');
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -282,19 +287,24 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
-
-            $('#myModal').modal('hide');
-            $('#ID').val("");
-            $("#Name").val("");
-            $("#FatherName").val("");
-            $("#Email").val("");
-            $("#DOB").val("");
-            $("#MobileNumber").val("");
             
-            $("input:checkbox").prop("checked", false);
-            $("#City").val("");
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                loadData();
 
+                $('#myModal').modal('hide');
+                $('#ID').val("");
+                $("#Name").val("");
+                $("#FatherName").val("");
+                $("#Email").val("");
+                $("#DOB").val("");
+                $("#MobileNumber").val("");
+
+                $("input:checkbox").prop("checked", false);
+                $("#City").val("");
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

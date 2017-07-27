@@ -25,18 +25,23 @@ function loadData(id) {
         dataType: "json",
         success: function (result) {
             var html = '';
-            $.each(result.ResponseData, function (key, item) {
-                html += '<tr>';
-                //html += '<td>' + (key + 1) + '</td>';
-                html += '<td><a href="#" onclick="SelectedClinic(' + item.ID + ')">' + item.Name + '</a></td>';
-                //html += '<td>' + item.OffDays + '</td>';
-                //html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
-                //html += '<td>' +
-                   
-                html += '</tr>';
-            });
-            $('.tbody').html(html);
-            HideAlert();
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<tr>';
+                    //html += '<td>' + (key + 1) + '</td>';
+                    html += '<td><a href="#" onclick="SelectedClinic(' + item.ID + ')">' + item.Name + '</a></td>';
+                    //html += '<td>' + item.OffDays + '</td>';
+                    //html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
+                    //html += '<td>' +
+
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+                HideAlert();
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -47,8 +52,8 @@ function SelectedClinic(Id) {
     var obj = {
         IsOnline: 'true',
         ID: Id,
-        DoctorID:DoctorId()
-     }
+        DoctorID: DoctorId()
+    }
     $.ajax({
         url: SERVER + "clinic/editClinic/",
         data: JSON.stringify(obj),

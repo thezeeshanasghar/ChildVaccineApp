@@ -26,20 +26,24 @@ function loadData(id) {
         dataType: "json",
         success: function (result) {
             var html = '';
-            $.each(result.ResponseData, function (key, item) {
-                html += '<tr>';
-                html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.OffDays + '</td>';
-                html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
-                html += '<td>' +
-                    '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
-                    '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                    '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
-                html += '</tr>';
-            });
-            $('.tbody').html(html);
-            HideAlert();
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + (key + 1) + '</td>';
+                    html += '<td>' + item.Name + '</td>';
+                    html += '<td>' + item.OffDays + '</td>';
+                    html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
+                    html += '<td>' +
+                        '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
+                        '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
+                        '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+                HideAlert();
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

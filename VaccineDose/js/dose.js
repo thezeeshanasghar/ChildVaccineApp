@@ -13,20 +13,25 @@ function loadData(id) {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var html = '';
-            $.each(result.ResponseData, function (key, item) {
-                html += '<tr>';
-                html += '<td>' + (key + 1) + '</td>';
-                html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.GapInDays + '</td>';
-                html += '<td>' + item.DoseOrder + '</td>';
-                html += '<td>' +
-                    '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                    '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
-                html += '</tr>';
-            });
-            $('.tbody').html(html);
-            HideAlert();
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var html = '';
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + (key + 1) + '</td>';
+                    html += '<td>' + item.Name + '</td>';
+                    html += '<td>' + item.GapInDays + '</td>';
+                    html += '<td>' + item.DoseOrder + '</td>';
+                    html += '<td>' +
+                        '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+                HideAlert();
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -40,13 +45,18 @@ function DoseName() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var DoseName = '';
-            $.each(result.ResponseData, function (key, item) {
-                DoseName = result.ResponseData.Name + " - Dose ";
-            });
-            $("#Name").val(function(){
-                return this.value = DoseName;
-            });
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var DoseName = '';
+                $.each(result.ResponseData, function (key, item) {
+                    DoseName = result.ResponseData.Name + " - Dose ";
+                });
+                $("#Name").val(function () {
+                    return this.value = DoseName;
+                });
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -72,9 +82,15 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var id = parseInt(getParameterByName("id")) || 0;
-            loadData(id);
-            $('#myModal').modal('hide');
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
+                $('#myModal').modal('hide');
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -94,14 +110,19 @@ function getbyID(ID) {
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-            $("#ID").val(result.ResponseData.ID);
-            $('#Name').val(result.ResponseData.Name);
-            $('#GapInDays').val(result.ResponseData.GapInDays);
-            $('#DoseOrder').val(result.ResponseData.DoseOrder);
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $("#ID").val(result.ResponseData.ID);
+                $('#Name').val(result.ResponseData.Name);
+                $('#GapInDays').val(result.ResponseData.GapInDays);
+                $('#DoseOrder').val(result.ResponseData.DoseOrder);
 
-            $('#myModal').modal('show');
-            $('#btnUpdate').show();
-            $('#btnAdd').hide();
+                $('#myModal').modal('show');
+                $('#btnUpdate').show();
+                $('#btnAdd').hide();
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -130,11 +151,16 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var id = parseInt(getParameterByName("id")) || 0;
-            loadData(id);
-            $('#myModal').modal('hide');
-            $('#ID').val("");
-            $('#Name').val("");
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
+                $('#myModal').modal('hide');
+                $('#ID').val("");
+                $('#Name').val("");
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -152,8 +178,13 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                var id = parseInt(getParameterByName("id")) || 0;
-                loadData(id);
+                if (!result.IsSuccess) {
+                    ShowAlert('Error', result.Message, 'danger');
+                }
+                else {
+                    var id = parseInt(getParameterByName("id")) || 0;
+                    loadData(id);
+                }
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);

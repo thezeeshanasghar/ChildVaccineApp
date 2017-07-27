@@ -301,6 +301,7 @@
     <Content Include="img\injectionFilled.png" />
     <Content Include="JqueryMobile\VaccineNav.html" />
     <Content Include="JqueryMobile\VaccineNav.js" />
+    <Content Include="js\additional-methods.min.js" />
     <Content Include="js\bootstrap-datepicker.min.js" />
     <Content Include="js\bootstrap-timepicker.min.js" />
     <Content Include="js\bootstrap.min.js" />
