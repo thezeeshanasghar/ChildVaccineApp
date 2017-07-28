@@ -45,21 +45,18 @@
                         <li id="menu-vaccine"><a href="vaccine.html">Vaccine</a></li>
                         <li id="menu-doctor"><a href="doctor.html">Doctor</a></li>
                         <li id="menu-clinic"><a href="clinic.html">Clinic</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schedules <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="custom-schedule.html">Schedule(Custom)</a></li>
+                                <li><a href="#">Schedule(WHO)</a></li>
+                            </ul>
+                        </li>
+
                         <li id="menu-child"><a href="child.html">Child</a></li>
                         <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>
                         <li id="menu-login"><a href="login.html">Login</a></li>
-                        <!--<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li class="dropdown-header">Nav header</li>
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="login.html">Logout</a></li>
-                            </ul>
-                        </li>-->
+
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
@@ -116,7 +113,7 @@
                                 <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" />
                             </div>
                             <div class="form-group">
-                                
+
                                 <label class="col-md-12" style="padding: 0px;">Off Days</label>
                                 <input id="Monday" class="OffDays" name="OffDays" type="checkbox" value="Monday" />&nbsp; Monday &nbsp; &nbsp;
                                 <input id="Tuesday" class="OffDays" name="OffDays" type="checkbox" value="Tuesday" />&nbsp;Tuesday&nbsp;&nbsp;
@@ -126,7 +123,7 @@
                                 &nbsp;&nbsp;&nbsp;<input id="Saturday" class="OffDays" name="OffDays" type="checkbox" value="Saturday" />&nbsp;Saturday&nbsp; &nbsp;
                                 &nbsp;&nbsp;&nbsp;<input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday" />&nbsp;Sunday
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="StartTime">Strat Time</label>
                                 <div class="input-group bootstrap-timepicker timepicker">
@@ -207,7 +204,7 @@
                 minuteStep: 30,
                 showMeridian: false,
                 disableFocus: false,
-                disableMousewheel:false
+                disableMousewheel: false
             });
             $('#EndTime').timepicker({
                 minuteStep: 30,
@@ -219,7 +216,7 @@
             $('#EndTime').timepicker('setTime', $('#EndTime').val());
         });
 
-        
+
     </script>
 </body>
 </html>
