@@ -12,19 +12,14 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class Schedule
+    public partial class DoctorSchedule
     {
         public int ID { get; set; }
-        public int ChildId { get; set; }
-        public int DoseId { get; set; }
-        public System.DateTime Date { get; set; }
-        public Nullable<double> Weight { get; set; }
-        public Nullable<double> Height { get; set; }
-        public Nullable<double> Circle { get; set; }
-        public string Brand { get; set; }
-        public bool IsDone { get; set; }
+        public int DoseID { get; set; }
+        public int DoctorID { get; set; }
+        public int GapInDays { get; set; }
     
-        public virtual Child Child { get; set; }
+        public virtual Doctor Doctor { get; set; }
         public virtual Dose Dose { get; set; }
     }
 }

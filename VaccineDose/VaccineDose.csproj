@@ -236,9 +236,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DoseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\DoctorScheduleController.cs" />
     <Compile Include="Controllers\VaccineController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Doctor.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoctorSchedule.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Dose.cs">
@@ -251,6 +255,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Model\ChildDTO.cs" />
+    <Compile Include="Model\DoctorSchedule.cs" />
     <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />

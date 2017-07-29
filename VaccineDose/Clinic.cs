@@ -29,10 +29,10 @@ namespace VaccineDose
         public double Long { get; set; }
         public int DoctorID { get; set; }
         public string PhoneNumber { get; set; }
-        public Nullable<bool> IsOnline { get; set; }
+        public bool IsOnline { get; set; }
     
-        public virtual Doctor Doctor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Child> Children { get; set; }
+        public virtual Doctor Doctor { get; set; }
     }
 }

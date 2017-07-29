@@ -17,15 +17,18 @@ namespace VaccineDose
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Dose()
         {
+            this.DoctorSchedules = new HashSet<DoctorSchedule>();
             this.Schedules = new HashSet<Schedule>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
         public int VaccineID { get; set; }
-        public Nullable<int> GapInDays { get; set; }
-        public Nullable<int> DoseOrder { get; set; }
+        public int GapInDays { get; set; }
+        public int DoseOrder { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorSchedule> DoctorSchedules { get; set; }
         public virtual Vaccine Vaccine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Schedule> Schedules { get; set; }

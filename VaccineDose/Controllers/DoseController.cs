@@ -2,14 +2,32 @@
 using System.Web.Http;
 using AutoMapper;
 using System;
-
-
+using System.Collections.Generic;
 
 namespace VaccineDose.Controllers
 {
     public class DoseController : BaseController
     {
         #region C R U D
+
+        public Response<IEnumerable<DoseDTO>> Get()
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoses = entities.Doses.ToList();
+                    IEnumerable<DoseDTO> doseDTOs = Mapper.Map<IEnumerable<DoseDTO>>(dbDoses);
+                    return new Response<IEnumerable<DoseDTO>>(true, null, doseDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<DoseDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+
         public Response<DoseDTO> Get(int Id)
         {
             try
@@ -21,11 +39,11 @@ namespace VaccineDose.Controllers
                     return new Response<DoseDTO>(true, null, doseDTO);
                 }
             }
-            catch (Exception e )
+            catch (Exception e)
             {
                 return new Response<DoseDTO>(false, GetMessageFromExceptionObject(e), null);
             }
-         }
+        }
 
 
         public Response<DoseDTO> Post(DoseDTO doseDTO)
@@ -59,7 +77,7 @@ namespace VaccineDose.Controllers
                     return new Response<DoseDTO>(true, null, doseDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<DoseDTO>(false, GetMessageFromExceptionObject(e), null);
             }
@@ -77,7 +95,7 @@ namespace VaccineDose.Controllers
                     return new Response<string>(true, null, "record deleted");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
                     return new Response<string>(false, "Cannot delete child because it schedule exits. Delete the child schedule first.", null);
@@ -87,7 +105,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
-     
+
 
 
     }
