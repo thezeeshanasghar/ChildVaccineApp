@@ -192,8 +192,6 @@ function clearTextBox() {
     $('#btnAdd').show();
 
     $('#Name').css('border-color', 'lightgrey');
-    $('#GapInDays').css('border-color', 'lightgrey');
-    $('#DoseOrder').css('border-color', 'lightgrey');
 }
 
 
@@ -210,21 +208,6 @@ function validate() {
         $('#Name').css('border-color', 'lightgrey');
     }
 
-    if ($('#GapInDays').val().trim() == "") {
-        $('#GapInDays').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#GapInDays').css('border-color', 'lightgrey');
-    }
-
-    if ($('#DoseOrder').val().trim() == "") {
-        $('#DoseOrder').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#DoseOrder').css('border-color', 'lightgrey');
-    }
 
     return isValid;
 }
