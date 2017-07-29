@@ -1,17 +1,15 @@
-﻿CREATE TABLE [dbo].[Dose](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NULL,
-	[VaccineID] [int] NOT NULL,
- [GapInDays] INT NULL, 
-    [DoseOrder] INT NULL, 
-    CONSTRAINT [PK_Dose] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Dose] ADD  CONSTRAINT [FK_Dose_Vaccine] FOREIGN KEY([VaccineID])
-REFERENCES [dbo].[Vaccine] ([ID])
+﻿CREATE TABLE [dbo].[Dose] (
+    [ID]        INT           IDENTITY (1, 1) NOT NULL,
+    [Name]      NVARCHAR (50) NOT NULL,
+    [VaccineID] INT           NOT NULL,
+    [GapInDays] INT           NOT NULL,
+    [DoseOrder] INT           NOT NULL,
+    CONSTRAINT [PK_Dose] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_Dose_Vaccine] FOREIGN KEY ([VaccineID]) REFERENCES [dbo].[Vaccine] ([ID])
+);
+
+
 GO
 
-ALTER TABLE [dbo].[Dose] CHECK CONSTRAINT [FK_Dose_Vaccine]
+GO
+

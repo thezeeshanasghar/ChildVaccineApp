@@ -59,7 +59,7 @@ namespace VaccineDose
 
             using (MailMessage mail = new MailMessage(teamEmail, userEmail))
             {
-                mail.Subject = "AFZ-Tech Team";
+                mail.Subject = "Registered into MyVacc";
                 mail.Body = body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();

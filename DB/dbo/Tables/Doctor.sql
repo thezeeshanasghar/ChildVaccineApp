@@ -1,19 +1,17 @@
-﻿CREATE TABLE [dbo].[Doctor](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[FirstName] [nvarchar](50) NOT NULL,
-	[LastName] [nvarchar](50) NOT NULL,
-	[Email] [nvarchar](50) NOT NULL,
-	[MobileNo] [nvarchar](50) NOT NULL,
-	[Password] [nvarchar](50) NOT NULL,
-	[PMDC] [nvarchar](50) NOT NULL,
-	[IsApproved] [bit] NOT NULL,
- [ShowPhone] BIT NULL, 
-    [ShowMobile] BIT NULL, 
-    [PhoneNo] NVARCHAR(50) NULL, 
-    CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+﻿CREATE TABLE [dbo].[Doctor] (
+    [ID]         INT           IDENTITY (1, 1) NOT NULL,
+    [FirstName]  NVARCHAR (50) NOT NULL,
+    [LastName]   NVARCHAR (50) NOT NULL,
+    [Email]      NVARCHAR (50) NOT NULL,
+    [MobileNo]   NVARCHAR (50) NOT NULL,
+    [Password]   NVARCHAR (50) NOT NULL,
+    [PMDC]       NVARCHAR (50) NOT NULL,
+    [IsApproved] BIT           CONSTRAINT [DF_Doctor_IsApproved] DEFAULT ((0)) NOT NULL,
+    [ShowPhone]  BIT           CONSTRAINT [DF_Doctor_ShowPhone] DEFAULT ((1)) NOT NULL,
+    [ShowMobile] BIT           CONSTRAINT [DF_Doctor_ShowMobile] DEFAULT ((1)) NOT NULL,
+    [PhoneNo]    NVARCHAR (50) NULL,
+    CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
 GO
-ALTER TABLE [dbo].[Doctor] ADD  CONSTRAINT [DF_Doctor_IsApproved]  DEFAULT ((0)) FOR [IsApproved]
