@@ -48,7 +48,6 @@ namespace VaccineDose.Controllers
                     //send email to parent
                     UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x=>x.ID==childDTO.ID).FirstOrDefault());
                     
-                    // TODO: Generate Schedule here
                     List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
                     foreach (Vaccine v in vaccines)
                     {

@@ -47,10 +47,10 @@ namespace VaccineDose
         public static void DoctorEmail(DoctorDTO doctor)
         {
             string body = "Hi " + "<b>" + doctor.FirstName + " " + doctor.LastName + "</b>, <br />"
-                + "You are succesfully registered in <b>MyVaccs</b>.<br />"
+                + "You are succesfully registered in <b>MyVaccs</b>.<br /><br />"
                 + "Your accounter credentials are: <br />"
                 + "ID/Mobile Number: " + doctor.MobileNo + "<br />"
-                + "Password: " + doctor.MobileNo + "<br />";
+                + "Password: " + doctor.Password + "<br />";
             SendEmail(doctor.FirstName, doctor.Email, body);
         }
 

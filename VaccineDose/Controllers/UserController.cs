@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
@@ -22,7 +24,7 @@ namespace VaccineDose.Controllers
                     return new Response<IEnumerable<UserDTO>>(true, null, userDTOs);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<IEnumerable<UserDTO>>(false, GetMessageFromExceptionObject(e), null);
 
@@ -40,7 +42,7 @@ namespace VaccineDose.Controllers
                     return new Response<UserDTO>(true, null, UserDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -60,7 +62,7 @@ namespace VaccineDose.Controllers
                     return new Response<UserDTO>(true, null, UserDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -79,7 +81,7 @@ namespace VaccineDose.Controllers
                     return new Response<UserDTO>(true, null, UserDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
 
@@ -126,8 +128,10 @@ namespace VaccineDose.Controllers
                         var doctorDb = entities.Doctors.Where(x => x.MobileNo == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
                         if (doctorDb == null)
                             return new Response<UserDTO>(false, "Doctor not found.", null);
-                        else
-                            userDTO.DoctorID = doctorDb.ID;
+                        if (!doctorDb.IsApproved)
+                            return new Response<UserDTO>(false, "You are not approved. Contact admin for approval at 923465430413", null);
+
+                        userDTO.DoctorID = doctorDb.ID;
                     }
                     else if (userDTO.UserType.Equals("PARENT"))
                     {
@@ -141,13 +145,42 @@ namespace VaccineDose.Controllers
                     return new Response<UserDTO>(true, null, userDTO);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
 
             }
         }
-       
+
+        [HttpGet]
+        [Route("checkUniqueMobile")]
+        public HttpResponseMessage CheckUniqueMobile(string MobileNo)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    User userDB = entities.Users.Where(x => x.MobileNumber == MobileNo).FirstOrDefault();
+                    if (userDB == null)
+                        return Request.CreateResponse((HttpStatusCode)200);
+                    else
+                    {
+                        //return BadRequest("Mobile number already exists");
+                        //return Content((HttpStatusCode)400, "Mobile number already exists");
+                        //return new System.Web.Http.Results.ResponseMessageResult(
+                        //    Request.CreateErrorResponse((HttpStatusCode)422, new HttpError("Mobile number already exists")));
+                        int HTTPResponse = 400;
+                        var response = Request.CreateResponse((HttpStatusCode)HTTPResponse);
+                        response.ReasonPhrase = "Mobile Number already exists";
+                        return response;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
 
     }
 }
