@@ -185,7 +185,8 @@ function Add() {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                ShowAlert('Custom Schedule', 'Custom Schedule is saved successfully.', 'success');
+                loadData();
+                $('#myModal').modal('hide');
             }
         },
         error: function (errormessage) {

@@ -67,7 +67,29 @@ function ShowAlert(msg_title, msg_body, msg_type) {
     var AlertMsg = $('#alert_message');
     $(AlertMsg).find('strong').html(msg_title);
     $(AlertMsg).find('p').html(msg_body);
-    $(AlertMsg).addClass('alert-' + msg_type);
+
+    if (msg_type == 'success') {
+        $(AlertMsg).removeClass('alert-info');
+        $(AlertMsg).removeClass('alert-warning');
+        $(AlertMsg).removeClass('alert-danger');
+        $(AlertMsg).addClass('alert-' + msg_type);
+    } else if (msg_type == 'info') {
+        $(AlertMsg).removeClass('alert-success');
+        $(AlertMsg).removeClass('alert-warning');
+        $(AlertMsg).removeClass('alert-danger');
+        $(AlertMsg).addClass('alert-' + msg_type);
+    } else if (msg_type == 'warning') {
+        $(AlertMsg).removeClass('alert-success');
+        $(AlertMsg).removeClass('alert-info');
+        $(AlertMsg).removeClass('alert-danger');
+        $(AlertMsg).addClass('alert-' + msg_type);
+    } else if (msg_type == 'danger') {
+        $(AlertMsg).removeClass('alert-success');
+        $(AlertMsg).removeClass('alert-warning');
+        $(AlertMsg).removeClass('alert-info');
+        $(AlertMsg).addClass('alert-' + msg_type);
+    }
+
     $(AlertMsg).show();
 }
 

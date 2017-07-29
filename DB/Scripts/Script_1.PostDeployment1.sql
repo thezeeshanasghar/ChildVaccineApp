@@ -18,21 +18,21 @@ INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
 ('Rota Virus', 42, 70);
 GO
 
-INSERT INTO Dose (Name,GapInDays, DoseOrder, VaccineID) VALUES
-('BCG - Dose 1',0,1, 1),
-('Hepatitis B',0 , 1, 2),
-('Polio - Dose 1', 0 , 1, 3),
-('Polio - Dose 2', 45 , 2, 3),
-('Polio - Dose 3', 25 , 3, 3),
-('Polio - Dose 4', 25 , 4, 3),
-('Pentavalent - Dose 1', 42 , 1, 4),
-('Pentavalent - Dose 2', 70,2,  4),
-('Pentavalent - Dose 3', 98,3, 4),
-('Phneumococal - Dose 1',42,1, 5),
-('Phneumococal - Dose 2',70,2, 5),
-('Phneumococal - Dose 3',14,3, 5),
-('Rota Virus - Dose 1', 42,1,  6),
-('Rota Virus - Dose 2', 70,2, 6);
+INSERT INTO Dose (Name, VaccineID) VALUES
+('BCG # 1', (SELECT ID FROM Vaccine WHERE Name='BCG')),
+('Hepatitis B', (SELECT ID FROM Vaccine WHERE Name='Hepatitis B')),
+('Polio # 1', (SELECT ID FROM Vaccine WHERE Name='Polio')),
+('Polio # 2', (SELECT ID FROM Vaccine WHERE Name='Polio')),
+('Polio # 3', (SELECT ID FROM Vaccine WHERE Name='Polio')),
+('Polio # 4', (SELECT ID FROM Vaccine WHERE Name='Polio')),
+('Pentavalent # 1', (SELECT ID FROM Vaccine WHERE Name='Pentavalent')),
+('Pentavalent # 2',  (SELECT ID FROM Vaccine WHERE Name='Pentavalent')),
+('Pentavalent # 3', (SELECT ID FROM Vaccine WHERE Name='Pentavalent')),
+('Phneumococal # 1', (SELECT ID FROM Vaccine WHERE Name='Phneumococal')),
+('Phneumococal # 2', (SELECT ID FROM Vaccine WHERE Name='Phneumococal')),
+('Phneumococal # 3', (SELECT ID FROM Vaccine WHERE Name='Phneumococal')),
+('Rota Virus # 1', (SELECT ID FROM Vaccine WHERE Name='Rota Virus')),
+('Rota Virus # 2', (SELECT ID FROM Vaccine WHERE Name='Rota Virus'));
 GO
 
 INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES

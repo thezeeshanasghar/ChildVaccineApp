@@ -73,8 +73,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="VaccineID" Type="int" Nullable="false" />
-          <Property Name="GapInDays" Type="int" Nullable="false" />
-          <Property Name="DoseOrder" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Schedule">
           <Key>
@@ -239,7 +237,6 @@
           <EntitySet Name="Clinics" EntityType="VDModel.Clinic" />
           <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
           <EntitySet Name="DoctorSchedules" EntityType="VDModel.DoctorSchedule" />
-          <EntitySet Name="Doses" EntityType="VDModel.Dose" />
           <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
           <EntitySet Name="Users" EntityType="VDModel.User" />
           <EntitySet Name="Vaccines" EntityType="VDModel.Vaccine" />
@@ -259,6 +256,7 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
           </AssociationSet>
+          <EntitySet Name="Doses" EntityType="VDModel.Dose" />
           <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
             <End Role="Dose" EntitySet="Doses" />
             <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
@@ -271,7 +269,7 @@
             <End Role="Dose" EntitySet="Doses" />
             <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Child">
           <Key>
             <PropertyRef Name="ID" />
@@ -340,19 +338,6 @@
           <Property Name="GapInDays" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="DoctorSchedule" ToRole="Doctor" />
           <NavigationProperty Name="Dose" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="DoctorSchedule" ToRole="Dose" />
-        </EntityType>
-        <EntityType Name="Dose">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VaccineID" Type="Int32" Nullable="false" />
-          <Property Name="GapInDays" Type="Int32" Nullable="false" />
-          <Property Name="DoseOrder" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="Dose" ToRole="DoctorSchedule" />
-          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Dose" ToRole="Vaccine" />
-          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Dose" FromRole="Dose" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="Schedule">
           <Key>
@@ -437,6 +422,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Dose">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VaccineID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="Dose" ToRole="DoctorSchedule" />
+          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Dose" ToRole="Vaccine" />
+          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Dose" FromRole="Dose" ToRole="Schedule" />
+        </EntityType>
         <Association Name="FK_DoctorSchedule_Dose">
           <End Type="VDModel.Dose" Role="Dose" Multiplicity="1" />
           <End Type="VDModel.DoctorSchedule" Role="DoctorSchedule" Multiplicity="*" />
@@ -544,17 +540,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Doses">
-            <EntityTypeMapping TypeName="VDModel.Dose">
-              <MappingFragment StoreEntitySet="Dose">
-                <ScalarProperty Name="DoseOrder" ColumnName="DoseOrder" />
-                <ScalarProperty Name="GapInDays" ColumnName="GapInDays" />
-                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Schedules">
             <EntityTypeMapping TypeName="VDModel.Schedule">
               <MappingFragment StoreEntitySet="Schedule">
@@ -585,6 +570,15 @@
               <MappingFragment StoreEntitySet="Vaccine">
                 <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doses">
+            <EntityTypeMapping TypeName="VDModel.Dose">
+              <MappingFragment StoreEntitySet="Dose">
+                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

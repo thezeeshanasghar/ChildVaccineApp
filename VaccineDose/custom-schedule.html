@@ -79,7 +79,7 @@
     <script src="js/common.js"></script>
     <script>
         $(document).ready(function () {
-            
+
             ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
             $.ajax({
                 url: SERVER + "dose",
@@ -92,8 +92,8 @@
                     } else {
                         $.each(result.ResponseData, function (key, item) {
                             markup = '';
-                            if (key == 1) {
-                                markup = getClinicForm(1,item);
+                            if (key == 0) {
+                                markup = getClinicForm(1, item);
                                 $('.btnLine').before(markup);
                                 total_forms = 1;
                                 $('.add-clinic-form .total-forms').val(total_forms);
@@ -114,7 +114,7 @@
                 }
             });
 
-            
+
         });
         function Add() {
             var total_forms = $('.add-clinic-form .total-forms').val();
@@ -140,9 +140,10 @@
 
                     if (!result.IsSuccess)
                         ShowAlert('Error', result.Message, 'danger');
-                    else 
-                        ShowAlert('Custom Schedule', 'Custom schedule is saved.', 'success');
-
+                    else {
+                        ShowAlert('Success', 'Custom schedule is saved.', 'success');
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                    }
                 },
                 error: function (errormessage) {
                     alert(errormessage.responseText);

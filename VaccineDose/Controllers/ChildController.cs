@@ -48,28 +48,22 @@ namespace VaccineDose.Controllers
                     //send email to parent
                     UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x=>x.ID==childDTO.ID).FirstOrDefault());
                     
-                    List<Vaccine> vaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
-                    foreach (Vaccine v in vaccines)
+                    // get doctor schedule and apply it to child and save in Schedule page
+                    Clinic clinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();
+                    Doctor doctor = clinic.Doctor;
+                    IEnumerable<DoctorSchedule> dss = doctor.DoctorSchedules;
+                    foreach (DoctorSchedule ds in dss)
                     {
-                        List<Dose> doses = v.Doses.OrderBy(i => i.DoseOrder).ToList();
-
-                        int gap = Convert.ToInt32(v.MinAge);
-                        foreach (Dose d in doses)
-                        {
-                            gap = gap + Convert.ToInt32(d.GapInDays);
-                            //DateTime currentDate = DateTime.Now.AddDays(gap);
-                            DateTime currentDate = childDB.DOB == null ? DateTime.Now.AddDays(gap) : Convert.ToDateTime(childDB.DOB).AddDays(gap);
-                            Schedule cvd = new Schedule();
-                            cvd.ChildId = childDTO.ID;
-                            cvd.DoseId = d.ID;
-                            cvd.IsDone = false;
-
-                            cvd.Date = currentDate;
-
-                            entities.Schedules.Add(cvd);
-                            entities.SaveChanges();
-                        }
+                        Schedule cvd = new Schedule();
+                        cvd.ChildId = childDTO.ID;
+                        cvd.DoseId = ds.DoseID;
+                        cvd.IsDone = false;
+                        cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
+                        entities.Schedules.Add(cvd);
+                        entities.SaveChanges();
                     }
+
+
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
             }
