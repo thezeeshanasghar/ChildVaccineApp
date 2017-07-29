@@ -196,33 +196,5 @@ namespace VaccineDose.Controllers
 
             }
         }
-
-        //TODO:  wehere this method needed or not
-        [Route("api/doctor/{id}/online-clinic")]
-        public Response<ClinicDTO> GetOnlineClinicOfaDoctor(int id)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    var doctor = entities.Doctors.FirstOrDefault(c => c.ID == id);
-                    if (doctor == null)
-                        return new Response<ClinicDTO>(false, "Doctor not found", null);
-                    else
-                    {
-                        var dbClinic = doctor.Clinics.Where(x => x.IsOnline == true).FirstOrDefault();
-                        if (dbClinic == null)
-                            return new Response<ClinicDTO>(false, "Clinic not found", null);
-                        var clinicDTO = Mapper.Map<ClinicDTO>(dbClinic);
-                        return new Response<ClinicDTO>(true, null, clinicDTO);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<ClinicDTO>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
     }
 }

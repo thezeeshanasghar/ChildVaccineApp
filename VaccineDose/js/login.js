@@ -16,6 +16,7 @@ function Login() {
             dataType: "json",
             success: function (result) {
                 if (!result.IsSuccess) {
+                    // TODO Muneeb: add proper bootstrap alert instead of browser alert
                     alert(result.Message);
                     return;
                 }
