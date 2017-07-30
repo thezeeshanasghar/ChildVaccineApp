@@ -16,19 +16,20 @@
 
         <div id="menu"></div>
 
-        <div class="container">
-            <h2>Child Records</h2>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Child Records</h2>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
 
-            <div id="alert_message" class="alert alert-dismissible alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
-                <strong>loading title!</strong>
-                <p>loading message</p>
+                <div id="alert_message" class="alert alert-dismissible alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                    <strong>loading title!</strong>
+                    <p>loading message</p>
+                </div>
+
+                <div class="row" id="childrecords">
+                </div>
             </div>
-
-            <div class="row" id="childrecords">
-            </div>
-
         </div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -57,7 +58,7 @@
                                 <label for="DOB">Date of Birth</label>
                                 <div id="dob-container">
                                     <div class="input-group date">
-                                        <input type="text" id="DOB" placeholder="Date of Birth"  class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                        <input type="text" id="DOB" placeholder="Date of Birth" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +77,7 @@
                                 &nbsp;&nbsp;&nbsp;<input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />&nbsp;Sunday
                             </div>
 
-                            
+
                             <div class="form-group">
                                 <label for="Gender">Gender</label><br />
                                 <input type="radio" name="gender" id="Gender" value="Boy" checked="checked" />&nbsp;Boy &nbsp; &nbsp;
@@ -107,7 +108,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                
+
                                 <input type="checkbox" id="IsEPIDone" /> <b>Is EPI Done</b> &nbsp;
                                 <input type="checkbox" id="IsVerified" /> <b>Verified</b> &nbsp;
                                 <small class="text-danger">(Select only if 9 months are completed)</small>
@@ -144,7 +145,7 @@
                 autoclose: true,
                 todayHighlight: true
             });
-            $('#dob-container .input-group.date').datepicker('update', $("#DOB").val() );
+            $('#dob-container .input-group.date').datepicker('update', $("#DOB").val());
         });
     </script>
 </body>

@@ -66,51 +66,30 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#">MyVaccs</a>
-                </div><!--/.nav-collapse -->
-
-
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="index.html">Home</a></li>
-                        <li id="menu-doctor-signup"><a href="doctor-signup.html">Doctor Signup</a></li>
-                        <li id="menu-vaccine"><a href="vaccine.html">Vaccine</a></li>
-                        <li id="menu-doctor"><a href="doctor.html">Doctor</a></li>
-                        <li id="menu-child"><a href="child.html">Child</a></li>
-                        <li id="menu-custom-schedule" class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schedules <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="custom-schedule.html">Custom Schedule</a></li>
-                                <li class="disabled"><a href="#">WHO Schedule</a></li>
-                            </ul>
-                        </li>
-                        <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>
-                        <li id="menu-login"><a href="login.html">Login</a></li>
-                    </ul>
-                </div><!--/.nav-collapse -->
-            </div><!--/.container-fluid -->
-
-        </nav>
-        
-        <div class="container">
-            <div class="form-signin">
-                <h2 class="form-signin-heading">Please sign in</h2>
-
-                <label for="MobileNumber" class="sr-only">Mobile Number</label>
-                <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" required autofocus>
-
-                <label for="Password" class="sr-only">Password</label>
-                <input type="password" class="form-control" id="Password" placeholder="Password" required>
-
-                <!--<div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label></div>-->
-                <button class="btn btn-lg btn-primary btn-block" onclick="return Login();">Sign in</button>
+                </div>
             </div>
+        </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-signin">
+                    <h2 class="form-signin-heading">Please sign in</h2>
 
-        </div> <!-- /container -->
+                    <label for="MobileNumber" class="sr-only">Mobile Number</label>
+                    <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" required autofocus>
 
-    </div>
+                    <label for="Password" class="sr-only">Password</label>
+                    <input type="password" class="form-control" id="Password" placeholder="Password" required>
+
+                    <!--<div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label></div>-->
+                    <button class="btn btn-lg btn-primary btn-block" onclick="return Login();">Sign in</button>
+                </div>
+
+            </div> 
+        </div>
+    </div><!-- /container -->
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
