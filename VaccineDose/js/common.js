@@ -14,6 +14,7 @@ var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 //    document.getElementById("footer").appendChild(el.cloneNode(true));
 //}, false);
 $(document).ready(function () {
+    SetMainNav();
     var pageName = document.location.href.match(/[^\/]+$/)[0]
     if (localStorage.getItem('UserType') == null) {
         HideFromAnonmousUsers();
@@ -53,7 +54,43 @@ $(document).ready(function () {
         $('#menu-custom-schedule').hide();
      }
 });
- 
+
+function SetMainNav() {
+    var markup = '';
+    markup = '<nav class="navbar navbar-default">';
+    markup += '<div class="container-fluid">';
+    markup += '    <div class="navbar-header">';
+    markup += '        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">';
+    markup += '            <span class="sr-only">Toggle navigation</span>';
+    markup += '            <span class="icon-bar"></span>';
+    markup += '            <span class="icon-bar"></span>';
+    markup += '            <span class="icon-bar"></span>';
+    markup += '        </button>';
+    markup += '        <a class="navbar-brand" href="#">MyVaccs</a>';
+    markup += '    </div><!--/.nav-collapse -->';
+    markup += '    <div id="navbar" class="navbar-collapse collapse">';
+    markup += '        <ul class="nav navbar-nav navbar-right">';
+    markup += '            <li><a href="index.html">Home</a></li>';
+    markup += '            <li id="menu-doctor-signup"><a href="doctor-signup.html">Doctor Signup</a></li>';
+    markup += '            <li id="menu-vaccine"><a href="vaccine.html">Vaccine</a></li>';
+    markup += '            <li id="menu-doctor"><a href="doctor.html">Doctor</a></li>';
+    markup += '            <li id="menu-clinic"><a href="clinic.html">Clinic</a></li>';
+    markup += '            <li id="menu-custom-schedule" class="dropdown">';
+    markup += '                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schedules <span class="caret"></span></a>';
+    markup += '                <ul class="dropdown-menu">';
+    markup += '                    <li><a href="custom-schedule.html">Custom Schedule</a></li>';
+    markup += '                    <li class="disabled"><a href="#">WHO Schedule</a></li>';
+    markup += '                </ul>';
+    markup += '            </li>';
+    markup += '            <li id="menu-child"><a href="child.html">Child</a></li>';
+    markup += '            <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
+    markup += '            <li id="menu-login"><a href="login.html">Login</a></li>';
+    markup += '        </ul>';
+    markup += '    </div><!--/.nav-collapse -->';
+    markup += '</div><!--/.container-fluid -->';
+    markup +='</nav>';
+    $('#menu').html(markup);
+}
 function HideFromAnonmousUsers() {
     $('#menu-logout').hide();
     $('#menu-child').hide();
