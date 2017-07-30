@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    // var id = parseInt(getParameterByName("id")) || 0;
     var id = DoctorId();
     loadData(id);
 });
@@ -25,21 +24,13 @@ function loadData(id) {
         dataType: "json",
         success: function (result) {
             var html = '';
-            if (!result.IsSuccess) {
+            if (!result.IsSuccess) 
                 ShowAlert('Error', result.Message, 'danger');
-            }
             else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<tr>';
-                    //html += '<td>' + (key + 1) + '</td>';
-                    html += '<td><a href="#" onclick="SelectedClinic(' + item.ID + ')">' + item.Name + '</a></td>';
-                    //html += '<td>' + item.OffDays + '</td>';
-                    //html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
-                    //html += '<td>' +
-
-                    html += '</tr>';
+                    html += '<div class="well well-lg" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:30px">' + item.Name + '<span class="badge pull-right" style="font-size:25px">0</span></li>';
                 });
-                $('.tbody').html(html);
+                $('.wells').html(html);
                 HideAlert();
             }
         },
@@ -61,7 +52,9 @@ function SelectedClinic(Id) {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+            localStorage.setItem('OnlineClinic', Id);
             window.location = 'clinic.html';
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
