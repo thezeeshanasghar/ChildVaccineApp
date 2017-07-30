@@ -16,7 +16,7 @@ var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 $(document).ready(function () {
     SetMainNav();
     var pageName = document.location.href.match(/[^\/]+$/);
-    if (!pageName)
+    if (pageName!=null)
         pageName = pageName[0];
     if (localStorage.getItem('UserType') == null) {
         HideFromAnonmousUsers();

@@ -2,6 +2,12 @@
     localStorage.clear();
 });
 function Login() {
+        $('#form1').validator('validate');
+        var validator = $('#form1').data("bs.validator");
+        if (validator.hasErrors())
+            return false;
+      
+
         var obj = {
             MobileNumber: $('#MobileNumber').val(),
             Password: $('#Password').val(),
