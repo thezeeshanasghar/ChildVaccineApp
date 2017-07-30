@@ -57,17 +57,18 @@
                         <h4 class="modal-title" id="myModalLabel">Add New</h4>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form role="form" data-toggle="validator">
                             <input type="text" class="form-control" id="ID" style="display:none" />
 
                             <div class="form-group">
                                 <label for="Name">Name</label>
-                                <input type="text" class="form-control" id="Name" placeholder="Name" />
+                                <input type="text" class="form-control" id="Name" placeholder="Name" required  data-minlength="3" />
+                                
                             </div>
                             <div class="form-group">
                                 <label for="MinAge">Min Age</label>
                                 <!--<input type="number" class="form-control" id="MinAge" placeholder="Min Age" />-->
-                                <select id="MinAge" class="form-control">
+                                <select id="MinAge" class="form-control" required >
                                     <option value="">-- select min age --</option>
                                     <option value="0">At Birth</option>
                                     <option value="42">6 Weeks</option>
@@ -109,7 +110,7 @@
                             <div class="form-group">
                                 <label for="MaxAge">Max Age (optional)</label>
                                 <!--<input type="number" class="form-control" id="MaxAge" placeholder="Max Age" />-->
-                                <select id="MaxAge" class="form-control">
+                                <select id="MaxAge" class="form-control" >
                                     <option value="">-- select min age --</option>
                                     <option value="0">At Birth</option>
                                     <option value="42">6 Weeks</option>
@@ -168,7 +169,7 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <script src="js/validator.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/vaccine.js"></script>
 </body>
