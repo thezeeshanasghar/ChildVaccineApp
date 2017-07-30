@@ -68,7 +68,8 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            ShowAlert('Registration', 'Your are successfully singup for <b>MyVacc</b><br/>Now admin will approve your singup then you can <a href="login.html">login</a> to MyVacc', 'success');
+            ShowAlert('Registration', 'Your are successfully singup for <b>MyVacc</b><br/>Now admin will approve your singup then you can <a href="login.html">login</a> to <b>MyVacc</b>', 'success');
+            ScrollToTop();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -97,7 +98,4 @@ function ShowHide(event) {
             $("#doctor").hide();
             $("#clinic").show();
         }
-
-    
-    
 }

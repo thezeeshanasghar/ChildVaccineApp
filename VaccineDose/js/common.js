@@ -24,8 +24,9 @@ $(document).ready(function () {
         }
         $('#menu-doctor-signup').hide();
         $('#menu-login').hide();
-        $('#menu-clinic').hide();
+        $('#menu-clinic').hide(); 
         $('#menu-child').hide();
+        $('#menu-custom-schedule').hide();
     }
     else if (localStorage.getItem('UserType') == 'DOCTOR') {
         if (pageName == 'vaccine.html'
@@ -49,7 +50,7 @@ $(document).ready(function () {
         $('#menu-clinic').hide();
         $('#menu-doctor-signup').hide();
         $('#menu-login').hide();
-
+        $('#menu-custom-schedule').hide();
      }
 });
  
@@ -124,4 +125,8 @@ function PasswordGenerator() {
         retVal += charset.charAt(Math.floor(Math.random() * n));
     }
     return retVal;
+}
+
+function ScrollToTop() {
+    $("html, body").animate({ scrollTop: 0 }, "slow");
 }

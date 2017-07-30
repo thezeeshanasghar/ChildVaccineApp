@@ -35,15 +35,14 @@
                         <li id="menu-vaccine"><a href="vaccine.html">Vaccine</a></li>
                         <li id="menu-doctor"><a href="doctor.html">Doctor</a></li>
                         <li id="menu-clinic"><a href="clinic.html">Clinic</a></li>
-                        <li class="dropdown">
+                        <li id="menu-child"><a href="child.html">Child</a></li>
+                        <li id="menu-custom-schedule" class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schedules <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="custom-schedule.html">Custom Schedule</a></li>
                                 <li class="disabled"><a href="#">WHO Schedule</a></li>
                             </ul>
                         </li>
-
-                        <li id="menu-child"><a href="child.html">Child</a></li>
                         <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>
                         <li id="menu-login"><a href="login.html">Login</a></li>
 
@@ -142,7 +141,7 @@
                         ShowAlert('Error', result.Message, 'danger');
                     else {
                         ShowAlert('Success', 'Custom schedule is saved.', 'success');
-                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                        ScrollToTop();
                     }
                 },
                 error: function (errormessage) {
