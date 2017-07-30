@@ -15,7 +15,9 @@ var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 //}, false);
 $(document).ready(function () {
     SetMainNav();
-    var pageName = document.location.href.match(/[^\/]+$/)[0]
+    var pageName = document.location.href.match(/[^\/]+$/);
+    if (!pageName)
+        pageName = pageName[0];
     if (localStorage.getItem('UserType') == null) {
         HideFromAnonmousUsers();
     }
