@@ -1,5 +1,33 @@
 ﻿$(document).ready(function () {
+    CheckDoctorSchedule();
+});
+function CheckDoctorSchedule() {
+    var html = "";
+    $.ajax({
+        url: SERVER + "doctorschedule/" + DoctorId(),
+        type: "Get",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
 
+            if (!result.IsSuccess){
+                LoadCustomSchedule();
+                html += '<input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" value="Create Schedule" />'
+                $("#btn").html(html);
+            }   
+            else {
+                html += '<input type="button" class="btn btn-primary" id="btnEdit" onclick="return Update();" value="Edit Schedule" />' 
+                $("#btn").html(html);
+            }
+            HideAlert();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+ 
+}
+function LoadCustomSchedule() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
         url: SERVER + "dose",
@@ -17,7 +45,7 @@
                         $('.btnLine').before(markup);
                         total_forms = 1;
                         $('.add-clinic-form .total-forms').val(total_forms);
-                        
+
                     } else {
                         form_id = $('.form-fields:last').attr('data-form-id');
                         form_id++;
@@ -25,11 +53,11 @@
                         $('.form-fields:last').after(markup);
                         total_forms = $('.form-fields').length;
                         $('.add-clinic-form .total-forms').val(total_forms);
-                        
+
                     }
 
                 });
-                
+
 
                 HideAlert();
 
@@ -40,8 +68,7 @@
         }
     });
 
-
-});
+}
 function Add() {
     var res = validate();
     if (res == false) {
@@ -91,7 +118,9 @@ function DoctorId() {
         else 0;
     }
 }
+function Update() {
 
+}
 
 function getClinicForm(form_id, dose) {
     markup = '<div class="form-group form-fields" data-form-id="' + form_id + '">';
@@ -159,5 +188,5 @@ function validate() {
         return true;
     else
         return false;
-    
+
 }
