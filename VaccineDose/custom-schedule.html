@@ -39,8 +39,8 @@
                 <form id="form1" action="" method="post" class="add-clinic-form" role="form" data-toggle="validator">
 
                     <p class="btnLine">
-                        <input type="hidden" value="1" name="total_forms" class="total-forms" />
-                        <input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" value="Create Schedule" />
+                        <input type="hidden" value="1" name="total_forms" class="total-forms" required/>
+                        <input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" value="Create Schedule" required />
                     </p>
                 </form>
 
@@ -52,7 +52,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
-
+    <script src="js/validator.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/custom-schedule.js"></script>
 

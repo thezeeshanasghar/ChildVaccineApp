@@ -180,20 +180,20 @@ function clearTextBox() {
 //Valdidation using jquery  
 function validate() {
     var isValid = true;
-    if ($('#Name').val().trim() == "") {
-        $('#Name').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Name').css('border-color', 'lightgrey');
-    }
-    if ($('#MinAge').val().trim() == "") {
-        $('#MinAge').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#MinAge').css('border-color', 'lightgrey');
-    }
+    // if ($('#Name').val().trim() == "") {
+    //     $('#Name').css('border-color', 'Red');
+    //     isValid = false;
+    // }
+    // else {
+    //     $('#Name').css('border-color', 'lightgrey');
+    // }
+    // if ($('#MinAge').val().trim() == "") {
+    //     $('#MinAge').css('border-color', 'Red');
+    //     isValid = false;
+    // }
+    // else {
+    //     $('#MinAge').css('border-color', 'lightgrey');
+    // }
     //if ($('#MaxAge').val().trim() == "") {
     //    $('#MaxAge').css('border-color', 'Red');
     //    isValid = false;
