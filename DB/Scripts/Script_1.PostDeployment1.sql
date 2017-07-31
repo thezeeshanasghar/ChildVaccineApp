@@ -36,5 +36,5 @@ INSERT INTO Dose (Name, VaccineID) VALUES
 GO
 
 INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES
-('03331231231','1234','SUPERADMIN');
+('923331231231','1234','SUPERADMIN');
 GO

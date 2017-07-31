@@ -46,7 +46,7 @@ function loadData(id) {
                         html += '<div class="col-md-6" style="padding:10px;">';
                         html += '<h3>' + arr[index].doseName + '</h3></div>';
                         html += '<div class="col-md-4" style="padding:10px;">';
-                        html += '<div class="glyphicon glyphicon-calendar" style="height: 40px;"></div>'
+                        //html += '<div class="glyphicon glyphicon-calendar" style="height: 40px;"></div>'
                         html += '<a href="#" onclick="return getbyID(' + arr[index].scheduleID + ')">';
                         if (arr[index].isDone)
                             html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'

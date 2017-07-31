@@ -28,7 +28,7 @@ function loadData(id) {
                 ShowAlert('Error', result.Message, 'danger');
             else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<div class="well well-lg" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:30px">' + item.Name + '<span class="badge pull-right" style="font-size:25px">0</span></li>';
+                    html += '<div class="well well-lg" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:30px">' + item.Name + '<span class="badge pull-right" style="font-size:25px">0</span></li></div>';
                 });
                 $('.wells').html(html);
                 HideAlert();
@@ -53,8 +53,7 @@ function SelectedClinic(Id) {
         dataType: "json",
         success: function (result) {
             localStorage.setItem('OnlineClinic', Id);
-            window.location = 'clinic.html';
-
+            window.location = 'alert.html';
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

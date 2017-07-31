@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link rel="icon" href="img/favicon.ico">
+    <style>
+        .top-buffer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div id="menu"></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+
+                <div id="TimePeriod" class="btn-group btn-group-justified top-buffer">
+                    <a href="#" class="btn btn-default btn-lg" data-value="-35">Last 5 days</a>
+                    <a href="#" class="btn btn-default active" data-value="0">Today</a>
+                    <a href="#" class="btn btn-default btn-lg" data-value="35">Next 5 days</a>
+                </div>
+
+
+                <div id="alert_message" class="alert alert-dismissible alert-warning top-buffer">
+                    <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                    <strong>loading title!</strong>
+                    <p>loading message</p>
+                </div>
+                <div class="data">
+                    <div class="child well top-buffer">
+                        <h2 class="text-center">Abeera Fatima</h2>
+                        <div style="font-size:20px">
+                            &nbsp;
+                            <span class="pull-right">
+                                <i class="glyphicon glyphicon-earphone"></i>
+                                &nbsp;
+                                <i class="glyphicon glyphicon-envelope"></i>
+                            </span>
+
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">First item</li>
+                            <li class="list-group-item">Second item</li>
+                            <li class="list-group-item">Third item</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/common.js"></script>
+    <script>
+        $('#TimePeriod a').click(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            loadData();
+
+        });
+        $(document).ready(function () {
+            loadData();
+        });
+        function loadData() {
+            var Id = $('#TimePeriod a.active').attr('data-value');
+            ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+            $.ajax({
+                url: SERVER + 'schedule/alert/' + Id,
+                type: 'GET',
+                contentType: 'application/json;charset=utf-8',
+                dataType: "json",
+                success: function (result) {
+                    if (!result.IsSuccess) {
+                        ShowAlert('Error', result.Message, 'danger');
+                    } else {
+                        var markup = '';
+                        if (result.ResponseData.length != 0) {
+                            var map = {};
+                            $.each(result.ResponseData, function (key, item) {
+                                var obj = {
+                                    Date: item.Date,
+                                    DoseName: item.Dose.Name
+                                }
+                                if (item.Child.Name in map) {
+                                    map[item.Child.Name].push(obj);
+                                } else {
+                                    map[item.Child.Name] = [];
+                                    map[item.Child.Name].push(obj);
+                                }
+
+
+                            });
+                            for (var key in map) {
+                                markup += '<div class="child well top-buffer">';
+                                markup += '   <h2 class="text-center">' + key + '</h2>';
+                                markup += '   <div style="font-size:20px">';
+                                markup += '       &nbsp;';
+                                markup += '       <span class="pull-right">';
+                                markup += '          <i class="glyphicon glyphicon-earphone"></i>';
+                                markup += '          &nbsp;';
+                                markup += '          <i class="glyphicon glyphicon-envelope"></i>';
+                                markup += '       </span>';
+                                markup += '   </div>';
+                                markup += '   <ul class="list-group">';
+                                var arry = map[key];
+                                for (var index in arry) {
+                                    markup += '       <li class="list-group-item">' + arry[index].DoseName + '<span class="badge pull-right">' + arry[index].Date + '</span</li>';
+                                }
+                                markup += '   </ul>';
+                                markup += '</div>';
+                            }
+                        } else {
+                            markup = '<h3 style="color:red">No alert for today.</h3>';
+                        }
+                        $(".data").html(markup);
+                        HideAlert();
+                    }
+                },
+                error: function (errormessage) {
+                    ShowAlert('Error', errormessage.responseText, 'danger');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

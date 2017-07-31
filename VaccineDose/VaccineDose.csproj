@@ -293,6 +293,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="alert.html" />
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />

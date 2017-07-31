@@ -1,18 +1,11 @@
-﻿var SERVER_IP = 'http://localhost';
+﻿//var SERVER_IP = 'http://www.vac.afz-sol.com';
+//var SERVER_PORT = '80';
+var SERVER_IP = 'http://localhost';
 var SERVER_PORT = '4309';
 var SERVER_BASE_PATH = 'api';
 
 var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 
-//window.addEventListener("load", function () {
-//    var content = document.getElementById("menuImport").import;
-//    var el = content.querySelector('.navbar');
-//    document.getElementById("menu").appendChild(el.cloneNode(true));
-
-//    content = document.getElementById("footerImport").import;
-//    el = content.querySelector('.footer');
-//    document.getElementById("footer").appendChild(el.cloneNode(true));
-//}, false);
 $(document).ready(function () {
     SetMainNav();
     var pageName = document.location.href.match(/[^\/]+$/);
@@ -90,24 +83,34 @@ function SetMainNav() {
         markup += '                </ul>';
         markup += '            </li>';
         markup += '            <li id="menu-child"><a href="child.html">Child</a></li>';
-        markup += '            <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
         markup += '            <li id="menu-login"><a href="login.html">Login</a></li>';
+        markup += '            <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
         markup += '        </ul>';
         markup += '    </div><!--/.nav-collapse -->';
         markup += '</div><!--/.container-fluid -->';
         markup += '</nav>';
     } else {
         markup += '<div class="btn-group btn-group-justified">';
-        markup += '     <a href="#" class="btn btn-primary">Alert</a>';
+        markup += '     <a href="alert.html" class="btn btn-primary btn-lg">Alert</a>';
         markup += '     <a href="#" class="btn btn-primary">SMS</a>';
-        markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary">Add new child</a>';
-        markup += '     <a href="#" class="btn btn-primary">Profile</a>';
+        markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary">Childs</a>';
+        markup += '     <div class="btn-group">';
+        markup += '         <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        markup += '             Profile &nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
+        markup += '             <ul class="dropdown-menu" role="menu">';
+        markup += '                 <li><a href="clinic.html">Clinic</a></li>';
+        markup += '                 <li><a href="#">Change Password</a></li>';
+        markup += '                 <li><a href="custom-schedule.html">Custom Schedule</a></li>';
+        markup += '                 <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
+        markup += '             </ul>';
+        markup += '     </div>';
         markup += '</div>';
     }
 
     $('#menu').html(markup);
 }
 function HideFromAnonmousUsers() {
+    $('#menu-custom-schedule').hide();
     $('#menu-logout').hide();
     $('#menu-child').hide();
     $('#menu-clinic').hide();

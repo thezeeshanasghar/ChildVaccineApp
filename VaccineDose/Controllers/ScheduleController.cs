@@ -54,6 +54,39 @@ namespace VaccineDose.Controllers
                 return new Response<ScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
-      
+        [HttpGet]
+        [Route("api/schedule/alert/{Id}")]
+        public Response<IEnumerable<ScheduleDTO>> GetAlert(int Id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    IEnumerable<Schedule> schedules = new List<Schedule>();
+                    DateTime AddedDateTime = DateTime.Now.AddDays(Id);
+                    if (Id == 0)
+                        schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => c.Date == DateTime.Now)
+                            .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
+                    else if (Id > 0)
+                        schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => c.Date >= DateTime.Now && c.Date <= AddedDateTime)
+                            .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
+                            .ToList<Schedule>();
+                    else if (Id <0)
+                        schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => c.Date <= DateTime.Now && c.Date >= AddedDateTime)
+                            .OrderBy(x=>x.Child.ID).ThenBy(x=>x.Date)
+                            .ToList<Schedule>();
+                    IEnumerable<ScheduleDTO> scheduleDTO = Mapper.Map<IEnumerable<ScheduleDTO>>(schedules);
+                    return new Response<IEnumerable<ScheduleDTO>>(true, null, scheduleDTO);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
     }
 }

@@ -21,6 +21,8 @@ namespace VaccineDose
         public bool IsDone { get; set; }
 
         public DoseDTO Dose { get; set; }
-        
+
+        public virtual ChildDTO Child { get; set; }
+
     }
 }
