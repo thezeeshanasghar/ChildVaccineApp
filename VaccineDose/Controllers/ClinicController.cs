@@ -109,7 +109,7 @@ namespace VaccineDose.Controllers
                         return new Response<IEnumerable<ChildDTO>>(false, "Clinic not found", null);
                     else
                     {
-                        var dbChild = clinic.Children.ToList();
+                        var dbChild = clinic.Children.OrderByDescending(x=>x.ID).ToList();
                         var childDTOs = Mapper.Map<List<ChildDTO>>(dbChild);
                         return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
                     }
