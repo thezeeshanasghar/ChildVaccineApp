@@ -100,7 +100,7 @@ function SetMainNav() {
         markup += '             <ul class="dropdown-menu" role="menu">';
         markup += '                 <li><a href="clinic.html">Clinic</a></li>';
         markup += '                 <li><a href="#">Change Password</a></li>';
-        markup += '                 <li><a href="custom-schedule.html">Custom Schedule</a></li>';
+        markup += '                 <li><a href="doctor-schedule.html">Custom Schedule</a></li>';
         markup += '                 <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
         markup += '             </ul>';
         markup += '     </div>';
@@ -146,7 +146,6 @@ function ShowAlert(msg_title, msg_body, msg_type) {
         $(AlertMsg).removeClass('alert-info');
         $(AlertMsg).addClass('alert-' + msg_type);
     }
-
     $(AlertMsg).show();
 }
 

@@ -255,7 +255,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Model\ChildDTO.cs" />
-    <Compile Include="Model\DoctorSchedule.cs" />
+    <Compile Include="Model\DoctorScheduleDTO.cs" />
     <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />
@@ -297,7 +297,7 @@
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />
-    <Content Include="custom-schedule.html" />
+    <Content Include="doctor-schedule.html" />
     <Content Include="img\injectionEmpty.png" />
     <Content Include="img\child.jpg" />
     <Content Include="clinic-selection.html" />
@@ -322,7 +322,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="Global.asax" />
-    <Content Include="js\custom-schedule.js" />
+    <Content Include="js\doctor-schedule.js" />
     <Content Include="js\doctor-signup.js" />
     <Content Include="js\doctor.js" />
     <Content Include="js\clinic.js" />
