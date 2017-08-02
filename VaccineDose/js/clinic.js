@@ -129,12 +129,19 @@ function getbyID(ID) {
             $('#EndTime').val(result.ResponseData.EndTime);
 
             $('#PhoneNumber').val(result.ResponseData.PhoneNumber);
+
+            g_lat = result.ResponseData.Lat;
+            g_lng = result.ResponseData.Long;
+
             $('#myModal').modal('show');
 
             $('#btnUpdate').show();
             $('#btnAdd').hide();
 
             //myMarker.setPosition(new google.maps.LatLng(result.ResponseData.Lat, result.ResponseData.Long));
+            //map.setCenter(myMarker.position);
+            //myMarker.setMap(map);
+            initMap();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -221,6 +228,9 @@ function clearTextBox() {
     $('#btnAdd').show();
 
     $('#Name').css('border-color', 'lightgrey');
+
+    g_lat = 33.5614494;
+    g_lng = 73.069301;
 }
 
 
