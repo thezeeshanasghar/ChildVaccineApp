@@ -185,3 +185,24 @@ function PasswordGenerator() {
 function ScrollToTop() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
 }
+
+// return error messages
+function displayErrors(jqXHR, exception) {
+    var msg = '';
+    if (jqXHR.status === 0) {
+        msg = 'You are Not Connected to the Internet. Please Verify Your Internet Connection.';
+    } else if (jqXHR.status == 404) {
+        msg = 'Requested page not found.';
+    } else if (jqXHR.status == 500) {
+        msg = 'Internal Server Error.';
+    } else if (exception === 'parsererror') {
+        msg = 'Unable to parse JSON.';
+    } else if (exception === 'timeout') {
+        msg = 'Could Not Complete. Request Time out, Please Try Again.';
+    } else if (exception === 'abort') {
+        msg = 'Request aborted.';
+    } else {
+        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    }
+    alert(msg);
+}

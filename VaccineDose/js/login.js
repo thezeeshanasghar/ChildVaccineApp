@@ -10,9 +10,7 @@ function Login() {
 
         var obj = {
             MobileNumber: $('#MobileNumber').val(),
-            Password: $('#Password').val(),
-            UserType: "test",
-            DoctorID:"0"
+            Password: $('#Password').val()
         }
         $.ajax({
             url: SERVER + 'user/login',
@@ -47,8 +45,8 @@ function Login() {
                 }
               
             },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
+            error: function (jqXHR, exception) {
+                displayErrors(jqXHR, exception);
             }
         });
     }
