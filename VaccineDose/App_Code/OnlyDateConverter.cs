@@ -37,7 +37,7 @@ namespace VaccineDose
             body += "<b>" + child.Clinic.Name + "</b><br>";
                
             
-            body += "ID: <b>" + child.MobileNumber + "</b><br>Password: <b>" + child.Password + "</b><br>Contact# : "
+            body += "ID: <b>" + child.MobileNumber + "</b><br>Password: <b>" + child.Password + "</b><br/>"
                 + "Clinic Phone Number <b>" + child.Clinic.PhoneNumber + "</b><br>";
             
                 body += "Doctor Phone Number: <b>" + child.Clinic.Doctor.PhoneNo + "<b><br>";
