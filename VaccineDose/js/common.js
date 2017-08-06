@@ -1,4 +1,4 @@
-﻿//var SERVER_IP = 'http://www.vac.afz-sol.com';
+//var SERVER_IP = 'http://www.vac.afz-sol.com';
 //var SERVER_PORT = '80';
 var SERVER_IP = 'http://localhost';
 var SERVER_PORT = '4309';
