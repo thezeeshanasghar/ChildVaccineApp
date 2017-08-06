@@ -7,7 +7,7 @@ $(document).ready(function () {
     else {
         loadChildData();
     }
-    
+
 });
 
 function GetClinicIdFromUrlOrLocalStorage() {
@@ -39,25 +39,32 @@ function loadData() {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<a href="schedule.html?id=' + item.ID + '">';
-                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
-
-                    html += '<div class="col-md-1">' +
-                        '<img  src="img/child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
-                        '</div>';
-                    html += '<div class="col-md-6" style="padding:10px;">'
-
-                    html += '<p><h3>' + item.Name + ' ' + item.FatherName + '</h3>';
-                    html += '<div style="margin:10px;">';
-                    html += '<p class="glyphicon glyphicon-calendar">' +
-                        '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
-                        '</br> <p class="glyphicon glyphicon-earphone">' +
-                        '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
+                    html += '<div class="child well top-buffer" style="background-color:';
+                    if (item.Gender == 'Boy')
+                        html += '#FFE1E6">';
+                    else
+                        html += 'lightblue">';
+                    html += '   <h2>';
+                    html += '       <span class="pull-right" style="font-size:20px">';
+                    html += '           <a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> |';
+                    html += '           <a href="#" onclick="Delele(' + item.ID + ')">Delete</a>';
+                    html += '       </span>';
+                    html += '       <img id="ImgMaleFemale" src="img/';
+                    if(item.Gender=='Boy')
+                        html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
+                    else
+                        html += 'female.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
+                    html += '       &nbsp;';
+                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + ' ' + item.FatherName + '</a>';
+                    html += '   </h2>';
+                    html += '   <div style="font-size:20px;padding-left:50px">';
+                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
+                    html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber + ' <br />';
+                    html += '   </div>';
                     html += '</div>';
-                    html += '<div class="col-md-4">' +
-                      '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
-                    html += '</div></div></a>';
+
+
+                    
 
                 });
                 $("#childrecords").html(html);
@@ -114,7 +121,7 @@ function loadChildData() {
 }
 function DisableOffDays() {
     $.ajax({
-        url: SERVER + 'clinic/'+ GetClinicIdFromUrlOrLocalStorage(),
+        url: SERVER + 'clinic/' + GetClinicIdFromUrlOrLocalStorage(),
         type: 'Get',
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -213,7 +220,10 @@ function getbyID(ID) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
             $('#FatherName').val(result.ResponseData.FatherName);
+
             $('#Email').val(result.ResponseData.Email);
+            $("#Email").prop("disabled", true);
+
             $('#DOB').val(result.ResponseData.DOB);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
@@ -287,7 +297,6 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             }
@@ -307,7 +316,8 @@ function Update() {
             }
         },
         error: function (errormessage) {
-            alert(errormessage.responseText);
+            var ob = JSON.parse(errormessage.responseText);
+            alert(ob.Message);;
         }
     });
 }
@@ -328,7 +338,8 @@ function Delele(ID) {
                     ShowAlert('Rquest Failed', result.Message, 'error');
             },
             error: function (errormessage) {
-                alert(errormessage.responseText);
+                var ob = JSON.parse(errormessage.responseText);
+                ShowAlert('Error', ob.Message, 'danger');
             }
         });
     }
@@ -340,6 +351,7 @@ function clearTextBox() {
     $("#Name").val("");
     $("#FatherName").val("");
     $("#Email").val("");
+    $("#Email").prop("disabled", false);
     $("#DOB").val("");
     $("#MobileNumber").val("");
     $("#City").val("");

@@ -99,8 +99,9 @@ function SetMainNav() {
         markup += '             Profile &nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
         markup += '             <ul class="dropdown-menu" role="menu">';
         markup += '                 <li><a href="clinic.html">Clinic</a></li>';
+
         markup += '                 <li><a href="changed-password.html">Change Password</a></li>';
-        markup += '                 <li><a href="custom-schedule.html">Custom Schedule</a></li>';
+        markup += '                 <li><a href="doctor-schedule.html">Custom Schedule</a></li>';
         markup += '                 <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
         markup += '             </ul>';
         markup += '     </div>';
@@ -146,7 +147,6 @@ function ShowAlert(msg_title, msg_body, msg_type) {
         $(AlertMsg).removeClass('alert-info');
         $(AlertMsg).addClass('alert-' + msg_type);
     }
-
     $(AlertMsg).show();
 }
 
@@ -188,10 +188,31 @@ function ScrollToTop() {
 }
 
 
+
 function GetUserIDFromLocalStorage() {
     var id = localStorage.getItem('UserID');
     if (id)
         return id;
     else return 0;
-
 }
+
+// return error messages
+function displayErrors(jqXHR, exception) {
+    var msg = '';
+    if (jqXHR.status === 0) {
+        msg = 'You are Not Connected to the Internet. Please Verify Your Internet Connection.';
+    } else if (jqXHR.status == 404) {
+        msg = 'Requested page not found.';
+    } else if (jqXHR.status == 500) {
+        msg = 'Internal Server Error.';
+    } else if (exception === 'parsererror') {
+        msg = 'Unable to parse JSON.';
+    } else if (exception === 'timeout') {
+        msg = 'Could Not Complete. Request Time out, Please Try Again.';
+    } else if (exception === 'abort') {
+        msg = 'Request aborted.';
+    } else {
+        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    }
+    alert(msg);
+ }

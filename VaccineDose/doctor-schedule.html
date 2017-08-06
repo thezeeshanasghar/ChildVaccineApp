@@ -29,7 +29,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h2>Create you custom schedule</h2>
+                <h2>Create/Update custom schedule</h2>
                 <div id="alert_message" class="alert alert-dismissible alert-warning">
                     <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
                     <strong>loading title!</strong>
@@ -41,6 +41,7 @@
                     <p class="btnLine">
                         <input type="hidden" value="1" name="total_forms" class="total-forms" />
                         <input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" value="Create Schedule" />
+                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="return Update();">Update Schedule</button>
                     </p>
                 </form>
 
@@ -54,7 +55,7 @@
 
 
     <script src="js/common.js"></script>
-    <script src="js/custom-schedule.js"></script>
+    <script src="js/doctor-schedule.js"></script>
 
 </body>
 </html>

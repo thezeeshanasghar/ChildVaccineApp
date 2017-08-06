@@ -256,7 +256,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Model\ChangePasswordRequestDTO.cs" />
     <Compile Include="Model\ChildDTO.cs" />
-    <Compile Include="Model\DoctorSchedule.cs" />
+    <Compile Include="Model\DoctorScheduleDTO.cs" />
     <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />
@@ -299,7 +299,8 @@
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />
-    <Content Include="custom-schedule.html" />
+    <Content Include="doctor-schedule.html" />
+    <Content Include="img\female.png" />
     <Content Include="img\injectionEmpty.png" />
     <Content Include="img\child.jpg" />
     <Content Include="clinic-selection.html" />
@@ -308,6 +309,7 @@
     <Content Include="doctor.html" />
     <Content Include="clinic.html" />
     <Content Include="img\injectionFilled.png" />
+    <Content Include="img\male.png" />
     <Content Include="JqueryMobile\VaccineNav.html" />
     <Content Include="JqueryMobile\VaccineNav.js" />
     <Content Include="js\additional-methods.min.js" />
@@ -324,7 +326,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="Global.asax" />
-    <Content Include="js\custom-schedule.js" />
+    <Content Include="js\doctor-schedule.js" />
     <Content Include="js\doctor-signup.js" />
     <Content Include="js\doctor.js" />
     <Content Include="js\clinic.js" />

@@ -12,5 +12,8 @@ namespace VaccineDose
         public int DoctorID { get; set; }
         public int GapInDays { get; set; }
 
+        public DoctorDTO Doctor { get; set; }
+        public DoseDTO Dose { get; set; }
+
     }
 }

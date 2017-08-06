@@ -13,7 +13,7 @@
     <style>
         #Location {
             width: 100%;
-            height: 250px;
+            height: 220px;
         }
 
         #current {
@@ -77,10 +77,12 @@
                                 <label for="Name">Name</label>
                                 <input type="text" class="form-control" id="Name" placeholder="Name" />
                             </div>
+
                             <div class="form-group">
                                 <label for="PhoneNumber">Phone Number</label>
                                 <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" />
                             </div>
+
                             <div class="form-group">
 
                                 <label class="col-md-12" style="padding: 0px;">Off Days</label>
@@ -93,19 +95,24 @@
                                 &nbsp;&nbsp;&nbsp;<input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday" />&nbsp;Sunday
                             </div>
 
-                            <div class="form-group">
-                                <label for="StartTime">Strat Time</label>
-                                <div class="input-group bootstrap-timepicker timepicker">
-                                    <input id="StartTime" type="text" class="form-control input-small" />
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="StartTime">Strat Time</label>
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="StartTime" type="text" class="form-control input-small" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="EndTime">End Time</label>
-                                <div class="input-group bootstrap-timepicker timepicker">
-                                    <input id="EndTime" type="text" class="form-control input-small" />
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="EndTime">End Time</label>
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="EndTime" type="text" class="form-control input-small" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -131,9 +138,11 @@
 
     </div><!-- /.container -->
     <script>
+        var g_lat = 33.5614494;
+        var g_lng = 73.069301;
         var map, myMarker;
         function initMap() {
-            var myLatLng = { lat: 33.5614494, lng: 73.069301 };
+            var myLatLng = { lat: g_lat, lng: g_lng };
 
             map = new google.maps.Map(document.getElementById('Location'), {
                 zoom: 14,
@@ -166,9 +175,9 @@
     <script src="js/bootstrap-timepicker.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/clinic.js"></script>
+
     <script>
         $('#myModal').on('shown.bs.modal', function () {
-            initMap();
             $('#StartTime').timepicker({
                 minuteStep: 30,
                 showMeridian: false,
@@ -184,8 +193,6 @@
             $('#StartTime').timepicker('setTime', $('#StartTime').val());
             $('#EndTime').timepicker('setTime', $('#EndTime').val());
         });
-
-
     </script>
 </body>
 </html>
