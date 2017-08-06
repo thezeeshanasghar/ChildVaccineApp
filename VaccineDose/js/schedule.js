@@ -2,6 +2,7 @@
 $(document).ready(function () {
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
+
 });
 
 //Load Data function  
@@ -46,7 +47,8 @@ function loadData(id) {
                         html += '<div class="col-md-6" style="padding:10px;">';
                         html += '<h3>' + arr[index].doseName + '</h3></div>';
                         html += '<div class="col-md-4" style="padding:10px;">';
-                        //html += '<div class="glyphicon glyphicon-calendar" style="height: 40px;"></div>'
+                        html += '<span class="glyphicon glyphicon-calendar scheduleDate_' + +arr[index].scheduleID + '"  onclick=" return openCalender(' + arr[index].scheduleID + ')"></span>'
+                                  
                         html += '<a href="#" onclick="return getbyID(' + arr[index].scheduleID + ')">';
                         if (arr[index].isDone)
                             html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'
@@ -129,3 +131,45 @@ function Update() {
     return false;
 }
 
+function openCalender(scheduleId) {
+  
+    $(".scheduleDate_" + scheduleId).datepicker('show');
+    $(".scheduleDate_" + scheduleId).datepicker({
+        format: 'dd-mm-yyyy',
+        todayBtn: true,
+        autoclose: true,
+        todayHighlight: true,
+    });
+
+    var obj = {};
+    obj.ID = scheduleId;
+
+    $(".scheduleDate_" + scheduleId).datepicker()
+     .on('changeDate', function (e) {
+         obj.Date = e.date;
+         $.ajax({
+             url: SERVER + "schedule/update-schedule/",
+             data: JSON.stringify(obj),
+             type: "Put",
+             contentType: "application/json;charset=UTF-8",
+             dataType: "json",
+             success: function (result) {
+                 if (!result.IsSuccess) {
+                     ShowAlert('Error', result.Message, 'danger');
+                 }
+                 else {
+                     ShowAlert('Success', result.Message, 'success');
+                     ScrollToTop();
+                     
+                     
+                     var id = parseInt(getParameterByName("id")) || 0;
+                     loadData(id);
+                 }
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+             }
+         });
+        
+     });
+}
