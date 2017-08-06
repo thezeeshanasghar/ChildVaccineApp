@@ -182,5 +182,31 @@ namespace VaccineDose.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("change-password")]
+        public Response<UserDTO> ChangePassword(ChangePasswordRequestDTO user)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    User userDB = entities.Users.Where(x => x.ID == user.UserID).FirstOrDefault();
+                    if (userDB == null)
+                        return new Response<UserDTO>(false, "User not found.", null);
+                    if(!userDB.Password.Equals(user.OldPassword))
+                        return new Response<UserDTO>(false, "Old password doesn't match.", null);
+                    else
+                    {
+                        userDB.Password = user.NewPassword;
+                        entities.SaveChanges();
+                        return new Response<UserDTO>(true, "Password change successfully.", null);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
     }
 }
