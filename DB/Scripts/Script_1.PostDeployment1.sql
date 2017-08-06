@@ -10,31 +10,49 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
-('BCG',0,NULL),
-('Hepatitis B', 0, NULL),
-('Polio', 0, 98),
-('Pentavalent', 42, 98),
-('Phneumococal', 42, 98),
-('Rota Virus', 42, 70);
+('BCG', 0, NULL),
+('OPV', 0, NULL),
+('PENTAVALENT', 42, NULL),
+('PCV', 42, NULL),
+('IPV', 42, NULL),
+('Measles', 168, NULL),
+('ROTARIX', 42, NULL);
 GO
 
 INSERT INTO Dose (Name, VaccineID) VALUES
 ('BCG # 1', (SELECT ID FROM Vaccine WHERE Name='BCG')),
-('Hepatitis B', (SELECT ID FROM Vaccine WHERE Name='Hepatitis B')),
-('Polio # 1', (SELECT ID FROM Vaccine WHERE Name='Polio')),
-('Polio # 2', (SELECT ID FROM Vaccine WHERE Name='Polio')),
-('Polio # 3', (SELECT ID FROM Vaccine WHERE Name='Polio')),
-('Polio # 4', (SELECT ID FROM Vaccine WHERE Name='Polio')),
-('Pentavalent # 1', (SELECT ID FROM Vaccine WHERE Name='Pentavalent')),
-('Pentavalent # 2',  (SELECT ID FROM Vaccine WHERE Name='Pentavalent')),
-('Pentavalent # 3', (SELECT ID FROM Vaccine WHERE Name='Pentavalent')),
-('Phneumococal # 1', (SELECT ID FROM Vaccine WHERE Name='Phneumococal')),
-('Phneumococal # 2', (SELECT ID FROM Vaccine WHERE Name='Phneumococal')),
-('Phneumococal # 3', (SELECT ID FROM Vaccine WHERE Name='Phneumococal')),
-('Rota Virus # 1', (SELECT ID FROM Vaccine WHERE Name='Rota Virus')),
-('Rota Virus # 2', (SELECT ID FROM Vaccine WHERE Name='Rota Virus'));
+('OPV # 0', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+('OPV # 1', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+('OPV # 2', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+('OPV # 3', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+('OPV # 4', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+('PENTAVALENT # 1', (SELECT ID FROM Vaccine WHERE Name='PENTAVALENT')),
+('PENTAVALENT # 2', (SELECT ID FROM Vaccine WHERE Name='PENTAVALENT')),
+('PENTAVALENT # 3', (SELECT ID FROM Vaccine WHERE Name='PENTAVALENT')),
+('PENTAVALENT # 4', (SELECT ID FROM Vaccine WHERE Name='PENTAVALENT')),
+('PCV # 1', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+('PCV # 2', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+('PCV # 3', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+('PCV # 4', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+('IPV # 1', (SELECT ID FROM Vaccine WHERE Name='IPV')),
+('IPV # 2', (SELECT ID FROM Vaccine WHERE Name='IPV')),
+('IPV # 3', (SELECT ID FROM Vaccine WHERE Name='IPV')),
+('IPV # 4', (SELECT ID FROM Vaccine WHERE Name='IPV')),
+('Measles # 1', (SELECT ID FROM Vaccine WHERE Name='Measles')),
+('Measles # 2', (SELECT ID FROM Vaccine WHERE Name='Measles')),
+('ROTARIX # 1', (SELECT ID FROM Vaccine WHERE Name='ROTARIX')),
+('ROTARIX # 2', (SELECT ID FROM Vaccine WHERE Name='ROTARIX'));
 GO
 
 INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES
-('923331231231','1234','SUPERADMIN');
+('923331231231','1234','SUPERADMIN'),
+('923335196658','0431','DOCTOR');
+GO
+
+INSERT [dbo].[Doctor] ([FirstName], [LastName], [Email], [MobileNo], [Password], [PMDC], [IsApproved], [ShowPhone], [ShowMobile], [PhoneNo]) 
+VALUES (N'Salman', N'Bajwa', N'salmanbajwa777@gmail.com', N'923335196658', N'0431', N'12345-p', 1, 1, 1, N'03335196658')
+GO
+INSERT [dbo].[Clinic] ([Name], [OffDays], [StartTime], [EndTime], [Lat], [Long], [DoctorID], [PhoneNumber], [IsOnline])
+VALUES (N'KIDS & FAMILY clinic', N'Sunday', CAST(N'19:30:00' AS Time), CAST(N'22:00:00' AS Time), 33.590258458777022, 73.133164149047843, 
+ (SELECT ID FROM Doctor WHERE FirstName='Salman' AND LastName='Bajwa'), N'03335196658', 1)
 GO

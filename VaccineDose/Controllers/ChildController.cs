@@ -35,19 +35,29 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     Child childDB = Mapper.Map<Child>(childDTO);
-                    entities.Children.Add(childDB);
+                    // check for existing parent 
+                    Child existingChild = entities.Children.Where(x => x.MobileNumber == childDTO.MobileNumber).FirstOrDefault();
+                    if (existingChild == null)
+                    {
+                        User userDB = new User();
+                        userDB.MobileNumber = childDTO.MobileNumber;
+                        userDB.Password = childDTO.Password;
+                        userDB.UserType = "PARENT";
+                        entities.Users.Add(userDB);
 
-                    User userDB = new User();
-                    userDB.MobileNumber = childDTO.MobileNumber;
-                    userDB.Password = childDTO.Password;
-                    userDB.UserType = "PARENT";
-                    entities.Users.Add(userDB);
-                    entities.SaveChanges();
-
+                        entities.Children.Add(childDB);
+                        entities.SaveChanges();
+                    }
+                    else
+                    {
+                        childDB.Password = childDTO.Password = existingChild.Password;
+                        entities.Children.Add(childDB);
+                        entities.SaveChanges();
+                    }
                     childDTO.ID = childDB.ID;
-                    //send email to parent
-                    UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x=>x.ID==childDTO.ID).FirstOrDefault());
+                    UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault());
                     
+
                     // get doctor schedule and apply it to child and save in Schedule page
                     Clinic clinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();
                     Doctor doctor = clinic.Doctor;
@@ -112,7 +122,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-   
+
 
         #endregion
 
@@ -129,7 +139,8 @@ namespace VaccineDose.Controllers
                     else
                     {
                         var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
-                        for(int i = 0; i< dbSchedules.Count; i++) {
+                        for (int i = 0; i < dbSchedules.Count; i++)
+                        {
                             var dbSchedule = dbSchedules.ElementAt(i);
                             dbSchedule.Dose = entities.Schedules.Include("Dose").Where<Schedule>(x => x.ID == dbSchedule.ID).FirstOrDefault().Dose;
                         }
@@ -147,7 +158,7 @@ namespace VaccineDose.Controllers
 
             }
         }
-        
+
         //[Route("api/child/{id}")]
         //public Response<IEnumerable<ChildDTO>> GetMobile(string Id)
         //{

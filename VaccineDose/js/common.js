@@ -1,4 +1,4 @@
-﻿//var SERVER_IP = 'http://www.vac.afz-sol.com';
+//var SERVER_IP = 'http://www.vac.afz-sol.com';
 //var SERVER_PORT = '80';
 var SERVER_IP = 'http://localhost';
 var SERVER_PORT = '4309';
@@ -9,7 +9,7 @@ var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 $(document).ready(function () {
     SetMainNav();
     var pageName = document.location.href.match(/[^\/]+$/);
-    if (pageName!=null)
+    if (pageName != null)
         pageName = pageName[0];
     if (localStorage.getItem('UserType') == null) {
         HideFromAnonmousUsers();
@@ -99,7 +99,8 @@ function SetMainNav() {
         markup += '             Profile &nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
         markup += '             <ul class="dropdown-menu" role="menu">';
         markup += '                 <li><a href="clinic.html">Clinic</a></li>';
-        markup += '                 <li><a href="#">Change Password</a></li>';
+
+        markup += '                 <li><a href="changed-password.html">Change Password</a></li>';
         markup += '                 <li><a href="doctor-schedule.html">Custom Schedule</a></li>';
         markup += '                 <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
         markup += '             </ul>';
@@ -186,6 +187,15 @@ function ScrollToTop() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
 }
 
+
+
+function GetUserIDFromLocalStorage() {
+    var id = localStorage.getItem('UserID');
+    if (id)
+        return id;
+    else return 0;
+}
+
 // return error messages
 function displayErrors(jqXHR, exception) {
     var msg = '';
@@ -205,4 +215,4 @@ function displayErrors(jqXHR, exception) {
         msg = 'Uncaught Error.\n' + jqXHR.responseText;
     }
     alert(msg);
-}
+ }
