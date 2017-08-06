@@ -20,7 +20,7 @@ function loadData(id) {
             }
             else {
                 var html = '';
-                var dateVsArrayOfVaccineScheuleMap = {};
+                var dateVsArrayOfScheuleMap = {};
 
                 $.each(result.ResponseData, function (key, item) {
                     var vaccineSchedule = {
@@ -28,35 +28,35 @@ function loadData(id) {
                         scheduleID: item.ID,
                         isDone: item.IsDone
                     };
-                    if (item.Date in dateVsArrayOfVaccineScheuleMap) {
-                        dateVsArrayOfVaccineScheuleMap[item.Date].push(vaccineSchedule);
+                    if (item.Date in dateVsArrayOfScheuleMap) {
+                        dateVsArrayOfScheuleMap[item.Date].push(vaccineSchedule);
                     } else {
-                        dateVsArrayOfVaccineScheuleMap[item.Date] = [];
-                        dateVsArrayOfVaccineScheuleMap[item.Date].push(vaccineSchedule);
+                        dateVsArrayOfScheuleMap[item.Date] = [];
+                        dateVsArrayOfScheuleMap[item.Date].push(vaccineSchedule);
                     }
                 });
 
-                for (var key in dateVsArrayOfVaccineScheuleMap) {
-                    html += "<h3 style='text-align:center'>" + key + "</h3>";
-                    var arr = dateVsArrayOfVaccineScheuleMap[key];
-                    for (var index in arr) {
+                for (var date in dateVsArrayOfScheuleMap) {
+                    html += "<h3 style='text-align:center'>" + date + "</h3>";
+                    var doseArray = dateVsArrayOfScheuleMap[date];
+                    for (var index in doseArray) {
 
                         html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
                         html += '<div class="col-md-1">' +
                                                 '</div>';
                         html += '<div class="col-md-6" style="padding:10px;">';
-                        html += '<h3>' + arr[index].doseName + '</h3></div>';
+                        html += '<h3>' + doseArray[index].doseName + '</h3></div>';
                         html += '<div class="col-md-4" style="padding:10px;">';
-                        html += '<span class="glyphicon glyphicon-calendar scheduleDate_' + +arr[index].scheduleID + '"  onclick=" return openCalender(' + arr[index].scheduleID + ')"></span>'
+                        html += '<span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                                   
-                        html += '<a href="#" onclick="return getbyID(' + arr[index].scheduleID + ')">';
-                        if (arr[index].isDone)
+                        html += '<a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
+                        if (doseArray[index].isDone)
                             html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'
                         else
                             html += '<img src="../img/injectionEmpty.png" style="height: 40px;" /></a>'
 
                         html += '</div></div> ';
-                        console.log('\t' + arr[index].doseName);
+                        console.log('\t' + doseArray[index].doseName);
                     }
 
                 }
@@ -131,15 +131,17 @@ function Update() {
     return false;
 }
 
-function openCalender(scheduleId) {
+function openCalender(scheduleId, date) {
   
-    $(".scheduleDate_" + scheduleId).datepicker('show');
+    
     $(".scheduleDate_" + scheduleId).datepicker({
         format: 'dd-mm-yyyy',
         todayBtn: true,
         autoclose: true,
         todayHighlight: true,
     });
+    $('.scheduleDate_' + scheduleId).datepicker('update', date);
+    $(".scheduleDate_" + scheduleId).datepicker('show');
 
     var obj = {};
     obj.ID = scheduleId;

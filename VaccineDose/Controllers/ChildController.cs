@@ -55,9 +55,7 @@ namespace VaccineDose.Controllers
                         entities.SaveChanges();
                     }
                     childDTO.ID = childDB.ID;
-                    UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault());
                     
-
                     // get doctor schedule and apply it to child and save in Schedule page
                     Clinic clinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();
                     Doctor doctor = clinic.Doctor;
@@ -73,6 +71,7 @@ namespace VaccineDose.Controllers
                         entities.SaveChanges();
                     }
 
+                    UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault());
 
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
