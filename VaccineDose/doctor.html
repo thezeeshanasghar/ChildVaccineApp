@@ -95,39 +95,39 @@
                         <h4 class="modal-title" id="myModalLabel">Add New</h4>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form role="form" data-toggle="validaation">
                             <input type="text" class="form-control" id="ID" style="display:none" />
 
                             <div class="form-group">
                                 <label for="FirstName">First Name</label>
-                                <input type="text" class="form-control" id="FirstName" placeholder="First Name" />
+                                <input type="text" class="form-control" id="FirstName" placeholder="First Name" required/>
                             </div>
 
                             <div class="form-group">
                                 <label for="LastName">Last Name</label>
-                                <input type="text" class="form-control" id="LastName" placeholder="Last Name" />
+                                <input type="text" class="form-control" id="LastName" placeholder="Last Name" required />
                             </div>
 
                             <div class="form-group">
                                 <label for="Email">Email</label>
-                                <input type="email" class="form-control" id="Email" placeholder="Email" />
+                                <input type="email" class="form-control" id="Email" placeholder="Email" required />
                             </div>
 
                             <div class="form-group">
                                 <label for="MobileNo">Mobile Number</label>&nbsp;
                                 <input id="ShowMobile" name="ShowMobile" type="checkbox" checked="checked" />&nbsp;Display
-                                <input type="text" class="form-control" id="MobileNo" placeholder="Mobile Number" />
+                                <input type="text" class="form-control" id="MobileNo" placeholder="Mobile Number" required />
                             </div>
                             <div class="form-group">
                                 <label for="PhoneNo">Phone Number</label>&nbsp;
                                 <input id="ShowPhone" name="ShowPhone" type="checkbox" checked="checked" />&nbsp;Display
-                                <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" />
+                                <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" required />
                             </div>
 
 
                             <div class="form-group">
                                 <label for="PMDC">PMDC No</label>
-                                <input type="text" class="form-control" id="PMDC" placeholder="PMDC Number" />
+                                <input type="text" class="form-control" id="PMDC" placeholder="PMDC Number" required />
                             </div>
                         </form>
                     </div>
@@ -148,7 +148,7 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <script src="js/validator.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/doctor.js"></script>
 </body>

@@ -179,30 +179,12 @@ function clearTextBox() {
 
 //Valdidation using jquery  
 function validate() {
-    var isValid = true;
-    if ($('#Name').val().trim() == "") {
-        $('#Name').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Name').css('border-color', 'lightgrey');
-    }
-    if ($('#MinAge').val().trim() == "") {
-        $('#MinAge').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#MinAge').css('border-color', 'lightgrey');
-    }
-    //if ($('#MaxAge').val().trim() == "") {
-    //    $('#MaxAge').css('border-color', 'Red');
-    //    isValid = false;
-    //}
-    //else {
-    //    $('#MaxAge').css('border-color', 'lightgrey');
-    //}
-
-    return isValid;
+    $('#form1').validator('validate');
+    var validator = $('#form1').data("bs.validator");
+    if (validator.hasErrors())
+        return false;
+    else
+        return true;
 }
 
 function getUserAge(ageNum) {
