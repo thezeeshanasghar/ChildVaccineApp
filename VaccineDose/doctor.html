@@ -95,7 +95,7 @@
                         <h4 class="modal-title" id="myModalLabel">Add New</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" data-toggle="validaation">
+                        <form  id="form1" role="form" data-toggle="validaation">
                             <input type="text" class="form-control" id="ID" style="display:none" />
 
                             <div class="form-group">
@@ -116,12 +116,13 @@
                             <div class="form-group">
                                 <label for="MobileNo">Mobile Number</label>&nbsp;
                                 <input id="ShowMobile" name="ShowMobile" type="checkbox" checked="checked" />&nbsp;Display
-                                <input type="text" class="form-control" id="MobileNo" placeholder="Mobile Number" required />
+                                <input type="text" class="form-control" id="MobileNo" pattern="^[9]{1}[2]{1}[3]{1}\d{9}$"
+                                 placeholder="Specify mobile number in this pattern 923465430413" required />
                             </div>
                             <div class="form-group">
                                 <label for="PhoneNo">Phone Number</label>&nbsp;
                                 <input id="ShowPhone" name="ShowPhone" type="checkbox" checked="checked" />&nbsp;Display
-                                <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" required />
+                                <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" />
                             </div>
 
 

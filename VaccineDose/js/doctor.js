@@ -237,47 +237,8 @@ function clearTextBox() {
 
 //Valdidation using jquery  
 function validate() {
-    var isValid = true;
-
-    if ($('#FirstName').val().trim() == "") {
-        $('#FirstName').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#FirstName').css('border-color', 'lightgrey');
-    }
-
-    if ($('#LastName').val().trim() == "") {
-        $('#LastName').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#LastName').css('border-color', 'lightgrey');
-    }
-
-    if ($('#Email').val().trim() == "") {
-        $('#Email').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Email').css('border-color', 'lightgrey');
-    }
-
-    if ($('#MobileNo').val().trim() == "") {
-        $('#MobileNo').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#MobileNo').css('border-color', 'lightgrey');
-    }
-
-    if ($('#PMDC').val().trim() == "") {
-        $('#PMDC').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#PMDC').css('border-color', 'lightgrey');
-    }
-
-    return isValid;
+    $('#form1').validator('validate');
+        var validator = $('#form1').data("bs.validator");
+        if (validator.hasErrors())
+            return true;
 }
