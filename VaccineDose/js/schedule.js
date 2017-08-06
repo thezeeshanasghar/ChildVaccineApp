@@ -47,6 +47,7 @@ function loadData(id) {
                         html += '<div class="col-md-6" style="padding:10px;">';
                         html += '<h3>' + doseArray[index].doseName + '</h3></div>';
                         html += '<div class="col-md-4" style="padding:10px;">';
+                        if (!doseArray[index].isDone)
                         html += '<span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                                   
                         html += '<a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
@@ -122,6 +123,9 @@ function Update() {
                 $("#Circumference").val(""),
                 $("#Brand").val("")
                 $('#myModal').modal('hide');
+                ScrollToTop();
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
             }
         },
         error: function (errormessage) {
