@@ -338,6 +338,7 @@
     <Content Include="css\style.css" />
     <Content Include="dose.html" />
     <Content Include="un-authorize.html" />
+    <Content Include="child-specialist.html" />
     <Content Include="vaccine.html" />
     <Content Include="index.html" />
     <Content Include="Scripts\bootstrap.js" />

@@ -124,6 +124,27 @@ namespace VaccineDose.Controllers
 
 
         #endregion
+        [HttpGet]
+        [Route("api/child/get-doctor-clinics/{Id}")]
+        public Response<IEnumerable<ClinicDTO>> GetDoctorClinics(string Id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var child = entities.Children.FirstOrDefault(x => x.MobileNumber == Id);
+                    int doctorId = child.Clinic.Doctor.ID;
+                    DoctorController docController = new DoctorController();
+                    return docController.GetAllClinicsOfaDoctor(doctorId);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
         [Route("api/child/{id}/schedule")]
         public Response<IEnumerable<ScheduleDTO>> GetChildSchedule(int id)

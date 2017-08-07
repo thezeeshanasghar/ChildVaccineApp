@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="icon" href="img/favicon.ico">
+    <style>
+        #Location {
+            width: 100%;
+            height: 520px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="menu"></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Find child specialist</h2>
+
+
+                <div id="alert_message" class="alert alert-dismissible alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                    <strong>loading title!</strong>
+                    <p>loading message</p>
+                </div>
+
+                <div id="Location"></div>
+
+            </div>
+        </div>
+
+
+
+        <div id="footer"></div>
+
+
+    </div><!-- /.container -->
+
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyCFQiiY3BORTJDHVJ6SFZTiSMk0MoMuU18"></script>
+    <script>
+        var g_lat = 33.5614494;
+        var g_lng = 73.069301;
+        var g_map;
+        function initMap() {
+            var myLatLng = { lat: g_lat, lng: g_lng };
+
+            g_map = new google.maps.Map(document.getElementById('Location'), {
+                zoom: 14,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+        }
+    </script>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+
+    <script src="js/common.js"></script>
+    <script>
+        var markers = [];
+
+        $(document).ready(function () {
+            
+            initMap();
+            loadData();
+        });
+        //Load Data function
+        function loadData() {
+            ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+            $.ajax({
+                url: SERVER + "child/get-doctor-clinics/" + GetMobileNumberFromLocalStorage(),
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: true,
+                success: function (result) {
+                    if (!result.IsSuccess) {
+                        ShowAlert('Error', result.Message, 'danger');
+                    }
+                    else {
+                        
+                        $.each(result.ResponseData, function (key, item) {
+                            var lat = item.Lat;
+                            var lng = item.Long;
+                            var myLatlng = new google.maps.LatLng(lat, lng);
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                map: g_map,
+                                title: item.Name
+                            });
+                            marker.setMap(g_map);
+                            markers.push(marker);
+
+                        });
+                        
+                        HideAlert();
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            //$.ajax({
+
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    dataType: "json",
+            //    success: function (result) {
+            //        // Loop through our array of markers & place each one on the map
+            //        for (i = 0; i < data.marker.length; i++) {
+            //            var myLatlng = new google.maps.LatLng(data.marker[i].log, data.marker[i].lat);
+            //            var marker = new google.maps.Marker({
+            //                position: myLatlng,
+            //                map: map,
+            //                title: 'Hello World!'
+            //            }); /* <----- AT THIS POINT, MARKER IS CREATED AND PLACED ON THE MAP BY SETTING "map" PROPERTY */
+            //            markers.push(marker); /* <----- HERE YOU ARE STORING THEM, AND YOU CAN ACCESS THEM LATER IN YOUR FUNCTION */
+
+            //        }
+            //    },
+            //    error: function (errormessage) {
+            //        alert(errormessage.responseText);
+            //    }
+
+            //});
+        }
+    </script>
+
+</body>
+</html>

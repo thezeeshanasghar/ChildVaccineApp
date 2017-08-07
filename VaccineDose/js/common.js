@@ -12,7 +12,7 @@ $(document).ready(function () {
     if (pageName != null)
         pageName = pageName[0];
     if (localStorage.getItem('UserType') == null) {
-        HideFromAnonmousUsers();
+        // TODO: hide pages from anonymous user
     }
     else if (localStorage.getItem('UserType') == 'SUPERADMIN') {
         if (pageName == 'doctor-signup.html') {
@@ -86,7 +86,7 @@ function SetMainNav() {
         markup += '</div>';
     } else if (UserType == 'PARENT') {
         markup += '<div class="btn-group btn-group-justified">';
-        markup += '     <a href="#" class="btn btn-primary btn-lg">Find Child Specialist</a>';
+        markup += '     <a href="child-specialist.html" class="btn btn-primary btn-lg">Find Child Specialist</a>';
         markup += '     <a href="#" class="btn btn-primary btn-lg">Child safety</a>';
         markup += '     <a href="#" class="btn btn-primary btn-lg">My Children</a>';
         markup += '     <a href="#" class="btn btn-primary btn-lg" onclick="return logout()" id="menu-logout">Logout</a>';
@@ -116,14 +116,7 @@ function SetMainNav() {
 
     $('#menu').html(markup);
 }
-function HideFromAnonmousUsers() {
-    $('#menu-custom-schedule').hide();
-    $('#menu-logout').hide();
-    $('#menu-child').hide();
-    $('#menu-clinic').hide();
-    $('#menu-doctor').hide();
-    $('#menu-vaccine').hide();
-}
+
 
 ///////////////////////////////////////////
 ///     ALERT SHOW HIDE UTILITY METHODS
@@ -201,6 +194,13 @@ function GetUserIDFromLocalStorage() {
         return id;
     else return 0;
 }
+
+function GetMobileNumberFromLocalStorage() {
+    var id = localStorage.getItem('MobileNumber');
+    if (id)
+        return id;
+    else return 0;
+    }
 
 // return error messages
 function displayErrors(jqXHR, exception) {
