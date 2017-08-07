@@ -88,7 +88,7 @@ function SetMainNav() {
         markup += '<div class="btn-group btn-group-justified">';
         markup += '     <a href="#" class="btn btn-primary btn-lg">Find Child Specialist</a>';
         markup += '     <a href="#" class="btn btn-primary btn-lg">Child safety</a>';
-        markup += '     <a href="#" class="btn btn-primary btn-lg">My Children</a>';
+        markup += '     <a href="child.html" class="btn btn-primary btn-lg">My Children</a>';
         markup += '     <a href="#" class="btn btn-primary btn-lg" onclick="return logout()" id="menu-logout">Logout</a>';
         markup += '</div>';
     } else {
