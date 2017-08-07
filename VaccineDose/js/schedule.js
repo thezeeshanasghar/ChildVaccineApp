@@ -50,12 +50,13 @@ function loadData(id) {
                         if (!doseArray[index].isDone)
                         html += '<span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                                   
-                        html += '<a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
-                        if (doseArray[index].isDone)
-                            html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'
-                        else
-                            html += '<img src="../img/injectionEmpty.png" style="height: 40px;" /></a>'
-
+                        if (localStorage.getItem("UserType") != "PARENT") {
+                            html += '<a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
+                            if (doseArray[index].isDone)
+                                html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'
+                            else
+                                html += '<img src="../img/injectionEmpty.png" style="height: 40px;" /></a>'
+                        }
                         html += '</div></div> ';
                         console.log('\t' + doseArray[index].doseName);
                     }

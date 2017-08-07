@@ -179,27 +179,30 @@ namespace VaccineDose.Controllers
             }
         }
 
-        //[Route("api/child/{id}")]
-        //public Response<IEnumerable<ChildDTO>> GetMobile(string Id)
-        //{
-        //    try
-        //    {
-        //        using (VDConnectionString entities = new VDConnectionString())
-        //        {
-        //            var children = entities.Children.Where(c => c.MobileNumber == Id).ToList();
-        //            if (children == null)
-        //                return new Response<IEnumerable<ChildDTO>>(false, "Childs not found", null);
-        //            else
-        //            {
-        //                IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(children);
-        //                return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
-        //    }
-        //}
+        [HttpGet]
+        [Route("api/child/{id}")]
+        public Response<IEnumerable<ChildDTO>> GetChildAgainstMobile(string id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var children = entities.Children.Where(c => c.MobileNumber == id).ToList();
+                    if (children != null)
+                    {
+                        IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(children);
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                    }
+                    else
+                    {
+                        return new Response<IEnumerable<ChildDTO>>(false, "Childs not found", null);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
     }
 }

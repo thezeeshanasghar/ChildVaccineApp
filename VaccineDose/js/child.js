@@ -5,11 +5,58 @@ $(document).ready(function () {
         DisableOffDays();
     }
     else {
+        if (localStorage.getItem("MobileNumber") != 0) {
+            $("#btnAdd").hide();
+            loadChildDataAgainstMobileNumber();
+        }
         loadChildData();
     }
 
 });
+function loadChildDataAgainstMobileNumber() {
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + "child/" + localStorage.getItem("MobileNumber"),
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var html = '';
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<div class="child well top-buffer" style="background-color:';
+                    if (item.Gender == 'Boy')
+                        html += '#FFE1E6">';
+                    else
+                        html += 'lightblue">';
+                    html += '   <h2>';
+                    html += '       <img id="ImgMaleFemale" src="img/';
+                    if (item.Gender == 'Boy')
+                        html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
+                    else
+                        html += 'female.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
+                    html += '       &nbsp;';
+                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + ' ' + item.FatherName + '</a>';
+                    html += '   </h2>';
+                    html += '   <div style="font-size:20px;padding-left:50px">';
+                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
+                    html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber + ' <br />';
+                    html += '   </div>';
+                    html += '</div>';
 
+                });
+
+                $("#childrecords").html(html);
+                HideAlert();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 function GetClinicIdFromUrlOrLocalStorage() {
     var id = parseInt(getParameterByName("id")) || 0;
     if (id != 0)
@@ -50,7 +97,7 @@ function loadData() {
                     html += '           <a href="#" onclick="Delele(' + item.ID + ')">Delete</a>';
                     html += '       </span>';
                     html += '       <img id="ImgMaleFemale" src="img/';
-                    if(item.Gender=='Boy')
+                    if (item.Gender == 'Boy')
                         html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
                     else
                         html += 'female.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
@@ -64,7 +111,7 @@ function loadData() {
                     html += '</div>';
 
 
-                    
+
 
                 });
                 $("#childrecords").html(html);
