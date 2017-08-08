@@ -78,14 +78,10 @@ function Add() {
 }
 function validate() {
     
-        var validator = $('#form2').data("bs.validator");
-
-        $('#form2').validator('validate');
+      $('#form1').validator('validate');
+        var validator = $('#form1').data("bs.validator");
         if (validator.hasErrors())
-            return false;
-        else
             return true;
-
     
 }
 function ShowHide(event) {

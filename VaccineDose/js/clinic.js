@@ -236,15 +236,8 @@ function clearTextBox() {
 
 //Valdidation using jquery  
 function validate() {
-    var isValid = true;
-
-    if ($('#Name').val().trim() == "") {
-        $('#Name').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Name').css('border-color', 'lightgrey');
-    }
-
-    return isValid;
+    $('#form1').validator('validate');
+    var validator = $('#form1').data("bs.validator");
+    if (validator.hasErrors())
+    return true;
 }

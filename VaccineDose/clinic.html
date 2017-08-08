@@ -70,8 +70,8 @@
                         <h4 class="modal-title" id="myModalLabel">Add New</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" data-toggle="validation">
-                            <input type="text" class="form-control" id="ID" style="display:none" required />
+                        <form id="form1" role="form" data-toggle="validation">
+                            <input type="text" class="form-control" id="ID" style="display:none" />
 
                             <div class="form-group">
                                 <label for="Name">Name</label>
@@ -80,7 +80,7 @@
 
                             <div class="form-group">
                                 <label for="PhoneNumber">Phone Number</label>
-                                <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" required />
+                                <input type="text" class="form-control" id="PhoneNumber" pattern="^[9]{1}[2]{1}[3]{1}\d{9}$" placeholder="Phone Number" required />
                             </div>
 
                             <div class="form-group">
@@ -100,7 +100,7 @@
                                     <div class="form-group">
                                         <label for="StartTime">Strat Time</label>
                                         <div class="input-group bootstrap-timepicker timepicker">
-                                    <input id="StartTime" type="text" class="form-control input-small" required />
+                                    <input id="StartTime" type="text" class="form-control input-small" />
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                     <div class="form-group">
                                         <label for="EndTime">End Time</label>
                                         <div class="input-group bootstrap-timepicker timepicker">
-                                    <input id="EndTime" type="text" class="form-control input-small" required />
+                                    <input id="EndTime" type="text" class="form-control input-small" />
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
                                     </div>
