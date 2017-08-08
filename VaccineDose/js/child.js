@@ -1,22 +1,42 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
     if (GetClinicIdFromUrlOrLocalStorage() != 0) {
+        checkCustomScheduleAgainstClinic();
         loadData();
         DisableOffDays();
     }
     else {
-        if (localStorage.getItem("MobileNumber") != 0) {
+        if (GetChildMobileNumberFromLocalStorage() != 0) {
             $("btnAddNew").hide();
             loadChildDataAgainstMobileNumber();
         }
-        loadChildData();
+       // loadChildData();
     }
 
 });
+function checkCustomScheduleAgainstClinic() {
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + "child/" + GetClinicIdFromUrlOrLocalStorage() + "/GetCustomScheduleAgainsClinic",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var html = '';
+            if (!result.IsSuccess) {
+                $("btnAddNew").hide();
+                ShowAlert('Error', result.Message, 'danger');
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 function loadChildDataAgainstMobileNumber() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "child/" + localStorage.getItem("MobileNumber") + "/GetChildAgainstMobile",
+        url: SERVER + "child/" + GetChildMobileNumberFromLocalStorage() + "/GetChildAgainstMobile",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -123,49 +143,49 @@ function loadData() {
         }
     });
 }
-function loadChildData() {
-    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
-    $.ajax({
-        url: SERVER + "child/" + GetChildMobileNumberFromLocalStorage(),
-        type: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            var html = '';
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            } else {
-                $.each(result.ResponseData, function (key, item) {
-                    html += '<a href="schedule.html?id=' + item.ID + '">';
-                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
+//function loadChildData() {
+//    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+//    $.ajax({
+//        url: SERVER + "child/" + GetChildMobileNumberFromLocalStorage(),
+//        type: "GET",
+//        contentType: "application/json;charset=utf-8",
+//        dataType: "json",
+//        success: function (result) {
+//            var html = '';
+//            if (!result.IsSuccess) {
+//                ShowAlert('Error', result.Message, 'danger');
+//            } else {
+//                $.each(result.ResponseData, function (key, item) {
+//                    html += '<a href="schedule.html?id=' + item.ID + '">';
+//                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
 
-                    html += '<div class="col-md-1">' +
-                        '<img  src="img/child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
-                        '</div>';
-                    html += '<div class="col-md-6" style="padding:10px;">'
+//                    html += '<div class="col-md-1">' +
+//                        '<img  src="img/child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
+//                        '</div>';
+//                    html += '<div class="col-md-6" style="padding:10px;">'
 
-                    html += '<p><h3>' + item.Name + ' ' + item.FatherName + '</h3>';
-                    html += '<div style="margin:10px;">';
-                    html += '<p class="glyphicon glyphicon-calendar">' +
-                        '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
-                        '</br> <p class="glyphicon glyphicon-earphone">' +
-                        '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
-                    html += '</div>';
-                    html += '<div class="col-md-4">' +
-                      '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
-                    html += '</div></div></a>';
+//                    html += '<p><h3>' + item.Name + ' ' + item.FatherName + '</h3>';
+//                    html += '<div style="margin:10px;">';
+//                    html += '<p class="glyphicon glyphicon-calendar">' +
+//                        '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
+//                        '</br> <p class="glyphicon glyphicon-earphone">' +
+//                        '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
+//                    html += '</div>';
+//                    html += '<div class="col-md-4">' +
+//                      '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
+//                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
+//                    html += '</div></div></a>';
 
-                });
-                $("#childrecords").html(html);
-                HideAlert();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-}
+//                });
+//                $("#childrecords").html(html);
+//                HideAlert();
+//            }
+//        },
+//        error: function (errormessage) {
+//            alert(errormessage.responseText);
+//        }
+//    });
+//}
 function DisableOffDays() {
     $.ajax({
         url: SERVER + 'clinic/' + GetClinicIdFromUrlOrLocalStorage(),
