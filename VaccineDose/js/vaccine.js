@@ -73,9 +73,6 @@ function Add() {
 
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
-    $('#Name').css('border-color', 'lightgrey');
-    $('#MinAge').css('border-color', 'lightgrey');
-    $('#MaxAge').css('border-color', 'lightgrey');
 
     $.ajax({
         url: SERVER + "vaccine/" + ID,
@@ -172,9 +169,6 @@ function clearTextBox() {
     $('#MaxAge').val("");
     $('#btnUpdate').hide();
     $('#btnAdd').show();
-    $('#Name').css('border-color', 'lightgrey');
-    $('#MinAge').css('border-color', 'lightgrey');
-    $('#MaxAge').css('border-color', 'lightgrey');
 }
 
 //Valdidation using jquery  

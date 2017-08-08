@@ -19,15 +19,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Child Records</h2>
-                <button type="button" id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
+                <button type="button" id="btnAddNew" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New</button><br /><br />
 
                 <div id="alert_message" class="alert alert-dismissible alert-warning">
                     <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
                     <strong>loading title!</strong>
                     <p>loading message</p>
                 </div>
-
-
 
                 <div id="childrecords">
                     <!--<div class="child well top-buffer" style="background-color:#FFE1E6">
@@ -56,8 +54,8 @@
                         <h4 class="modal-title" id="myModalLabel">Add New</h4>
                     </div>
                     <div class="modal-body">
-                        <form role="form" data-toggle="validator">
-                            <input type="number" id="ID" style="display:none" required />
+                        <form id="form1" role="form" data-toggle="validator">
+                            <input type="number" id="ID" style="display:none" />
 
                             <div class="form-group">
                                 <label for="Name">Name</label>
@@ -81,18 +79,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="MobileNumber">Mobile Number</label>
-                                <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number" required />
+                                <input type="text" class="form-control" id="MobileNumber" pattern="^[9]{1}[2]{1}[3]{1}\d{9}$"
+                                       placeholder="Specify mobile number in this pattern 923465430413" required />
                             </div>
                             <div class="form-group">
                                 <label class="col-md-12" style="padding: 0px;">Preferred Day of Week</label><br />
                                 <div class="checkbox-inline">
-                                    <label><input id="Monday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Monday" />&nbsp; Monday &nbsp; &nbsp;</label>
+                                    <label><input id="Monday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Monday" />Monday</label>
                                 </div>
                                 <div class="checkbox-inline">
-                                    <label><input id="Tuesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Tuesday" />&nbsp;Tuesday&nbsp;&nbsp;</label>
+                                    <label><input id="Tuesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Tuesday" />Tuesday</label>
                                 </div>
                                 <div class="checkbox-inline">
-                                    <label><input id="Wednesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Wednesday" />&nbsp;Wednesday &nbsp; &nbsp;</label> <br />
+                                    <label><input id="Wednesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Wednesday" />Wednesday</label>
                                 </div>
                                 <div class="checkbox-inline">
                                     <label><input id="Thursday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Thursday" />Thursday</label>
@@ -101,16 +100,14 @@
                                 <div class="checkbox-inline">
                                     <label><input id="Friday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Friday" />Friday</label>
                                 </div>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;
                                 <div class="checkbox-inline">
                                     <label><input id="Saturday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Saturday" />Saturday</label>
                                 </div>
                                 <div class="checkbox-inline">
-                                    <label><input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />&nbsp;Sunday</label>
+                                    <label><input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />Sunday</label>
                                 </div>
                             </div>
-
-
                             <div class="form-group">
                                 <label for="Gender">Gender</label><br />
                                 <div class="radio-inline">
@@ -137,7 +134,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="PreferredSchedule">Preferred Schedule</label>
-                                <select id="PreferredSchedule" class="form-control" name="PreferredSchedule">
+                                <select id="PreferredSchedule" class="form-control" name="PreferredSchedule" disabled>
                                     <option value="CUSTOM" selected="selected">CUSTOM</option>
                                     <option value="WHO">WHO</option>
                                     <option value="CDC">CDC</option>

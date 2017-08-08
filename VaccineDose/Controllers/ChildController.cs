@@ -180,7 +180,7 @@ namespace VaccineDose.Controllers
         }
 
         [HttpGet]
-        [Route("api/child/{id}")]
+        [Route("api/child/{id}/GetChildAgainstMobile")]
         public Response<IEnumerable<ChildDTO>> GetChildAgainstMobile(string id)
         {
             try

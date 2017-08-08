@@ -6,7 +6,7 @@ $(document).ready(function () {
     }
     else {
         if (localStorage.getItem("MobileNumber") != 0) {
-            $("#btnAdd").hide();
+            $("btnAddNew").hide();
             loadChildDataAgainstMobileNumber();
         }
         loadChildData();
@@ -16,7 +16,7 @@ $(document).ready(function () {
 function loadChildDataAgainstMobileNumber() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "child/" + localStorage.getItem("MobileNumber"),
+        url: SERVER + "child/" + localStorage.getItem("MobileNumber") + "/GetChildAgainstMobile",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -251,13 +251,6 @@ function Add() {
 
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
-    $('#Name').css('border-color', 'lightgrey');
-    $('#FatherName').css('border-color', 'lightgrey');
-    $('#Email').css('border-color', 'lightgrey');
-    $('#DOB').css('border-color', 'lightgrey');
-    $('#MobileNumber').css('border-color', 'lightgrey');
-    $('#Gender').css('border-color', 'lightgrey');
-    $('#City').css('border-color', 'lightgrey');
     $.ajax({
         url: SERVER + "child/" + ID,
         typr: "GET",
@@ -272,34 +265,43 @@ function getbyID(ID) {
             $("#Email").prop("disabled", true);
 
             $('#DOB').val(result.ResponseData.DOB);
+            $('#DOB').attr('disabled', true);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
             $('#PreferredDayOfReminder').val(result.ResponseData.PreferredDayOfReminder);
             $('#PreferredSchedule').val(result.ResponseData.PreferredSchedule);
 
-            var PreferredDayOfWeek = result.ResponseData.PreferredDayOfWeek.split(",");
-            if ($.inArray("Monday", PreferredDayOfWeek) != -1)
-                $("#Monday").prop('checked', true);
-            if ($.inArray("Tuesday", PreferredDayOfWeek) != -1)
-                $("#Tuesday").prop('checked', true);
-            if ($.inArray("Wednesday", PreferredDayOfWeek) != -1)
-                $("#Wednesday").prop('checked', true);
-            if ($.inArray("Thursday", PreferredDayOfWeek) != -1)
-                $("#Thursday").prop('checked', true);
-            if ($.inArray("Friday", PreferredDayOfWeek) != -1)
-                $("#Friday").prop('checked', true);
-            if ($.inArray("Saturday", PreferredDayOfWeek) != -1)
-                $("#Saturday").prop('checked', true);
-            if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
-                $("#Sunday").prop('checked', true);
-
+            var PreferredDayOfWeek = [];
+            var PDW = result.ResponseData.PreferredDayOfWeek;
+            if (PDW != null) {
+                if (PDW.indexOf(",") >= 0) {
+                    PDW = PreferredDayOfWeek.split(",");
+                } else {
+                    PreferredDayOfWeek.push(PDW);
+                }
+                if ($.inArray("Monday", PreferredDayOfWeek) != -1)
+                    $("#Monday").prop('checked', true);
+                if ($.inArray("Tuesday", PreferredDayOfWeek) != -1)
+                    $("#Tuesday").prop('checked', true);
+                if ($.inArray("Wednesday", PreferredDayOfWeek) != -1)
+                    $("#Wednesday").prop('checked', true);
+                if ($.inArray("Thursday", PreferredDayOfWeek) != -1)
+                    $("#Thursday").prop('checked', true);
+                if ($.inArray("Friday", PreferredDayOfWeek) != -1)
+                    $("#Friday").prop('checked', true);
+                if ($.inArray("Saturday", PreferredDayOfWeek) != -1)
+                    $("#Saturday").prop('checked', true);
+                if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
+                    $("#Sunday").prop('checked', true);
+            }
             $("#IsEPIDone").prop("checked", result.ResponseData.IsEPIDone);
             $("#IsVerified").prop("checked", result.ResponseData.IsVerified);
 
             $('#myModal').modal('show');
-            $('#btnUpdate').show();
             $('#btnAdd').hide();
+            $('#btnUpdate').show();
+            
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -311,14 +313,12 @@ function getbyID(ID) {
 //function for updating record  
 function Update() {
     var res = validate();
-    if (res == false) {
+    if (res == false) 
         return false;
-    }
 
     var result = [];
     $('input[name="PreferredDayOfWeek"]:checked').each(function () {
         result.push(this.value);
-        console.log(result);
     });
 
     var obj = {
@@ -406,41 +406,16 @@ function clearTextBox() {
     $('#btnUpdate').hide();
     $('#btnAdd').show();
 
-    $('#Name').css('border-color', 'lightgrey');
-    $('#FatherName').css('border-color', 'lightgrey');
-    $('#Email').css('border-color', 'lightgrey');
-    $('#DOB').css('border-color', 'lightgrey');
-    $('#MobileNumber').css('border-color', 'lightgrey');
-    $('#Gender').css('border-color', 'lightgrey');
-    $('#City').css('border-color', 'lightgrey');
     $("input:checkbox").prop("checked", false);
 
 }
 
 //Valdidation using jquery  
 function validate() {
-    var isValid = true;
-    if ($('#Name').val().trim() == "") {
-        $('#Name').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Name').css('border-color', 'lightgrey');
-    }
-    if ($('#Email').val().trim() == "") {
-        $('#Email').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Email').css('border-color', 'lightgrey');
-    }
-    if ($("input[type='radio'][name='gender']:checked").val() == false) {
-        $('#Gender').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Gender').css('border-color', 'lightgrey');
-    }
-
-    return isValid;
+    $('#form1').validator('validate');
+    var validator = $('#form1').data("bs.validator");
+    if (validator.hasErrors())
+        return false;
+    else
+        return true;
 }

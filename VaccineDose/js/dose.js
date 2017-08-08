@@ -96,7 +96,6 @@ function Add() {
 
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
-    $('#Name').css('border-color', 'lightgrey');
 
     $.ajax({
         url: SERVER + "dose/" + ID,
@@ -191,7 +190,6 @@ function clearTextBox() {
     $('#btnUpdate').hide();
     $('#btnAdd').show();
 
-    $('#Name').css('border-color', 'lightgrey');
 }
 
 

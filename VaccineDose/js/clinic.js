@@ -1,6 +1,4 @@
-﻿//Load Data in Table when documents is ready  
-$(document).ready(function () {
-    // var id = parseInt(getParameterByName("id")) || 0;
+﻿$(document).ready(function () {
     var id = DoctorId();
     loadData(id);
 });
@@ -94,9 +92,6 @@ function Add() {
 
 //Function for getting the Data Based upon ID  
 function getbyID(ID) {
-    $('#Name').css('border-color', 'lightgrey');
-    $('#StartTime').css('border-color', 'lightgrey');
-    $('#EndTime').css('border-color', 'lightgrey');
 
     $.ajax({
         url: SERVER + "clinic/" + ID,
@@ -132,16 +127,11 @@ function getbyID(ID) {
 
             g_lat = result.ResponseData.Lat;
             g_lng = result.ResponseData.Long;
+            initMap();
 
             $('#myModal').modal('show');
-
             $('#btnUpdate').show();
             $('#btnAdd').hide();
-
-            //myMarker.setPosition(new google.maps.LatLng(result.ResponseData.Lat, result.ResponseData.Long));
-            //map.setCenter(myMarker.position);
-            //myMarker.setMap(map);
-            initMap();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -158,10 +148,9 @@ function Update() {
     }
     var result = [];
     $('input[name="OffDays"]:checked').each(function () {
-
         result.push(this.value);
-        console.log(result);
     });
+
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
@@ -227,24 +216,19 @@ function clearTextBox() {
     $('#btnUpdate').hide();
     $('#btnAdd').show();
 
-    $('#Name').css('border-color', 'lightgrey');
 
     g_lat = 33.5614494;
     g_lng = 73.069301;
+    initMap();
 }
 
 
 //Valdidation using jquery  
 function validate() {
-    var isValid = true;
-
-    if ($('#Name').val().trim() == "") {
-        $('#Name').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Name').css('border-color', 'lightgrey');
-    }
-
-    return isValid;
+    $('#form1').validator('validate');
+    var validator = $('#form1').data("bs.validator");
+    if (validator.hasErrors())
+        return false;
+    else
+        return true;
 }
