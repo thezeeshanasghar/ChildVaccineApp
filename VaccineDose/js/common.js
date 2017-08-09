@@ -1,7 +1,7 @@
-//var SERVER_IP = 'http://www.vac.afz-sol.com';
-//var SERVER_PORT = '80';
-var SERVER_IP = 'http://localhost';
-var SERVER_PORT = '4309';
+var SERVER_IP = 'http://www.vac.afz-sol.com';
+var SERVER_PORT = '80';
+//var SERVER_IP = 'http://localhost';
+//var SERVER_PORT = '4309';
 var SERVER_BASE_PATH = 'api';
 
 var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
@@ -69,6 +69,7 @@ function SetMainNav() {
         markup += '</nav>';
     } else if (UserType == 'DOCTOR') {
         markup += '<div class="btn-group btn-group-justified">';
+        markup += '     <a href="alert.html" class="btn btn-primary btn-lg" style="width:.35%;padding: 10px 10px;"><span class="glyphicon glyphicon-align-justify"></span></a>';
         markup += '     <a href="alert.html" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-alert"></span></a>';
         markup += '     <a href="add-new-child.html" class="btn btn-primary  btn-lg"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
         markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
