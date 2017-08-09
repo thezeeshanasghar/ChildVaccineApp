@@ -55,7 +55,7 @@ namespace VaccineDose.Controllers
                         entities.SaveChanges();
                     }
                     childDTO.ID = childDB.ID;
-                    
+
                     // get doctor schedule and apply it to child and save in Schedule page
                     Clinic clinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();
                     Doctor doctor = clinic.Doctor;
@@ -202,6 +202,34 @@ namespace VaccineDose.Controllers
             catch (Exception e)
             {
                 return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/child/{id}/GetCustomScheduleAgainsClinic")]
+        public Response<DoctorScheduleDTO> GetCustomScheduleAgainsClinic(int id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var clinic = entities.Clinics.Where(c => c.ID == id).FirstOrDefault();
+                    var doctorSchedule = clinic.Doctor.DoctorSchedules.FirstOrDefault();
+                    if (doctorSchedule != null)
+                    {
+                        DoctorScheduleDTO doctorScheduleDTO = Mapper.Map<DoctorScheduleDTO>(doctorSchedule);
+                        return new Response<DoctorScheduleDTO>(true, null, doctorScheduleDTO);
+                    }
+                    else
+                    {
+                        return new Response<DoctorScheduleDTO>(false, "Custom schedule is not added", null);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<DoctorScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
     }
