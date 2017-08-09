@@ -72,17 +72,18 @@ function SetMainNav() {
         markup += '     <a href="alert.html" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-alert"></span></a>';
         markup += '     <a href="add-new-child.html" class="btn btn-primary  btn-lg"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
         markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
-        markup += '     <div class="btn-group">';
-        markup += '         <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-        markup += '             Profile &nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
-        markup += '             <ul class="dropdown-menu" role="menu">';
-        markup += '                 <li><a href="clinic.html">Clinic</a></li>';
+        markup += '     <a href="doctor-edit.html?id=' + localStorage.getItem('DoctorID') + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-pencil"></span></a>';
+        //markup += '     <div class="btn-group">';
+        //markup += '         <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        //markup += '             Profile &nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
+        //markup += '             <ul class="dropdown-menu" role="menu">';
+        //markup += '                 <li><a href="clinic.html">Clinic</a></li>';
 
-        markup += '                 <li><a href="changed-password.html">Change Password</a></li>';
-        markup += '                 <li><a href="doctor-schedule.html">Custom Schedule</a></li>';
-        markup += '                 <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
-        markup += '             </ul>';
-        markup += '     </div>';
+        //markup += '                 <li><a href="changed-password.html">Change Password</a></li>';
+        //markup += '                 <li><a href="doctor-schedule.html">Custom Schedule</a></li>';
+        //markup += '                 <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
+        //markup += '             </ul>';
+        //markup += '     </div>';
         markup += '</div>';
     } else if (UserType == 'PARENT') {
         markup += '<div class="btn-group btn-group-justified">';

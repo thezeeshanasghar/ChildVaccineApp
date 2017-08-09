@@ -27,11 +27,11 @@ function loadData() {
                     html += '<td>' + item.MobileNo + '</td>';
                     html += '<td>' + item.PMDC + '</td>';
 
-                    html += '<td>' +
-                        '<a href="doctor-schedule.html?id=' + item.ID + '">Custom Schedule</a> | ' +
-                        '<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
-                        '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
-                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                    //html += '<td>' +
+                    //    //'<a href="doctor-schedule.html?id=' + item.ID + '">Custom Schedule</a> | ' +
+                    //    //'<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
+                    //    '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                    //    '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
