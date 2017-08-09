@@ -113,8 +113,8 @@ function loadData() {
                         html += 'lightblue">';
                     html += '   <h2>';
                     html += '       <span class="pull-right" style="font-size:20px">';
-                    html += '           <a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> |';
-                    html += '           <a href="#" onclick="Delele(' + item.ID + ')">Delete</a>';
+                    html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> |';
+                    html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
                     html += '       <img id="ImgMaleFemale" src="img/';
                     if (item.Gender == 'Boy')
@@ -122,10 +122,10 @@ function loadData() {
                     else
                         html += 'female.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
                     html += '       &nbsp;';
-                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + ' ' + item.FatherName + '</a>';
-                    html += '   </h2>';
+                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/></h2>';
+            
                     html += '   <div style="font-size:20px;padding-left:50px">';
-                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
+                    html += '<i class="glyphicon glyphicon-user"></i> '+ item.FatherName + '<br/>' + '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber + ' <br />';
                     html += '   </div>';
                     html += '</div>';
@@ -143,49 +143,7 @@ function loadData() {
         }
     });
 }
-//function loadChildData() {
-//    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
-//    $.ajax({
-//        url: SERVER + "child/" + GetChildMobileNumberFromLocalStorage(),
-//        type: "GET",
-//        contentType: "application/json;charset=utf-8",
-//        dataType: "json",
-//        success: function (result) {
-//            var html = '';
-//            if (!result.IsSuccess) {
-//                ShowAlert('Error', result.Message, 'danger');
-//            } else {
-//                $.each(result.ResponseData, function (key, item) {
-//                    html += '<a href="schedule.html?id=' + item.ID + '">';
-//                    html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
 
-//                    html += '<div class="col-md-1">' +
-//                        '<img  src="img/child.jpg"  style="width: 80px; height:80px;padding: 10px;" />' +
-//                        '</div>';
-//                    html += '<div class="col-md-6" style="padding:10px;">'
-
-//                    html += '<p><h3>' + item.Name + ' ' + item.FatherName + '</h3>';
-//                    html += '<div style="margin:10px;">';
-//                    html += '<p class="glyphicon glyphicon-calendar">' +
-//                        '<span style="margin-left: 10px;">' + item.DOB + '</span></p>' +
-//                        '</br> <p class="glyphicon glyphicon-earphone">' +
-//                        '<span style="margin-left: 10px;">' + item.MobileNumber + '</span></p>';
-//                    html += '</div>';
-//                    html += '<div class="col-md-4">' +
-//                      '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-//                      '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></div>';
-//                    html += '</div></div></a>';
-
-//                });
-//                $("#childrecords").html(html);
-//                HideAlert();
-//            }
-//        },
-//        error: function (errormessage) {
-//            alert(errormessage.responseText);
-//        }
-//    });
-//}
 function DisableOffDays() {
     $.ajax({
         url: SERVER + 'clinic/' + GetClinicIdFromUrlOrLocalStorage(),
@@ -212,55 +170,6 @@ function DisableOffDays() {
                     if ($.inArray("Sunday", OffDays) != -1)
                         $("#Sunday").prop('disabled', true);
                 }
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-}
-//Add Data Function   
-function Add() {
-    var res = validate();
-    if (res == false) {
-        return false;
-    }
-
-    var result = [];
-    $('input[name="PreferredDayOfWeek"]:checked').each(function () {
-        result.push(this.value);
-    });
-
-    var obj = {
-        Name: $('#Name').val(),
-        FatherName: $('#FatherName').val(),
-        Email: $('#Email').val(),
-        DOB: $('#DOB').val(),
-        MobileNumber: $('#MobileNumber').val(),
-        PreferredDayOfWeek: result.join(','),
-        Gender: $("input[name='gender']:checked").val(),
-        City: $('#City').find(":selected").text(),
-        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
-        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
-        IsEPIDone: $("#IsEPIDone").is(':checked'),
-        IsVerified: $("#IsVerified").is(':checked'),
-
-        Password: PasswordGenerator(),
-        ClinicID: GetClinicIdFromUrlOrLocalStorage()
-    };
-    $.ajax({
-        url: SERVER + "child",
-        data: JSON.stringify(obj),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            }
-            else {
-                loadData();
-                $('#myModal').modal('hide');
             }
         },
         error: function (errormessage) {
