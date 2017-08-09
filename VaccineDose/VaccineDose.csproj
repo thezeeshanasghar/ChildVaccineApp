@@ -296,6 +296,7 @@
   <ItemGroup>
     <Content Include="alert.html" />
     <Content Include="changed-password.html" />
+    <Content Include="add-new-child.html" />
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />
@@ -314,6 +315,7 @@
     <Content Include="js\bootstrap-datepicker.min.js" />
     <Content Include="js\bootstrap-timepicker.min.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\add-child.js" />
     <Content Include="js\child.js" />
     <Content Include="js\clinic-selection.js" />
     <Content Include="js\common.js" />

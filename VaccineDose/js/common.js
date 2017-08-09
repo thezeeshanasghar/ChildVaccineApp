@@ -69,9 +69,9 @@ function SetMainNav() {
         markup += '</nav>';
     } else if (UserType == 'DOCTOR') {
         markup += '<div class="btn-group btn-group-justified">';
-        markup += '     <a href="alert.html" class="btn btn-primary btn-lg">Alert</a>';
-        markup += '     <a href="#" class="btn btn-primary  btn-lg">SMS</a>';
-        markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg">Childs</a>';
+        markup += '     <a href="alert.html" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-alert"></span></a>';
+        markup += '     <a href="add-new-child.html" class="btn btn-primary  btn-lg"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
+        markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
         markup += '     <div class="btn-group">';
         markup += '         <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
         markup += '             Profile &nbsp;<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
