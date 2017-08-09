@@ -300,6 +300,7 @@
     <Content Include="child.html" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap-timepicker.min.css" />
+    <Content Include="doctor-edit.html" />
     <Content Include="doctor-schedule.html" />
     <Content Include="img\female.png" />
     <Content Include="img\injectionEmpty.png" />
@@ -326,6 +327,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="Global.asax" />
+    <Content Include="js\doctor-edit.js" />
     <Content Include="js\doctor-schedule.js" />
     <Content Include="js\doctor-signup.js" />
     <Content Include="js\doctor.js" />
