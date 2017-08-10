@@ -163,8 +163,9 @@
                 document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
             });
 
-            map.setCenter(myMarker.position);
             myMarker.setMap(map);
+            map.setCenter(myMarker.position);
+            
         }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQiiY3BORTJDHVJ6SFZTiSMk0MoMuU18"></script>
@@ -180,6 +181,9 @@
 
     <script>
         $('#myModal').on('shown.bs.modal', function () {
+            
+            google.maps.event.trigger(map, "resize");
+            
             $('#StartTime').timepicker({
                 minuteStep: 30,
                 showMeridian: false,

@@ -52,7 +52,7 @@
             var myLatLng = { lat: g_lat, lng: g_lng };
 
             g_map = new google.maps.Map(document.getElementById('Location'), {
-                zoom: 14,
+                zoom: 11,
                 center: myLatLng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
@@ -77,7 +77,7 @@
         function loadData() {
             ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
             $.ajax({
-                url: SERVER + "child/get-doctor-clinics/" + GetMobileNumberFromLocalStorage(),
+                url: SERVER + "clinic",
                 type: "GET",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
@@ -109,29 +109,6 @@
                     alert(errormessage.responseText);
                 }
             });
-            //$.ajax({
-
-            //    type: "GET",
-            //    contentType: "application/json;charset=utf-8",
-            //    dataType: "json",
-            //    success: function (result) {
-            //        // Loop through our array of markers & place each one on the map
-            //        for (i = 0; i < data.marker.length; i++) {
-            //            var myLatlng = new google.maps.LatLng(data.marker[i].log, data.marker[i].lat);
-            //            var marker = new google.maps.Marker({
-            //                position: myLatlng,
-            //                map: map,
-            //                title: 'Hello World!'
-            //            }); /* <----- AT THIS POINT, MARKER IS CREATED AND PLACED ON THE MAP BY SETTING "map" PROPERTY */
-            //            markers.push(marker); /* <----- HERE YOU ARE STORING THEM, AND YOU CAN ACCESS THEM LATER IN YOUR FUNCTION */
-
-            //        }
-            //    },
-            //    error: function (errormessage) {
-            //        alert(errormessage.responseText);
-            //    }
-
-            //});
         }
     </script>
 

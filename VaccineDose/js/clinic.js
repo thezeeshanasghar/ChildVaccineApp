@@ -35,9 +35,10 @@ function loadData(id) {
                     html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
                     html += '<td>' +
                         '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
-                        '<a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                        '<a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
+                        '<a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
+                    
                 });
                 $('.tbody').html(html);
                 HideAlert();
@@ -118,7 +119,8 @@ function getbyID(ID) {
             if ($.inArray("Sunday", OffDays) != -1)
                 $("#Sunday").prop('checked', true);
 
-            $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
+            if (result.ResponseData.OffDays != null && result.ResponseData.OffDays.length > 0)
+                $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
 
             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);

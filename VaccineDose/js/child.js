@@ -48,9 +48,9 @@ function loadChildDataAgainstMobileNumber() {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<div class="child well top-buffer" style="background-color:';
                     if (item.Gender == 'Boy')
-                        html += '#FFE1E6">';
-                    else
                         html += 'lightblue">';
+                    else
+                        html += '#FFE1E6">';
                     html += '   <h2>';
                     html += '       <img id="ImgMaleFemale" src="img/';
                     if (item.Gender == 'Boy')
@@ -108,9 +108,9 @@ function loadData() {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<div class="child well top-buffer" style="background-color:';
                     if (item.Gender == 'Boy')
-                        html += '#FFE1E6">';
-                    else
                         html += 'lightblue">';
+                    else
+                        html += '#FFE1E6">';
                     html += '   <h2>';
                     html += '       <span class="pull-right" style="font-size:20px">';
                     html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> |';
@@ -205,7 +205,7 @@ function getbyID(ID) {
             var PDW = result.ResponseData.PreferredDayOfWeek;
             if (PDW != null) {
                 if (PDW.indexOf(",") >= 0) {
-                    PDW = PreferredDayOfWeek.split(",");
+                    PreferredDayOfWeek = PDW.split(",");
                 } else {
                     PreferredDayOfWeek.push(PDW);
                 }

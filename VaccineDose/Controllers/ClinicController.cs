@@ -11,6 +11,23 @@ namespace VaccineDose.Controllers
     public class ClinicController : BaseController
     {
         #region C R U D
+        public Response<IEnumerable<ClinicDTO>> Get()
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var clinics = entities.Clinics.ToList();
+                    IEnumerable<ClinicDTO> clinicDTOs = Mapper.Map<IEnumerable<ClinicDTO>>(clinics);
+                    return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ClinicDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+
+        }
         public Response<ClinicDTO> Get(int Id)
         {
             try

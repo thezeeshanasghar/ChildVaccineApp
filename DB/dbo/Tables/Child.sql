@@ -11,7 +11,7 @@
     [City]                   NVARCHAR (50) NULL,
     [PreferredSchedule]      NVARCHAR (50) NULL,
     [Password]               NVARCHAR (50) NOT NULL,
-    [PreferredDayOfWeek]     NVARCHAR (50) NULL,
+    [PreferredDayOfWeek]     NVARCHAR (56) NULL,
     [IsEPIDone]              BIT           NULL,
     [IsVerified]             BIT           NULL,
     [ClinicID]               INT           NOT NULL,
