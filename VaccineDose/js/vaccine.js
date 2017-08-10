@@ -276,22 +276,139 @@ function getUserAge(ageNum) {
             break;
         case 486:
             day = '16 Months';
+        case 516:
+            day = '17 Months';
             break;
-        case 547:
-            day = '1 Year 6 Months';
+        case 546:
+            day = '18 Months';
             break;
-        case 608:
-            day = '1 Year 8 Months';
+        case 576:
+            day = '19 Months';
             break;
-        case 730:
-            day = '2 Years';
+        case 606:
+            day = '20 Months';
             break;
-        case 760:
-            day = '2 Years 1 Month';
+        case 636:
+            day = '21 Months';
             break;
-        case 1125:
-            day = '3 Year 1 Month';
+        case 666:
+            day = '22 Months';
             break;
+        case 696:
+            day = '23 Months';
+            break;
+        case 726:
+            day = '24 Months';
+            break;
+        case 756:
+            day = '25 Months';
+            break;
+        case 786:
+            day = '26 Months';
+            break;
+        case 816:
+            day = '27 Months';
+            break;
+        case 846:
+            day = '28 Months';
+            break;
+        case 876:
+            day = '29 Months';
+            break;
+        case 906:
+            day = '30 Months';
+            break;
+        case 936:
+            day = '31 Months';
+            break;
+        case 966:
+            day = '32 Months';
+            break;
+        case 996:
+            day = '33 Months';
+            break;
+        case 1026:
+            day = '34 Months';
+            break;
+        case 1056:
+            day = '35 Months';
+            break;
+        case 1086:
+            day = '36 Months';
+            break;
+        case 1116:
+            day = '37 Months';
+            break;
+        case 1146:
+            day = '38 Months';
+            break;
+        case 1176:
+            day = '39 Months';
+            break;
+        case 1206:
+            day = '40 Months';
+            break;
+        case 1236:
+            day = '41 Months';
+            break;
+        case 1266:
+            day = '42 Months';
+            break;
+        case 1296:
+            day = '43 Months';
+            break;
+        case 1326:
+            day = '44 Months';
+            break;
+        case 1356:
+            day = '45 Months';
+            break;
+        case 1386:
+            day = '46 Months';
+            break;
+        case 1416:
+            day = '47 Months';
+            break;
+        case 1446:
+            day = '48 Months';
+            break;
+        case 1476:
+            day = '49 Months';
+            break;
+        case 1506:
+            day = '50 Months';
+            break;
+        case 1536:
+            day = '51 Months';
+            break;
+        case 1566:
+            day = '52 Months';
+            break;
+        case 1596:
+            day = '53 Months';
+            break;
+        case 1626:
+            day = '54 Months';
+            break;
+        case 1656:
+            day = '55 Months';
+            break;
+        case 1686:
+            day = '56 Months';
+            break;
+        case 1716:
+            day = '57 Months';
+            break;
+        case 1746:
+            day = '58 Months';
+            break;
+        case 1776:
+            day = '59 Months';
+            break;
+        case 1806:
+            day = '60 Months';
+            break;
+
     }
     return day;
 }
