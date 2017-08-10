@@ -37,30 +37,28 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    html += "<h3 style='text-align:center'>" + date + "</h3>";
+                    html += '<div class="well top-buffer" style="background-color:rgb(240, 240, 240)">';
+                    html += "   <h3 style='text-align:center'>" + date + "</h3>";
                     var doseArray = dateVsArrayOfScheuleMap[date];
                     for (var index in doseArray) {
 
-                        html += '<div class="col-lg-12" style="background-color:rgb(240, 240, 240);border-radius:4px;margin-bottom: 8px;border:1px solid black;">';
-                        html += '<div class="col-md-1">' +
-                                                '</div>';
-                        html += '<div class="col-md-6" style="padding:10px;">';
-                        html += '<h3>' + doseArray[index].doseName + '</h3></div>';
-                        html += '<div class="col-md-4" style="padding:10px;">';
+                        html += '   <h4>';
+                        html += '       <span class="pull-right" style="font-size:20px">';
+                        
                         if (!doseArray[index].isDone)
-                        html += '<span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
-                                  
-                        if (localStorage.getItem("UserType") != "PARENT") {
-                            html += '<a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
+                            html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'      
+                        if (localStorage.getItem("UserType") == "DOCTOR") {
+                            html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
                             if (doseArray[index].isDone)
-                                html += '<img src="../img/injectionFilled.png" style="height: 40px;" /></a>'
+                                html += '       <img src="../img/injectionFilled.png" style="height: 30px;" /></a>'
                             else
-                                html += '<img src="../img/injectionEmpty.png" style="height: 40px;" /></a>'
+                                html += '       <img src="../img/injectionEmpty.png" style="height: 30px;" /></a>'
                         }
-                        html += '</div></div> ';
-                        console.log('\t' + doseArray[index].doseName);
+                        html += '       </span> ';
+                        html += doseArray[index].doseName;
+                        html += '   </h4>'
                     }
-
+                    html += '   </div>'
                 }
                 $('#schedule').html(html);
                 HideAlert();
