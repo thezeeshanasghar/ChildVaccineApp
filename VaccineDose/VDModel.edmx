@@ -21,7 +21,7 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" />
           <Property Name="PreferredSchedule" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PreferredDayOfWeek" Type="nvarchar" MaxLength="50" />
+          <Property Name="PreferredDayOfWeek" Type="nvarchar" MaxLength="56" />
           <Property Name="IsEPIDone" Type="bit" />
           <Property Name="IsVerified" Type="bit" />
           <Property Name="ClinicID" Type="int" Nullable="false" />
@@ -32,7 +32,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="OffDays" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="Lat" Type="float" Nullable="false" />
@@ -73,6 +73,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="VaccineID" Type="int" Nullable="false" />
+          <Property Name="GapInDays" Type="int" />
+          <Property Name="DoseOrder" Type="int" />
         </EntityType>
         <EntityType Name="Schedule">
           <Key>
@@ -346,6 +348,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VaccineID" Type="Int32" Nullable="false" />
+          <Property Name="GapInDays" Type="Int32" />
+          <Property Name="DoseOrder" Type="Int32" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="Dose" ToRole="DoctorSchedule" />
           <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Dose" ToRole="Vaccine" />
           <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Dose" FromRole="Dose" ToRole="Schedule" />
@@ -543,6 +547,8 @@
           <EntitySetMapping Name="Doses">
             <EntityTypeMapping TypeName="VDModel.Dose">
               <MappingFragment StoreEntitySet="Dose">
+                <ScalarProperty Name="DoseOrder" ColumnName="DoseOrder" />
+                <ScalarProperty Name="GapInDays" ColumnName="GapInDays" />
                 <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
