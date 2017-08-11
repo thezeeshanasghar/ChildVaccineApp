@@ -22,6 +22,8 @@ function loadData(id) {
                     html += '<tr>';
                     html += '<td>' + (key + 1) + '</td>';
                     html += '<td>' + item.Name + '</td>';
+                    html += '<td>' + item.GapInDays + '</td>';
+                    html += '<td>' + item.DoseOrder + '</td>';
                     html += '<td>' +
                         '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
                         '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
@@ -69,6 +71,8 @@ function Add() {
     }
     var obj = {
         Name: $('#Name').val(),
+        GapInDays: $('#GapInDays').val(),
+        DoseOrder: $('#DoseOrder').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
@@ -109,6 +113,8 @@ function getbyID(ID) {
             else {
                 $("#ID").val(result.ResponseData.ID);
                 $('#Name').val(result.ResponseData.Name);
+                $('#GapInDays').val(result.ResponseData.GapInDays);
+                $('#DoseOrder').val(result.ResponseData.DoseOrder);
 
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
@@ -131,6 +137,8 @@ function Update() {
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
+        GapInDays: $('#GapInDays').val(),
+        DoseOrder: $('#DoseOrder').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
@@ -149,6 +157,7 @@ function Update() {
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#Name').val("");
+                clearTextBox();
             }
         },
         error: function (errormessage) {
@@ -186,6 +195,8 @@ function Delele(ID) {
 function clearTextBox() {
     $('#ID').val("");
     $('#Name').val("");
+    $('#GapInDays').val("");
+    $('#DoseOrder').val("");
 
     $('#btnUpdate').hide();
     $('#btnAdd').show();
