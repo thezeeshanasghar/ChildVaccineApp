@@ -105,7 +105,7 @@ namespace VaccineDose.Controllers
                     {
                         foreach (Schedule schedule in childSchedules)
                         {
-                            if (schedule.Date.Date > dbSchedule.Date.Date)
+                            if (schedule.Date.Date >= dbSchedule.Date.Date && schedule.ID!=dbSchedule.ID)
                             {
                                 schedule.Date = schedule.Date.AddDays(daysDifference);
                                 entities.Schedules.Attach(schedule);
