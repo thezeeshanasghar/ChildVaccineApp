@@ -49,15 +49,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <select  id="CountryCode" class="form-control">
+                            <div class="col-md-3">
+                                <select id="CountryCode" class="form-control">
                                     <!-- Countries often selected by users can be moved to the top of the list. -->
                                     <!-- Countries known to be subject to general US embargo are commented out by default. -->
                                     <!-- The data-countryCode attribute is populated with ISO country code, and value is int'l calling code. -->
-
                                     <option data-countryCode="US" value="1" selected>USA (+1)</option>
                                     <option data-countryCode="GB" value="44">UK (+44)</option>
-
                                     <option disabled="disabled">Other Countries</option>
                                     <option data-countryCode="DZ" value="213">Algeria (+213)</option>
                                     <option data-countryCode="AD" value="376">Andorra (+376)</option>
@@ -205,7 +203,7 @@
                                     <option data-countryCode="NP" value="670">Northern Marianas (+670)</option>
                                     <option data-countryCode="NO" value="47">Norway (+47)</option>
                                     <option data-countryCode="OM" value="968">Oman (+968)</option>
-                                    <option data-countryCode="PK" value="92" selected="selected">Pakistan (+92)</option>
+                                    <option data-countryCode="PK" value="92" selected="selected">+92</option>
                                     <option data-countryCode="PW" value="680">Palau (+680)</option>
                                     <option data-countryCode="PA" value="507">Panama (+507)</option>
                                     <option data-countryCode="PG" value="675">Papua New Guinea (+675)</option>
@@ -273,10 +271,12 @@
                                     <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="MobileNumber" pattern="^[3]{1}\d{9}$"
-                                   placeholder="Specify mobile number in this pattern 3465430413" required />
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="MobileNumber" pattern="^[3]{1}\d{9}$"
+                                           placeholder="Specify mobile number in this pattern 3465430413" required />
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-9">

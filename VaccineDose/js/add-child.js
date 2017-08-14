@@ -63,6 +63,7 @@ function Add() {
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
+        CountryCode:$('#CountryCode').find(":selected").text(),
         MobileNumber: $('#MobileNumber').val(),
         PreferredDayOfWeek: result.join(','),
         Gender: $("input[name='gender']:checked").val(),

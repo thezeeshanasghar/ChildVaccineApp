@@ -37,6 +37,8 @@ public partial class Child
 
     public System.DateTime DOB { get; set; }
 
+    public string CountryCode { get; set; }
+
     public string MobileNumber { get; set; }
 
     public string StreetAddress { get; set; }

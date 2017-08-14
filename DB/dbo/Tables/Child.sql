@@ -4,6 +4,7 @@
     [FatherName]             NVARCHAR (50) NOT NULL,
     [Email]                  NVARCHAR (50) NOT NULL,
     [DOB]                    DATE          NOT NULL,
+	[CountryCode]			 NVARCHAR (50) NOT NULL,
     [MobileNumber]           NVARCHAR (50) NOT NULL,
     [StreetAddress]          NVARCHAR (50) NULL,
     [Gender]                 NVARCHAR (50) NOT NULL,

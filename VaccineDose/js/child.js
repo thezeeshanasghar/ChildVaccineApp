@@ -196,6 +196,7 @@ function getbyID(ID) {
 
             $('#DOB').val(result.ResponseData.DOB);
             $('#DOB').attr('disabled', true);
+            $('#CountryCode').val(result.ResponseData.CountryCode);
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
@@ -257,6 +258,7 @@ function Update() {
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
+        CountryCode:$('#CountryCode').find(":selected").text(),
         MobileNumber: $('#MobileNumber').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
@@ -287,7 +289,7 @@ function Update() {
                 $("#Email").val("");
                 $("#DOB").val("");
                 $("#MobileNumber").val("");
-
+                $('#CountryCode').val("");
                 $("input:checkbox").prop("checked", false);
                 $("#City").val("");
             }
@@ -330,6 +332,7 @@ function clearTextBox() {
     $("#Email").val("");
     $("#Email").prop("disabled", false);
     $("#DOB").val("");
+    $('#CountryCode').val("");
     $("#MobileNumber").val("");
     $("#City").val("");
 

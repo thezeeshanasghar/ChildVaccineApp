@@ -12,6 +12,7 @@ namespace VaccineDose
 
         [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime  DOB { get; set; }
+        public string CountryCode { get; set; }
         public string MobileNumber { get; set; }
         public string Password { get; set; }
         public string StreetAddress { get; set; }
