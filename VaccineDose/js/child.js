@@ -10,7 +10,6 @@ $(document).ready(function () {
             $("btnAddNew").hide();
             loadChildDataAgainstMobileNumber();
         }
-       // loadChildData();
     }
 
 });
@@ -106,27 +105,29 @@ function loadData() {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<div class="child well top-buffer" style="background-color:';
+                    html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
                     if (item.Gender == 'Boy')
-                        html += 'lightblue">';
+                        html += 'blue">';
                     else
-                        html += '#FFE1E6">';
-                    html += '   <h2>';
-                    html += '       <span class="pull-right" style="font-size:20px">';
+                        html += '#FF1493">';
+                    html += '       <img id="ImgMaleFemale" src="img/';
+                    if (item.Gender == 'Boy')
+                        html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:90px;max-height:90px" />';
+                    else
+                        html += 'female.png" class="img-responsive pull-left" alt="female" style="max-width:90px;max-height:90px" />';
+                    html += '   <h4>';
+                    html += '       <span class="pull-right" style="font-size:12px">';
                     html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> |';
                     html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
-                    html += '       <img id="ImgMaleFemale" src="img/';
-                    if (item.Gender == 'Boy')
-                        html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
-                    else
-                        html += 'female.png" class="img-responsive pull-left" alt="male" style="max-width:30px;max-height:30px" />';
+                    
                     html += '       &nbsp;';
-                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/></h2>';
-            
-                    html += '   <div style="font-size:20px;padding-left:50px">';
-                    html += '<i class="glyphicon glyphicon-user"></i> '+ item.FatherName + '<br/>' + '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
-                    html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber + ' <br />';
+                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/>';
+                    html += '   </h4>';
+                    html += '   <div style="font-size:12px;padding-left:100px">';
+                    html += '       <i class="glyphicon glyphicon-user"></i> ' + item.FatherName + '<br/>';
+                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
+                    html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber;
                     html += '   </div>';
                     html += '</div>';
 
@@ -230,7 +231,7 @@ function getbyID(ID) {
             $('#myModal').modal('show');
             $('#btnAdd').hide();
             $('#btnUpdate').show();
-            
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -242,7 +243,7 @@ function getbyID(ID) {
 //function for updating record  
 function Update() {
     var res = validate();
-    if (res == false) 
+    if (res == false)
         return false;
 
     var result = [];
