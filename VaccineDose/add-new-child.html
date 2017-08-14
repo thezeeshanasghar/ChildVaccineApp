@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-center">Add new child</h1>
+                <h2 class="text-center">Add new child</h2>
                 <div id="alert_message" class="alert alert-dismissible alert-warning">
                     <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
                     <strong>loading title!</strong>
@@ -53,44 +53,53 @@
                             <input type="text" class="form-control" id="MobileNumber" pattern="^[9]{1}[2]{1}[3]{1}\d{9}$"
                                    placeholder="Specify mobile number in this pattern 923465430413" required />
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12" style="padding: 0px;">Preferred Day of Week</label><br />
-                            <div class="checkbox-inline">
-                                <label><input id="Monday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Monday" />Monday</label>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label class="col-md-12" style="padding: 0px;">Preferred Day of Week</label><br />
+                                    <div class="checkbox-inline">
+                                        <label><input id="Monday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Monday" />Monday</label>
+                                    </div>
+                                    <div class="checkbox-inline">
+                                        <label><input id="Tuesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Tuesday" />Tuesday</label>
+                                    </div>
+                                    <div class="checkbox-inline">
+                                        <label><input id="Wednesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Wednesday" />Wednesday</label>
+                                    </div>
+                                    <br />
+                                    <div class="checkbox-inline">
+                                        <label><input id="Thursday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Thursday" />Thursday</label>
+                                    </div>
+                                    
+                                    <div class="checkbox-inline">
+                                        <label><input id="Friday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Friday" />Friday</label>
+                                    </div>
+                                    &nbsp;
+                                    <div class="checkbox-inline">
+                                        <label><input id="Saturday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Saturday" />Saturday</label>
+                                    </div>
+                                    <div class="checkbox-inline">
+                                        <label><input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />Sunday</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Tuesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Tuesday" />Tuesday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Wednesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Wednesday" />Wednesday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Thursday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Thursday" />Thursday</label>
-                            </div>
-                            <br />
-                            <div class="checkbox-inline">
-                                <label><input id="Friday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Friday" />Friday</label>
-                            </div>
-                            &nbsp;
-                            <div class="checkbox-inline">
-                                <label><input id="Saturday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Saturday" />Saturday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />Sunday</label>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="Gender">Gender</label><br />
+                                    <div class="radio-inline">
+                                        <label><input type="radio" name="gender" value="Boy" checked="checked">Boy</label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label><input type="radio" name="gender" value="Girl">Girl</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="Gender">Gender</label><br />
-                            <div class="radio-inline">
-                                <label><input type="radio" name="gender" value="Boy">Boy</label>
-                            </div>
-                            <div class="radio-inline">
-                                <label><input type="radio" name="gender" value="Girl">Girl</label>
-                            </div>
-                        </div>
+                        
+                        
                         <div class="form-group">
                             
-                            <select id="City" class="form-control" name="City">
+                            <select id="City" class="form-control" name="City" required>
                                 <option value="" >-- select city --</option>
                                 <option value="Islamabad">Islamabad</option>
                                 <option value="Lahore">Lahore</option>
@@ -98,10 +107,18 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder">
+                            <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" required>
                                 <option value="">-- select preferred day of reminder --</option>
-                                <option value="1" selected="selected">One Day Before</option>
+                                <option value="1">One Day Before</option>
                                 <option value="2">Two Day Before</option>
+                                <option value="3">Three Day Before</option>
+                                <option value="4">Four Day Before</option>
+                                <option value="5">Five Day Before</option>
+                                <option value="6">Six Day Before</option>
+                                <option value="7">Seven Day Before</option>
+                                <option value="8">Eight Day Before</option>
+                                <option value="9">Nine Day Before</option>
+                                <option value="10">Ten Day Before</option>
                             </select>
                         </div>
                         <div class="form-group">
