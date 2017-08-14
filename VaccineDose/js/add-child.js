@@ -57,6 +57,10 @@ function Add() {
     $('input[name="PreferredDayOfWeek"]:checked').each(function () {
         result.push(this.value);
     });
+    var preferdayreminder = "0";
+    if (document.getElementById("TogglePreferredDayOfReminder").checked) {
+        preferdayreminder = $('#PreferredSchedule').find(":selected").text()
+    }
 
     var obj = {
         Name: $('#Name').val(),
@@ -69,7 +73,7 @@ function Add() {
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
-        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
+        PreferredSchedule: preferdayreminder,
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
 
