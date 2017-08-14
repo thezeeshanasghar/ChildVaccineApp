@@ -26,22 +26,22 @@
                     <p>loading message</p>
                 </div>
                 <div id="doctor" class="col-sm-6 col-sm-offset-3">
-                    <form id="form1" role="form" style="display: block;"  data-toggle="validator">
+                    <form id="form1" role="form" style="display: block;" data-toggle="validator">
 
                         <div class="form-group">
-                            
+
                             <input type="text" class="form-control" id="Name" placeholder="Name" required />
                         </div>
                         <div class="form-group">
-                            
+
                             <input type="text" class="form-control" id="FatherName" placeholder="Father Name" required />
                         </div>
                         <div class="form-group">
-                            
+
                             <input type="email" class="form-control" id="Email" placeholder="Email" required />
                         </div>
                         <div class="form-group">
-                            
+
                             <div id="dob-container">
                                 <div class="input-group date">
                                     <input type="text" id="DOB" placeholder="Date of Birth" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2">
-                                <select  id="CountryCode" class="form-control">
+                                <select id="CountryCode" class="form-control">
                                     <!-- Countries often selected by users can be moved to the top of the list. -->
                                     <!-- Countries known to be subject to general US embargo are commented out by default. -->
                                     <!-- The data-countryCode attribute is populated with ISO country code, and value is int'l calling code. -->
@@ -295,7 +295,7 @@
                                     <div class="checkbox-inline">
                                         <label><input id="Thursday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Thursday" />Thursday</label>
                                     </div>
-                                    
+
                                     <div class="checkbox-inline">
                                         <label><input id="Friday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Friday" />Friday</label>
                                     </div>
@@ -320,36 +320,47 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
-                            
                             <select id="City" class="form-control" name="City" required>
-                                <option value="" >-- select city --</option>
+                                <option value="">-- select city --</option>
                                 <option value="Islamabad">Islamabad</option>
                                 <option value="Lahore">Lahore</option>
                                 <option value="Multan">Multan</option>
                             </select>
                         </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled>
+                                    <option value="">-- select preferred day of reminder --</option>
+                                    <option value="1">One Day Before</option>
+                                    <option value="2">Two Day Before</option>
+                                    <option value="3">Three Day Before</option>
+                                    <option value="4">Four Day Before</option>
+                                    <option value="5">Five Day Before</option>
+                                    <option value="6">Six Day Before</option>
+                                    <option value="7">Seven Day Before</option>
+                                    <option value="8">Eight Day Before</option>
+                                    <option value="9">Nine Day Before</option>
+                                    <option value="10">Ten Day Before</option>
+                                    <option value="11">Eleven Day Before</option>
+                                    <option value="12">Twelve Day Before</option>
+                                    <option value="13">Thirteen Day Before</option>
+                                    <option value="14">Fourteen Day Before</option>
+                                    <option value="15">Fifteen Day Before</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2" style="vertical-align:central">
+
+                                <div class="checkbox-inline">
+                                    <label><input id="TogglePreferredDayOfReminder" type="checkbox" />Enable</label>
+                                </div>
+
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" required>
-                                <option value="">-- select preferred day of reminder --</option>
-                                <option value="1">One Day Before</option>
-                                <option value="2">Two Day Before</option>
-                                <option value="3">Three Day Before</option>
-                                <option value="4">Four Day Before</option>
-                                <option value="5">Five Day Before</option>
-                                <option value="6">Six Day Before</option>
-                                <option value="7">Seven Day Before</option>
-                                <option value="8">Eight Day Before</option>
-                                <option value="9">Nine Day Before</option>
-                                <option value="10">Ten Day Before</option>
-                                <option value="11">Eleven Day Before</option>
-                                <option value="12">Twelve Day Before</option>
-                                <option value="13">Thirteen Day Before</option>
-                                <option value="14">Fourteen Day Before</option>
-                                <option value="15">Fifteen Day Before</option>
-                            </select>
+
                         </div>
                         <div class="form-group">
                             <select id="PreferredSchedule" class="form-control" name="PreferredSchedule" disabled>
@@ -367,13 +378,13 @@
                             <small class="text-danger">(Select only if 9 months are completed)</small>
                         </div>
                     </form>
-                    
-                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="return Add();">Add</button>
-                    
+
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="return Add();">Add</button>
+
                 </div>
             </div>
         </div>
-       
+
 
         <div id="footer"></div>
 
@@ -397,6 +408,13 @@
                 todayBtn: true,
                 autoclose: true,
                 todayHighlight: true
+            });
+
+            $('#TogglePreferredDayOfReminder').change(function () {
+                if ($(this).is(":checked")) 
+                    $("#PreferredDayOfReminder").attr('disabled', false);
+                else 
+                    $("#PreferredDayOfReminder").attr('disabled', true);
             });
 
         });
