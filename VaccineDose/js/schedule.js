@@ -37,8 +37,9 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    html += '<div class="well top-buffer" style="background-color:rgb(240, 240, 240)">';
-                    html += "   <h3 style='text-align:center'>" + date + "</h3>";
+                    html += '   <h3 style="text-align:center">' + date + ' <span class="glyphicon glyphicon-calendar" style="font-size:smaller"></span></h3>';
+                    html += '<div class="well" style="background-color:rgb(240, 240, 240); padding-top:9px;padding-bottom:9px">';
+                    
                     var doseArray = dateVsArrayOfScheuleMap[date];
                     for (var index in doseArray) {
 
