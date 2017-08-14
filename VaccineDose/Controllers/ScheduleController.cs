@@ -90,6 +90,53 @@ namespace VaccineDose.Controllers
         }
 
         [HttpPut]
+        [Route("api/schedule/update-bulk-schedule")]
+        public Response<ScheduleDTO> UpdateBulkSchedule(ScheduleDTO scheduleDTO)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
+                    var daysDifference = (scheduleDTO.Date.Date - dbSchedule.Date.Date).TotalDays;
+                    daysDifference = Convert.ToInt32(daysDifference);
+                    ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
+                    if (daysDifference > 0)
+                    {
+                        foreach (Schedule schedule in childSchedules)
+                        {
+                            Dose dose = new Dose();
+                            if (schedule.Date.Date == dbSchedule.Date.Date)
+                            {
+                                dose = schedule.Dose;
+
+                                IEnumerable<Dose> nextDoses = entities.Doses.Where(o => o.VaccineID == dose.VaccineID).ToList();
+                                foreach (Dose nextDose in nextDoses)
+                                {
+                                    var nextSchedule = childSchedules.Where(x => x.DoseId == nextDose.ID).FirstOrDefault();
+                                    if (nextSchedule.Date.Date >= dbSchedule.Date.Date && nextSchedule.ID != dbSchedule.ID)
+                                    {
+                                        nextSchedule.Date = nextSchedule.Date.AddDays(daysDifference);
+                                        entities.Schedules.Attach(nextSchedule);
+                                        entities.Entry(nextSchedule).State = EntityState.Modified;
+                                        entities.SaveChanges();
+                                    }
+                                }
+                            }
+                        }
+                        dbSchedule.Date = scheduleDTO.Date.Date;
+                        entities.SaveChanges();
+                    }
+                    return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<ScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+        [HttpPut]
         [Route("api/schedule/update-schedule")]
         public Response<ScheduleDTO> UpdateSchedule(ScheduleDTO scheduleDTO)
         {
@@ -106,7 +153,7 @@ namespace VaccineDose.Controllers
                         foreach (Schedule schedule in childSchedules)
                         {
                             Dose dose = new Dose();
-                            if (schedule.Date.Date == dbSchedule.Date.Date)
+                            if (schedule.Date.Date == dbSchedule.Date.Date && schedule.ID == dbSchedule.ID)
                             {
                                 dose = schedule.Dose;
 
