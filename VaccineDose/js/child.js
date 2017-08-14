@@ -197,6 +197,7 @@ function getbyID(ID) {
             $('#DOB').val(result.ResponseData.DOB);
             $('#DOB').attr('disabled', true);
             $('#CountryCode').val(result.ResponseData.CountryCode);
+            debugger;
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
@@ -252,21 +253,26 @@ function Update() {
         result.push(this.value);
     });
 
+    var preferdayreminder = "0";
+    if (document.getElementById("TogglePreferredDayOfReminder").checked) {
+        preferdayreminder = $('#PreferredDayOfReminder').val()
+    }
+
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
-        CountryCode:$('#CountryCode').find(":selected").text(),
+        CountryCode:$('#CountryCode').val(),
         MobileNumber: $('#MobileNumber').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
         PreferredDayOfWeek: result.join(','),
-        PreferredSchedule: $('#PreferredSchedule').find(":selected").text(),
-        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
+        PreferredSchedule: $('#PreferredSchedule').find(":selected").val(),
+        PreferredDayOfReminder: preferdayreminder,
         Gender: $("input[name='gender']:checked").val(),
-        City: $('#City').find(":selected").text(),
+        City: $('#City').find(":selected").val(),
         ClinicID: GetClinicIdFromUrlOrLocalStorage()
     };
     $.ajax({

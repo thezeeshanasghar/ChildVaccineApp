@@ -252,7 +252,7 @@
                                         <option data-countryCode="NP" value="670">Northern Marianas (+670)</option>
                                         <option data-countryCode="NO" value="47">Norway (+47)</option>
                                         <option data-countryCode="OM" value="968">Oman (+968)</option>
-                                        <option data-countryCode="PK" value="92" selected="selected">+92</option>
+                                        <option data-countryCode="PK" value="92" selected="selected">Pak (+92)</option>
                                         <option data-countryCode="PW" value="680">Palau (+680)</option>
                                         <option data-countryCode="PA" value="507">Panama (+507)</option>
                                         <option data-countryCode="PG" value="675">Papua New Guinea (+675)</option>
@@ -375,12 +375,34 @@
                                     <option value="Multan">Multan</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="PreferredDayOfReminder">Preferred Day Of Reminder</label>
-                                <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder">
-                                    <option value="1" selected="selected">One Day Before</option>
-                                    <option value="2">Two Day Before</option>
-                                </select>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled>
+                                        <option value="">-- select preferred day of reminder --</option>
+                                        <option value="1">One Day Before</option>
+                                        <option value="2">Two Day Before</option>
+                                        <option value="3">Three Day Before</option>
+                                        <option value="4">Four Day Before</option>
+                                        <option value="5">Five Day Before</option>
+                                        <option value="6">Six Day Before</option>
+                                        <option value="7">Seven Day Before</option>
+                                        <option value="8">Eight Day Before</option>
+                                        <option value="9">Nine Day Before</option>
+                                        <option value="10">Ten Day Before</option>
+                                        <option value="11">Eleven Day Before</option>
+                                        <option value="12">Twelve Day Before</option>
+                                        <option value="13">Thirteen Day Before</option>
+                                        <option value="14">Fourteen Day Before</option>
+                                        <option value="15">Fifteen Day Before</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2" style="vertical-align:central">
+
+                                    <div class="checkbox-inline">
+                                        <label><input id="TogglePreferredDayOfReminder" type="checkbox" />Enable</label>
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="PreferredSchedule">Preferred Schedule</label>
@@ -431,6 +453,16 @@
                 todayHighlight: true
             });
             $('#dob-container .input-group.date').datepicker('update', $("#DOB").val());
+        });
+
+        $(document).ready(function () {
+            $('#TogglePreferredDayOfReminder').change(function () {
+                if ($(this).is(":checked"))
+                    $("#PreferredDayOfReminder").attr('disabled', false);
+                else
+                    $("#PreferredDayOfReminder").attr('disabled', true);
+            });
+
         });
     </script>
 </body>

@@ -89,7 +89,18 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
-                    dbChild = Mapper.Map<ChildDTO, Child>(childDTO, dbChild);
+                    dbChild.Name = childDTO.Name;
+                    dbChild.FatherName = childDTO.FatherName;
+                    dbChild.CountryCode = childDTO.CountryCode;
+                    dbChild.MobileNumber = childDTO.MobileNumber;
+                    dbChild.PreferredDayOfWeek = childDTO.PreferredDayOfWeek;
+                    dbChild.Gender = childDTO.Gender;
+                    dbChild.City = childDTO.City;
+                    dbChild.PreferredDayOfReminder = childDTO.PreferredDayOfReminder;
+                    dbChild.PreferredSchedule = childDTO.PreferredSchedule;
+                    dbChild.IsEPIDone = childDTO.IsEPIDone;
+                    dbChild.IsVerified = childDTO.IsVerified;
+
                     entities.SaveChanges();
                     return new Response<ChildDTO>(true, null, childDTO);
                 }

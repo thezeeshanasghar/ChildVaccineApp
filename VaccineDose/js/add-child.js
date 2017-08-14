@@ -57,9 +57,10 @@ function Add() {
     $('input[name="PreferredDayOfWeek"]:checked').each(function () {
         result.push(this.value);
     });
+
     var preferdayreminder = "0";
     if (document.getElementById("TogglePreferredDayOfReminder").checked) {
-        preferdayreminder = $('#PreferredSchedule').find(":selected").text()
+        preferdayreminder = $('#PreferredDayOfReminder').val()
     }
 
     var obj = {
@@ -67,7 +68,7 @@ function Add() {
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
-        CountryCode:$('#CountryCode').find(":selected").text(),
+        CountryCode:$('#CountryCode').val(),
         MobileNumber: $('#MobileNumber').val(),
         PreferredDayOfWeek: result.join(','),
         Gender: $("input[name='gender']:checked").val(),
