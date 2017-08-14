@@ -151,33 +151,29 @@ function openCalender(scheduleId, date) {
     $(".scheduleDate_" + scheduleId).datepicker()
      .on('changeDate', function (e) {
          obj.Date = e.date;
+         $.ajax({
+             url: SERVER + "schedule/update-schedule/",
+             data: JSON.stringify(obj),
+             type: "PUT",
+             contentType: "application/json;charset=UTF-8",
+             dataType: "json",
+             success: function (result) {
+                 if (!result.IsSuccess) {
+                     ShowAlert('Error', result.Message, 'danger');
+                 }
+                 else {
+                     var id = parseInt(getParameterByName("id")) || 0;
+                     loadData(id);
 
-         onCalendarDateChange(obj);
+                     ShowAlert('Success', result.Message, 'success');
+                     ScrollToTop();
+                 }
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+             }
+         });
      });
-}
-function onCalendarDateChange(obj) {
-    $.ajax({
-        url: SERVER + "schedule/update-schedule/",
-        data: JSON.stringify(obj),
-        type: "PUT",
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            }
-            else {
-                var id = parseInt(getParameterByName("id")) || 0;
-                loadData(id);
-
-                ShowAlert('Success', result.Message, 'success');
-                ScrollToTop();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
 }
 function openBulkCalender(scheduleId, date) {
     $(".scheduleDate_" + date).datepicker({
@@ -195,6 +191,27 @@ function openBulkCalender(scheduleId, date) {
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {
          obj.Date = e.date;
-         onCalendarDateChange(obj);
+         $.ajax({
+             url: SERVER + "schedule/update-bulk-schedule/",
+             data: JSON.stringify(obj),
+             type: "PUT",
+             contentType: "application/json;charset=UTF-8",
+             dataType: "json",
+             success: function (result) {
+                 if (!result.IsSuccess) {
+                     ShowAlert('Error', result.Message, 'danger');
+                 }
+                 else {
+                     var id = parseInt(getParameterByName("id")) || 0;
+                     loadData(id);
+
+                     ShowAlert('Success', result.Message, 'success');
+                     ScrollToTop();
+                 }
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+             }
+         });
      });
 }
