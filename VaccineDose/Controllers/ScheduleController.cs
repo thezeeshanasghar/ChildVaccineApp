@@ -101,20 +101,34 @@ namespace VaccineDose.Controllers
                     var daysDifference = (scheduleDTO.Date.Date - dbSchedule.Date.Date).TotalDays;
                     daysDifference = Convert.ToInt32(daysDifference);
                     ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
-                    if (daysDifference >= 0)
+                     if (daysDifference >= 0)
                     {
                         foreach (Schedule schedule in childSchedules)
-                        {
-                            if (schedule.Date.Date >= dbSchedule.Date.Date && schedule.ID!=dbSchedule.ID)
+                        {                         
+                            Dose dose = new Dose();
+                            if (schedule.Date.Date == dbSchedule.Date.Date)
                             {
-                                schedule.Date = schedule.Date.AddDays(daysDifference);
-                                entities.Schedules.Attach(schedule);
-                                entities.Entry(schedule).State = EntityState.Modified;
-                                entities.SaveChanges();
+                              dose = schedule.Dose;
                             }
+                          
+                            IEnumerable<Dose> scheduleDoses = entities.Doses.Where(o => o.VaccineID == dose.VaccineID).ToList();
+                            foreach (Dose scheduleDose in scheduleDoses)
+                            {
+                                var matchedSchedule = childSchedules.Where(x => x.DoseId == scheduleDose.ID).FirstOrDefault();
+                                    if (matchedSchedule.Date.Date >= dbSchedule.Date.Date && matchedSchedule.ID != dbSchedule.ID)
+                                    {
+                                    matchedSchedule.Date = matchedSchedule.Date.AddDays(daysDifference);
+                                        entities.Schedules.Attach(matchedSchedule);
+                                        entities.Entry(matchedSchedule).State = EntityState.Modified;
+                                        entities.SaveChanges();
+                                    }
+                                
+                            }
+                          
                         }
                         dbSchedule.Date = scheduleDTO.Date.Date;
                         entities.SaveChanges();
+
 
                     }
 

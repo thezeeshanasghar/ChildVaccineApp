@@ -38,7 +38,17 @@ function loadData(id) {
 
                 for (var date in dateVsArrayOfScheuleMap) {
                     html += '<div class="well top-buffer" style="background-color:rgb(240, 240, 240)">';
-                    html += "   <h3 style='text-align:center'>" + date + "</h3>";
+                    html += "   <span style='text-align:center;font-size:20px'>" + date + "</span>";
+                    if (!dateVsArrayOfScheuleMap[date][0].isDone)
+                        html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +dateVsArrayOfScheuleMap[date][0].scheduleID + '"  onclick=" return openCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\' )"></span>'
+                    if (localStorage.getItem("UserType") == "DOCTOR") {
+                        html += '       <a href="#" onclick="return getbyID(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ')">';
+                        if (dateVsArrayOfScheuleMap[date][0].isDone)
+                            html += '       <img src="../img/injectionFilled.png" style="height: 30px;" /></a>'
+                        else
+                            html += '       <img src="../img/injectionEmpty.png" style="height: 30px;" /></a>'
+                    }
+                    html += "<br/>";
                     var doseArray = dateVsArrayOfScheuleMap[date];
                     for (var index in doseArray) {
 
