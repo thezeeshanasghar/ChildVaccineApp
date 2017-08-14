@@ -37,17 +37,17 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    html += '   <h3 style="text-align:center">' + date + ' <span class="glyphicon glyphicon-calendar" style="font-size:smaller"></span></h3>';
+                    html += '   <h3 style="text-align:center">' + date + ' <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span></h3>';
                     html += '<div class="well" style="background-color:rgb(240, 240, 240); padding-top:9px;padding-bottom:9px">';
-                    
+
                     var doseArray = dateVsArrayOfScheuleMap[date];
                     for (var index in doseArray) {
 
                         html += '   <h4>';
                         html += '       <span class="pull-right" style="font-size:20px">';
-                        
+
                         if (!doseArray[index].isDone)
-                            html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'      
+                            html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                         if (localStorage.getItem("UserType") == "DOCTOR") {
                             html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
                             if (doseArray[index].isDone)
@@ -136,8 +136,6 @@ function Update() {
 }
 
 function openCalender(scheduleId, date) {
-  
-    
     $(".scheduleDate_" + scheduleId).datepicker({
         format: 'dd-mm-yyyy',
         todayBtn: true,
@@ -153,29 +151,50 @@ function openCalender(scheduleId, date) {
     $(".scheduleDate_" + scheduleId).datepicker()
      .on('changeDate', function (e) {
          obj.Date = e.date;
-         $.ajax({
-             url: SERVER + "schedule/update-schedule/",
-             data: JSON.stringify(obj),
-             type: "Put",
-             contentType: "application/json;charset=UTF-8",
-             dataType: "json",
-             success: function (result) {
-                 if (!result.IsSuccess) {
-                     ShowAlert('Error', result.Message, 'danger');
-                 }
-                 else {
-                     ShowAlert('Success', result.Message, 'success');
-                     ScrollToTop();
-                     
-                     
-                     var id = parseInt(getParameterByName("id")) || 0;
-                     loadData(id);
-                 }
-             },
-             error: function (errormessage) {
-                 alert(errormessage.responseText);
-             }
-         });
-        
+
+         onCalendarDateChange(obj);
+     });
+}
+function onCalendarDateChange(obj) {
+    $.ajax({
+        url: SERVER + "schedule/update-schedule/",
+        data: JSON.stringify(obj),
+        type: "PUT",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
+
+                ShowAlert('Success', result.Message, 'success');
+                ScrollToTop();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+function openBulkCalender(scheduleId, date) {
+    $(".scheduleDate_" + date).datepicker({
+        format: 'dd-mm-yyyy',
+        todayBtn: true,
+        autoclose: true,
+        todayHighlight: true,
+    });
+    $('.scheduleDate_' + date).datepicker('update', date);
+    $(".scheduleDate_" + date).datepicker('show');
+
+    var obj = {};
+    obj.ID = scheduleId;
+
+    $(".scheduleDate_" + date).datepicker()
+     .on('changeDate', function (e) {
+         obj.Date = e.date;
+         onCalendarDateChange(obj);
      });
 }
