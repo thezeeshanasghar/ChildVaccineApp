@@ -10,6 +10,7 @@
     [ShowPhone]  BIT           CONSTRAINT [DF_Doctor_ShowPhone] DEFAULT ((1)) NOT NULL,
     [ShowMobile] BIT           CONSTRAINT [DF_Doctor_ShowMobile] DEFAULT ((1)) NOT NULL,
     [PhoneNo]    NVARCHAR (50) NULL,
+    [ValidUpto] DATE NULL, 
     CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
