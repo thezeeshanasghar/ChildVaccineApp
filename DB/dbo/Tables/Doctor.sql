@@ -3,6 +3,7 @@
     [FirstName]  NVARCHAR (50) NOT NULL,
     [LastName]   NVARCHAR (50) NOT NULL,
     [Email]      NVARCHAR (50) NOT NULL,
+	[CountryCode] NVARCHAR (50) NULL,
     [MobileNo]   NVARCHAR (50) NOT NULL,
     [Password]   NVARCHAR (50) NOT NULL,
     [PMDC]       NVARCHAR (50) NOT NULL,

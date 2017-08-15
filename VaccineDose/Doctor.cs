@@ -37,6 +37,8 @@ public partial class Doctor
 
     public string Email { get; set; }
 
+    public string CountryCode { get; set; }
+
     public string MobileNo { get; set; }
 
     public string Password { get; set; }
@@ -50,6 +52,8 @@ public partial class Doctor
     public bool ShowMobile { get; set; }
 
     public string PhoneNo { get; set; }
+
+    public Nullable<System.DateTime> ValidUpto { get; set; }
 
 
 
