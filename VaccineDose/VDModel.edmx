@@ -57,6 +57,7 @@
           <Property Name="ShowPhone" Type="bit" Nullable="false" />
           <Property Name="ShowMobile" Type="bit" Nullable="false" />
           <Property Name="PhoneNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ValidUpto" Type="date" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -329,6 +330,7 @@
           <Property Name="ShowPhone" Type="Boolean" Nullable="false" />
           <Property Name="ShowMobile" Type="Boolean" Nullable="false" />
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ValidUpto" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
         </EntityType>
@@ -523,6 +525,7 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="ValidUpto" ColumnName="ValidUpto" />
                 <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
                 <ScalarProperty Name="ShowMobile" ColumnName="ShowMobile" />
                 <ScalarProperty Name="ShowPhone" ColumnName="ShowPhone" />
