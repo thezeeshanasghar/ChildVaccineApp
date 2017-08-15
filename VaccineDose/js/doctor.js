@@ -26,8 +26,10 @@ function loadData() {
                     html += '<td>' + item.Email + '</td>';
                     html += '<td>' + item.MobileNo + '</td>';
                     html += '<td>' + item.PMDC + '</td>';
-
-                    //html += '<td>' +
+                    html += '<td>' + item.ValidUpto + '</td>';
+                    html += '<td>'
+                    html += '<span class="glyphicon glyphicon-calendar validUpto_' + key + '"  onclick=" return openCalender(' + item.ID + ',' + key + ')"></span>';
+                    html += '</td>';
                     //    //'<a href="doctor-schedule.html?id=' + item.ID + '">Custom Schedule</a> | ' +
                     //    //'<a href="clinic.html?id=' + item.ID + '">Clinics</a> | ' +
                     //    '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
@@ -73,6 +75,46 @@ function loadData() {
         }
     });
 }
+
+function openCalender(doctorId,index) {
+
+    $(".validUpto_" + index).datepicker({
+            format: 'dd-mm-yyyy',
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: true,
+        });
+    //$('.validUpto_' + index).datepicker('update', date);
+    $(".validUpto_" + index).datepicker('show');
+
+        var obj = {};
+        obj.ID = doctorId;
+
+    $(".validUpto_" + index).datepicker()
+         .on('changeDate', function (e) {
+             obj.ValidUpto = e.date;
+             $.ajax({
+                 url: SERVER + "doctor/" + obj.ID + "/validUpto",
+                 data: JSON.stringify(obj),
+                 type: "PUT",
+                 contentType: "application/json;charset=UTF-8",
+                 dataType: "json",
+                 success: function (result) {
+                     if (!result.IsSuccess) {
+                         ShowAlert('Error', result.Message, 'danger');
+                     }
+                     else {
+                          loadData();
+                         ShowAlert('Success', result.Message, 'success');
+                         ScrollToTop();
+                     }
+                 },
+                 error: function (errormessage) {
+                     alert(errormessage.responseText);
+                 }
+             });
+         });
+    }
 
 //Add Data Function   
 function Add() {
