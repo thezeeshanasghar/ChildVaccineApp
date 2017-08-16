@@ -294,57 +294,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="alert.html" />
-    <Content Include="changed-password.html" />
-    <Content Include="add-new-child.html" />
-    <Content Include="child.html" />
-    <Content Include="css\bootstrap-datepicker3.min.css" />
-    <Content Include="css\bootstrap-timepicker.min.css" />
-    <Content Include="doctor-edit.html" />
-    <Content Include="doctor-schedule.html" />
-    <Content Include="img\female.png" />
-    <Content Include="img\injectionEmpty.png" />
-    <Content Include="img\child.jpg" />
-    <Content Include="clinic-selection.html" />
-    <Content Include="css\bootstrap.min.css" />
-    <Content Include="doctor-signup.html" />
-    <Content Include="doctor.html" />
-    <Content Include="clinic.html" />
-    <Content Include="img\injectionFilled.png" />
-    <Content Include="img\male.png" />
-    <Content Include="js\additional-methods.min.js" />
-    <Content Include="js\bootstrap-datepicker.min.js" />
-    <Content Include="js\bootstrap-timepicker.min.js" />
-    <Content Include="js\bootstrap.min.js" />
-    <Content Include="js\add-child.js" />
-    <Content Include="js\child.js" />
-    <Content Include="js\clinic-selection.js" />
-    <Content Include="js\common.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="img\favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="footer.html" />
     <Content Include="Global.asax" />
-    <Content Include="js\doctor-edit.js" />
-    <Content Include="js\doctor-schedule.js" />
-    <Content Include="js\doctor-signup.js" />
-    <Content Include="js\doctor.js" />
-    <Content Include="js\clinic.js" />
-    <Content Include="js\dose.js" />
-    <Content Include="js\jquery.min.js" />
-    <Content Include="js\login.js" />
-    <Content Include="js\schedule.js" />
-    <Content Include="js\validator.min.js" />
-    <Content Include="login.html" />
-    <Content Include="schedule.html" />
-    <Content Include="css\style.css" />
-    <Content Include="dose.html" />
-    <Content Include="un-authorize.html" />
-    <Content Include="child-specialist.html" />
-    <Content Include="vaccine.html" />
-    <Content Include="index.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -366,7 +319,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -378,7 +330,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="js\vaccine.js" />
     <Content Include="VDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>VDModel.edmx</DependentUpon>
@@ -416,9 +367,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

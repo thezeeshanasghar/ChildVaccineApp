@@ -1,10 +1,4 @@
-var SERVER_IP = 'http://www.vac.afz-sol.com';
-var SERVER_PORT = '80';
-//var SERVER_IP = 'http://localhost';
-//var SERVER_PORT = '4309';
-var SERVER_BASE_PATH = 'api';
 
-var SERVER = SERVER_IP + ':' + SERVER_PORT + '/' + SERVER_BASE_PATH + '/';
 
 $(document).ready(function () {
     SetMainNav();
@@ -104,7 +98,7 @@ function SetMainNav() {
         markup += '    <div id="navbar" class="navbar-collapse collapse">';
         markup += '        <ul class="nav navbar-nav navbar-right">';
         markup += '            <li><a href="index.html">Home</a></li>';
-        markup += '            <li><a href="doctor-signup.html">Doctor signup</a></li>';
+        markup += '            <li><a href="doctor/doctor-signup.html">Doctor signup</a></li>';
         markup += '            <li id="menu-login"><a href="login.html">Login</a></li>';
         
         markup += '        </ul>';

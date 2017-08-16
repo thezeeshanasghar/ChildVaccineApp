@@ -77,25 +77,20 @@ function Add() {
     });
 }
 function validate() {
-    
-        var validator = $('#form2').data("bs.validator");
-
-        $('#form2').validator('validate');
-        if (validator.hasErrors())
-            return false;
-        else
-            return true;
-
-    
+    var validator = $('#form2').data("bs.validator");
+    $('#form2').validator('validate');
+    if (validator.hasErrors())
+        return false;
+    else
+        return true;
 }
 function ShowHide(event) {
-        $('#form1').validator('validate');
-    
-        var validator = $('#form1').data("bs.validator");
-        
-        if (!validator.hasErrors()) {
-            initMap();
-            $("#doctor").hide();
-            $("#clinic").show();
-        }
+    $('#form1').validator('validate');
+
+    var validator = $('#form1').data("bs.validator");
+    if (!validator.hasErrors()) {
+        initMap();
+        $("#doctor").hide();
+        $("#clinic").show();
+    }
 }
