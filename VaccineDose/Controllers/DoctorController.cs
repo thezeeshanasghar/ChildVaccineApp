@@ -196,5 +196,28 @@ namespace VaccineDose.Controllers
 
             }
         }
+
+        [HttpPut]
+        [Route("api/doctor/{id}/validUpto")]
+
+        public Response<DoctorDTO> UpdateDate(int id,DoctorDTO doctorDTO)
+        {
+            try
+            {
+                using(VDConnectionString entties = new VDConnectionString())
+                {
+                    var dbDoctor = entties.Doctors.Where(x => x.ID == id).FirstOrDefault();
+                    dbDoctor.ValidUpto = doctorDTO.ValidUpto;
+                    entties.SaveChanges();
+                    DoctorDTO doctorDTOs = Mapper.Map<DoctorDTO>(dbDoctor);
+                    return new Response<DoctorDTO>(true, null, doctorDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
     }
+  
 }
