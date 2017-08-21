@@ -48,6 +48,8 @@ public partial class VDConnectionString : DbContext
 
     public virtual DbSet<Vaccine> Vaccines { get; set; }
 
+    public virtual DbSet<VaccineInventory> VaccineInventories { get; set; }
+
 }
 
 }

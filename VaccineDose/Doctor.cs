@@ -26,6 +26,8 @@ public partial class Doctor
 
         this.DoctorSchedules = new HashSet<DoctorSchedule>();
 
+        this.VaccineInventories = new HashSet<VaccineInventory>();
+
     }
 
 
@@ -64,6 +66,10 @@ public partial class Doctor
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<DoctorSchedule> DoctorSchedules { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<VaccineInventory> VaccineInventories { get; set; }
 
 }
 
