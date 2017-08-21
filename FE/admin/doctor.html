@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link href="../css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 
-    <link href="css/style.css" rel="stylesheet" />
-    <link rel="icon" href="img/favicon.ico">
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="icon" href="../img/favicon.ico">
 
 </head>
 <body>
@@ -50,16 +50,10 @@
                                     </th>
                                     <th>
                                         PMDC No
-                                    </th>ValidUpto
+                                    </th>
                                     <th>
                                         Valid Up To
                                     </th>
-                                    <th>
-                                       Action
-                                    </th>
-                                    <!--<th>
-                                        Action
-                                    </th>-->
                                 </tr>
                             </thead>
                             <tbody class="tbody"></tbody>
@@ -95,71 +89,19 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&nbsp;×&nbsp;</button>
-                        <h4 class="modal-title" id="myModalLabel">Add New</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form role="form" data-toggle="validaation">
-                            <input type="text" class="form-control" id="ID" style="display:none" />
 
-                            <div class="form-group">
-                                <label for="FirstName">First Name</label>
-                                <input type="text" class="form-control" id="FirstName" placeholder="First Name" required/>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="LastName">Last Name</label>
-                                <input type="text" class="form-control" id="LastName" placeholder="Last Name" required />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Email">Email</label>
-                                <input type="email" class="form-control" id="Email" placeholder="Email" required />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="MobileNo">Mobile Number</label>&nbsp;
-                                <input id="ShowMobile" name="ShowMobile" type="checkbox" checked="checked" />&nbsp;Display
-                                <input type="text" class="form-control" id="MobileNo" placeholder="Mobile Number" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="PhoneNo">Phone Number</label>&nbsp;
-                                <input id="ShowPhone" name="ShowPhone" type="checkbox" checked="checked" />&nbsp;Display
-                                <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" required />
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="PMDC">PMDC No</label>
-                                <input type="text" class="form-control" id="PMDC" placeholder="PMDC Number" required />
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
-                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--menu will be insert in below div; code written in common.js-->
         <div id="footer"></div>
 
 
     </div><!-- /.container -->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap-datepicker.min.js"></script>
-
-    <script src="js/validator.min.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/doctor.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-datepicker.min.js"></script>
+    <script src="../js/validator.min.js"></script>
+    
+    <script src="../js/server.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/admin/doctor.js"></script>
 </body>
 </html>

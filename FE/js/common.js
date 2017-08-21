@@ -53,9 +53,9 @@ function SetMainNav() {
         markup += '    <div id="navbar" class="navbar-collapse collapse">';
         markup += '        <ul class="nav navbar-nav navbar-right">';
         markup += '            <li><a href="index.html">Home</a></li>';
-        markup += '            <li id="menu-vaccine"><a href="vaccine.html">Vaccine</a></li>';
-        markup += '            <li id="menu-doctor"><a href="doctor.html">Doctor</a></li>';
-        markup += '            <li id="menu-login"><a href="login.html">Login</a></li>';
+        markup += '            <li id="menu-vaccine"><a href="/admin/vaccine.html">Vaccine</a></li>';
+        markup += '            <li id="menu-doctor"><a href="/admin/doctor.html">Doctor</a></li>';
+        markup += '            <li id="menu-login"><a href="/login.html">Login</a></li>';
         markup += '            <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
         markup += '        </ul>';
         markup += '    </div><!--/.nav-collapse -->';
