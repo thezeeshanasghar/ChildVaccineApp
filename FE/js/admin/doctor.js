@@ -26,8 +26,14 @@ function loadData() {
                     html += '   <td>' + item.Email + '</td>';
                     html += '   <td>' + item.MobileNo + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
-                    html += '   <td>' + item.ValidUpto;
-                    html += '      &nbsp;&nbsp;<span class="glyphicon glyphicon-calendar validUpto_' + key + '"  onclick=" return openCalender(' + item.ID + ',' + key + ')"></span>';
+                    //TODO:testing for this check
+                    if (item.ValidUpto != null) {
+                        html += '   <td>' + item.ValidUpto;
+                    }
+                    else {
+                        html += '   <td>';
+                    }
+                    html += '      &nbsp;&nbsp;<span class="glyphicon glyphicon-calendar validUpto_' + key + '"  onclick=" return openCalender(' + item.ID + ',' + key + ',\''+item.ValidUpto+'\')"></span>';
                     html += '   </td>';
                     html += '</tr>';
                 });
@@ -70,15 +76,16 @@ function loadData() {
     });
 }
 
-function openCalender(doctorId,index) {
+function openCalender(doctorId,index,validUpTO) {
 
     $(".validUpto_" + index).datepicker({
             format: 'dd-mm-yyyy',
             todayBtn: true,
             autoclose: true,
             todayHighlight: true,
-        });
-    //$('.validUpto_' + index).datepicker('update', date);
+    });
+    if (validUpTO!=null)
+    $('.validUpto_' + index).datepicker('update', validUpTO);
     $(".validUpto_" + index).datepicker('show');
 
         var obj = {};

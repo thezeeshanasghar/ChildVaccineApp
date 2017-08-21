@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace VaccineDose
 {
@@ -16,6 +17,8 @@ namespace VaccineDose
         public bool IsApproved { get; set; }
         public bool ShowPhone { get; set; }
         public bool ShowMobile { get; set; }
+
+        [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime ValidUpto { get; set; }
 
         public ClinicDTO ClinicDTO { get; set; }
