@@ -162,7 +162,7 @@ function getParameterByName(name) {
 
 function logout() {
     localStorage.clear();
-    window.location = 'index.html';
+    window.location = '/index.html';
 }
 
 function PasswordGenerator() {

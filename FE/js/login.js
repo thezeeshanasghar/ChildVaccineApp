@@ -26,22 +26,21 @@ function Login() {
                 }
                 if (result.ResponseData.UserType == "SUPERADMIN") {
                     localStorage.setItem('UserType', "SUPERADMIN");
-                    window.location.replace('index.html');
+                    window.location.replace('/index.html');
                 }
                 else if (result.ResponseData.UserType == "DOCTOR") {
                     localStorage.setItem('UserType', "DOCTOR");
                     localStorage.setItem('UserID', result.ResponseData.ID);
                     localStorage.setItem('DoctorID', result.ResponseData.DoctorID);
-                    window.location.replace('clinic-selection.html'); 
+                    window.location.replace('/doctor/clinic-selection.html'); 
                 }
                 else if (result.ResponseData.UserType == "PARENT") {
                     localStorage.setItem('UserType', "PARENT");
                     localStorage.setItem('MobileNumber', result.ResponseData.MobileNumber);
-                    window.location.replace('index.html');
+                    window.location.replace('/index.html');
                 }
                 else  {
-                    localStorage.setItem('UserType', "TEST");
-                    window.location.replace('index.html');
+                    window.location.replace('/un-authorize.html');
                 }
               
             },
