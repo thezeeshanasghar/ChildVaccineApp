@@ -10,7 +10,7 @@ $(document).ready(function () {
     }
     else if (localStorage.getItem('UserType') == 'SUPERADMIN') {
         if (pageName == 'doctor-signup.html') {
-            window.location.replace('un-authorize.html');
+            window.location.replace('/un-authorize.html');
         }
         $('#menu-login').hide();
     }
@@ -71,9 +71,9 @@ function SetMainNav() {
         markup += '</div>';
         markup += '<div id="mySidenav" class="sidenav">';
         markup += '     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>';
-        markup += '     <a href="clinic.html">Clinic</a>';
-        markup += '     <a href="changed-password.html">Change Password</a>';
-        markup += '     <a href="doctor-schedule.html">Custom Schedule</a>';
+        markup += '     <a href="/doctor/clinic.html">Clinic</a>';
+        markup += '     <a href="/changed-password.html">Change Password</a>';
+        markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
         markup += '     <a href="#" onclick="return logout()">Logout</a>';
         markup += '</div>';
     } else if (UserType == 'PARENT') {
@@ -97,9 +97,9 @@ function SetMainNav() {
         markup += '    </div><!--/.nav-collapse -->';
         markup += '    <div id="navbar" class="navbar-collapse collapse">';
         markup += '        <ul class="nav navbar-nav navbar-right">';
-        markup += '            <li><a href="index.html">Home</a></li>';
-        markup += '            <li><a href="doctor/doctor-signup.html">Doctor signup</a></li>';
-        markup += '            <li id="menu-login"><a href="login.html">Login</a></li>';
+        markup += '            <li><a href="/index.html">Home</a></li>';
+        markup += '            <li><a href="/doctor/doctor-signup.html">Doctor signup</a></li>';
+        markup += '            <li id="menu-login"><a href="/login.html">Login</a></li>';
         
         markup += '        </ul>';
         markup += '    </div><!--/.nav-collapse -->';

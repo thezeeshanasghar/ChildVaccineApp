@@ -63,7 +63,7 @@ function Add() {
         }
     };
     $.ajax({
-        url: "/api/doctor",
+        url: SERVER + "doctor",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
