@@ -20,6 +20,9 @@
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
         <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
+        <EntityTypeShape EntityType="VDModel.VaccineInventory" Width="1.5" PointX="8.25" PointY="9.625" />
+        <AssociationConnector Association="VDModel.FK_VaccineInventory_Doctor" />
+        <AssociationConnector Association="VDModel.FK_VaccineInventory_Vaccine" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -18,7 +18,6 @@ INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
 ('Measles', 168, NULL),
 ('ROTARIX', 42, NULL);
 GO
-
 INSERT INTO Dose (Name, VaccineID) VALUES
 ('BCG # 1', (SELECT ID FROM Vaccine WHERE Name='BCG')),
 ('OPV # 0', (SELECT ID FROM Vaccine WHERE Name='OPV')),

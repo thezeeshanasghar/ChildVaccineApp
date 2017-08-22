@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using VaccineDose.Model;
 
 namespace VaccineDose
 {
@@ -16,6 +17,7 @@ namespace VaccineDose
                     config.CreateMap<User, UserDTO>().ReverseMap(); 
                     config.CreateMap<Schedule, ScheduleDTO>().ReverseMap();
                     config.CreateMap<DoctorSchedule, DoctorScheduleDTO>().ReverseMap();
+                    config.CreateMap<VaccineInventory, VaccineInventoryDTO>().ReverseMap();
 
 
                     //Mapper.CreateMap<Source, Destination>().ForMember(dest => dest.SomePropToIgnore, opt => opt.Ignore())
