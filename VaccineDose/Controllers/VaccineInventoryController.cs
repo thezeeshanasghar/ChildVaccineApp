@@ -28,24 +28,31 @@ namespace VaccineDose.Controllers
             }
         }
 
-        public Response<VaccineInventoryDTO> Post(VaccineInventoryDTO vaccineInventoryDTO)
+        public Response<IEnumerable<VaccineInventoryDTO>> Post(IEnumerable<VaccineInventoryDTO> vaccineInventoryDTOs)
         {
             try
             {
+
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    VaccineInventory dbVaccineInventory = Mapper.Map<VaccineInventory>(vaccineInventoryDTO);
-                    entities.VaccineInventories.Add(dbVaccineInventory);
-                    entities.SaveChanges();
-                    return new Response<VaccineInventoryDTO>(true, null, vaccineInventoryDTO);
+                    foreach (var vaccineInventoryDTO in vaccineInventoryDTOs)
+                    {
+                        VaccineInventory vaccineInventoryDB = Mapper.Map<VaccineInventory>(vaccineInventoryDTO);
+                        entities.VaccineInventories.Add(vaccineInventoryDB);
+                        entities.SaveChanges();
+                        vaccineInventoryDTO.ID = vaccineInventoryDB.ID;
+                    }
+
+                    return new Response<IEnumerable<VaccineInventoryDTO>>(true, null, vaccineInventoryDTOs);
+
                 }
             }
             catch (Exception e)
             {
-                return new Response<VaccineInventoryDTO>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<IEnumerable<VaccineInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
+
             }
         }
-
         public Response<VaccineInventoryDTO> Put([FromBody] VaccineInventoryDTO vaccineInventoryDTO)
         {
             try
