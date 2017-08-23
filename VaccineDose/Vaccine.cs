@@ -26,6 +26,8 @@ public partial class Vaccine
 
         this.VaccineInventories = new HashSet<VaccineInventory>();
 
+        this.VaccineBrands = new HashSet<VaccineBrand>();
+
     }
 
 
@@ -46,6 +48,10 @@ public partial class Vaccine
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<VaccineInventory> VaccineInventories { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<VaccineBrand> VaccineBrands { get; set; }
 
 }
 

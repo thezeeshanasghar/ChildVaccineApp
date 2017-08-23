@@ -66,8 +66,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\vaccine-brand.html" />
     <Content Include="doctor\vaccine-inventory.html" />
     <Content Include="doctor\vaccine-inventory.js" />
+    <Content Include="admin\vaccine-brand.js" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

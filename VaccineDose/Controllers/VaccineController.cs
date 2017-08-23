@@ -6,6 +6,7 @@ using System.Collections;
 using AutoMapper;
 using System.Threading;
 using System;
+using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
@@ -135,6 +136,31 @@ namespace VaccineDose.Controllers
             catch (Exception ex)
             {
                 return new Response<IEnumerable<DoseDTO>>(false, GetMessageFromExceptionObject(ex), null);
+
+            }
+        }
+
+        [Route("api/vaccine/{id}/brands")]
+        public Response<IEnumerable<VaccineBrandDTO>> GetBrands(int id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
+                    if (vaccine == null)
+                        return new Response<IEnumerable<VaccineBrandDTO>>(false, "Vaccine not found", null);
+                    else
+                    {
+                        var dbBrands = vaccine.VaccineBrands.ToList();
+                        var vaccineBrandDTOs = Mapper.Map<List<VaccineBrandDTO>>(dbBrands);
+                        return new Response<IEnumerable<VaccineBrandDTO>>(true, null, vaccineBrandDTOs);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<IEnumerable<VaccineBrandDTO>>(false, GetMessageFromExceptionObject(ex), null);
 
             }
         }
