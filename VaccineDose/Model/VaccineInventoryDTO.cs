@@ -14,6 +14,10 @@ namespace VaccineDose.Model
         public int VaccineID { get; set; }
 
         public int DoctorID { get; set; }
+        public DoctorDTO Doctor { get; set; }
+
+        public VaccineDTO Vaccine { get; set; }
+
 
     }
 }

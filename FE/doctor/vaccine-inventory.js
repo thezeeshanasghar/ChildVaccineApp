@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    ShowAddForm();
+    CheckDoctorInventory();
 });
 function DoctorId() {
     var id = parseInt(getParameterByName("id")) || 0;
@@ -12,6 +12,33 @@ function DoctorId() {
         else 0;
     }
 }
+function CheckDoctorInventory() {
+    ShowAlert('Loading data', 'Checking for existing schedule', 'info');
+    var html = "";
+    $.ajax({
+        url: SERVER + "vaccineinventory/" + DoctorId(),
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAddForm();
+            }
+            else {
+                ShowUpdateForm(result);
+                $("#btnAdd").hide();
+                $("#btnUpdate").show();
+            }
+            HideAlert();
+        },
+        error: function (errormessage) {
+            var ob = JSON.parse(errormessage.responseText);
+            ShowAlert('Error', ob.Message, 'danger');
+        }
+    });
+
+}
+
 function ShowAddForm() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
@@ -104,7 +131,80 @@ function Add() {
         }
     });
 }
+function ShowUpdateForm(result) {
+    $.each(result.ResponseData, function (key, item) {
+        markup = '';
+        if (key == 0) {
+            markup = getVaccineInventoryFormForEditView(1, item);
+            $('.btnLine').before(markup);
+            total_forms = 1;
+            $('.add-inventory-form .total-forms').val(total_forms);
 
+        } else {
+            form_id = $('.form-fields:last').attr('data-form-id');
+            form_id++;
+            markup = getVaccineInventoryFormForEditView(form_id, item);
+            $('.form-fields:last').after(markup);
+            total_forms = $('.form-fields').length;
+            $('.add-inventory-form .total-forms').val(total_forms);
+        }
+    });
+}
+function getVaccineInventoryFormForEditView(form_id, vaccineInventory) {
+    markup = '<div class="form-group form-fields" data-form-id="' + form_id + '">';
+    markup += '<input type="hidden" id="VaccineInventoryID_' + form_id + '" name="VaccineInventoryID_' + form_id + '" value="' + vaccineInventory.ID + '">';
+    markup += '<div class="row">';
+    markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+    markup += '<input type="text" disabled id="Name_' + form_id + '" name="name_' + form_id + '" value="' + vaccineInventory.Vaccine.Name + '" class="form-control" />';
+   
+    markup += '</div>';
+    markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+    markup += '<input type="hidden" id="VaccineID_' + form_id + '" name="VaccineID_' + form_id + '" value="' + vaccineInventory.Vaccine.ID + '">';
+    markup += '<input type="text" class="form-control"   placeholder="Vaccine Count" id="Count_' + form_id + '" name="Count_' + form_id + '" value="'+vaccineInventory.Count+'"  />';
+    markup += '</div>';
+    markup += '</row>';
+    markup += '</div>';
+    return markup;
+}
+
+function Update() {
+    var res = validate();
+    if (res == false) {
+        return false;
+    }
+    var total_forms = $('.add-inventory-form .total-forms').val();
+
+    var DoctorID = DoctorId();
+    var VaccineInventory = [];
+
+    var DoctorID = DoctorId();
+    for (var i = 1; i <= total_forms; i++) {
+        var VaccineInventoryID = $("#VaccineInventoryID_" + i).val();
+        var vaccineId = $("#VaccineID_" + i).val();
+        var count = $("#Count_" + i).val();
+
+        VaccineInventory.push({ ID: VaccineInventoryID, VaccineID: vaccineId, Count: count, DoctorID: DoctorID })
+    }
+
+    $.ajax({
+        url: SERVER + "vaccineinventory",
+        data: JSON.stringify(VaccineInventory),
+        type: "PUT",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess)
+                ShowAlert('Error', result.Message, 'danger');
+            else {
+                ShowAlert('Success', 'Vaccine inventory is updated.', 'success');
+                ScrollToTop();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 
 function validate() {
     var total_errors = 0;
