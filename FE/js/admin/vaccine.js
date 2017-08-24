@@ -24,6 +24,7 @@ function loadData() {
                     html += '<td>' + getUserAge(item.MinAge) + '</td>';
                     html += '<td>' + getUserAge(item.MaxAge) + '</td>';
                     html += '<td>' +
+                          '<a href="vaccine-brand.html?id=' + item.ID + '">Brands</a> | ' +
                         '<a href="dose.html?id=' + item.ID + '">Doses</a> | ' +
                         '<a href="#" onclick="return getbyID(' + item.ID + ')">  <span class="glyphicon glyphicon-pencil"></span></a> | ' +
                         '<a href="#" onclick="Delele(' + item.ID + ')"> <span class="glyphicon glyphicon-trash"></span></a></td>';

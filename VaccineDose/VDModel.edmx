@@ -111,6 +111,14 @@
           <Property Name="MinAge" Type="int" Nullable="false" />
           <Property Name="MaxAge" Type="int" />
         </EntityType>
+        <EntityType Name="VaccineBrand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VaccineID" Type="int" Nullable="false" />
+          <Property Name="BrandName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="VaccineInventory">
           <Key>
             <PropertyRef Name="ID" />
@@ -204,6 +212,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VaccineBrand_Vaccine">
+          <End Role="Vaccine" Type="Self.Vaccine" Multiplicity="1" />
+          <End Role="VaccineBrand" Type="Self.VaccineBrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VaccineBrand">
+              <PropertyRef Name="VaccineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_VaccineInventory_Doctor">
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
           <End Role="VaccineInventory" Type="Self.VaccineInventory" Multiplicity="*" />
@@ -237,6 +257,7 @@
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vaccine" EntityType="Self.Vaccine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VaccineBrand" EntityType="Self.VaccineBrand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VaccineInventory" EntityType="Self.VaccineInventory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Child_Clinic" Association="Self.FK_Child_Clinic">
             <End Role="Clinic" EntitySet="Clinic" />
@@ -265,6 +286,10 @@
           <AssociationSet Name="FK_Schedule_Dose" Association="Self.FK_Schedule_Dose">
             <End Role="Dose" EntitySet="Dose" />
             <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaccineBrand_Vaccine" Association="Self.FK_VaccineBrand_Vaccine">
+            <End Role="Vaccine" EntitySet="Vaccine" />
+            <End Role="VaccineBrand" EntitySet="VaccineBrand" />
           </AssociationSet>
           <AssociationSet Name="FK_VaccineInventory_Doctor" Association="Self.FK_VaccineInventory_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
@@ -324,6 +349,11 @@
           <AssociationSet Name="FK_VaccineInventory_Vaccine" Association="VDModel.FK_VaccineInventory_Vaccine">
             <End Role="Vaccine" EntitySet="Vaccines" />
             <End Role="VaccineInventory" EntitySet="VaccineInventories" />
+          </AssociationSet>
+          <EntitySet Name="VaccineBrands" EntityType="VDModel.VaccineBrand" />
+          <AssociationSet Name="FK_VaccineBrand_Vaccine" Association="VDModel.FK_VaccineBrand_Vaccine">
+            <End Role="Vaccine" EntitySet="Vaccines" />
+            <End Role="VaccineBrand" EntitySet="VaccineBrands" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Child">
@@ -447,6 +477,7 @@
           <Property Name="MaxAge" Type="Int32" />
           <NavigationProperty Name="Doses" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Vaccine" ToRole="Dose" />
           <NavigationProperty Name="VaccineInventories" Relationship="VDModel.FK_VaccineInventory_Vaccine" FromRole="Vaccine" ToRole="VaccineInventory" />
+          <NavigationProperty Name="VaccineBrands" Relationship="VDModel.FK_VaccineBrand_Vaccine" FromRole="Vaccine" ToRole="VaccineBrand" />
         </EntityType>
         <Association Name="FK_Child_Clinic">
           <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="1" />
@@ -563,6 +594,27 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="VaccineInventory">
+              <PropertyRef Name="VaccineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VaccineBrand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VaccineID" Type="Int32" Nullable="false" />
+          <Property Name="BrandName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_VaccineBrand_Vaccine" FromRole="VaccineBrand" ToRole="Vaccine" />
+        </EntityType>
+        <Association Name="FK_VaccineBrand_Vaccine">
+          <End Type="VDModel.Vaccine" Role="Vaccine" Multiplicity="1" />
+          <End Type="VDModel.VaccineBrand" Role="VaccineBrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VaccineBrand">
               <PropertyRef Name="VaccineID" />
             </Dependent>
           </ReferentialConstraint>
@@ -693,6 +745,15 @@
                 <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
                 <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VaccineBrands">
+            <EntityTypeMapping TypeName="VDModel.VaccineBrand">
+              <MappingFragment StoreEntitySet="VaccineBrand">
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
