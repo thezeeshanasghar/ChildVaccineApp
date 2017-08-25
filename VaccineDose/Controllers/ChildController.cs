@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace VaccineDose.Controllers
@@ -221,6 +227,82 @@ namespace VaccineDose.Controllers
             catch (Exception e)
             {
                 return new Response<DoctorScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+        [HttpGet]
+        [Route("api/child/{id}/download-pdf")]
+        public HttpResponseMessage DownloadPDF(int id)
+        {
+            var stream = CreatePdf(id);
+
+            return new HttpResponseMessage
+            {
+                Content = new StreamContent(stream)
+                {
+                    Headers =
+            {
+                ContentType = new MediaTypeHeaderValue("application/pdf"),
+                ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "myfile.pdf"
+                }
+            }
+                },
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+        private Stream CreatePdf(int childId)
+        {
+            using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
+            {
+                var output = new MemoryStream();
+
+                var writer = PdfWriter.GetInstance(document, output);
+                writer.CloseStream = false;
+
+                document.Open();
+                document.Add(new Paragraph("Vaccine Schedule"));
+                PdfPTable table = new PdfPTable(2);
+                table.WidthPercentage=100;
+                VDConnectionString entities = new VDConnectionString();
+
+                var child = entities.Children.FirstOrDefault(c => c.ID == childId);
+                var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
+                 var scheduleDoses = from schedule in dbSchedules
+                              group schedule.Dose by schedule.Date into scheduleDose
+                              select new { Date = scheduleDose.Key, Doses = scheduleDose.ToList() };
+                var imgPath= System.Web.Hosting.HostingEnvironment.MapPath("~/Content/img");
+                foreach (var schedule in scheduleDoses)
+                { 
+                    PdfPCell cell = new PdfPCell(new Phrase(schedule.Date.Date.ToString()));
+                    cell.Colspan = 2;
+                    cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                    //cell.Border = 0;
+                    table.AddCell(cell);
+                    foreach(var dose in schedule.Doses)
+                    {
+                        table.AddCell(dose.Name);
+                        // add a image
+                        Image img = Image.GetInstance(imgPath + "\\injectionEmpty.png");
+                        
+                        PdfPCell imageCell = new PdfPCell(img, true);
+                        imageCell.PaddingBottom = 5;
+                        imageCell.Colspan = 1; // either 1 if you need to insert one cell
+                        imageCell.Border = 0;
+                        table.AddCell(imageCell);
+                    }
+                    
+                   
+                    //imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                }
+
+                document.Add(table);
+                document.Close();
+
+                output.Seek(0, SeekOrigin.Begin);
+
+                return output;
             }
         }
     }
