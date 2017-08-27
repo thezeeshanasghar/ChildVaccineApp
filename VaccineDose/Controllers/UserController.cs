@@ -115,7 +115,7 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).FirstOrDefault();
+                    var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).Where(x=>x.CountryCode==user.CountryCode).FirstOrDefault();
                     if (dbUser == null)
                         return new Response<UserDTO>(false, "Invalid Mobilenumber/Password", null);
 
