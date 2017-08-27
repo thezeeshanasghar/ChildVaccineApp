@@ -10,7 +10,8 @@ function Login() {
 
         var obj = {
             MobileNumber: $('#MobileNumber').val(),
-            Password: $('#Password').val()
+            Password: $('#Password').val(),
+            CountryCode: $('#CountryCode').val()
         }
         $.ajax({
             url: SERVER + 'user/login',

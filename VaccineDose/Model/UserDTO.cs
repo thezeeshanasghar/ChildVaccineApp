@@ -13,5 +13,6 @@ namespace VaccineDose
         public string UserType { get; set; }
         public int DoctorID { get; set; }
         public int ChildID { get; set; }
+        public string CountryCode { get; set; }
     }
 }
