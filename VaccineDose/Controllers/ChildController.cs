@@ -305,5 +305,32 @@ namespace VaccineDose.Controllers
                 return output;
             }
         }
+
+        [HttpGet]
+        [Route("api/child/checkUniqueMobile")]
+        public HttpResponseMessage CheckUniqueMobile(string MobileNumber)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    Child childDB = entities.Children.Where(x => x.MobileNumber == MobileNumber).FirstOrDefault();
+                    if (childDB == null)
+                        return Request.CreateResponse((HttpStatusCode)200);
+                    else
+                    {
+                        int HTTPResponse = 400;
+                        var response = Request.CreateResponse((HttpStatusCode)HTTPResponse);
+                        response.ReasonPhrase = "Mobile Number already exists";
+                        return response;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
     }
 }
