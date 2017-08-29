@@ -71,6 +71,7 @@ namespace VaccineDose.Controllers
                 {
                     // 1- save doctor
                     Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
+                    doctorDB.CountryCode = doctorDTO.CountryCode;
                     entities.Doctors.Add(doctorDB);
                     entities.SaveChanges();
 
@@ -78,6 +79,7 @@ namespace VaccineDose.Controllers
                     User userDB = new User();
                     userDB.MobileNumber = doctorDTO.MobileNo;
                     userDB.Password = doctorDTO.Password;
+                    userDB.CountryCode = doctorDTO.CountryCode;
                     userDB.UserType = "DOCTOR";
                     entities.Users.Add(userDB);
                     entities.SaveChanges();

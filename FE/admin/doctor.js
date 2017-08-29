@@ -62,9 +62,7 @@ function loadData() {
                 html += '   <td>' + item.PMDC + '</td>';
 
                 html += '   <td>' +
-                    '           <a href="#" onclick="return Approve(' + item.ID + ')">Approve</a> | ' +
-                    '           <a href="#" onclick="return getbyID(' + item.ID + ')">Edit</a> | ' +
-                    '           <a href="#" onclick="Delele(' + item.ID + ')">Delete</a></td>';
+                    '           <a href="#" onclick="return Approve(' + item.ID + ')">Approve</a></td>';
                 html += '</tr>';
             });
             $('.tbodyUnApproved').html(html);

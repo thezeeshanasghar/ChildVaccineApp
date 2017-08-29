@@ -110,7 +110,7 @@ function loadData() {
                         html += 'blue">';
                     else
                         html += '#FF1493">';
-                    html += '       <img id="ImgMaleFemale" src="../img/';
+                    html += '       <img id="ImgMaleFemale" src="/img/';
                     if (item.Gender == 'Boy')
                         html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:90px;max-height:90px" />';
                     else
