@@ -72,6 +72,7 @@ namespace VaccineDose.Controllers
                     // 1- save doctor
                     Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
                     doctorDB.CountryCode = doctorDTO.CountryCode;
+                    doctorDB.ValidUpto = null;
                     entities.Doctors.Add(doctorDB);
                     entities.SaveChanges();
 

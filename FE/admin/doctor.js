@@ -27,7 +27,7 @@ function loadData() {
                     html += '   <td>' + item.MobileNo + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
                     //TODO:testing for this check
-                    if (item.ValidUpto != null) {
+                    if (item.ValidUpto != null && item.ValidUpto != "01-01-0001") {
                         html += '   <td>' + item.ValidUpto;
                     }
                     else {
