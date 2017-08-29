@@ -98,6 +98,8 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
+                    if (dbVaccine.VaccineBrands.Count > 0)
+                         return new Response<string>(false, "Cannot delete vaccine because it's brands exists. Delete the brands first", null);
                     entities.Vaccines.Remove(dbVaccine);
                     entities.SaveChanges();
                     return new Response<string>(true, null, "record deleted");
@@ -106,7 +108,7 @@ namespace VaccineDose.Controllers
             catch (Exception ex)
             {
                 if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
-                    return new Response<string>(false, "Cannot delete vaccine because it's doses exits. Delete the doses first.", null);
+                    return new Response<string>(false, "Cannot delete vaccine because it's doses exists. Delete the doses first.", null);
                 else
                     return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
             }
