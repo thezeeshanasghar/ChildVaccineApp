@@ -117,8 +117,8 @@ function loadData() {
                         html += 'female.png" class="img-responsive pull-left" alt="female" style="max-width:90px;max-height:90px" />';
                     html += '   <h4>';
                     html += '       <span class="pull-right" style="font-size:12px">';
-                    html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> |';
-                    html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
+                    html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a>';
+                    //html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
                     
                     html += '       &nbsp;';
@@ -196,8 +196,13 @@ function getbyID(ID) {
 
             $('#DOB').val(result.ResponseData.DOB);
             $('#DOB').attr('disabled', true);
+
             $('#CountryCode').val(result.ResponseData.CountryCode);
+            $('#CountryCode').attr('disabled', true);
+
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
+            $('#MobileNumber').attr('disabled', true);
+
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
             $('#PreferredDayOfReminder').val(result.ResponseData.PreferredDayOfReminder);
@@ -334,11 +339,19 @@ function clearTextBox() {
     $('#ID').val("");
     $("#Name").val("");
     $("#FatherName").val("");
+
     $("#Email").val("");
     $("#Email").prop("disabled", false);
+
     $("#DOB").val("");
+    $("#DOB").prop("disabled", false);
+
     $('#CountryCode').val("");
+    $("#CountryCode").prop("disabled", false);
+
     $("#MobileNumber").val("");
+    $("#MobileNumber").prop("disabled", false);
+
     $("#City").val("");
 
     $('#btnUpdate').hide();

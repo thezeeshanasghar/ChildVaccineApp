@@ -24,8 +24,10 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
-                    ChildDTO ClinicDTO = Mapper.Map<ChildDTO>(dbChild);
-                    return new Response<ChildDTO>(true, null, ClinicDTO);
+                    ChildDTO childDTO = Mapper.Map<ChildDTO>(dbChild);
+                    childDTO.CountryCode = dbChild.User.CountryCode;
+                    childDTO.MobileNumber = dbChild.User.MobileNumber;
+                    return new Response<ChildDTO>(true, null, childDTO);
                 }
             }
             catch (Exception e)
