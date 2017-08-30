@@ -14,10 +14,22 @@ namespace VaccineDose
     
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.Children = new HashSet<Child>();
+            this.Doctors = new HashSet<Doctor>();
+        }
+    
         public int ID { get; set; }
         public string MobileNumber { get; set; }
         public string Password { get; set; }
         public string UserType { get; set; }
         public string CountryCode { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Child> Children { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Doctor> Doctors { get; set; }
     }
 }

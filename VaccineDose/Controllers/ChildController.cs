@@ -48,6 +48,7 @@ namespace VaccineDose.Controllers
                         User userDB = new User();
                         userDB.MobileNumber = childDTO.MobileNumber;
                         userDB.Password = childDTO.Password;
+                        userDB.CountryCode = childDTO.CountryCode;
                         userDB.UserType = "PARENT";
                         entities.Users.Add(userDB);
 

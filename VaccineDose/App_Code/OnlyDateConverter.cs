@@ -24,6 +24,30 @@ namespace VaccineDose
         public static string userName { get; set; }
         public static string userEmail { get; set; }
 
+        #region Parent SMS & Email
+
+        public static string ParentSMS(Child child)
+        {
+            string body = "Respected Parent,\n";
+            if (child.Gender == "Boy")
+                body += "Your Son " + child.Name;
+
+            if (child.Gender == "Girl")
+                body += "Your Daughter " + child.Name;
+
+            body += " has been registered at Clinic ";
+            body += child.Clinic.Name + "\n";
+
+
+            body += "ID: " + child.MobileNumber + "\n Password: " + child.Password 
+                + "\nClinic Phone Number " + child.Clinic.PhoneNumber + "\n";
+
+            body += "Doctor Phone Number: " + child.Clinic.Doctor.PhoneNo + "\n";
+            
+            SendSMS(child.CountryCode, child.MobileNumber, child.Email, body);
+            return body;
+        }
+
         public static void ParentEmail(Child child)
         {
             string body = "Respected Parent,<br>";
@@ -44,6 +68,22 @@ namespace VaccineDose
             //TODO: website and android link
             SendEmail(child.Name, child.Email, body);
         }
+
+
+        #endregion
+
+        #region Child SMS and Email
+        public static string DoctorSMS(DoctorDTO doctor)
+        {
+            string body = "Hi " + doctor.FirstName + " " + doctor.LastName + ", \n"
+                + "You are succesfully registered in MyVaccs.\n\n"
+                + "Your accounter credentials are: \n"
+                + "ID/Mobile Number: " + doctor.MobileNo + "\n"
+                + "Password: " + doctor.Password + "\n";
+            SendSMS(doctor.CountryCode,doctor.MobileNo, doctor.Email, body);
+            return body;
+        }
+
         public static void DoctorEmail(DoctorDTO doctor)
         {
             string body = "Hi " + "<b>" + doctor.FirstName + " " + doctor.LastName + "</b>, <br />"
@@ -53,6 +93,8 @@ namespace VaccineDose
                 + "Password: " + doctor.Password + "<br />";
             SendEmail(doctor.FirstName, doctor.Email, body);
         }
+
+        #endregion
 
         public static bool SendEmail(string userName, string userEmail, string body)
         {
@@ -73,6 +115,12 @@ namespace VaccineDose
                 return true;
             }
 
+        }
+        public static bool SendSMS(string CountryCode, string MobileNumber, string Email, string text)
+        {
+
+            // TODO: get SMS API from settings from web.config and send sms
+            return true;
         }
     }
 }
