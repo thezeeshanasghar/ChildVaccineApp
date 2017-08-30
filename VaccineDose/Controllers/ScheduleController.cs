@@ -56,26 +56,29 @@ namespace VaccineDose.Controllers
             }
         }
         [HttpGet]
-        [Route("api/schedule/alert/{Id}")]
-        public Response<IEnumerable<ScheduleDTO>> GetAlert(int Id)
+        [Route("api/schedule/alert/{GapDays}/{OnlineClinicID}")]
+        public Response<IEnumerable<ScheduleDTO>> GetAlert(int GapDays, int OnlineClinicID)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     IEnumerable<Schedule> schedules = new List<Schedule>();
-                    DateTime AddedDateTime = DateTime.Now.AddDays(Id);
-                    if (Id == 0)
+                    DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+                    if (GapDays == 0)
                         schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => c.Date == DateTime.Now)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
-                    else if (Id > 0)
+                    else if (GapDays > 0)
                         schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => c.Date >= DateTime.Now && c.Date <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                             .ToList<Schedule>();
-                    else if (Id < 0)
+                    else if (GapDays < 0)
                         schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => c.Date <= DateTime.Now && c.Date >= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                             .ToList<Schedule>();

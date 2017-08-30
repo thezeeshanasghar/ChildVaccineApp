@@ -78,9 +78,10 @@
         });
         function loadData() {
             var Id = $('#TimePeriod a.active').attr('data-value');
+            var OnlineClinic = GetOnlineClinicIdFromLocalStorage();
             ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
             $.ajax({
-                url: SERVER + 'schedule/alert/' + Id,
+                url: SERVER + 'schedule/alert/' + Id + '/' + OnlineClinic,
                 type: 'GET',
                 contentType: 'application/json;charset=utf-8',
                 dataType: "json",

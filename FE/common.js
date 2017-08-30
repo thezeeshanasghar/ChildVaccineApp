@@ -101,7 +101,7 @@ function SetMainNav() {
         markup += '            <li><a href="/index.html">Home</a></li>';
         markup += '            <li><a href="/doctor/doctor-signup.html">Doctor signup</a></li>';
         markup += '            <li id="menu-login"><a href="/login.html">Login</a></li>';
-        
+
         markup += '        </ul>';
         markup += '    </div><!--/.nav-collapse -->';
         markup += '</div><!--/.container-fluid -->';
@@ -180,21 +180,28 @@ function ScrollToTop() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
 }
 
-
+///////////////////////////////////////////
+///     ALERT SHOW HIDE UTILITY METHODS
+///////////////////////////////////////////
+function GetUserTypeFromLocalStorage() {
+    return GetFromLocalStorage('UserType');
+}
 
 function GetUserIDFromLocalStorage() {
-    var id = localStorage.getItem('UserID');
-    if (id)
-        return id;
-    else return 0;
+    return GetFromLocalStorage('UserID');
 }
 
 function GetMobileNumberFromLocalStorage() {
-    var id = localStorage.getItem('MobileNumber');
-    if (id)
-        return id;
-    else return 0;
-    }
+    return GetFromLocalStorage('MobileNumber');
+}
+function GetOnlineClinicIdFromLocalStorage() {
+    return GetFromLocalStorage('OnlineClinic');
+}
+function GetFromLocalStorage(key) {
+    return localStorage.getItem(key);
+}
+//-----------------------------------------
+
 
 // return error messages
 function displayErrors(jqXHR, exception) {
@@ -215,7 +222,7 @@ function displayErrors(jqXHR, exception) {
         msg = 'Uncaught Error.\n' + jqXHR.responseText;
     }
     alert(msg);
- }
+}
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
 }

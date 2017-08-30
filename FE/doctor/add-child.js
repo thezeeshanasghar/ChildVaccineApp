@@ -1,21 +1,13 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
-    if (GetClinicIdFromUrlOrLocalStorage() != 0) {
+    if (GetOnlineClinicIdFromLocalStorage() != 0) {
         DisableOffDays();
     }
 });
 
-function GetClinicIdFromUrlOrLocalStorage() {
-    var id = localStorage.getItem('OnlineClinic');
-    if (id)
-        return id;
-    else return 0;
-
-}
-
 function DisableOffDays() {
     $.ajax({
-        url: SERVER + 'clinic/' + GetClinicIdFromUrlOrLocalStorage(),
+        url: SERVER + 'clinic/' + GetOnlineClinicIdFromLocalStorage(),
         type: 'Get',
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -79,7 +71,7 @@ function Add() {
         IsVerified: $("#IsVerified").is(':checked'),
 
         Password: PasswordGenerator(),
-        ClinicID: GetClinicIdFromUrlOrLocalStorage()
+        ClinicID: GetOnlineClinicIdFromLocalStorage()
     };
     $.ajax({
         url: SERVER + "child",
@@ -93,7 +85,7 @@ function Add() {
                 ScrollToTop();
             }
             else {
-                window.location = 'child.html?id=' + GetClinicIdFromUrlOrLocalStorage();
+                window.location = 'child.html?id=' + GetOnlineClinicIdFromLocalStorage();
             }
         },
         error: function (errormessage, e) {

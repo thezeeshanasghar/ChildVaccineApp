@@ -1,6 +1,6 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
-    if (GetClinicIdFromUrlOrLocalStorage() != 0) {
+    if (GetOnlineClinicIdFromLocalStorage() != 0) {
         checkCustomScheduleAgainstClinic();
         loadData();
         DisableOffDays();
@@ -16,7 +16,7 @@ $(document).ready(function () {
 function checkCustomScheduleAgainstClinic() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "child/" + GetClinicIdFromUrlOrLocalStorage() + "/GetCustomScheduleAgainsClinic",
+        url: SERVER + "child/" + GetOnlineClinicIdFromLocalStorage() + "/GetCustomScheduleAgainsClinic",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -76,7 +76,7 @@ function loadChildDataAgainstMobileNumber() {
         }
     });
 }
-function GetClinicIdFromUrlOrLocalStorage() {
+function GetOnlineClinicIdFromLocalStorage() {
     var id = parseInt(getParameterByName("id")) || 0;
     if (id != 0)
         return id;
@@ -95,7 +95,7 @@ function GetChildMobileNumberFromLocalStorage() {
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "clinic/" + GetClinicIdFromUrlOrLocalStorage() + "/childs",
+        url: SERVER + "clinic/" + GetOnlineClinicIdFromLocalStorage() + "/childs",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -147,7 +147,7 @@ function loadData() {
 
 function DisableOffDays() {
     $.ajax({
-        url: SERVER + 'clinic/' + GetClinicIdFromUrlOrLocalStorage(),
+        url: SERVER + 'clinic/' + GetOnlineClinicIdFromLocalStorage(),
         type: 'Get',
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -197,7 +197,6 @@ function getbyID(ID) {
             $('#DOB').val(result.ResponseData.DOB);
             $('#DOB').attr('disabled', true);
             $('#CountryCode').val(result.ResponseData.CountryCode);
-            debugger;
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
@@ -273,7 +272,7 @@ function Update() {
         PreferredDayOfReminder: preferdayreminder,
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").val(),
-        ClinicID: GetClinicIdFromUrlOrLocalStorage()
+        ClinicID: GetOnlineClinicIdFromLocalStorage()
     };
     $.ajax({
         url: SERVER + "child/",
