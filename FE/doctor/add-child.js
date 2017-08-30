@@ -90,6 +90,7 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                ScrollToTop();
             }
             else {
                 window.location = 'child.html?id=' + GetClinicIdFromUrlOrLocalStorage();

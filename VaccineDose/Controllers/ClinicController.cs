@@ -128,6 +128,8 @@ namespace VaccineDose.Controllers
                     {
                         var dbChild = clinic.Children.OrderByDescending(x=>x.ID).ToList();
                         var childDTOs = Mapper.Map<List<ChildDTO>>(dbChild);
+                        foreach (var item in childDTOs)
+                            item.MobileNumber = dbChild.Where(x => x.ID == item.ID).First().User.MobileNumber;
                         return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
                     }
                 }

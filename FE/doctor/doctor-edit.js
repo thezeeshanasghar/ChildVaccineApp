@@ -18,7 +18,7 @@ function getbyID(ID) {
     $('#FirstName').css('border-color', 'lightgrey');
     $('#LastName').css('border-color', 'lightgrey');
     $('#Email').css('border-color', 'lightgrey');
-    $('#MobileNo').css('border-color', 'lightgrey');
+    $('#MobileNumber').css('border-color', 'lightgrey');
     $('#PMDC').css('border-color', 'lightgrey');
 
     $.ajax({
@@ -38,7 +38,7 @@ function getbyID(ID) {
                 $('#FirstName').val(result.ResponseData.FirstName);
                 $('#LastName').val(result.ResponseData.LastName);
                 $('#Email').val(result.ResponseData.Email);
-                $('#MobileNo').val(result.ResponseData.MobileNo);
+                $('#MobileNumber').val(result.ResponseData.MobileNumber);
                 $('#PhoneNo').val(result.ResponseData.PhoneNo);
                 $('#PMDC').val(result.ResponseData.PMDC);
                 $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
@@ -66,7 +66,7 @@ function Update() {
         IsApproved: $("#IsApproved").is(":checked"),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
-        MobileNo: $('#MobileNo').val(),
+        MobileNumber: $('#MobileNumber').val(),
         PMDC: $('#PMDC').val(),
         PhoneNo: $("#PhoneNo").val(),
         ShowPhone: $("#ShowPhone").is(":checked"),

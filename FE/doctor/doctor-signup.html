@@ -279,7 +279,7 @@
                                 
                                     <div class="col-md-7 col-sm-10 col-xs-10">
                                         <div class="form-group">
-                                            <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNo" name="MobileNo"
+                                            <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
                                                    placeholder="Specify mobile number in this pattern 3465430413"
                                                    required />
                                             <div class="help-block with-errors"></div>
@@ -399,7 +399,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#MobileNo").attr('data-remote', SERVER + 'user/checkUniqueMobile');
+            $("#MobileNumber").attr('data-remote', SERVER + 'user/checkUniqueMobile');
             $('#StartTime').timepicker({
                 minuteStep: 30,
                 showMeridian: false,

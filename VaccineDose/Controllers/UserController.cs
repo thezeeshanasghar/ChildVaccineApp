@@ -125,7 +125,8 @@ namespace VaccineDose.Controllers
                         return new Response<UserDTO>(true, null, userDTO);
                     else if (userDTO.UserType.Equals("DOCTOR"))
                     {
-                        var doctorDb = entities.Doctors.Where(x => x.MobileNo == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
+
+                        var doctorDb = entities.Doctors.Where(x => x.UserID == dbUser.ID).FirstOrDefault();
                         if (doctorDb == null)
                             return new Response<UserDTO>(false, "Doctor not found.", null);
                         if (!doctorDb.IsApproved)
@@ -135,7 +136,7 @@ namespace VaccineDose.Controllers
                     }
                     else if (userDTO.UserType.Equals("PARENT"))
                     {
-                        var childDB = entities.Children.Where(x => x.MobileNumber == userDTO.MobileNumber).Where(x => x.Password == userDTO.Password).FirstOrDefault();
+                        var childDB = entities.Children.Where(x => x.UserID == dbUser.ID).FirstOrDefault();
                         if (childDB == null)
                             return new Response<UserDTO>(false, "Child not found.", null);
                         else
@@ -154,13 +155,13 @@ namespace VaccineDose.Controllers
 
         [HttpGet]
         [Route("checkUniqueMobile")]
-        public HttpResponseMessage CheckUniqueMobile(string MobileNo)
+        public HttpResponseMessage CheckUniqueMobile(string MobileNumber)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    User userDB = entities.Users.Where(x => x.MobileNumber == MobileNo).FirstOrDefault();
+                    User userDB = entities.Users.Where(x => x.MobileNumber == MobileNumber).FirstOrDefault();
                     if (userDB == null)
                         return Request.CreateResponse((HttpStatusCode)200);
                     else

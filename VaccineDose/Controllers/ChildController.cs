@@ -42,8 +42,9 @@ namespace VaccineDose.Controllers
                 {
                     Child childDB = Mapper.Map<Child>(childDTO);
                     // check for existing parent 
-                    Child existingChild = entities.Children.Where(x => x.MobileNumber == childDTO.MobileNumber).FirstOrDefault();
-                    if (existingChild == null)
+                    User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber).FirstOrDefault();
+
+                    if (user == null)
                     {
                         User userDB = new User();
                         userDB.MobileNumber = childDTO.MobileNumber;
@@ -51,13 +52,15 @@ namespace VaccineDose.Controllers
                         userDB.CountryCode = childDTO.CountryCode;
                         userDB.UserType = "PARENT";
                         entities.Users.Add(userDB);
+                        entities.SaveChanges();
 
+                        childDB.UserID = userDB.ID;
                         entities.Children.Add(childDB);
                         entities.SaveChanges();
                     }
                     else
                     {
-                        childDB.Password = childDTO.Password = existingChild.Password;
+                        childDB.UserID = user.ID;
                         entities.Children.Add(childDB);
                         entities.SaveChanges();
                     }
@@ -98,8 +101,6 @@ namespace VaccineDose.Controllers
                     var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
                     dbChild.Name = childDTO.Name;
                     dbChild.FatherName = childDTO.FatherName;
-                    dbChild.CountryCode = childDTO.CountryCode;
-                    dbChild.MobileNumber = childDTO.MobileNumber;
                     dbChild.PreferredDayOfWeek = childDTO.PreferredDayOfWeek;
                     dbChild.Gender = childDTO.Gender;
                     dbChild.City = childDTO.City;
@@ -142,7 +143,7 @@ namespace VaccineDose.Controllers
 
 
         #endregion
-        
+
 
         [Route("api/child/{id}/schedule")]
         public Response<IEnumerable<ScheduleDTO>> GetChildSchedule(int id)
@@ -185,9 +186,10 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var children = entities.Children.Where(c => c.MobileNumber == id).ToList();
-                    if (children != null)
+                    User user = entities.Users.Where(x => x.MobileNumber == id).FirstOrDefault();
+                    if (user != null)
                     {
+                        var children = entities.Children.Where(c => c.UserID == user.ID).ToList();
                         IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(children);
                         return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
                     }
@@ -241,13 +243,13 @@ namespace VaccineDose.Controllers
                 Content = new StreamContent(stream)
                 {
                     Headers =
-            {
-                ContentType = new MediaTypeHeaderValue("application/pdf"),
-                ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = "myfile.pdf"
-                }
-            }
+                            {
+                                ContentType = new MediaTypeHeaderValue("application/pdf"),
+                                ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                                {
+                                    FileName = "myfile.pdf"
+                                }
+                            }
                 },
                 StatusCode = HttpStatusCode.OK
             };
@@ -262,38 +264,45 @@ namespace VaccineDose.Controllers
                 writer.CloseStream = false;
 
                 document.Open();
-                document.Add(new Paragraph("Vaccine Schedule"));
+                Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 15, Font.BOLD);
+                Chunk chunkCols = new Chunk("Vaccine Schedule", ColFont);
+                document.Add(new Paragraph(chunkCols));
+                document.Add(new Paragraph(new Chunk("")));
                 PdfPTable table = new PdfPTable(2);
-                table.WidthPercentage=100;
+                table.WidthPercentage = 100;
                 VDConnectionString entities = new VDConnectionString();
 
                 var child = entities.Children.FirstOrDefault(c => c.ID == childId);
                 var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
-                 var scheduleDoses = from schedule in dbSchedules
-                              group schedule.Dose by schedule.Date into scheduleDose
-                              select new { Date = scheduleDose.Key, Doses = scheduleDose.ToList() };
-                var imgPath= System.Web.Hosting.HostingEnvironment.MapPath("~/Content/img");
+                var scheduleDoses = from schedule in dbSchedules
+                                    group schedule.Dose by schedule.Date into scheduleDose
+                                    select new { Date = scheduleDose.Key, Doses = scheduleDose.ToList() };
+                var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/img");
                 foreach (var schedule in scheduleDoses)
-                { 
-                    PdfPCell cell = new PdfPCell(new Phrase(schedule.Date.Date.ToString()));
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(schedule.Date.Date.ToString("dd-MM-yyyy")));
                     cell.Colspan = 2;
-                    cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                    //cell.Border = 0;
+                    cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    cell.Border = 0;
                     table.AddCell(cell);
-                    foreach(var dose in schedule.Doses)
+                    foreach (var dose in schedule.Doses)
                     {
-                        table.AddCell(dose.Name);
+                        PdfPCell cell1 = new PdfPCell(new Phrase(dose.Name));
+                        cell1.Border = 0;
+                        table.AddCell(cell1);
                         // add a image
                         Image img = Image.GetInstance(imgPath + "\\injectionEmpty.png");
-                        
+                        img.ScaleAbsolute(2f, 2f);
                         PdfPCell imageCell = new PdfPCell(img, true);
                         imageCell.PaddingBottom = 5;
                         imageCell.Colspan = 1; // either 1 if you need to insert one cell
                         imageCell.Border = 0;
+                        imageCell.FixedHeight = 40f;
+                        imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
                         table.AddCell(imageCell);
                     }
-                    
-                   
+
+
                     //imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
                 }
@@ -307,31 +316,6 @@ namespace VaccineDose.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/child/checkUniqueMobile")]
-        public HttpResponseMessage CheckUniqueMobile(string MobileNumber)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    Child childDB = entities.Children.Where(x => x.MobileNumber == MobileNumber).FirstOrDefault();
-                    if (childDB == null)
-                        return Request.CreateResponse((HttpStatusCode)200);
-                    else
-                    {
-                        int HTTPResponse = 400;
-                        var response = Request.CreateResponse((HttpStatusCode)HTTPResponse);
-                        response.ReasonPhrase = "Mobile Number already exists";
-                        return response;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
-        }
 
     }
 }

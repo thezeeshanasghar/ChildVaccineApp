@@ -17,6 +17,8 @@ namespace VaccineDose.Controllers
                 {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
+                    foreach (var item in doctorDTOs)
+                        item.MobileNumber = dbDoctor.Where(x => x.ID == item.ID).First().User.MobileNumber;
                     return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
                 }
             }
@@ -35,6 +37,8 @@ namespace VaccineDose.Controllers
                 {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == false).ToList();
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
+                    foreach (var item in doctorDTOs)
+                        item.MobileNumber = dbDoctor.Where(x => x.ID == item.ID).First().User.MobileNumber;
                     return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
                 }
             }
@@ -53,6 +57,7 @@ namespace VaccineDose.Controllers
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     DoctorDTO doctorDTO = Mapper.Map<DoctorDTO>(dbDoctor);
+                    doctorDTO.MobileNumber = dbDoctor.User.MobileNumber;
                     return new Response<DoctorDTO>(true, null, doctorDTO);
                 }
             }
@@ -69,20 +74,20 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    // 1- save doctor
-                    Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
-                    doctorDB.CountryCode = doctorDTO.CountryCode;
-                    doctorDB.ValidUpto = null;
-                    entities.Doctors.Add(doctorDB);
-                    entities.SaveChanges();
-
-                    // 2- add entry into user
+                    // 1- save User first
                     User userDB = new User();
-                    userDB.MobileNumber = doctorDTO.MobileNo;
+                    userDB.MobileNumber = doctorDTO.MobileNumber;
                     userDB.Password = doctorDTO.Password;
                     userDB.CountryCode = doctorDTO.CountryCode;
                     userDB.UserType = "DOCTOR";
                     entities.Users.Add(userDB);
+                    entities.SaveChanges();
+
+                    // 1- save Doctor 
+                    Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
+                    doctorDB.ValidUpto = null;
+                    doctorDB.UserID = userDB.ID;
+                    entities.Doctors.Add(doctorDB);
                     entities.SaveChanges();
 
                     // 3- send email to doctor

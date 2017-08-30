@@ -39,12 +39,12 @@ namespace VaccineDose
             body += child.Clinic.Name + "\n";
 
 
-            body += "ID: " + child.MobileNumber + "\n Password: " + child.Password 
+            body += "ID: " + child.User.MobileNumber + "\n Password: " + child.User.Password 
                 + "\nClinic Phone Number " + child.Clinic.PhoneNumber + "\n";
 
             body += "Doctor Phone Number: " + child.Clinic.Doctor.PhoneNo + "\n";
             
-            SendSMS(child.CountryCode, child.MobileNumber, child.Email, body);
+            SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body);
             return body;
         }
 
@@ -61,7 +61,7 @@ namespace VaccineDose
             body += "<b>" + child.Clinic.Name + "</b><br>";
                
             
-            body += "ID: <b>" + child.MobileNumber + "</b><br>Password: <b>" + child.Password + "</b><br/>"
+            body += "ID: <b>" + child.User.MobileNumber + "</b><br>Password: <b>" + child.User.Password + "</b><br/>"
                 + "Clinic Phone Number <b>" + child.Clinic.PhoneNumber + "</b><br>";
             
                 body += "Doctor Phone Number: <b>" + child.Clinic.Doctor.PhoneNo + "<b><br>";
@@ -78,9 +78,9 @@ namespace VaccineDose
             string body = "Hi " + doctor.FirstName + " " + doctor.LastName + ", \n"
                 + "You are succesfully registered in MyVaccs.\n\n"
                 + "Your accounter credentials are: \n"
-                + "ID/Mobile Number: " + doctor.MobileNo + "\n"
+                + "ID/Mobile Number: " + doctor.MobileNumber + "\n"
                 + "Password: " + doctor.Password + "\n";
-            SendSMS(doctor.CountryCode,doctor.MobileNo, doctor.Email, body);
+            SendSMS(doctor.CountryCode,doctor.MobileNumber, doctor.Email, body);
             return body;
         }
 
@@ -89,7 +89,7 @@ namespace VaccineDose
             string body = "Hi " + "<b>" + doctor.FirstName + " " + doctor.LastName + "</b>, <br />"
                 + "You are succesfully registered in <b>MyVaccs</b>.<br /><br />"
                 + "Your accounter credentials are: <br />"
-                + "ID/Mobile Number: " + doctor.MobileNo + "<br />"
+                + "ID/Mobile Number: " + doctor.MobileNumber + "<br />"
                 + "Password: " + doctor.Password + "<br />";
             SendEmail(doctor.FirstName, doctor.Email, body);
         }

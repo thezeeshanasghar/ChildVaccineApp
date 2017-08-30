@@ -205,7 +205,7 @@
                                     <option data-countryCode="NP" value="670">Northern Marianas (+670)</option>
                                     <option data-countryCode="NO" value="47">Norway (+47)</option>
                                     <option data-countryCode="OM" value="968">Oman (+968)</option>
-                                    <option data-countryCode="PK" value="92" selected="selected">+92</option>
+                                    <option data-countryCode="PK" value="92" selected="selected">Pak(+92)</option>
                                     <option data-countryCode="PW" value="680">Palau (+680)</option>
                                     <option data-countryCode="PA" value="507">Panama (+507)</option>
                                     <option data-countryCode="PG" value="675">Papua New Guinea (+675)</option>
@@ -334,7 +334,7 @@
                                 <option value="Multan">Multan</option>
                             </select>
                         </div>
-                        <div class="row">
+                        <div class="row form-group">
                             <div class="col-md-10">
                                 <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled>
                                     <option value="">-- select preferred day of reminder --</option>
@@ -404,7 +404,6 @@
     <script>
         $(document).ready(function () {
             HideAlert();
-            $("#MobileNumber").attr('data-remote', SERVER + 'child/checkUniqueMobile');
             $('#dob-container .input-group.date').datepicker({
                 format: 'dd-mm-yyyy',
                 todayBtn: true,

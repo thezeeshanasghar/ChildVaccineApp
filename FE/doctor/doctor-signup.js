@@ -47,7 +47,7 @@ function Add() {
         Email: $('#Email').val(),
         Password: PasswordGenerator(),
         CountryCode: $('#CountryCode').val(),
-        MobileNo: $('#MobileNo').val(),
+        MobileNumber: $('#MobileNumber').val(),
         PMDC: $('#PMDC').val(),
         PhoneNo: $("#PhoneNo").val(),
         ShowPhone: $("#ShowPhone").is(":checked"),

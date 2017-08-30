@@ -24,7 +24,7 @@ function loadData() {
                     html += '   <td>' + (key + 1) + '</td>';
                     html += '   <td>' + item.FirstName + ' ' + item.LastName + '</td>';
                     html += '   <td>' + item.Email + '</td>';
-                    html += '   <td>' + item.MobileNo + '</td>';
+                    html += '   <td>' + item.MobileNumber + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
                     //TODO:testing for this check
                     if (item.ValidUpto != null && item.ValidUpto != "01-01-0001") {
@@ -58,7 +58,7 @@ function loadData() {
                 html += '   <td>' + (key + 1) + '</td>';
                 html += '   <td>' + item.FirstName + ' ' + item.LastName + '</td>';
                 html += '   <td>' + item.Email + '</td>';
-                html += '   <td>' + item.MobileNo + '</td>';
+                html += '   <td>' + item.MobileNumber + '</td>';
                 html += '   <td>' + item.PMDC + '</td>';
 
                 html += '   <td>' +

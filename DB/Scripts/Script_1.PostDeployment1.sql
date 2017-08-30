@@ -48,8 +48,8 @@ INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES
 ('923335196658','0431','DOCTOR');
 GO
 
-INSERT [dbo].[Doctor] ([FirstName], [LastName], [Email], [MobileNo], [Password], [PMDC], [IsApproved], [ShowPhone], [ShowMobile], [PhoneNo]) 
-VALUES (N'Salman', N'Bajwa', N'salmanbajwa777@gmail.com', N'923335196658', N'0431', N'12345-p', 1, 1, 1, N'03335196658')
+INSERT [dbo].[Doctor] ([FirstName], [LastName], [Email], [PMDC], [IsApproved], [ShowPhone], [ShowMobile], [PhoneNo]) 
+VALUES (N'Salman', N'Bajwa', N'salmanbajwa777@gmail.com', N'12345-p', 1, 1, 1, N'03335196658')
 GO
 INSERT [dbo].[Clinic] ([Name], [OffDays], [StartTime], [EndTime], [Lat], [Long], [DoctorID], [PhoneNumber], [IsOnline])
 VALUES (N'KIDS & FAMILY clinic', N'Sunday', CAST(N'19:30:00' AS Time), CAST(N'22:00:00' AS Time), 33.590258458777022, 73.133164149047843, 
