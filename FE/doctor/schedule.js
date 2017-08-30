@@ -151,7 +151,7 @@ function openCalender(scheduleId, date) {
 
     $(".scheduleDate_" + scheduleId).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date;
+         obj.Date = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
          $.ajax({
              url: SERVER + "schedule/update-schedule/",
              data: JSON.stringify(obj),
@@ -176,9 +176,10 @@ function openCalender(scheduleId, date) {
          });
      });
 }
+
 function openBulkCalender(scheduleId, date) {
     $(".scheduleDate_" + date).datepicker({
-        format: 'dd-mm-yyyy',
+        format: 'dd-mm-yyyy hh:ii',
         todayBtn: true,
         autoclose: true,
         todayHighlight: true,
@@ -191,7 +192,8 @@ function openBulkCalender(scheduleId, date) {
 
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date;
+         obj.Date = e.date.getDate() + '-' + ('0' +  (e.date.getMonth()+1) ).slice(-2) + '-' + e.date.getFullYear();
+         
          $.ajax({
              url: SERVER + "schedule/update-bulk-schedule/",
              data: JSON.stringify(obj),
