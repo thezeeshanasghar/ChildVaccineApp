@@ -274,9 +274,10 @@
                                 </select>
                             </div>
                             <div class="col-md-9">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="MobileNumber" pattern="^[3]{1}\d{9}$"
+                                <div class="form-group"> 
+                                    <input type="text" class="form-control" id="MobileNumber" name="MobileNumber" pattern="^[3]{1}\d{9}$"
                                            placeholder="Specify mobile number in this pattern 3465430413" required />
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                         </div>
@@ -403,7 +404,7 @@
     <script>
         $(document).ready(function () {
             HideAlert();
-
+            $("#MobileNumber").attr('data-remote', SERVER + 'child/checkUniqueMobile');
             $('#dob-container .input-group.date').datepicker({
                 format: 'dd-mm-yyyy',
                 todayBtn: true,

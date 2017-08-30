@@ -2,6 +2,7 @@
 $(document).ready(function () {
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
+    $('#print').attr('href', SERVER + 'child/' + id + '/download-pdf');
 
 });
 
@@ -215,3 +216,4 @@ function openBulkCalender(scheduleId, date) {
          });
      });
 }
+
