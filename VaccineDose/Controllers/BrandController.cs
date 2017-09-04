@@ -10,83 +10,83 @@ using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
-    public class VaccineBrandController : BaseController
+    public class BrandController : BaseController
     {
         #region C R U D
 
-        public Response<IEnumerable<VaccineBrandDTO>> Get()
+        public Response<IEnumerable<BrandDTO>> Get()
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbVaccineBrands = entities.VaccineBrands.ToList();
-                    IEnumerable<VaccineBrandDTO> vaccineBrandDTOs = Mapper.Map<IEnumerable<VaccineBrandDTO>>(dbVaccineBrands);
-                    return new Response<IEnumerable<VaccineBrandDTO>>(true, null, vaccineBrandDTOs);
+                    var dbVaccineBrands = entities.Brands.ToList();
+                    IEnumerable<BrandDTO> vaccineBrandDTOs = Mapper.Map<IEnumerable<BrandDTO>>(dbVaccineBrands);
+                    return new Response<IEnumerable<BrandDTO>>(true, null, vaccineBrandDTOs);
                 }
             }
             catch (Exception e)
             {
-                return new Response<IEnumerable<VaccineBrandDTO>>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<IEnumerable<BrandDTO>>(false, GetMessageFromExceptionObject(e), null);
 
             }
         }
 
-        public Response<VaccineBrandDTO> Get(int Id)
+        public Response<BrandDTO> Get(int Id)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbVaccineBrand = entities.VaccineBrands.Where(c => c.ID == Id).FirstOrDefault();
-                    VaccineBrandDTO vaccineBrandDTO = Mapper.Map<VaccineBrandDTO>(dbVaccineBrand);
-                    return new Response<VaccineBrandDTO>(true, null, vaccineBrandDTO);
+                    var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
+                    BrandDTO vaccineBrandDTO = Mapper.Map<BrandDTO>(dbVaccineBrand);
+                    return new Response<BrandDTO>(true, null, vaccineBrandDTO);
                 }
             }
             catch (Exception e)
             {
-                return new Response<VaccineBrandDTO>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<BrandDTO>(false, GetMessageFromExceptionObject(e), null);
 
             }
 
         }
 
-        public Response<VaccineBrandDTO> Post(VaccineBrandDTO vaccineBrandDTO)
+        public Response<BrandDTO> Post(BrandDTO vaccineBrandDTO)
         {
             try
             {
 
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    VaccineBrand dbVaccineBrand = Mapper.Map<VaccineBrand>(vaccineBrandDTO);
-                    entities.VaccineBrands.Add(dbVaccineBrand);
+                    Brand dbVaccineBrand = Mapper.Map<Brand>(vaccineBrandDTO);
+                    entities.Brands.Add(dbVaccineBrand);
                     entities.SaveChanges();
                     vaccineBrandDTO.ID = dbVaccineBrand.ID;
-                    return new Response<VaccineBrandDTO>(true, null, vaccineBrandDTO);
+                    return new Response<BrandDTO>(true, null, vaccineBrandDTO);
 
                 }
             }
             catch (Exception e)
             {
-                return new Response<VaccineBrandDTO>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<BrandDTO>(false, GetMessageFromExceptionObject(e), null);
 
             }
         }
-        public Response<VaccineBrandDTO> Put(int Id, VaccineBrandDTO vaccineBrandDTO)
+        public Response<BrandDTO> Put(int Id, BrandDTO vaccineBrandDTO)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbVaccineBrand = entities.VaccineBrands.Where(c => c.ID == Id).FirstOrDefault();
-                    dbVaccineBrand = Mapper.Map<VaccineBrandDTO, VaccineBrand>(vaccineBrandDTO, dbVaccineBrand);
+                    var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
+                    dbVaccineBrand = Mapper.Map<BrandDTO, Brand>(vaccineBrandDTO, dbVaccineBrand);
                     entities.SaveChanges();
-                    return new Response<VaccineBrandDTO>(true, null, vaccineBrandDTO);
+                    return new Response<BrandDTO>(true, null, vaccineBrandDTO);
                 }
             }
             catch (Exception e)
             {
-                return new Response<VaccineBrandDTO>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<BrandDTO>(false, GetMessageFromExceptionObject(e), null);
 
             }
         }
@@ -97,8 +97,8 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbVaccineBrand = entities.VaccineBrands.Where(c => c.ID == Id).FirstOrDefault();
-                    entities.VaccineBrands.Remove(dbVaccineBrand);
+                    var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
+                    entities.Brands.Remove(dbVaccineBrand);
                     entities.SaveChanges();
                     return new Response<string>(true, null, "record deleted");
                 }
@@ -113,8 +113,6 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
-       
-
-        
+      
     }
 }

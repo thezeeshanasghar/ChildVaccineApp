@@ -5,6 +5,32 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="VDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VaccineID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BrandAmount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="BrandID" Type="int" Nullable="false" />
+          <Property Name="DoctorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BrandInventory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Count" Type="int" />
+          <Property Name="BrandID" Type="int" Nullable="false" />
+          <Property Name="DoctorID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Child">
           <Key>
             <PropertyRef Name="ID" />
@@ -107,23 +133,54 @@
           <Property Name="MinAge" Type="int" Nullable="false" />
           <Property Name="MaxAge" Type="int" />
         </EntityType>
-        <EntityType Name="VaccineBrand">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VaccineID" Type="int" Nullable="false" />
-          <Property Name="BrandName" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="VaccineInventory">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Count" Type="int" />
-          <Property Name="VaccineID" Type="int" Nullable="false" />
-          <Property Name="DoctorID" Type="int" Nullable="false" />
-        </EntityType>
+        <Association Name="FK_BrandAmount_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
+          <End Role="BrandAmount" Type="Self.BrandAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandAmount">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandAmount_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="BrandAmount" Type="Self.BrandAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandAmount">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInventory_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
+          <End Role="BrandInventory" Type="Self.BrandInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandInventory">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInventory_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="BrandInventory" Type="Self.BrandInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandInventory">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Child_Clinic">
           <End Role="Clinic" Type="Self.Clinic" Multiplicity="1" />
           <End Role="Child" Type="Self.Child" Multiplicity="*" />
@@ -234,41 +291,20 @@
         </Association>
         <Association Name="FK_VaccineBrand_Vaccine">
           <End Role="Vaccine" Type="Self.Vaccine" Multiplicity="1" />
-          <End Role="VaccineBrand" Type="Self.VaccineBrand" Multiplicity="*" />
+          <End Role="Brand" Type="Self.Brand" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vaccine">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="VaccineBrand">
-              <PropertyRef Name="VaccineID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VaccineInventory_Doctor">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="VaccineInventory" Type="Self.VaccineInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="VaccineInventory">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VaccineInventory_Vaccine">
-          <End Role="Vaccine" Type="Self.Vaccine" Multiplicity="1" />
-          <End Role="VaccineInventory" Type="Self.VaccineInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vaccine">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="VaccineInventory">
+            <Dependent Role="Brand">
               <PropertyRef Name="VaccineID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="VDModelStoreContainer">
+          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BrandAmount" EntityType="Self.BrandAmount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BrandInventory" EntityType="Self.BrandInventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Child" EntityType="Self.Child" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clinic" EntityType="Self.Clinic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
@@ -277,8 +313,22 @@
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vaccine" EntityType="Self.Vaccine" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="VaccineBrand" EntityType="Self.VaccineBrand" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="VaccineInventory" EntityType="Self.VaccineInventory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BrandAmount_Brand" Association="Self.FK_BrandAmount_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="BrandAmount" EntitySet="BrandAmount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandAmount_Doctor" Association="Self.FK_BrandAmount_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="BrandAmount" EntitySet="BrandAmount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInventory_Brand" Association="Self.FK_BrandInventory_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="BrandInventory" EntitySet="BrandInventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInventory_Doctor" Association="Self.FK_BrandInventory_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="BrandInventory" EntitySet="BrandInventory" />
+          </AssociationSet>
           <AssociationSet Name="FK_Child_Clinic" Association="Self.FK_Child_Clinic">
             <End Role="Clinic" EntitySet="Clinic" />
             <End Role="Child" EntitySet="Child" />
@@ -317,15 +367,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_VaccineBrand_Vaccine" Association="Self.FK_VaccineBrand_Vaccine">
             <End Role="Vaccine" EntitySet="Vaccine" />
-            <End Role="VaccineBrand" EntitySet="VaccineBrand" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VaccineInventory_Doctor" Association="Self.FK_VaccineInventory_Doctor">
-            <End Role="Doctor" EntitySet="Doctor" />
-            <End Role="VaccineInventory" EntitySet="VaccineInventory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VaccineInventory_Vaccine" Association="Self.FK_VaccineInventory_Vaccine">
-            <End Role="Vaccine" EntitySet="Vaccine" />
-            <End Role="VaccineInventory" EntitySet="VaccineInventory" />
+            <End Role="Brand" EntitySet="Brand" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -333,6 +375,9 @@
     <edmx:ConceptualModels>
       <Schema Namespace="VDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="VDConnectionString" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Brands" EntityType="VDModel.Brand" />
+          <EntitySet Name="BrandAmounts" EntityType="VDModel.BrandAmount" />
+          <EntitySet Name="BrandInventories" EntityType="VDModel.BrandInventory" />
           <EntitySet Name="Children" EntityType="VDModel.Child" />
           <EntitySet Name="Clinics" EntityType="VDModel.Clinic" />
           <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
@@ -341,8 +386,26 @@
           <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
           <EntitySet Name="Users" EntityType="VDModel.User" />
           <EntitySet Name="Vaccines" EntityType="VDModel.Vaccine" />
-          <EntitySet Name="VaccineBrands" EntityType="VDModel.VaccineBrand" />
-          <EntitySet Name="VaccineInventories" EntityType="VDModel.VaccineInventory" />
+          <AssociationSet Name="FK_BrandAmount_Brand" Association="VDModel.FK_BrandAmount_Brand">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="BrandAmount" EntitySet="BrandAmounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInventory_Brand" Association="VDModel.FK_BrandInventory_Brand">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="BrandInventory" EntitySet="BrandInventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaccineBrand_Vaccine" Association="VDModel.FK_VaccineBrand_Vaccine">
+            <End Role="Vaccine" EntitySet="Vaccines" />
+            <End Role="Brand" EntitySet="Brands" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandAmount_Doctor" Association="VDModel.FK_BrandAmount_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="BrandAmount" EntitySet="BrandAmounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInventory_Doctor" Association="VDModel.FK_BrandInventory_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="BrandInventory" EntitySet="BrandInventories" />
+          </AssociationSet>
           <AssociationSet Name="FK_Child_Clinic" Association="VDModel.FK_Child_Clinic">
             <End Role="Clinic" EntitySet="Clinics" />
             <End Role="Child" EntitySet="Children" />
@@ -367,10 +430,6 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
           </AssociationSet>
-          <AssociationSet Name="FK_VaccineInventory_Doctor" Association="VDModel.FK_VaccineInventory_Doctor">
-            <End Role="Doctor" EntitySet="Doctors" />
-            <End Role="VaccineInventory" EntitySet="VaccineInventories" />
-          </AssociationSet>
           <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
             <End Role="Dose" EntitySet="Doses" />
             <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
@@ -383,15 +442,40 @@
             <End Role="Dose" EntitySet="Doses" />
             <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
-          <AssociationSet Name="FK_VaccineBrand_Vaccine" Association="VDModel.FK_VaccineBrand_Vaccine">
-            <End Role="Vaccine" EntitySet="Vaccines" />
-            <End Role="VaccineBrand" EntitySet="VaccineBrands" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VaccineInventory_Vaccine" Association="VDModel.FK_VaccineInventory_Vaccine">
-            <End Role="Vaccine" EntitySet="Vaccines" />
-            <End Role="VaccineInventory" EntitySet="VaccineInventories" />
-          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VaccineID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Brand" FromRole="Brand" ToRole="BrandAmount" />
+          <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Brand" FromRole="Brand" ToRole="BrandInventory" />
+          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_VaccineBrand_Vaccine" FromRole="Brand" ToRole="Vaccine" />
+        </EntityType>
+        <EntityType Name="BrandAmount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="BrandID" Type="Int32" Nullable="false" />
+          <Property Name="DoctorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Brand" Relationship="VDModel.FK_BrandAmount_Brand" FromRole="BrandAmount" ToRole="Brand" />
+          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="BrandAmount" ToRole="Doctor" />
+        </EntityType>
+        <EntityType Name="BrandInventory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="BrandID" Type="Int32" Nullable="false" />
+          <Property Name="DoctorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Brand" Relationship="VDModel.FK_BrandInventory_Brand" FromRole="BrandInventory" ToRole="Brand" />
+          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="BrandInventory" ToRole="Doctor" />
+        </EntityType>
         <EntityType Name="Child">
           <Key>
             <PropertyRef Name="ID" />
@@ -446,10 +530,11 @@
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ValidUpto" Type="DateTime" Precision="0" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
+          <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
           <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
           <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
-          <NavigationProperty Name="VaccineInventories" Relationship="VDModel.FK_VaccineInventory_Doctor" FromRole="Doctor" ToRole="VaccineInventory" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -511,30 +596,69 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MinAge" Type="Int32" Nullable="false" />
           <Property Name="MaxAge" Type="Int32" />
+          <NavigationProperty Name="Brands" Relationship="VDModel.FK_VaccineBrand_Vaccine" FromRole="Vaccine" ToRole="Brand" />
           <NavigationProperty Name="Doses" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Vaccine" ToRole="Dose" />
-          <NavigationProperty Name="VaccineBrands" Relationship="VDModel.FK_VaccineBrand_Vaccine" FromRole="Vaccine" ToRole="VaccineBrand" />
-          <NavigationProperty Name="VaccineInventories" Relationship="VDModel.FK_VaccineInventory_Vaccine" FromRole="Vaccine" ToRole="VaccineInventory" />
         </EntityType>
-        <EntityType Name="VaccineBrand">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VaccineID" Type="Int32" Nullable="false" />
-          <Property Name="BrandName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_VaccineBrand_Vaccine" FromRole="VaccineBrand" ToRole="Vaccine" />
-        </EntityType>
-        <EntityType Name="VaccineInventory">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Count" Type="Int32" />
-          <Property Name="VaccineID" Type="Int32" Nullable="false" />
-          <Property Name="DoctorID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_VaccineInventory_Doctor" FromRole="VaccineInventory" ToRole="Doctor" />
-          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_VaccineInventory_Vaccine" FromRole="VaccineInventory" ToRole="Vaccine" />
-        </EntityType>
+        <Association Name="FK_BrandAmount_Brand">
+          <End Type="VDModel.Brand" Role="Brand" Multiplicity="1" />
+          <End Type="VDModel.BrandAmount" Role="BrandAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandAmount">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInventory_Brand">
+          <End Type="VDModel.Brand" Role="Brand" Multiplicity="1" />
+          <End Type="VDModel.BrandInventory" Role="BrandInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandInventory">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VaccineBrand_Vaccine">
+          <End Type="VDModel.Vaccine" Role="Vaccine" Multiplicity="1" />
+          <End Type="VDModel.Brand" Role="Brand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Brand">
+              <PropertyRef Name="VaccineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandAmount_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.BrandAmount" Role="BrandAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandAmount">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInventory_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.BrandInventory" Role="BrandInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandInventory">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Child_Clinic">
           <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="1" />
           <End Type="VDModel.Child" Role="Child" Multiplicity="*" />
@@ -607,18 +731,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_VaccineInventory_Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.VaccineInventory" Role="VaccineInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="VaccineInventory">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DoctorSchedule_Dose">
           <End Type="VDModel.Dose" Role="Dose" Multiplicity="1" />
           <End Type="VDModel.DoctorSchedule" Role="DoctorSchedule" Multiplicity="*" />
@@ -655,36 +767,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_VaccineBrand_Vaccine">
-          <End Type="VDModel.Vaccine" Role="Vaccine" Multiplicity="1" />
-          <End Type="VDModel.VaccineBrand" Role="VaccineBrand" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vaccine">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="VaccineBrand">
-              <PropertyRef Name="VaccineID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VaccineInventory_Vaccine">
-          <End Type="VDModel.Vaccine" Role="Vaccine" Multiplicity="1" />
-          <End Type="VDModel.VaccineInventory" Role="VaccineInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vaccine">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="VaccineInventory">
-              <PropertyRef Name="VaccineID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="VDModelStoreContainer" CdmEntityContainer="VDConnectionString">
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="VDModel.Brand">
+              <MappingFragment StoreEntitySet="Brand">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BrandAmounts">
+            <EntityTypeMapping TypeName="VDModel.BrandAmount">
+              <MappingFragment StoreEntitySet="BrandAmount">
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BrandInventories">
+            <EntityTypeMapping TypeName="VDModel.BrandInventory">
+              <MappingFragment StoreEntitySet="BrandInventory">
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Children">
             <EntityTypeMapping TypeName="VDModel.Child">
               <MappingFragment StoreEntitySet="Child">
@@ -791,25 +908,6 @@
                 <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VaccineBrands">
-            <EntityTypeMapping TypeName="VDModel.VaccineBrand">
-              <MappingFragment StoreEntitySet="VaccineBrand">
-                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
-                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VaccineInventories">
-            <EntityTypeMapping TypeName="VDModel.VaccineInventory">
-              <MappingFragment StoreEntitySet="VaccineInventory">
-                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
-                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

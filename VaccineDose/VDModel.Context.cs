@@ -25,6 +25,9 @@ namespace VaccineDose
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<BrandAmount> BrandAmounts { get; set; }
+        public virtual DbSet<BrandInventory> BrandInventories { get; set; }
         public virtual DbSet<Child> Children { get; set; }
         public virtual DbSet<Clinic> Clinics { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
@@ -33,7 +36,5 @@ namespace VaccineDose
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vaccine> Vaccines { get; set; }
-        public virtual DbSet<VaccineBrand> VaccineBrands { get; set; }
-        public virtual DbSet<VaccineInventory> VaccineInventories { get; set; }
     }
 }

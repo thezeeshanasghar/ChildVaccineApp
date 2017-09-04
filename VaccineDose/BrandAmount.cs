@@ -12,12 +12,14 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class VaccineBrand
+    public partial class BrandAmount
     {
         public int ID { get; set; }
-        public int VaccineID { get; set; }
-        public string BrandName { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public int BrandID { get; set; }
+        public int DoctorID { get; set; }
     
-        public virtual Vaccine Vaccine { get; set; }
+        public virtual Brand Brand { get; set; }
+        public virtual Doctor Doctor { get; set; }
     }
 }
