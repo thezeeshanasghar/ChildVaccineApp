@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="stylesheet" href="../css/bootstrap.min.css" />
-    <link href="../css/style.css" rel="stylesheet" />
-    <link rel="icon" href="../img/favicon.ico">
-
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link rel="icon" href="/img/favicon.ico">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
     <style>
         .form-signin {
             max-width: 430px;
@@ -328,7 +328,9 @@
                         <label>
                             <input type="checkbox" value="remember-me"> Remember me
                         </label></div>-->
-                        <button class="btn btn-lg btn-primary btn-block" onclick="return Login();">Sign in</button>
+                        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" onclick="return Login();"
+                                  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                        >Sign in</button>
                     <p>Demo Logins<br />
                         Super user: 3331231231, Password: 1234<br />
                         Doctor user: 3335196658, Password: 0431,<br />
