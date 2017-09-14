@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin\vaccine-brand.html" />
+    <Content Include="css\font-awesome.min.css" />
     <Content Include="doctor\vaccine-inventory.html" />
     <Content Include="doctor\vaccine-inventory.js" />
     <Content Include="admin\vaccine-brand.js" />
@@ -68,6 +69,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
     <None Include="Properties\PublishProfiles\2Folder.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

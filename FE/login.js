@@ -6,7 +6,9 @@ function Login() {
         var validator = $('#form1').data("bs.validator");
         if (validator.hasErrors())
             return false;
-      
+
+        $("#btnSignIn").button('loading');
+        $("#btnSignIn").prop('disabled', true);
 
         var obj = {
             MobileNumber: $('#MobileNumber').val(),
@@ -20,6 +22,10 @@ function Login() {
             contentType: "application/json;charset=utf-8",
             dataType: "json",
             success: function (result) {
+                
+                $("#btnSignIn").prop('disabled', false);
+                $("#btnSignIn").button('reset');
+
                 if (!result.IsSuccess) {
                     // TODO Muneeb: add proper bootstrap alert instead of browser alert
                     alert(result.Message);
@@ -46,6 +52,8 @@ function Login() {
               
             },
             error: function (jqXHR, exception) {
+                $("#btnSignIn").prop('disabled', false);
+                $("#btnSignIn").button('reset');
                 displayErrors(jqXHR, exception);
             }
         });
