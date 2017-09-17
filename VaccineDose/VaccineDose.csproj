@@ -226,6 +226,7 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\SMSController.cs" />
     <Compile Include="Controllers\VaccineBrandController.cs" />
     <Compile Include="Controllers\VaccineInventoryController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Model\DoctorDTO.cs" />
     <Compile Include="Model\DoseDTO.cs" />
     <Compile Include="Model\Response.cs" />
+    <Compile Include="Model\SMSDTO.cs" />
     <Compile Include="Model\UserDTO.cs" />
     <Compile Include="Model\VaccineDTO.cs" />
     <Compile Include="Model\VaccineBrandDTO .cs" />
@@ -269,6 +271,9 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Schedule.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SM.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />

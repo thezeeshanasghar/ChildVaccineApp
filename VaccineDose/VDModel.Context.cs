@@ -31,6 +31,7 @@ namespace VaccineDose
         public virtual DbSet<DoctorSchedule> DoctorSchedules { get; set; }
         public virtual DbSet<Dose> Doses { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
+        public virtual DbSet<SM> SMS { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vaccine> Vaccines { get; set; }
         public virtual DbSet<VaccineBrand> VaccineBrands { get; set; }
