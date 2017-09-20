@@ -218,6 +218,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Brand.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrandAmount.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrandInventory.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Child.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
@@ -226,8 +235,8 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\VaccineBrandController.cs" />
-    <Compile Include="Controllers\VaccineInventoryController.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\BrandInventoryController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
@@ -263,8 +272,8 @@
     <Compile Include="Model\Response.cs" />
     <Compile Include="Model\UserDTO.cs" />
     <Compile Include="Model\VaccineDTO.cs" />
-    <Compile Include="Model\VaccineBrandDTO .cs" />
-    <Compile Include="Model\VaccineInventoryDTO.cs" />
+    <Compile Include="Model\BrandDTO .cs" />
+    <Compile Include="Model\BrandInventoryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -276,12 +285,6 @@
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Vaccine.cs">
-      <DependentUpon>VDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VaccineBrand.cs">
-      <DependentUpon>VDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VaccineInventory.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VDModel.Context.cs">

@@ -12,23 +12,23 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class Vaccine
+    public partial class Brand
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Vaccine()
+        public Brand()
         {
-            this.Brands = new HashSet<Brand>();
-            this.Doses = new HashSet<Dose>();
+            this.BrandAmounts = new HashSet<BrandAmount>();
+            this.BrandInventories = new HashSet<BrandInventory>();
         }
     
         public int ID { get; set; }
+        public int VaccineID { get; set; }
         public string Name { get; set; }
-        public int MinAge { get; set; }
-        public Nullable<int> MaxAge { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Brand> Brands { get; set; }
+        public virtual ICollection<BrandAmount> BrandAmounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Dose> Doses { get; set; }
+        public virtual ICollection<BrandInventory> BrandInventories { get; set; }
+        public virtual Vaccine Vaccine { get; set; }
     }
 }

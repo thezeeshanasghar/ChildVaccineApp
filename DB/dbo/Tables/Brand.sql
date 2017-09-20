@@ -1,8 +1,8 @@
-﻿CREATE TABLE [dbo].[VaccineBrand]
+﻿CREATE TABLE [dbo].[Brand]
 (
 	 [ID]          INT           IDENTITY (1, 1) NOT NULL,
     [VaccineID] INT NOT NULL, 
-    [BrandName] NVARCHAR(50) NULL,
+    [Name] NVARCHAR(50) NULL,
 	CONSTRAINT [PK_VaccineBrand] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_VaccineBrand_Vaccine] FOREIGN KEY ([VaccineID]) REFERENCES [dbo].[Vaccine] ([ID])
 )

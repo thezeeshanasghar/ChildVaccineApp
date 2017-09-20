@@ -21,7 +21,7 @@ function loadData(id) {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<tr>';
                     html += '<td>' + (key + 1) + '</td>';
-                    html += '<td>' + item.BrandName + '</td>';
+                    html += '<td>' + item.Name + '</td>';
                     html += '<td>' +
                         '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
                         '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
@@ -44,11 +44,11 @@ function Add() {
         return false;
     }
     var obj = {
-        BrandName: $('#BrandName').val(),
+        Name: $('#BrandName').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
-        url: SERVER + "vaccinebrand",
+        url: SERVER + "brand",
         data: JSON.stringify(obj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -74,7 +74,7 @@ function Add() {
 function getbyID(ID) {
 
     $.ajax({
-        url: SERVER + "vaccinebrand/" + ID,
+        url: SERVER + "brand/" + ID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
@@ -84,7 +84,7 @@ function getbyID(ID) {
             }
             else {
                 $("#ID").val(result.ResponseData.ID);
-                $('#BrandName').val(result.ResponseData.BrandName);
+                $('#BrandName').val(result.ResponseData.Name);
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
                 $('#btnAdd').hide();
@@ -105,11 +105,11 @@ function Update() {
     }
     var obj = {
         ID: $('#ID').val(),
-        BrandName: $('#BrandName').val(),
+        Name: $('#BrandName').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
     $.ajax({
-        url: SERVER + "vaccinebrand/" + $('#ID').val(),
+        url: SERVER + "brand/" + $('#ID').val(),
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=utf-8",
@@ -138,7 +138,7 @@ function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: SERVER + "vaccinebrand/" + ID,
+            url: SERVER + "brand/" + ID,
             type: "DELETE",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
