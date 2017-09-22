@@ -44,6 +44,9 @@ function Add() {
     if (res == false) {
         return false;
     }
+	
+	$("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
 
     var result = [];
     $('input[name="PreferredDayOfWeek"]:checked').each(function () {
@@ -80,6 +83,10 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+			
+			$("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
+			
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
                 ScrollToTop();
@@ -89,6 +96,8 @@ function Add() {
             }
         },
         error: function (errormessage, e) {
+			$("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
             displayErrors(errormessage, e);
         }
     });
