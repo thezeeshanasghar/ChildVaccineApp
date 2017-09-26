@@ -45,7 +45,7 @@ function Add() {
     }
     $("#btnAdd").button('loading');
     $("#btnAdd").prop('disabled', true);
-   
+
     var obj = {
         BrandName: $('#BrandName').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
@@ -61,7 +61,7 @@ function Add() {
                 ShowAlert('Error', result.Message, 'danger');
                 $("#btnAdd").prop('disabled', false);
                 $("#btnAdd").button('reset');
-               
+
             }
             else {
 
@@ -69,7 +69,7 @@ function Add() {
                 loadData(id);
                 $("#btnAdd").prop('disabled', false);
                 $("#btnAdd").button('reset');
-               
+
                 $('#myModal').modal('hide');
             }
         },

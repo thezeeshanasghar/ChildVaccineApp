@@ -217,6 +217,8 @@ function clearTextBox() {
 
 
 
+
+
 //Valdidation using jquery  
 function validate() {
     $('#form1').validator('validate');
