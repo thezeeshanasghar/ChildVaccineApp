@@ -59,19 +59,19 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-                $("#btnAdd").prop('disabled', false);
-                $("#btnAdd").button('reset');
+             
 
             }
             else {
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
-                $("#btnAdd").prop('disabled', false);
-                $("#btnAdd").button('reset');
+              
 
                 $('#myModal').modal('hide');
             }
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -128,19 +128,19 @@ function Update() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-                $("#btnUpdate").prop('disabled', false);
-                $("#btnupdate").button('reset');
+               
             }
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
-                $("#btnUpdate").prop('disabled', false);
-                $("#btnupdate").button('reset');
+               
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#BrandName').val("");
                 clearTextBox();
             }
+            $("#btnUpdate").prop('disabled', false);
+            $("#btnupdate").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

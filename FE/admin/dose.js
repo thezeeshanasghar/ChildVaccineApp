@@ -86,17 +86,17 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-                $("#btnAdd").prop('disabled', false);
-                $("#btnAdd").button('reset');
+               
             }
             else {
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
-                $("#btnAdd").prop('disabled', false);
-                $("#btnAdd").button('reset');
+               
                 $('#myModal').modal('hide');
             }
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -158,19 +158,19 @@ function Update() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-                $("#btnUpdate").prop('disabled', false);
-                $("#btnUpdate").button('reset');
+              
             }
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
-                $("#btnUpdate").prop('disabled', false);
-                $("#btnUpdate").button('reset');
+               
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#Name').val("");
                 clearTextBox();
             }
+            $("#btnUpdate").prop('disabled', false);
+            $("#btnUpdate").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
