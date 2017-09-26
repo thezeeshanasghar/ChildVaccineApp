@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet" />
     <link rel="icon" href="../img/favicon.ico">
 
@@ -76,8 +77,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
-                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Add</button>
+                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Update</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>

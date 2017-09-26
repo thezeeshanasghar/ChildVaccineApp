@@ -43,6 +43,9 @@ function Add() {
     if (res == false) {
         return false;
     }
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
+   
     var obj = {
         BrandName: $('#BrandName').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
@@ -56,11 +59,17 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                $("#btnAdd").prop('disabled', false);
+                $("#btnAdd").button('reset');
+               
             }
             else {
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
+                $("#btnAdd").prop('disabled', false);
+                $("#btnAdd").button('reset');
+               
                 $('#myModal').modal('hide');
             }
         },
@@ -103,6 +112,8 @@ function Update() {
     if (res == false) {
         return false;
     }
+    $("#btnUpdate").button('loading');
+    $("#btnUpdate").prop('disabled', true);
     var obj = {
         ID: $('#ID').val(),
         BrandName: $('#BrandName').val(),
@@ -117,10 +128,14 @@ function Update() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                $("#btnUpdate").prop('disabled', false);
+                $("#btnupdate").button('reset');
             }
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
+                $("#btnUpdate").prop('disabled', false);
+                $("#btnupdate").button('reset');
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#BrandName').val("");
