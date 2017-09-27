@@ -69,6 +69,8 @@ function Add() {
     if (res == false) {
         return false;
     }
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
     var obj = {
         Name: $('#Name').val(),
         GapInDays: $('#GapInDays').val(),
@@ -84,13 +86,17 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+               
             }
             else {
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
+               
                 $('#myModal').modal('hide');
             }
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -134,6 +140,8 @@ function Update() {
     if (res == false) {
         return false;
     }
+    $("#btnUpdate").button('loading');
+    $("#btnUpdate").prop('disabled', true);
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
@@ -150,15 +158,19 @@ function Update() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+              
             }
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
+               
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#Name').val("");
                 clearTextBox();
             }
+            $("#btnUpdate").prop('disabled', false);
+            $("#btnUpdate").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -202,6 +214,8 @@ function clearTextBox() {
     $('#btnAdd').show();
 
 }
+
+
 
 
 
