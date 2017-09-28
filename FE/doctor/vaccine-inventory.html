@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
     <link href="../css/style.css" rel="stylesheet" />
     <link rel="icon" href="../img/favicon.ico">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
     <style>
         .input-error {
             border: solid 2px #dd0000 !important;
@@ -34,8 +35,8 @@
                 <form id="form1" action="" method="post" class="add-inventory-form" role="form" data-toggle="validator">
                     <p class="btnLine">
                         <input type="hidden" value="1" name="total_forms" class="total-forms" />
-                        <input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" value="Create Inventory" />
-                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="return Update();">Update Inventory</button>
+                        <input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" value="Create Inventory" />
+                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="return Update();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Update Inventory</button>
                     </p>
                 </form>
             </div>

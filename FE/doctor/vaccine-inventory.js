@@ -98,6 +98,8 @@ function Add() {
     if (res == false) {
         return false;
     }
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
     var total_forms = $('.add-inventory-form .total-forms').val();
 
     var DoctorID = DoctorId();
@@ -125,6 +127,8 @@ function Add() {
                 ShowAlert('Success', 'Vaccine inventory is saved.', 'success');
                 ScrollToTop();
             }
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -172,6 +176,8 @@ function Update() {
     if (res == false) {
         return false;
     }
+    $("#btnUpdate").button('loading');
+    $("#btnUpdate").prop('disabled', true);
     var total_forms = $('.add-inventory-form .total-forms').val();
 
     var DoctorID = DoctorId();
@@ -199,6 +205,8 @@ function Update() {
                 ShowAlert('Success', 'Vaccine inventory is updated.', 'success');
                 ScrollToTop();
             }
+            $("#btnUpdate").prop('disabled', false);
+            $("#btnUpdate").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

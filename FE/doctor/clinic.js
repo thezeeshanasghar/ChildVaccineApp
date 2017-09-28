@@ -57,6 +57,8 @@ function Add() {
     if (res == false) {
         return false;
     }
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
 
     var result = [];
     $('input[name="OffDays"]:checked').each(function () {
@@ -84,6 +86,8 @@ function Add() {
             loadData(DoctorId());
             $('#myModal').modal('hide');
             clearTextBox();
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -148,6 +152,8 @@ function Update() {
     if (res == false) {
         return false;
     }
+    $("#btnUpdate").button('loading');
+    $("#btnUpdate").prop('disabled', true);
     var result = [];
     $('input[name="OffDays"]:checked').each(function () {
         result.push(this.value);
@@ -172,6 +178,9 @@ function Update() {
         dataType: "json",
         success: function (result) {
             loadData(DoctorId());
+            $("#btnUpdate").button('loading');
+            $("#btnUpdate").prop('disabled', true);
+
             $('#myModal').modal('hide');
 
             $('#ID').val("");
