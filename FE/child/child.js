@@ -37,7 +37,7 @@ function loadChildDataAgainstMobileNumber() {
                     html += '   <div style="font-size:20px;padding-left:50px">';
                     html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber + ' <br />';
-                    html += '   </div>';
+                    html += '   </div>';  
                     html += '</div>';
 
                 });
