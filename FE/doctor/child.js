@@ -124,7 +124,6 @@ function loadData() {
                     html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a>';
                     //html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
-
                     html += '       &nbsp;';
                     html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/>';
                     html += '   </h4>';
@@ -132,7 +131,6 @@ function loadData() {
                     html += '       <i class="glyphicon glyphicon-user"></i> ' + item.FatherName + '<br/>';
                     html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber;
-
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
