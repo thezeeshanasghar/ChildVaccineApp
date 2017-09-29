@@ -71,7 +71,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\2Folder.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -119,8 +118,7 @@
     <Content Include="js\bootstrap.min.js" />
     <Content Include="child\child.js" />
     <Content Include="child\schedule.js" />
-    <Content Include="Scripts\Chart.js" />
-    <Content Include="Scripts\Chart.min.js" />
+    <Content Include="js\Chart.min.js" />
     <Content Include="server.js" />
     <Content Include="common.js" />
     <Content Include="doctor\add-child.js" />

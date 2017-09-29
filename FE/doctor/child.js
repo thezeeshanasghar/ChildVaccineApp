@@ -155,11 +155,11 @@ function loadData() {
 
 //function for chart modal
 function GrowthChart(id) {
-    var html = '';
+    
     var dateArray = [];
     var weightArray = [];
     var heightArray = [];
-    var cercumfrance = [];
+    var cercumference = [];
 
     $.ajax({
         url: SERVER + "child/" + id + "/schedule",
@@ -167,10 +167,7 @@ function GrowthChart(id) {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            //var dateArray = [];
-            //var weightArray = [];
-            //var heightArray = [];
-            //var cercumfrance = [];
+            
             if (result.IsSuccess) {
                
 
@@ -186,13 +183,10 @@ function GrowthChart(id) {
                         dateArray.push(result.ResponseData[i].Date);
                         weightArray.push(result.ResponseData[i].Weight);
                         heightArray.push(result.ResponseData[i].Height);
-                        cercumfrance.push(result.ResponseData[i].Circle);
+                        cercumference.push(result.ResponseData[i].Circle);
                                             
                     }
                   
-                 
-
-                   
                 }
 
                 
@@ -202,12 +196,13 @@ function GrowthChart(id) {
                 //var dateArray = [0];
                 //var weightArray = [0];
                 //var heightArray = [0];
-                //var cercumfrance = [0];
+                //var cercumference = [0];
 
             }
             $("#chartModal").modal('show');
         },
-        error: {
+        error: function (errormessage) {
+            alert(errormessage.responseText);
 
         }
 
@@ -245,7 +240,7 @@ function GrowthChart(id) {
                 fill: false,
                 backgroundColor: 'rgb(100, 100,255)',
                 borderColor: 'rgb(100, 100, 255)',
-                data:cercumfrance
+                data:cercumference
                 //data: [0, 15, 25, 29, 30, 45],
             }
             ]
