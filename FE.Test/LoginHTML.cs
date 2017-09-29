@@ -7,7 +7,7 @@ using System;
 namespace FE.Test
 {
     [TestClass]
-    public class TestLogin : TestBase
+    public class LoginHTML : TestBase
     {
         [TestMethod, TestCategory("MainFlow")]
         public void AdminLogin_CorrectDetails_NavigateToIndex()

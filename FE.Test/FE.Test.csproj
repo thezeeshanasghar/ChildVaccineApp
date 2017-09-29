@@ -59,7 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TestLogin.cs" />
+    <Compile Include="LoginHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
@@ -67,6 +67,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="admin\" />
+    <Folder Include="child\" />
+    <Folder Include="doctor\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
