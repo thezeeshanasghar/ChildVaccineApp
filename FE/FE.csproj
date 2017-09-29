@@ -118,6 +118,7 @@
     <Content Include="js\bootstrap.min.js" />
     <Content Include="child\child.js" />
     <Content Include="child\schedule.js" />
+    <Content Include="js\Chart.min.js" />
     <Content Include="server.js" />
     <Content Include="common.js" />
     <Content Include="doctor\add-child.js" />
