@@ -1,11 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutomaticTesting
 {
@@ -33,16 +28,19 @@ namespace AutomaticTesting
             driver.FindElement(By.XPath("//*[@id=\"form1\"]/div/button")).Click();
             // this.CloseConnection();
         }
-        public void CloseConnection()
-        {
-            driver.Close();
-            driver.Dispose();
-        }
+        
         [Test]
         public void TestMethod()
         {
             // TODO: Add your test code here
             Assert.Pass("Your first passing test");
+        }
+
+        [TearDown]
+        public void CloseConnection()
+        {
+            driver.Close();
+            driver.Dispose();
         }
     }
 }
