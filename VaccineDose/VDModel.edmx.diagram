@@ -8,13 +8,14 @@
         <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="7.5" PointY="9.625" />
         <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="5.25" PointY="12.875" />
         <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="6.75" />
-        <EntityTypeShape EntityType="VDModel.DoctorSchedule" Width="1.5" PointX="5.25" PointY="4.5" />
-        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="3.375" />
+        <EntityTypeShape EntityType="VDModel.DoctorSchedule" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="11.375" />
         <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="9.75" PointY="10.25" />
+        <EntityTypeShape EntityType="VDModel.SM" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="0.75" PointY="7.5" />
-        <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="VDModel.VaccineBrand" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="VDModel.VaccineInventory" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="3" PointY="3.5" />
+        <EntityTypeShape EntityType="VDModel.VaccineBrand" Width="1.5" PointX="5.25" PointY="1.75" />
+        <EntityTypeShape EntityType="VDModel.VaccineInventory" Width="1.5" PointX="5.25" PointY="4.5" />
         <AssociationConnector Association="VDModel.FK_Child_Clinic" />
         <AssociationConnector Association="VDModel.FK_Child_User" />
         <AssociationConnector Association="VDModel.FK_Schedule_Child" />
