@@ -60,6 +60,10 @@ function Update() {
     if (res == false) {
         return false;
     }
+	
+	$("#btnUpdate").button('loading');
+    $("#btnUpdate").prop('disabled', true);
+	
     var obj = {
         ID: $('#ID').val(),
         FirstName: $('#FirstName').val(),
@@ -80,13 +84,22 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+			
+			$("#btnUpdate").prop('disabled', false);
+            $("#btnUpdate").button('reset');
+			
             //loadData();
             //clearTextBox();
             ScrollToTop();
             ShowAlert('Success',"Updated sucessfully" , 'success');
         },
         error: function (errormessage) {
+			
+			$("#btnUpdate").prop('disabled', false);
+            $("#btnUpdate").button('reset');
+			
             alert(errormessage.responseText);
+			
         }
     });
 }

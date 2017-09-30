@@ -18,6 +18,7 @@ function loadData(id) {
 
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                
             }
             else {
                 var html = '';

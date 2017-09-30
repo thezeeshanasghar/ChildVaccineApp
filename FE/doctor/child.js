@@ -25,6 +25,7 @@ function checkCustomScheduleAgainstClinic() {
             if (!result.IsSuccess) {
                 $("btnAddNew").hide();
                 ShowAlert('Error', result.Message, 'danger');
+
             }
         },
         error: function (errormessage) {
@@ -62,6 +63,7 @@ function loadChildDataAgainstMobileNumber() {
                     html += '   <div style="font-size:20px;padding-left:50px">';
                     html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber + ' <br />';
+
                     html += '   </div>';
                     html += '</div>';
 
@@ -76,6 +78,8 @@ function loadChildDataAgainstMobileNumber() {
         }
     });
 }
+
+
 function GetOnlineClinicIdFromLocalStorage() {
     var id = parseInt(getParameterByName("id")) || 0;
     if (id != 0)
@@ -120,7 +124,6 @@ function loadData() {
                     html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a>';
                     //html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
-                    
                     html += '       &nbsp;';
                     html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/>';
                     html += '   </h4>';
@@ -128,6 +131,9 @@ function loadData() {
                     html += '       <i class="glyphicon glyphicon-user"></i> ' + item.FatherName + '<br/>';
                     html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber;
+                    html += '   </div>';
+                    html += '   <div style="padding-left:100px">';
+                    html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
                     html += '   </div>';
                     html += '</div>';
 
@@ -144,6 +150,98 @@ function loadData() {
         }
     });
 }
+
+//function for chart modal
+function GrowthChart(id) {
+
+    var dateArray = [];
+    var weightArray = [];
+    var heightArray = [];
+    var cercumference = [];
+
+    $.ajax({
+        url: SERVER + "child/" + id + "/schedule",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (result.IsSuccess) {
+
+                for (var i = 0; i < result.ResponseData.length; i++) {
+                    if (result.ResponseData[i].Weight == 0 || result.ResponseData[i].Height == 0 || result.ResponseData[i].Circle == 0) {
+                        continue;
+                    }
+                    else {
+                        dateArray.push(result.ResponseData[i].Date);
+                        weightArray.push(result.ResponseData[i].Weight);
+                        heightArray.push(result.ResponseData[i].Height);
+                        cercumference.push(result.ResponseData[i].Circle);
+                    }
+                }
+
+            }
+            else {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+
+            $("#chartModal").modal('show');
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+
+        }
+
+    });
+
+    var chart = $("myChart");
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: dateArray,
+            datasets: [{
+                label: "wieght",
+
+                fill: false,
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: weightArray
+                //  data: [0, 15, 25, 27, 28, 30, 33],
+
+            },
+            {
+                label: "height",
+                fill: false,
+                backgroundColor: 'rgb(100, 255, 100)',
+                borderColor: 'rgb(100, 255, 100)',
+                data: heightArray
+                // data: [0, 10, 15, 20, 24, 30, 55],
+            },
+            {
+                label: "cercumfrance",
+                fill: false,
+                backgroundColor: 'rgb(100, 100,255)',
+                borderColor: 'rgb(100, 100, 255)',
+                data: cercumference
+                //data: [0, 15, 25, 29, 30, 45],
+            }
+            ]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+
+    //$("#modal-body").html(html);
+
+    //$("#chartModal").modal('show');
+
+}
+
+//function for updating record end
 
 function DisableOffDays() {
     $.ajax({
@@ -246,7 +344,6 @@ function getbyID(ID) {
     return false;
 }
 
-//function for updating record  
 function Update() {
     var res = validate();
     if (res == false)
@@ -268,7 +365,7 @@ function Update() {
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
-        CountryCode:$('#CountryCode').val(),
+        CountryCode: $('#CountryCode').val(),
         MobileNumber: $('#MobileNumber').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),

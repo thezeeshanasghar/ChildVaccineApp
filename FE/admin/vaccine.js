@@ -46,6 +46,9 @@ function Add() {
     if (res == false) {
         return false;
     }
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
+   
     var obj = {
         Name: $('#Name').val(),
         MinAge: $('#MinAge').val(),
@@ -60,6 +63,9 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                $("#btnAdd").prop('disabled', false);
+                $("#btnAdd").button('reset');
+                
             }
             else {
                 loadData();
@@ -67,6 +73,9 @@ function Add() {
             }
         },
         error: function (errormessage) {
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
+          
             alert(errormessage.responseText);
         }
     });
@@ -108,6 +117,8 @@ function Update() {
     if (res == false) {
         return false;
     }
+    $("#btnUpdate").button('loading');
+    $("#btnUpdate").prop('disabled', true);
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
@@ -123,9 +134,13 @@ function Update() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                $("#btnUpdate").prop('disabled', false);
+                $("#btnUpdate").button('reset');
             }
             else {
                 loadData();
+                $("#btnUpdate").prop('disabled', false);
+                $("#btnUpdate").button('reset');
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#Name').val("");

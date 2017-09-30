@@ -34,7 +34,10 @@ function Add() {
     var res = validate();
     if (res == false) {
         return false;
-    }
+		}
+		$("#btnAddClinic").button('loading');
+        $("#btnAddClinic").prop('disabled', true);
+		
     var result = [];
     $('input[name="OffDays"]:checked').each(function () {
 
@@ -69,10 +72,16 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+			
+			$("#btnAddClinic").prop('disabled', false);
+            $("#btnAddClinic").button('reset');
+			
             ShowAlert('Registration', 'Your are successfully singup for <b>MyVacc</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>MyVacc</b><br/>Your username and password have been send to your email address', 'success');
             ScrollToTop();
         },
         error: function (errormessage) {
+			$("#btnAddClinic").prop('disabled', false);
+            $("#btnAddClinic").button('reset');
             alert(errormessage.responseText);
         }
     });
