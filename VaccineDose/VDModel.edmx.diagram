@@ -5,29 +5,32 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="487e0368e5264d0cb617af7b0defbfb0" Name="Diagram1" ZoomLevel="100">
-        <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="7.5" PointY="9.625" />
-        <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="5.25" PointY="12.875" />
-        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="6.75" />
-        <EntityTypeShape EntityType="VDModel.DoctorSchedule" Width="1.5" PointX="5.25" PointY="4.5" />
-        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="3" PointY="3.375" />
-        <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="9.75" PointY="10.25" />
-        <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="0.75" PointY="7.5" />
-        <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="VDModel.VaccineBrand" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="VDModel.VaccineInventory" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="VDModel.Brand" Width="1.5" PointX="3" PointY="10.25" />
+        <EntityTypeShape EntityType="VDModel.BrandAmount" Width="1.5" PointX="5.25" PointY="13.25" />
+        <EntityTypeShape EntityType="VDModel.BrandInventory" Width="1.5" PointX="8.25" PointY="18.25" />
+        <EntityTypeShape EntityType="VDModel.Child" Width="1.5" PointX="7.5" PointY="12.375" />
+        <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="5.25" PointY="16.5" />
+        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="13.25" />
+        <EntityTypeShape EntityType="VDModel.DoctorSchedule" Width="1.5" PointX="5.25" PointY="10.25" />
+        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="7.5" PointY="6.25" />
+        <EntityTypeShape EntityType="VDModel.Message" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="9.75" PointY="12.875" />
+        <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="5.25" PointY="6.375" />
+        <AssociationConnector Association="VDModel.FK_Brand_Vaccine" />
+        <AssociationConnector Association="VDModel.FK_BrandAmount_Brand" />
+        <AssociationConnector Association="VDModel.FK_BrandInventory_Brand" />
+        <AssociationConnector Association="VDModel.FK_BrandAmount_Doctor" />
+        <AssociationConnector Association="VDModel.FK_BrandInventory_Doctor" />
         <AssociationConnector Association="VDModel.FK_Child_Clinic" />
         <AssociationConnector Association="VDModel.FK_Child_User" />
         <AssociationConnector Association="VDModel.FK_Schedule_Child" />
         <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
         <AssociationConnector Association="VDModel.FK_Doctor_User" />
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Doctor" />
-        <AssociationConnector Association="VDModel.FK_VaccineInventory_Doctor" />
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
         <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
-        <AssociationConnector Association="VDModel.FK_VaccineBrand_Vaccine" />
-        <AssociationConnector Association="VDModel.FK_VaccineInventory_Vaccine" />
-        <EntityTypeShape EntityType="VDModel.Message" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
