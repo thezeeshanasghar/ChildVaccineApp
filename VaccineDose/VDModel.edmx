@@ -14,6 +14,7 @@
           <Property Name="FatherName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="StreetAddress" Type="nvarchar" MaxLength="50" />
           <Property Name="Gender" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PreferredDayOfReminder" Type="int" />
           <Property Name="City" Type="nvarchar" MaxLength="50" />
@@ -73,6 +74,15 @@
           <Property Name="VaccineID" Type="int" Nullable="false" />
           <Property Name="GapInDays" Type="int" />
           <Property Name="DoseOrder" Type="int" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MobileNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SMS" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Schedule">
           <Key>
@@ -274,6 +284,7 @@
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorSchedule" EntityType="Self.DoctorSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dose" EntityType="Self.Dose" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vaccine" EntityType="Self.Vaccine" Schema="dbo" store:Type="Tables" />
@@ -391,6 +402,7 @@
             <End Role="Vaccine" EntitySet="Vaccines" />
             <End Role="VaccineInventory" EntitySet="VaccineInventories" />
           </AssociationSet>
+          <EntitySet Name="Messages" EntityType="VDModel.Message" />
         </EntityContainer>
         <EntityType Name="Child">
           <Key>
@@ -413,6 +425,7 @@
           <NavigationProperty Name="Clinic" Relationship="VDModel.FK_Child_Clinic" FromRole="Child" ToRole="Clinic" />
           <NavigationProperty Name="User" Relationship="VDModel.FK_Child_User" FromRole="Child" ToRole="User" />
           <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
+          <Property Name="StreetAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Clinic">
           <Key>
@@ -679,6 +692,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SMS" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -688,6 +710,7 @@
           <EntitySetMapping Name="Children">
             <EntityTypeMapping TypeName="VDModel.Child">
               <MappingFragment StoreEntitySet="Child">
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
                 <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
@@ -810,6 +833,16 @@
                 <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
                 <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="VDModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SMS" ColumnName="SMS" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -255,12 +255,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Message.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Model\ChangePasswordRequestDTO.cs" />
     <Compile Include="Model\ChildDTO.cs" />
     <Compile Include="Model\DoctorScheduleDTO.cs" />
+    <Compile Include="Model\MessageDTO.cs" />
     <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />

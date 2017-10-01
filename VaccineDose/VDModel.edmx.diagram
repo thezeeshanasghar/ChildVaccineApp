@@ -27,6 +27,7 @@
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
         <AssociationConnector Association="VDModel.FK_VaccineBrand_Vaccine" />
         <AssociationConnector Association="VDModel.FK_VaccineInventory_Vaccine" />
+        <EntityTypeShape EntityType="VDModel.Message" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

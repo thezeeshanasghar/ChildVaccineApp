@@ -19,7 +19,7 @@ namespace VaccineDose
                     config.CreateMap<DoctorSchedule, DoctorScheduleDTO>().ReverseMap();
                     config.CreateMap<VaccineInventory, VaccineInventoryDTO>().ReverseMap();
                     config.CreateMap<VaccineBrand, VaccineBrandDTO>().ReverseMap();
-
+                    config.CreateMap<Message, MessageDTO>().ReverseMap();
 
                     //Mapper.CreateMap<Source, Destination>().ForMember(dest => dest.SomePropToIgnore, opt => opt.Ignore())
                 });

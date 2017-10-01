@@ -82,8 +82,17 @@ namespace VaccineDose.Controllers
                         entities.Schedules.Add(cvd);
                         entities.SaveChanges();
                     }
-
-                    UserEmail.ParentEmail(entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault());
+                    Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
+                    UserEmail.ParentEmail(c);
+                    
+                    // generate SMS and save it to the db
+                    string sms = UserEmail.ParentSMS(c);
+                    Message m = new Message();
+                    m.MobileNumber = c.User.MobileNumber;
+                    m.SMS = sms;
+                    m.Status = "PENDING";
+                    entities.Messages.Add(m);
+                    // 
 
                     return new Response<ChildDTO>(true, null, childDTO);
                 }

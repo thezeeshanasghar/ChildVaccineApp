@@ -34,6 +34,7 @@ namespace VaccineDose
         public Nullable<bool> IsVerified { get; set; }
         public int ClinicID { get; set; }
         public int UserID { get; set; }
+        public string StreetAddress { get; set; }
     
         public virtual Clinic Clinic { get; set; }
         public virtual User User { get; set; }

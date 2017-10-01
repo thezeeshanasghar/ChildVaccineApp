@@ -1,31 +1,32 @@
-﻿using System.Net;
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
-
+using VaccineDose.Model;
+using System.Linq;
 
 namespace VaccineDose.Controllers
 {
-    public class MessageController : ApiController
+    public class MessageController : BaseController
     {
-        // GET: Message
         public HttpResponseMessage Get()
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(
-                @"03465430413,Respected Parent's
-Your Son Harib has been registered at Clinic G-10
-ID: 3465430413
-Password: 0778
-Clinic Phone Number 03465430414
-Doctor Phone Number: 03465430413
-@
-03335196658,Respected Parent's
-Your Son Harib has been registered at Clinic G-10
-ID: 3465430413
-Password: 0778
-Clinic Phone Number 03465430414
-Doctor Phone Number: 03465430413");
+
+            using (VDConnectionString entities = new VDConnectionString())
+            {
+                var dbSMS = entities.Messages.Where(x => x.Status == "PENDING").ToList();
+                if (dbSMS.Count > 0)
+                {
+                    string SMS = "";
+                    foreach (var sms in dbSMS)
+                        SMS += sms.MobileNumber + "," + sms.SMS + "@";
+                    response.Content = new StringContent(SMS);
+                }
+            }
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
             return response;
 
