@@ -17,9 +17,8 @@ namespace VaccineDose
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vaccine()
         {
+            this.Brands = new HashSet<Brand>();
             this.Doses = new HashSet<Dose>();
-            this.VaccineBrands = new HashSet<VaccineBrand>();
-            this.VaccineInventories = new HashSet<VaccineInventory>();
         }
     
         public int ID { get; set; }
@@ -28,10 +27,8 @@ namespace VaccineDose
         public Nullable<int> MaxAge { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Brand> Brands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dose> Doses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VaccineBrand> VaccineBrands { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VaccineInventory> VaccineInventories { get; set; }
     }
 }

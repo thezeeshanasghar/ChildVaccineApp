@@ -7,31 +7,31 @@ using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
-    public class VaccineInventoryController : BaseController
+    public class BrandInventoryController : BaseController
     {
         #region C R U D
 
-        public Response<List<VaccineInventoryDTO>> Get(int Id)
+        public Response<List<BrandInventoryDTO>> Get(int Id)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
 
-                    List<VaccineInventory> vaccineInventoryDBs = entities.VaccineInventories.Include("Vaccine").Include("Doctor").Where(x => x.DoctorID == Id).ToList();
+                    List<BrandInventory> vaccineInventoryDBs = entities.BrandInventories.Include("Vaccine").Include("Doctor").Where(x => x.DoctorID == Id).ToList();
                     if (vaccineInventoryDBs == null || vaccineInventoryDBs.Count() == 0)
-                        return new Response<List<VaccineInventoryDTO>>(false, "inventory not found", null);
+                        return new Response<List<BrandInventoryDTO>>(false, "inventory not found", null);
 
-                    List<VaccineInventoryDTO> VaccineInventoryDTOs = Mapper.Map<List<VaccineInventoryDTO>>(vaccineInventoryDBs);
-                    return new Response<List<VaccineInventoryDTO>>(true, null, VaccineInventoryDTOs);
+                    List<BrandInventoryDTO> VaccineInventoryDTOs = Mapper.Map<List<BrandInventoryDTO>>(vaccineInventoryDBs);
+                    return new Response<List<BrandInventoryDTO>>(true, null, VaccineInventoryDTOs);
                 }
             }
             catch (Exception e)
             {
-                return new Response<List<VaccineInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<List<BrandInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
             }
         }
-        public Response<IEnumerable<VaccineInventoryDTO>> Post(IEnumerable<VaccineInventoryDTO> vaccineInventoryDTOs)
+        public Response<IEnumerable<BrandInventoryDTO>> Post(IEnumerable<BrandInventoryDTO> vaccineInventoryDTOs)
         {
             try
             {
@@ -40,23 +40,23 @@ namespace VaccineDose.Controllers
                 {
                     foreach (var vaccineInventoryDTO in vaccineInventoryDTOs)
                     {
-                        VaccineInventory vaccineInventoryDB = Mapper.Map<VaccineInventory>(vaccineInventoryDTO);
-                        entities.VaccineInventories.Add(vaccineInventoryDB);
+                        BrandInventory vaccineInventoryDB = Mapper.Map<BrandInventory>(vaccineInventoryDTO);
+                        entities.BrandInventories.Add(vaccineInventoryDB);
                         entities.SaveChanges();
                         vaccineInventoryDTO.ID = vaccineInventoryDB.ID;
                     }
 
-                    return new Response<IEnumerable<VaccineInventoryDTO>>(true, null, vaccineInventoryDTOs);
+                    return new Response<IEnumerable<BrandInventoryDTO>>(true, null, vaccineInventoryDTOs);
 
                 }
             }
             catch (Exception e)
             {
-                return new Response<IEnumerable<VaccineInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<IEnumerable<BrandInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
 
             }
         }
-        public Response<List<VaccineInventoryDTO>> Put([FromBody] List<VaccineInventoryDTO> vaccineInventoryDTOs)
+        public Response<List<BrandInventoryDTO>> Put([FromBody] List<BrandInventoryDTO> vaccineInventoryDTOs)
         {
             try
             {
@@ -64,18 +64,18 @@ namespace VaccineDose.Controllers
                 {
                     foreach(var vaccineInventoryDTO in vaccineInventoryDTOs)
                     {
-                        var vaccineInventoryDB = entities.VaccineInventories.Where(c => c.ID == vaccineInventoryDTO.ID).FirstOrDefault();
+                        var vaccineInventoryDB = entities.BrandInventories.Where(c => c.ID == vaccineInventoryDTO.ID).FirstOrDefault();
                         vaccineInventoryDB.Count = vaccineInventoryDTO.Count;
                         entities.SaveChanges();
                     }
                     
 
-                    return new Response<List<VaccineInventoryDTO>>(true, null, vaccineInventoryDTOs);
+                    return new Response<List<BrandInventoryDTO>>(true, null, vaccineInventoryDTOs);
                 }
             }
             catch (Exception e)
             {
-                return new Response<List<VaccineInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
+                return new Response<List<BrandInventoryDTO>>(false, GetMessageFromExceptionObject(e), null);
             }
         }
 
@@ -85,8 +85,8 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbVaccineInventory = entities.VaccineInventories.Where(c => c.ID == Id).FirstOrDefault();
-                    entities.VaccineInventories.Remove(dbVaccineInventory);
+                    var dbVaccineInventory = entities.BrandInventories.Where(c => c.ID == Id).FirstOrDefault();
+                    entities.BrandInventories.Remove(dbVaccineInventory);
                     entities.SaveChanges();
                     return new Response<string>(true, null, "record deleted");
                 }

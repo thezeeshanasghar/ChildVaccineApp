@@ -98,7 +98,7 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
-                    if (dbVaccine.VaccineBrands.Count > 0)
+                    if (dbVaccine.Brands.Count > 0)
                          return new Response<string>(false, "Cannot delete vaccine because it's brands exists. Delete the brands first", null);
                     entities.Vaccines.Remove(dbVaccine);
                     entities.SaveChanges();
@@ -143,7 +143,7 @@ namespace VaccineDose.Controllers
         }
 
         [Route("api/vaccine/{id}/brands")]
-        public Response<IEnumerable<VaccineBrandDTO>> GetBrands(int id)
+        public Response<IEnumerable<BrandDTO>> GetBrands(int id)
         {
             try
             {
@@ -151,18 +151,18 @@ namespace VaccineDose.Controllers
                 {
                     var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
                     if (vaccine == null)
-                        return new Response<IEnumerable<VaccineBrandDTO>>(false, "Vaccine not found", null);
+                        return new Response<IEnumerable<BrandDTO>>(false, "Vaccine not found", null);
                     else
                     {
-                        var dbBrands = vaccine.VaccineBrands.ToList();
-                        var vaccineBrandDTOs = Mapper.Map<List<VaccineBrandDTO>>(dbBrands);
-                        return new Response<IEnumerable<VaccineBrandDTO>>(true, null, vaccineBrandDTOs);
+                        var dbBrands = vaccine.Brands.ToList();
+                        var vaccineBrandDTOs = Mapper.Map<List<BrandDTO>>(dbBrands);
+                        return new Response<IEnumerable<BrandDTO>>(true, null, vaccineBrandDTOs);
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new Response<IEnumerable<VaccineBrandDTO>>(false, GetMessageFromExceptionObject(ex), null);
+                return new Response<IEnumerable<BrandDTO>>(false, GetMessageFromExceptionObject(ex), null);
 
             }
         }
