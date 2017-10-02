@@ -43,9 +43,9 @@ INSERT INTO Dose (Name, VaccineID) VALUES
 ('ROTARIX # 2', (SELECT ID FROM Vaccine WHERE Name='ROTARIX'));
 GO
 
-INSERT INTO [User] (MobileNumber, [Password], UserType) VALUES
-('923331231231','1234','SUPERADMIN'),
-('923335196658','0431','DOCTOR');
+INSERT INTO [User] (MobileNumber, [Password], UserType, CountryCode) VALUES
+('3331231231','1234','SUPERADMIN','92'),
+('3335196658','0431','DOCTOR','92');
 GO
 
 INSERT [dbo].[Doctor] ([FirstName], [LastName], [Email], [PMDC], [IsApproved], [ShowPhone], [ShowMobile], [PhoneNo],[UserID]) 
