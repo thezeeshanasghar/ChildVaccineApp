@@ -24,10 +24,10 @@ function loadData() {
                     html += '<td>' + getUserAge(item.MinAge) + '</td>';
                     html += '<td>' + getUserAge(item.MaxAge) + '</td>';
                     html += '<td>' +
-                          '<a href="vaccine-brand.html?id=' + item.ID + '">Brands</a> | ' +
+                          '<a id="btnBrand" href="vaccine-brand.html?id=' + item.ID + '">Brands</a> | ' +
                         '<a href="dose.html?id=' + item.ID + '">Doses</a> | ' +
-                        '<a href="#" onclick="return getbyID(' + item.ID + ')">  <span class="glyphicon glyphicon-pencil"></span></a> | ' +
-                        '<a href="#" onclick="Delele(' + item.ID + ')"> <span class="glyphicon glyphicon-trash"></span></a></td>';
+                        '<a href="#" id="btnEdit" onclick="return getbyID(' + item.ID + ')">  <span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a href="#" id="btnDelete"  onclick="Delele(' + item.ID + ')"> <span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
@@ -43,7 +43,7 @@ function loadData() {
 //Add Data Function   
 function Add() {
     var res = validate();
-    if (res == false) {
+    if (res === false) {
         return false;
     }
     $("#btnAdd").button('loading');
@@ -114,7 +114,7 @@ function getbyID(ID) {
 //function for updating record  
 function Update() {
     var res = validate();
-    if (res == false) {
+    if (res === false) {
         return false;
     }
     $("#btnUpdate").button('loading');
@@ -292,6 +292,7 @@ function getUserAge(ageNum) {
             break;
         case 486:
             day = '16 Months';
+            break;
         case 516:
             day = '17 Months';
             break;

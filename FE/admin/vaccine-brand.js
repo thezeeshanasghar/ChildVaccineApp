@@ -40,7 +40,7 @@ function loadData(id) {
 //Add Data Function   
 function Add() {
     var res = validate();
-    if (res == false) {
+    if (res === false) {
         return false;
     }
     $("#btnAdd").button('loading');
@@ -109,7 +109,7 @@ function getbyID(ID) {
 //function for updating record  
 function Update() {
     var res = validate();
-    if (res == false) {
+    if (res === false) {
         return false;
     }
     $("#btnUpdate").button('loading');
