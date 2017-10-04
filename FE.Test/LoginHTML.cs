@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+
 using System;
 
 namespace FE.Test
@@ -11,7 +12,9 @@ namespace FE.Test
     {
         [TestMethod, TestCategory("MainFlow")]
         public void AdminLogin_CorrectDetails_NavigateToIndex()
+
         {
+           
             driver.Url = baseURL + "login.html";
             driver.FindElement(By.Id("MobileNumber")).SendKeys("3331231231");
             driver.FindElement(By.Id("Password")).SendKeys("1234");
@@ -27,7 +30,14 @@ namespace FE.Test
         [TestMethod, TestCategory("MainFlow")]
         public void AdminLogin_WrongDetails_ShowError()
         {
-            
+            driver.Url = baseURL + "login.html";
+            driver.FindElement(By.Id("MobileNumber")).SendKeys("3331231231");
+            driver.FindElement(By.Id("Password")).SendKeys("12345");
+            driver.FindElement(By.Id("btnSignIn")).Click();
+            var text = (new WebDriverWait(driver, TimeSpan.FromSeconds(10))).Until(d => d.SwitchTo().Alert());
+
+            Assert.AreEqual("Invalid Mobilenumber/Password", text.Text);
+
         }
 
         [TestMethod, TestCategory("FormValidation")]
