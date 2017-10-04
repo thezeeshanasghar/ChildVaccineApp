@@ -34,5 +34,20 @@ namespace FE.Test
             driver.Dispose();
             driver.Quit();
         }
+
+        public static Func<IWebDriver, IWebElement> MyCondition(By locator)
+        {
+            return (driver) => {
+                try
+                {
+                    var ele = driver.FindElement(locator);
+                    return ele.Displayed ? ele : null;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return null;
+                }
+            };
+        }
     }
 }
