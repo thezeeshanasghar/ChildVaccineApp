@@ -59,9 +59,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="admin\BrandHTML.cs" />
-    <Compile Include="admin\VaccineHTML.cs" />
-    <Compile Include="LoginHTML.cs" />
+    <Compile Include="admin\Brand.cs" />
+    <Compile Include="admin\Vaccine.cs" />
+    <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>

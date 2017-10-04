@@ -8,9 +8,9 @@ using System;
 namespace FE.Test
 {
     [TestClass]
-    public class LoginHTML : TestBase
+    public class Login : TestBase
     {
-        [TestMethod, TestCategory("MainFlow")]
+        [TestMethod, TestCategory("HappyFlow")]
         public void AdminLogin_CorrectDetails_NavigateToIndex()
 
         {
@@ -27,20 +27,21 @@ namespace FE.Test
             Assert.IsTrue(driver.Title.Equals("Vaccs.io"));
         }
 
-        [TestMethod, TestCategory("MainFlow")]
+        [TestMethod, TestCategory("UnHappyFlow"), TestCategory("ServerSideValidation")]
         public void AdminLogin_WrongDetails_ShowError()
         {
             driver.Url = baseURL + "login.html";
             driver.FindElement(By.Id("MobileNumber")).SendKeys("3331231231");
             driver.FindElement(By.Id("Password")).SendKeys("12345");
             driver.FindElement(By.Id("btnSignIn")).Click();
-            var text = (new WebDriverWait(driver, TimeSpan.FromSeconds(10))).Until(d => d.SwitchTo().Alert());
 
-            Assert.AreEqual("Invalid Mobilenumber/Password", text.Text);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            var alert = wait.Until(d => d.SwitchTo().Alert());
 
+            Assert.AreEqual("Invalid Mobilenumber/Password", alert.Text);
         }
 
-        [TestMethod, TestCategory("FormValidation")]
+        [TestMethod, TestCategory("ClientSideValidation")]
         public void AdminLogin_WrongMobileNumber_ShowValidationError()
         {
             driver.Url = baseURL + "login.html";
