@@ -23,8 +23,8 @@ function loadData(id) {
                     html += '<td>' + (key + 1) + '</td>';
                     html += '<td>' + item.Name + '</td>';
                     html += '<td>' +
-                        '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
-                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                        '<a href="#" id="btnEditBrand" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a href="#" id="btnDeleteBrand" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);

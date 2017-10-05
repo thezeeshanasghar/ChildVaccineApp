@@ -11,9 +11,9 @@ namespace FE.Test.admin
     public class Vaccine : TestBase
     {
         WebDriverWait wait;
-        Vaccine()
+        public Vaccine()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
         }
         
         [TestMethod, TestCategory("HappyFlow")]
@@ -72,11 +72,7 @@ namespace FE.Test.admin
 
             Assert.AreEqual("Are you sure you want to delete this Record?", text.Text);
             text.Accept();
-            //if (text.Text.Equals("Are you sure you want to delete this Record?"))
-            //{
-            //    text.Accept();
-            //}
-            //Are you sure you want to delete this Record?
+          
         }
     }
 }
