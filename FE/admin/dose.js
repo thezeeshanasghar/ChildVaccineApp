@@ -25,8 +25,8 @@ function loadData(id) {
                     html += '<td>' + item.GapInDays + '</td>';
                     html += '<td>' + item.DoseOrder + '</td>';
                     html += '<td>' +
-                        '<a href="#" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
-                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                        '<a href="#" id="btnEditDose" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a href="#" id="btnDeleteDose" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
