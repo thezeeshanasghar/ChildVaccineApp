@@ -7,6 +7,9 @@ $(document).ready(function () {
         pageName = pageName[0];
     if (localStorage.getItem('UserType') == null) {
         // TODO: hide pages from anonymous user
+        if (pageName == 'brand-inventory.html') {
+            window.location.replace('/un-authorize.html');
+        }
     }
     else if (localStorage.getItem('UserType') == 'SUPERADMIN') {
         if (pageName == 'doctor-signup.html') {

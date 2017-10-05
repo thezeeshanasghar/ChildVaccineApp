@@ -94,6 +94,16 @@ namespace VaccineDose.Controllers
                     doctorDTO.ID = doctorDB.ID;
                     UserEmail.DoctorEmail(doctorDTO);
 
+                    // generate SMS and save it to the db
+                    string sms = UserEmail.DoctorSMS(doctorDTO);
+                    Message m = new Message();
+                    m.MobileNumber = doctorDTO.MobileNumber;
+                    m.SMS = sms;
+                    m.Status = "PENDING";
+                    entities.Messages.Add(m);
+                    entities.SaveChanges();
+                    // 
+
                     // 4- check if clinicDto exsist; then save clinic as well
                     if (doctorDTO.ClinicDTO != null && !String.IsNullOrEmpty(doctorDTO.ClinicDTO.Name))
                     {
@@ -170,6 +180,25 @@ namespace VaccineDose.Controllers
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     dbDoctor.IsApproved = true;
                     entities.SaveChanges();
+
+                    // add default schedule of doctor
+                    var vaccines = entities.Vaccines.ToList();
+                    foreach(var vaccine in vaccines)
+                    {
+                        var doses = vaccine.Doses;
+                        foreach (var dose in doses)
+                        {
+                            DoctorSchedule ds = new DoctorSchedule();
+                            ds.DoctorID = dbDoctor.ID;
+                            ds.DoseID = dose.ID;
+                            ds.GapInDays = 0;
+                            entities.DoctorSchedules.Add(ds);
+                            entities.SaveChanges();
+                        }
+                    }
+                    
+                    
+
                     return new Response<string>(true, null, "approved");
                 }
             }

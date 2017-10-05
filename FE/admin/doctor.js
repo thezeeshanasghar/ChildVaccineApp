@@ -91,7 +91,7 @@ function openCalender(doctorId,index,validUpTO) {
 
     $(".validUpto_" + index).datepicker()
          .on('changeDate', function (e) {
-             obj.ValidUpto = e.date;
+             obj.ValidUpto = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
              $.ajax({
                  url: SERVER + "doctor/" + obj.ID + "/validUpto",
                  data: JSON.stringify(obj),

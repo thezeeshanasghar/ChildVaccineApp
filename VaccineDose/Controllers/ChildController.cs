@@ -92,6 +92,7 @@ namespace VaccineDose.Controllers
                     m.SMS = sms;
                     m.Status = "PENDING";
                     entities.Messages.Add(m);
+                    entities.SaveChanges();
                     // 
 
                     return new Response<ChildDTO>(true, null, childDTO);

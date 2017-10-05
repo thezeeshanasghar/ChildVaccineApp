@@ -28,7 +28,7 @@ namespace VaccineDose
 
         public static string ParentSMS(Child child)
         {
-            string body = "Respected Parent,\n";
+            string body = "Respected Parent\n";
             if (child.Gender == "Boy")
                 body += "Your Son " + child.Name;
 
@@ -75,7 +75,7 @@ namespace VaccineDose
         #region Child SMS and Email
         public static string DoctorSMS(DoctorDTO doctor)
         {
-            string body = "Hi " + doctor.FirstName + " " + doctor.LastName + ", \n"
+            string body = "Hi " + doctor.FirstName + " " + doctor.LastName + " \n"
                 + "You are succesfully registered in MyVaccs.\n\n"
                 + "Your accounter credentials are: \n"
                 + "ID/Mobile Number: " + doctor.MobileNumber + "\n"
