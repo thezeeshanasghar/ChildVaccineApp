@@ -75,6 +75,7 @@ function SetMainNav() {
         markup += '     <a href="/changed-password.html">Change Password</a>';
         markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
         markup += '     <a href="/doctor/brand-inventory.html">Brand Inventory</a>';
+        markup += '     <a href="/doctor/brand-amount.html">Brand Amount</a>';
         markup += '     <a href="#" onclick="return logout()">Logout</a>';
         markup += '</div>';
     } else if (UserType == 'PARENT') {
