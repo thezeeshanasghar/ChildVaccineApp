@@ -13,16 +13,18 @@ namespace FE.Test
         protected IWebDriver driver;
         //protected string baseURL = "http://www.vac.afz-sol.com/";
         protected string baseURL = "http://localhost:8080/";
-
-        [TestInitialize]
-        public void SetupTest()
+        public TestBase()
         {
             driver = new ChromeDriver();
-
             //FirefoxDriverService service = FirefoxDriverService.CreateDefaultService();
             //service.FirefoxBinaryPath = @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe";
             //driver = new FirefoxDriver();
+        }
+        [TestInitialize]
+        public void SetupTest()
+        {
 
+            
             driver.Manage().Window.Maximize();
             //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
