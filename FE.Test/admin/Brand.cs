@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace FE.Test.admin
 {
     [TestClass]
-    public class BrandHTML:TestBase
+    public class Brand:TestBase
     {
         [TestMethod, TestCategory("Brand")]
         public void Add_Brand_Success()
