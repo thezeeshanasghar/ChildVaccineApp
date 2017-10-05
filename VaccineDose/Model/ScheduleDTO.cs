@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using VaccineDose.Model;
 
 namespace VaccineDose
 {
@@ -23,6 +24,9 @@ namespace VaccineDose
         public DoseDTO Dose { get; set; }
 
         public virtual ChildDTO Child { get; set; }
+
+        public List<BrandDTO> Brands { get; set; }
+
 
     }
 }
