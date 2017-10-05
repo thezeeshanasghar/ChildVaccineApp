@@ -49,7 +49,7 @@ INSERT INTO [User] (MobileNumber, [Password], UserType, CountryCode) VALUES
 GO
 
 INSERT [dbo].[Doctor] ([FirstName], [LastName], [Email], [PMDC], [IsApproved], [ShowPhone], [ShowMobile], [PhoneNo],[UserID]) 
-VALUES (N'Salman', N'Bajwa', N'salmanbajwa777@gmail.com', N'12345-p', 1, 1, 1, N'03335196658',(select Id from [User] where MobileNumber = '923335196658'))
+VALUES (N'Salman', N'Bajwa', N'salmanbajwa777@gmail.com', N'12345-p', 1, 1, 1, N'03335196658',(select Id from [User] where MobileNumber = '3335196658'))
 GO
 INSERT [dbo].[Clinic] ([Name], [OffDays], [StartTime], [EndTime], [Lat], [Long], [DoctorID], [PhoneNumber], [IsOnline])
 VALUES (N'KIDS & FAMILY clinic', N'Sunday', CAST(N'19:30:00' AS Time), CAST(N'22:00:00' AS Time), 33.590258458777022, 73.133164149047843, 
