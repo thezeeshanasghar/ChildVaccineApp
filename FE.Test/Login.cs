@@ -41,7 +41,7 @@ namespace FE.Test
             Assert.AreEqual("Invalid Mobilenumber/Password", alert.Text);
         }
 
-        [TestMethod, TestCategory("ClientSideValidation")]
+        [TestMethod, TestCategory("UnHappyFlow"), TestCategory("ClientSideValidation")]
         public void AdminLogin_WrongMobileNumber_ShowValidationError()
         {
             driver.Url = baseURL + "login.html";
