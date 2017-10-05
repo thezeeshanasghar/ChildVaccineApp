@@ -18,7 +18,7 @@ function loadData(id) {
 
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-                
+
             }
             else {
                 var html = '';
@@ -75,6 +75,7 @@ function loadData(id) {
 }
 function getbyID(ID) {
     $("#ID").val(ID);
+    var html = '';
     $.ajax({
         url: SERVER + "schedule/" + ID,
         typr: "GET",
@@ -85,11 +86,33 @@ function getbyID(ID) {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                $("#Weight").val(result.ResponseData.Weight),
-                $("#Height").val(result.ResponseData.Height),
-                $("#Circumference").val(result.ResponseData.Circle),
-                $("#Brand").val(result.ResponseData.Brand)
+                
+                $("#Weight").val(result.ResponseData.Weight);
+                $("#Height").val(result.ResponseData.Height);
+                $("#Circumference").val(result.ResponseData.Circle);
 
+                if (result.ResponseData.IsDone) {
+                    $("#Weight").prop('readonly', true);
+                    $("#Height").prop('readonly', true);
+                    $("#Circumference").prop('readonly', true);
+                }
+                else {
+                    $("#Weight").prop('readonly', false);
+                    $("#Height").prop('readonly', false);
+                    $("#Circumference").prop('readonly', false);
+                    }
+                //show vaccine brands
+                var selectedAttribute = ' selected = "selected"';
+                html = '<select id="Brand" class="form-control" name="Brand" >';
+                html += '<option value="">-- Select Brand --</option>';
+                $.each(result.ResponseData.Brands, function (key, item) {
+                   
+                    html += '<option value=' + item.Name;
+                    html += (result.ResponseData.Brand) ? selectedAttribute : '';
+                    html += '>'+item.Name + '</option>';
+                });
+                html+='</select>';
+                $("#ddBrand").html(html);
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
             }
@@ -193,8 +216,8 @@ function openBulkCalender(scheduleId, date) {
 
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date.getDate() + '-' + ('0' +  (e.date.getMonth()+1) ).slice(-2) + '-' + e.date.getFullYear();
-         
+         obj.Date = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+
          $.ajax({
              url: SERVER + "schedule/update-bulk-schedule/",
              data: JSON.stringify(obj),

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
@@ -21,6 +22,10 @@ namespace VaccineDose.Controllers
                 {
                     var dbSchedule = entities.Schedules.Where(c => c.ID == Id).FirstOrDefault();
                     ScheduleDTO scheduleDTOs = Mapper.Map<ScheduleDTO>(dbSchedule);
+                    int vaccineId = dbSchedule.Dose.VaccineID;
+                    var dbBrands = entities.Brands.Where(b => b.VaccineID == vaccineId).ToList();
+                    List<BrandDTO> brandDTOs = Mapper.Map<List<BrandDTO>>(dbBrands);
+                    scheduleDTOs.Brands = brandDTOs;
                     return new Response<ScheduleDTO>(true, null, scheduleDTOs);
                 }
             }
