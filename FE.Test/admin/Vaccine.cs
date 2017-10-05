@@ -16,7 +16,7 @@ namespace FE.Test.admin
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
         }
         
-        [TestMethod, TestCategory("HappyFlow")]
+        [TestMethod, TestCategory("HappyFlow"), TestCategory("Vaccine")]
         public void AddVaccine_CorrectDetails_VaccineAdded()
         {
             var MinAge = "6";
@@ -42,7 +42,7 @@ namespace FE.Test.admin
             Assert.AreEqual(tds[3].Text, "7 Weeks");
         }
 
-        [TestMethod, TestCategory("HappyFlow")]
+        [TestMethod, TestCategory("HappyFlow"), TestCategory("Vaccine")]
         public void UpdateVaccine_CorrectDetails_VaccineUpdated()
         {
             driver.Url = baseURL + "admin/vaccine.html"; ;
@@ -62,7 +62,7 @@ namespace FE.Test.admin
             Assert.IsTrue(row1[3].Text.Equals("7 Weeks"));
         }
 
-        [TestMethod, TestCategory("HappyFlow")]
+        [TestMethod, TestCategory("HappyFlow"), TestCategory("Vaccine")]
         public void DeleteVaccine_CorrectDetails_VaccineDeleted()
         {
             driver.Url = baseURL + "admin/vaccine.html"; ;
