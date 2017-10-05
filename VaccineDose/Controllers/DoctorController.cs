@@ -181,10 +181,11 @@ namespace VaccineDose.Controllers
                     dbDoctor.IsApproved = true;
                     entities.SaveChanges();
 
-                    // add default schedule of doctor
+                    
                     var vaccines = entities.Vaccines.ToList();
-                    foreach(var vaccine in vaccines)
+                    foreach (var vaccine in vaccines)
                     {
+                        // add default schedule of doctor
                         var doses = vaccine.Doses;
                         foreach (var dose in doses)
                         {
@@ -195,9 +196,24 @@ namespace VaccineDose.Controllers
                             entities.DoctorSchedules.Add(ds);
                             entities.SaveChanges();
                         }
+                        // add default brands amount and inventory count of doctor
+                        var brands = vaccine.Brands;
+                        foreach (var brand in brands)
+                        {
+                            BrandAmount ba = new BrandAmount();
+                            ba.Amount = 0;
+                            ba.DoctorID = dbDoctor.ID;
+                            ba.BrandID = brand.ID;
+                            entities.BrandAmounts.Add(ba);
+                            
+                            BrandInventory bi = new BrandInventory();
+                            bi.Count = 0;
+                            bi.DoctorID = dbDoctor.ID;
+                            bi.BrandID = brand.ID;
+                            entities.BrandInventories.Add(bi);
+                            entities.SaveChanges();
+                        }
                     }
-                    
-                    
 
                     return new Response<string>(true, null, "approved");
                 }
