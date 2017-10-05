@@ -62,6 +62,8 @@
   <ItemGroup>
     <Content Include="admin\vaccine-brand.html" />
     <Content Include="css\font-awesome.min.css" />
+    <Content Include="doctor\brand-amount.html" />
+    <Content Include="doctor\brand-amount.js" />
     <Content Include="doctor\brand-inventory.html" />
     <Content Include="doctor\brand-inventory.js" />
     <Content Include="admin\vaccine-brand.js" />

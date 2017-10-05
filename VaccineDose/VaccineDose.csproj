@@ -239,6 +239,7 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BrandAmountController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\BrandInventoryController.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Model\BrandAmountDTO.cs" />
     <Compile Include="Model\ChangePasswordRequestDTO.cs" />
     <Compile Include="Model\ChildDTO.cs" />
     <Compile Include="Model\DoctorScheduleDTO.cs" />
