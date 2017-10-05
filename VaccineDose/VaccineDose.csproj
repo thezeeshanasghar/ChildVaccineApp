@@ -241,7 +241,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
-    <Compile Include="Controllers\VaccineInventoryController.cs" />
+    <Compile Include="Controllers\BrandInventoryController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />

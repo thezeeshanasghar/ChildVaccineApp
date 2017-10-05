@@ -99,7 +99,7 @@ namespace VaccineDose.Controllers
                 {
                     var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
                     if (dbVaccine.Brands.Count > 0)
-                         return new Response<string>(false, "Cannot delete vaccine because it's brands exists. Delete the brands first", null);
+                        return new Response<string>(false, "Cannot delete vaccine because it's brands exists. Delete the brands first", null);
                     entities.Vaccines.Remove(dbVaccine);
                     entities.SaveChanges();
                     return new Response<string>(true, null, "record deleted");
@@ -115,7 +115,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
-       
+
 
         [Route("api/vaccine/{id}/dosses")]
         public Response<IEnumerable<DoseDTO>> GetDosses(int id)
@@ -164,6 +164,26 @@ namespace VaccineDose.Controllers
             {
                 return new Response<IEnumerable<BrandDTO>>(false, GetMessageFromExceptionObject(ex), null);
 
+            }
+        }
+
+        [HttpGet]
+        [Route("api/vaccine/vaccine-with-brands")]
+
+        public Response<IEnumerable<VaccineDTO>> GetAllVaccineWithBrands()
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbVaccines = entities.Vaccines.Include("Brands").ToList();
+                    IEnumerable<VaccineDTO> vaccineDTOs = Mapper.Map<IEnumerable<VaccineDTO>>(dbVaccines);
+                    return new Response<IEnumerable<VaccineDTO>>(true, null, vaccineDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<VaccineDTO>>(false, GetMessageFromExceptionObject(e), null);
             }
         }
     }
