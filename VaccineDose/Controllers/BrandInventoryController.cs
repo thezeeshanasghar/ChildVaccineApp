@@ -18,11 +18,13 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
 
-                    List<BrandInventory> vaccineInventoryDBs = entities.BrandInventories.Include("Vaccine").Include("Doctor").Where(x => x.DoctorID == Id).ToList();
+                    List<BrandInventory> vaccineInventoryDBs = entities.BrandInventories.Include("Brand").Include("Doctor").Where(x => x.DoctorID == Id).ToList();
                     if (vaccineInventoryDBs == null || vaccineInventoryDBs.Count() == 0)
-                        return new Response<List<BrandInventoryDTO>>(false, "inventory not found", null);
+                        return new Response<List<BrandInventoryDTO>>(false, "brand inventory not found", null);
 
                     List<BrandInventoryDTO> VaccineInventoryDTOs = Mapper.Map<List<BrandInventoryDTO>>(vaccineInventoryDBs);
+                    foreach (BrandInventoryDTO brandInventoryDTO in VaccineInventoryDTOs)
+                        brandInventoryDTO.VaccineName = entities.Brands.Where(x => x.ID == brandInventoryDTO.BrandID).FirstOrDefault().Vaccine.Name;
                     return new Response<List<BrandInventoryDTO>>(true, null, VaccineInventoryDTOs);
                 }
             }
@@ -62,13 +64,13 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    foreach(var vaccineInventoryDTO in vaccineInventoryDTOs)
+                    foreach (var vaccineInventoryDTO in vaccineInventoryDTOs)
                     {
                         var vaccineInventoryDB = entities.BrandInventories.Where(c => c.ID == vaccineInventoryDTO.ID).FirstOrDefault();
                         vaccineInventoryDB.Count = vaccineInventoryDTO.Count;
                         entities.SaveChanges();
                     }
-                    
+
 
                     return new Response<List<BrandInventoryDTO>>(true, null, vaccineInventoryDTOs);
                 }
