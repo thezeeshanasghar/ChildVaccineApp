@@ -95,20 +95,22 @@ function getbyID(ID) {
                     $("#Weight").prop('readonly', true);
                     $("#Height").prop('readonly', true);
                     $("#Circumference").prop('readonly', true);
+                    $("#Brand").attr("disabled", true); 
                 }
                 else {
                     $("#Weight").prop('readonly', false);
                     $("#Height").prop('readonly', false);
                     $("#Circumference").prop('readonly', false);
-                    }
+                    $("#Brand").attr("disabled", false);
+                }
                 //show vaccine brands
                 var selectedAttribute = ' selected = "selected"';
-                html = '<select id="Brand" class="form-control" name="Brand" >';
+                html = '<select id="Brand" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
                 html += '<option value="">-- Select Brand --</option>';
                 $.each(result.ResponseData.Brands, function (key, item) {
                    
-                    html += '<option value=' + item.Name;
-                    html += (result.ResponseData.Brand) ? selectedAttribute : '';
+                    html += '<option value=' + item.ID;
+                    html += (result.ResponseData.BrandId==item.ID) ? selectedAttribute : '';
                     html += '>'+item.Name + '</option>';
                 });
                 html+='</select>';
@@ -123,13 +125,38 @@ function getbyID(ID) {
     });
     return false;
 }
+//on brand change
+function checkBrandInventory(brand) {
+    brandId = brand.value;
+    var html = '';
+     $.ajax({
+         url: SERVER + 'schedule/brandinventory-stock/' + brandId,
+        type: 'GET',
+        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
+        success: function (result) {
+            if (!result.IsSuccess) {
+                html ='<span><b style="color:red">' + result.Message + '</b></span>';
+                $("#ddBrand").append(html);
+                $('#btnUpdate').hide();
+            }
+            else {
+                $('#btnUpdate').show();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+
+        }
+    });
+}
 function Update() {
     var obj = {
         ID: $("#ID").val(),
         Weight: $("#Weight").val(),
         Height: $("#Height").val(),
         Circle: $("#Circumference").val(),
-        Brand: $("#Brand").val(),
+        BrandId: $("#Brand").val(),
         IsDone: "true",
     }
     $.ajax({
