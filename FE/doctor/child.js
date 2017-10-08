@@ -134,6 +134,8 @@ function loadData() {
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
+          
+                    html += '       <a class="btn btn-success btn-sm" href="' + SERVER + 'child/' + item.ID + '/invoice" >Generate Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
 
