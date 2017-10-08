@@ -120,7 +120,7 @@
           <Property Name="Weight" Type="float" />
           <Property Name="Height" Type="float" />
           <Property Name="Circle" Type="float" />
-          <Property Name="Brand" Type="nvarchar" MaxLength="50" />
+          <Property Name="BrandId" Type="int" />
           <Property Name="IsDone" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
@@ -286,6 +286,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Schedule_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Schedule_Child">
           <End Role="Child" Type="Self.Child" Multiplicity="1" />
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
@@ -371,6 +383,10 @@
             <End Role="Vaccine" EntitySet="Vaccine" />
             <End Role="Dose" EntitySet="Dose" />
           </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Brand" Association="Self.FK_Schedule_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
           <AssociationSet Name="FK_Schedule_Child" Association="Self.FK_Schedule_Child">
             <End Role="Child" EntitySet="Child" />
             <End Role="Schedule" EntitySet="Schedule" />
@@ -408,6 +424,10 @@
           <AssociationSet Name="FK_BrandInventory_Brand" Association="VDModel.FK_BrandInventory_Brand">
             <End Role="Brand" EntitySet="Brands" />
             <End Role="BrandInventory" EntitySet="BrandInventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Brand" Association="VDModel.FK_Schedule_Brand">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
           <AssociationSet Name="FK_BrandAmount_Doctor" Association="VDModel.FK_BrandAmount_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
@@ -464,6 +484,7 @@
           <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_Brand_Vaccine" FromRole="Brand" ToRole="Vaccine" />
           <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Brand" FromRole="Brand" ToRole="BrandAmount" />
           <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Brand" FromRole="Brand" ToRole="BrandInventory" />
+          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Brand" FromRole="Brand" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="BrandAmount">
           <Key>
@@ -591,8 +612,9 @@
           <Property Name="Weight" Type="Double" />
           <Property Name="Height" Type="Double" />
           <Property Name="Circle" Type="Double" />
-          <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BrandId" Type="Int32" />
           <Property Name="IsDone" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Brand" Relationship="VDModel.FK_Schedule_Brand" FromRole="Schedule" ToRole="Brand" />
           <NavigationProperty Name="Child" Relationship="VDModel.FK_Schedule_Child" FromRole="Schedule" ToRole="Child" />
           <NavigationProperty Name="Dose" Relationship="VDModel.FK_Schedule_Dose" FromRole="Schedule" ToRole="Dose" />
         </EntityType>
@@ -652,6 +674,18 @@
             </Principal>
             <Dependent Role="BrandInventory">
               <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Brand">
+          <End Type="VDModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="BrandId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -910,7 +944,7 @@
             <EntityTypeMapping TypeName="VDModel.Schedule">
               <MappingFragment StoreEntitySet="Schedule">
                 <ScalarProperty Name="IsDone" ColumnName="IsDone" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
                 <ScalarProperty Name="Circle" ColumnName="Circle" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />

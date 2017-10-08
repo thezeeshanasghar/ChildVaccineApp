@@ -19,6 +19,7 @@ namespace VaccineDose
         {
             this.BrandAmounts = new HashSet<BrandAmount>();
             this.BrandInventories = new HashSet<BrandInventory>();
+            this.Schedules = new HashSet<Schedule>();
         }
     
         public int ID { get; set; }
@@ -30,5 +31,7 @@ namespace VaccineDose
         public virtual ICollection<BrandAmount> BrandAmounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BrandInventory> BrandInventories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

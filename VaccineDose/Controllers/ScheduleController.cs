@@ -44,13 +44,19 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
+                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleDTO.BrandId).FirstOrDefault();
                     var dbSchedule = entities.Schedules.Where(c => c.ID == scheduleDTO.ID).FirstOrDefault();
-                    dbSchedule.Weight = scheduleDTO.Weight;
-                    dbSchedule.Height = scheduleDTO.Height;
-                    dbSchedule.Circle = scheduleDTO.Circle;
-                    dbSchedule.Brand = scheduleDTO.Brand;
-                    dbSchedule.IsDone = scheduleDTO.IsDone;
-                    entities.SaveChanges();
+                    if (dbBrandInventory.Count > 0)
+                    {
+                        dbBrandInventory.Count--;
+                        dbSchedule.Weight = scheduleDTO.Weight;
+                        dbSchedule.Height = scheduleDTO.Height;
+                        dbSchedule.Circle = scheduleDTO.Circle;
+                        dbSchedule.IsDone = scheduleDTO.IsDone;
+                        dbSchedule.BrandId = scheduleDTO.BrandId;
+                        entities.SaveChanges();
+                    }
+
                     ScheduleDTO scheduleDTOs = Mapper.Map<ScheduleDTO>(dbSchedule);
                     return new Response<ScheduleDTO>(true, null, scheduleDTOs);
                 }
@@ -191,6 +197,28 @@ namespace VaccineDose.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/schedule/brandinventory-stock/{brandId}")]
 
+        public Response<BrandInventoryDTO> checkBrandInventoryStock(int brandId)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandId).FirstOrDefault();
+                    BrandInventoryDTO brandInventoryDTO = Mapper.Map<BrandInventoryDTO>(dbBrandInventory);
+                    if (brandInventoryDTO.Count > 0)
+                         return new Response<BrandInventoryDTO>(true, null, brandInventoryDTO);
+
+                    return new Response<BrandInventoryDTO>(false, "Sorry this brand is out of stock", null);
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<BrandInventoryDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
     }
 }
