@@ -79,6 +79,28 @@
                         <h4 class="modal-title">Child Growth Chart</h4>
                     </div>
                     <div class="modal-body" id="modal-body">
+                        <!-- tabs for charts -->
+
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#childweightChartDiv">Weight</a></li>
+                            <li><a data-toggle="tab" href="#childLengthChartDiv">Length</a></li>
+                            <li><a data-toggle="tab" href="#childCercumferenceChartDiv">Cercumference</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="childweightChartDiv" class="tab-pane fade in active">
+                              <canvas id="childWeightChart"></canvas>
+                               <!-- <canvas id="myChart"></canvas>-->
+                                
+                            </div>
+                            <div id="childLengthChartDiv" class="tab-pane fade">
+                                <canvas id="childLengthChart"></canvas>
+                            </div>
+                            <div id="childCercumferenceChartDiv" class="tab-pane fade">
+                                <canvas id="childCercumferenceChart"></canvas>
+                            </div>
+                        </div>
+                        <!-- end tabs for charts -->
                       
                         <canvas id="myChart"></canvas>
                     </div>
