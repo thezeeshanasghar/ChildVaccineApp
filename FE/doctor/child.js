@@ -192,10 +192,14 @@ function GrowthChart(id) {
         }
 
     });
-
-    var chart = $("myChart");
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    var childWeightChart = $("childWeightChart");
+    var childLengthChart = $("childLengthChart");
+    var childCercumferenceChart = $("childCercumferenceChart");
+   // var chart = $("myChart");
+    var ctxWeight = document.getElementById('childWeightChart').getContext('2d');
+    var ctxLength = document.getElementById('childLengthChart').getContext('2d');
+    var ctxCercm = document.getElementById('childCercumferenceChart').getContext('2d');
+    var childWeightChart = new Chart(ctxWeight, {
         // The type of chart we want to create
         type: 'line',
 
@@ -211,15 +215,45 @@ function GrowthChart(id) {
                 data: weightArray
                 //  data: [0, 15, 25, 27, 28, 30, 33],
 
-            },
-            {
-                label: "height",
-                fill: false,
-                backgroundColor: 'rgb(100, 255, 100)',
-                borderColor: 'rgb(100, 255, 100)',
-                data: heightArray
-                // data: [0, 10, 15, 20, 24, 30, 55],
-            },
+                }
+             
+            ]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+    var childLengthChart = new Chart(ctxLength, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: dateArray,
+            datasets: [{
+                 
+                     label: "height",
+                     fill: false,
+                     backgroundColor: 'rgb(100, 255, 100)',
+                     borderColor: 'rgb(100, 255, 100)',
+                     data: heightArray
+                     // data: [0, 10, 15, 20, 24, 30, 55],
+                 }
+           
+            ]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+    var childCercumferenceChart = new Chart(ctxCercm, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: dateArray,
+            datasets: [
             {
                 label: "cercumfrance",
                 fill: false,
@@ -234,7 +268,6 @@ function GrowthChart(id) {
         // Configuration options go here
         options: {}
     });
-
     //$("#modal-body").html(html);
 
     //$("#chartModal").modal('show');

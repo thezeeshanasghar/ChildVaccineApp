@@ -103,7 +103,7 @@ function SetMainNav() {
         markup += '    <div id="navbar" class="navbar-collapse collapse">';
         markup += '        <ul class="nav navbar-nav navbar-right">';
         markup += '            <li><a href="/index.html">Home</a></li>';
-        markup += '            <li><a href="/doctor/doctor-signup.html">Doctor signup</a></li>';
+        markup += '            <li><a id="btnDoctorSignup" href="/doctor/doctor-signup.html">Doctor signup</a></li>';
         markup += '            <li id="menu-login"><a href="/login.html">Login</a></li>';
 
         markup += '        </ul>';

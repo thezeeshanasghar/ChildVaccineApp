@@ -21,9 +21,10 @@ namespace VaccineDose
         public Nullable<double> Weight { get; set; }
         public Nullable<double> Height { get; set; }
         public Nullable<double> Circle { get; set; }
-        public string Brand { get; set; }
+        public Nullable<int> BrandId { get; set; }
         public bool IsDone { get; set; }
     
+        public virtual Brand Brand { get; set; }
         public virtual Child Child { get; set; }
         public virtual Dose Dose { get; set; }
     }
