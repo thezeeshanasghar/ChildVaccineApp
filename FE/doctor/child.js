@@ -136,6 +136,8 @@ function loadData() {
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
           
                     html += '       <a class="btn btn-success btn-sm" href="' + SERVER + 'child/' + item.ID + '/invoice" >Generate Invoice</a>';
+                    html += '       <a class="btn btn-success btn-sm" onclick="openModel()"  >Follow Up</a>';
+
                     html += '   </div>';
                     html += '</div>';
 
@@ -152,7 +154,10 @@ function loadData() {
         }
     });
 }
-
+//followup static
+function openModel(){
+    $("#followUpModal").modal("show");
+}
 //function for chart modal
 function GrowthChart(id) {
 

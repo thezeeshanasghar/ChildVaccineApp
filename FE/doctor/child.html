@@ -70,6 +70,82 @@
                 </div>
             </div>
         </div>
+        <!-- followup modal -->
+        <div class="modal fade" id="followUpModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Follow Up</h4>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <!-- tabs for charts -->
+
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#followUpHistory">Follow Up History</a></li>
+                            <li><a data-toggle="tab" href="#followUpNew">New Follow Up</a></li>
+                         </ul>
+
+                        <div class="tab-content">
+                            <div id="followUpHistory" class="tab-pane fade in active">
+                                <form id="form2" role="form" data-toggle="validator">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr. No</th>
+                                                <th>Disease</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td style="width:66%;" ><b>Halitosis:- </b>The food you eat can affect your breath.</td>
+                                                <td>10-10-2017</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td style="width:66%;" ><b>Cold Sores:- </b>Most treatments for cold sores target the symptoms.</td>
+                                                <td>11-09-2017</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td style="width:66%;" ><b>Diabetes:- </b>The preferred test for diagnosing diabetes is the fasting plasma glucose (FPG) test</td>
+                                                <td>01-05-2017</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </form>
+                            </div>
+                            <div id="followUpNew" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="disease" placeholder="Enter Disease" />
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="dob-container">
+                                            <div class="input-group date">
+                                                <input type="text" id="DOB" placeholder="Enter Date" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end tabs for charts -->
+
+                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" >Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <!--  <button type="button" class="btn btn-primary">Save changes</button>-->
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- followup modal -->
     <!-- chart modal -->
         <div class="modal fade" id="chartModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
