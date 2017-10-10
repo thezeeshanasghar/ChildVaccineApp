@@ -66,7 +66,7 @@ function SetMainNav() {
         markup += '</nav>';
     } else if (UserType == 'DOCTOR') {
         markup += '<div class="btn-group btn-group-justified">';
-        markup += '     <a href="#" onclick="openNav()" class="btn btn-primary btn-lg" style="width:.35%;padding: 10px 10px;"><span class="glyphicon glyphicon-align-justify"></span></a>';
+        markup += '     <a id="openSideNav" href="#" onclick="openNav()" class="btn btn-primary btn-lg" style="width:.35%;padding: 10px 10px;"><span class="glyphicon glyphicon-align-justify"></span></a>';
         markup += '     <a href="alert.html" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-alert"></span></a>';
         markup += '     <a id="addNewChild" href="add-new-child.html" class="btn btn-primary  btn-lg"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
         markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
@@ -74,7 +74,7 @@ function SetMainNav() {
         markup += '</div>';
         markup += '<div id="mySidenav" class="sidenav">';
         markup += '     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>';
-        markup += '     <a href="/doctor/clinic.html">Clinic</a>';
+        markup += '     <a id="navBtnClinic" href="/doctor/clinic.html">Clinic</a>';
         markup += '     <a href="/changed-password.html">Change Password</a>';
         markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
         markup += '     <a href="/doctor/brand-inventory.html">Brand Inventory</a>';

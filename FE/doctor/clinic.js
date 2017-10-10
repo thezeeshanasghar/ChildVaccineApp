@@ -35,8 +35,8 @@ function loadData(id) {
                     html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
                     html += '<td>' +
                         '<a href="child.html?id=' + item.ID + '">Childs</a> | ' +
-                        '<a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> | ' +
-                        '<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                        '<a id="btnEditClinic" href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> | ' +
+                        '<a id="btnDeleteClinic" href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
                     
                 });
