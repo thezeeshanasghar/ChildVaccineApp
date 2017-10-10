@@ -328,6 +328,132 @@ namespace VaccineDose.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/child/{id}/invoice")]
+        public HttpResponseMessage GenerateInvoicePDF(int id)
+        {
+            try
+            {
+                Stream stream;
+                int amount = 0;
+                int count = 0;
+                using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
+                {
+                    var output = new MemoryStream();
+
+                    var writer = PdfWriter.GetInstance(document, output);
+                    writer.CloseStream = false;
+
+                    document.Open();
+              
+                    Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 15, Font.BOLD);
+                    Chunk chunkCols = new Chunk("My Vaccs", ColFont);
+                    document.Add(new Paragraph(chunkCols));
+
+                    document.Add(new Paragraph(""));
+
+                    document.Add(new Chunk("\n"));
+
+                    PdfPTable table = new PdfPTable(4);
+                   // table.WidthPercentage = 100;
+                    float[] widths = new float[] { 30f, 200f,150f,100f };
+                    table.HorizontalAlignment = 0;
+                    table.TotalWidth = 500f;
+                    table.LockedWidth = true;
+                    table.SetWidths(widths);
+
+                    PdfPCell countHeader = new PdfPCell(new Phrase("#"));
+                    countHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
+                    countHeader.Colspan = 1;
+                    countHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(countHeader);
+
+                    PdfPCell doseHeader = new PdfPCell(new Phrase("Dose"));
+                    doseHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
+                    doseHeader.Colspan = 1;
+                    doseHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(doseHeader);
+
+                    PdfPCell brandHeader = new PdfPCell(new Phrase("Brand"));
+                    brandHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
+                    brandHeader.Colspan = 1;
+                    brandHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(brandHeader);
+
+                    PdfPCell amountHeader = new PdfPCell(new Phrase("Price"));
+                    amountHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
+                    amountHeader.Colspan = 1;
+                    amountHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(amountHeader);
+
+                    VDConnectionString entities = new VDConnectionString();
+                    var dbSchedules = entities.Schedules.Include("Dose").Include("Brand").Where(x => x.ChildId == id).ToList();
+                    if (dbSchedules.Count != 0)
+                    {
+                        foreach (var schedule in dbSchedules)
+                        {
+                            if(schedule.Date.Date==DateTime.Today.Date && schedule.IsDone)
+                            {
+                                count++;
+                                PdfPCell countCell = new PdfPCell(new Phrase(count.ToString()));
+                                countCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                                table.AddCell(countCell);
+
+                                PdfPCell doseCell = new PdfPCell(new Phrase(schedule.Dose.Name));
+                                table.AddCell(doseCell);
+
+                                PdfPCell brandCell = new PdfPCell(new Phrase(schedule.Brand.Name));
+                                table.AddCell(brandCell);
+
+                                var brandAmounts = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId).FirstOrDefault();
+                                amount = amount + Convert.ToInt32(brandAmounts.Amount);
+                                PdfPCell amountCell = new PdfPCell(new Phrase(brandAmounts.Amount.ToString()));
+                                amountCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                                table.AddCell(amountCell);
+                            }
+                          
+                        }
+                       
+                    }
+
+                    
+                    PdfPCell totalCell = new PdfPCell(new Phrase("Total(PKR)"));
+                    totalCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    totalCell.Colspan = 3;
+                    table.AddCell(totalCell);
+
+                    PdfPCell totalAmountCell = new PdfPCell(new Phrase(amount.ToString()));
+                    totalAmountCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    totalAmountCell.Colspan = 1;
+                    table.AddCell(totalAmountCell);
+
+                    document.Add(table);
+                    document.Close();
+                    output.Seek(0, SeekOrigin.Begin);
+                    stream = output;
+                }
+                return new HttpResponseMessage
+                {
+                    Content = new StreamContent(stream)
+                    {
+                        Headers =
+                            {
+                                ContentType = new MediaTypeHeaderValue("application/pdf"),
+                                ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                                {
+                                    FileName = "myfile.pdf"
+                                }
+                            }
+                    },
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch(Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message);
+            }
+           
+        }
 
     }
 }
