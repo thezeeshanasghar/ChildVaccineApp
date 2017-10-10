@@ -34,7 +34,16 @@ $(document).ready(function () {
         $('#menu-login').hide();
     }
 });
+//capitalize first letter of name throughout the app
+$(".CapitalizeFirstLetter").keyup(function (event) {
+     $(".CapitalizeFirstLetter").css('textTransform', 'capitalize');
+    //var textBox = event.target;
+    //var start = textBox.selectionStart;
+    //var end = textBox.selectionEnd;
+    //textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+    //textBox.setSelectionRange(start, end);
 
+});
 function SetMainNav() {
     var markup = '';
 
