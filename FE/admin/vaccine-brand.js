@@ -122,21 +122,18 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            if (!result.IsSuccess) {
+            $("#btnUpdate").prop('disabled', false);
+            $("#btnUpdate").button('reset');
+
+            if (!result.IsSuccess)
                 ShowAlert('Error', result.Message, 'danger');
-               
-            }
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
                
                 $('#myModal').modal('hide');
-                $('#ID').val("");
-                $('#BrandName').val("");
                 clearTextBox();
             }
-            $("#btnUpdate").prop('disabled', false);
-            $("#btnupdate").button('reset');
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
