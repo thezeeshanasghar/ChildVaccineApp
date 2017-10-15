@@ -136,7 +136,7 @@ function loadData() {
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
           
                     html += '       <a class="btn btn-success btn-sm" href="' + SERVER + 'child/' + item.ID + '/invoice" >Generate Invoice</a>';
-                    html += '       <a class="btn btn-success btn-sm" onclick="openModel()"  >Follow Up</a>';
+                    html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
 
                     html += '   </div>';
                     html += '</div>';
@@ -155,8 +155,75 @@ function loadData() {
     });
 }
 //followup static
-function openModel(){
-    $("#followUpModal").modal("show");
+function GetFollowUpById(childId) {
+    $("#followUpID").val(childId);
+    var obj = {
+        ChildID: childId,
+        DoctorID: DoctorId()
+    }
+    $.ajax({
+        url: SERVER + 'child/followup',
+        type: 'post',
+        data: JSON.stringify(obj),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success:function(result){
+            var html = '';
+                if (!result.IsSuccess) {
+                    ShowAlert('Loading data', 'Checking for existing followups', 'info');
+                }
+                else {
+                    $.each(result.ResponseData, function (key, item) {
+                        html += '<tr>'
+                        html += '   <td>' + (key + 1) + '</td>';
+                        html += '   <td>' + item.Disease + '</td>';
+                        html += '   <td>' + item.Date + '</td>';
+                        html += '</tr>'
+                       
+                    });
+                }
+                $(".tbody").html(html);
+                $("#followUpModal").modal("show");
+                HideAlert();
+            },
+            error: function (errormessage) {
+                var ob = JSON.parse(errormessage.responseText);
+                ShowAlert('Error', ob.Message, 'danger');
+            }
+       
+        
+        });
+  
+}
+//followup static
+function AddFollowUp() {
+    var obj = {
+        Disease: $("#Disease").val(),
+        Date:    $("#Date").val(),
+        ChildID: $("#followUpID").val(),
+        DoctorID: DoctorId()
+    }
+    $.ajax({
+        url: SERVER + 'followup',
+        type: 'post',
+        data: JSON.stringify(obj),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            ShowAlert('Added', 'Follow up is successfully added', 'success');
+            $("#Disease").val("");
+            $("#Date").val("");
+            $("#followUpID").val("");
+            $("#followUpModal").modal("hide");
+         },
+        error: function (errormessage) {
+            var ob = JSON.parse(errormessage.responseText);
+            ShowAlert('Error', ob.Message, 'danger');
+        }
+     
+
+    });
+
 }
 //function for chart modal
 function GrowthChart(id) {

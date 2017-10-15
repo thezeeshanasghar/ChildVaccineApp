@@ -213,6 +213,17 @@ function GetOnlineClinicIdFromLocalStorage() {
 function GetFromLocalStorage(key) {
     return localStorage.getItem(key);
 }
+function DoctorId() {
+    var id = parseInt(getParameterByName("id")) || 0;
+    if (id != 0)
+        return id;
+    else {
+        var id = localStorage.getItem('DoctorID');
+        if (id)
+            return id;
+        else 0;
+    }
+}
 //-----------------------------------------
 
 

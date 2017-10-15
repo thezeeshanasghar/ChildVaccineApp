@@ -240,6 +240,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BrandAmountController.cs" />
+    <Compile Include="Controllers\FollowUpController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\BrandInventoryController.cs" />
@@ -262,6 +263,9 @@
     <Compile Include="Dose.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="FollowUp.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -275,6 +279,7 @@
     <Compile Include="Model\ChangePasswordRequestDTO.cs" />
     <Compile Include="Model\ChildDTO.cs" />
     <Compile Include="Model\DoctorScheduleDTO.cs" />
+    <Compile Include="Model\FollowUpDTO.cs" />
     <Compile Include="Model\MessageDTO.cs" />
     <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />

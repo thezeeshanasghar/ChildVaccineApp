@@ -22,7 +22,7 @@ namespace VaccineDose
                     config.CreateMap<Brand, BrandDTO>().ReverseMap();
                     config.CreateMap<Message, MessageDTO>().ReverseMap();
                     config.CreateMap<BrandAmount, BrandAmountDTO>().ReverseMap();
-
+                    config.CreateMap<FollowUp, FollowUpDTO>().ReverseMap();
                     //Mapper.CreateMap<Source, Destination>().ForMember(dest => dest.SomePropToIgnore, opt => opt.Ignore())
                 });
             }
