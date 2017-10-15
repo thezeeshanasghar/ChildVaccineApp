@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
@@ -455,5 +456,25 @@ namespace VaccineDose.Controllers
            
         }
 
+        [HttpPost]
+        [Route("api/child/followup")]
+        public Response<List<FollowUpDTO>> GetFollowUp(FollowUpDTO followUpDto)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbFollowUps = entities.FollowUps.Where(f => f.DoctorID == followUpDto.DoctorID && f.ChildID == followUpDto.ChildID).ToList();
+                    List<FollowUpDTO> followUpDTOs = Mapper.Map<List<FollowUpDTO>>(dbFollowUps);
+                    return new Response<List<FollowUpDTO>>(true, null, followUpDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<List<FollowUpDTO>>(false, GetMessageFromExceptionObject(e), null);
+
+            }
+
+        }
     }
 }
