@@ -134,8 +134,8 @@ function loadData() {
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
-          
-                    html += '       <a class="btn btn-success btn-sm" href="' + SERVER + 'child/' + item.ID + '/invoice" >Generate Invoice</a>';
+
+                    html += '       <a class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Generate Invoice</a>';
                     html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
 
                     html += '   </div>';
@@ -154,7 +154,43 @@ function loadData() {
         }
     });
 }
-//followup static
+
+//Generate invoice
+function OpenGenerateInvoiceModel(childId) {
+    $("#ChildId").val(childId);
+    $("#generateInvoiceModal").modal("show");
+}
+//
+function GenerateInvoice() {
+    var obj = {
+        ID: $("#ChildId").val(),
+        IsBrand: $("#IsBrand").is(':checked'),
+        IsConsultationFee: $("#IsConsultationFee").is(':checked'),
+        InvoiceDate: $("#InvoiceDate").val(),
+        DoctorID: DoctorId()
+    }
+    $.download(SERVER + 'child/invoice', obj, "POST");
+    $("#generateInvoiceModal").modal("hide");
+}
+
+
+jQuery.download = function (url, data, method) {
+    //url and data options required
+    if (url && data) {
+        //data can be string of parameters or array/object
+        data = typeof data == 'string' ? data : jQuery.param(data);
+        //split params into form inputs
+        var inputs = '';
+        jQuery.each(data.split('&'), function () {
+            var pair = this.split('=');
+            inputs += '<input type="hidden" name="' + pair[0] + '" value="' + pair[1] + '" />';
+        });
+        //send request
+        jQuery('<form action="' + url + '" method="' + (method || 'post') + '">' + inputs + '</form>')
+		.appendTo('body').submit().remove();
+    };
+};
+//followup  
 function GetFollowUpById(childId) {
     $("#followUpID").val(childId);
     var obj = {
@@ -167,39 +203,39 @@ function GetFollowUpById(childId) {
         data: JSON.stringify(obj),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
-        success:function(result){
+        success: function (result) {
             var html = '';
-                if (!result.IsSuccess) {
-                    ShowAlert('Loading data', 'Checking for existing followups', 'info');
-                }
-                else {
-                    $.each(result.ResponseData, function (key, item) {
-                        html += '<tr>'
-                        html += '   <td>' + (key + 1) + '</td>';
-                        html += '   <td>' + item.Disease + '</td>';
-                        html += '   <td>' + item.Date + '</td>';
-                        html += '</tr>'
-                       
-                    });
-                }
-                $(".tbody").html(html);
-                $("#followUpModal").modal("show");
-                HideAlert();
-            },
-            error: function (errormessage) {
-                var ob = JSON.parse(errormessage.responseText);
-                ShowAlert('Error', ob.Message, 'danger');
+            if (!result.IsSuccess) {
+                ShowAlert('Loading data', 'Checking for existing followups', 'info');
             }
-       
-        
-        });
-  
+            else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<tr>'
+                    html += '   <td>' + (key + 1) + '</td>';
+                    html += '   <td>' + item.Disease + '</td>';
+                    html += '   <td>' + item.Date + '</td>';
+                    html += '</tr>'
+
+                });
+            }
+            $(".tbody").html(html);
+            $("#followUpModal").modal("show");
+            HideAlert();
+        },
+        error: function (errormessage) {
+            var ob = JSON.parse(errormessage.responseText);
+            ShowAlert('Error', ob.Message, 'danger');
+        }
+
+
+    });
+
 }
 //followup static
 function AddFollowUp() {
     var obj = {
         Disease: $("#Disease").val(),
-        Date:    $("#Date").val(),
+        Date: $("#Date").val(),
         ChildID: $("#followUpID").val(),
         DoctorID: DoctorId()
     }
@@ -215,12 +251,12 @@ function AddFollowUp() {
             $("#Date").val("");
             $("#followUpID").val("");
             $("#followUpModal").modal("hide");
-         },
+        },
         error: function (errormessage) {
             var ob = JSON.parse(errormessage.responseText);
             ShowAlert('Error', ob.Message, 'danger');
         }
-     
+
 
     });
 
@@ -269,7 +305,7 @@ function GrowthChart(id) {
     var childWeightChart = $("childWeightChart");
     var childLengthChart = $("childLengthChart");
     var childCercumferenceChart = $("childCercumferenceChart");
-   // var chart = $("myChart");
+    // var chart = $("myChart");
     var ctxWeight = document.getElementById('childWeightChart').getContext('2d');
     var ctxLength = document.getElementById('childLengthChart').getContext('2d');
     var ctxCercm = document.getElementById('childCercumferenceChart').getContext('2d');
@@ -289,8 +325,8 @@ function GrowthChart(id) {
                 data: weightArray
                 //  data: [0, 15, 25, 27, 28, 30, 33],
 
-                }
-             
+            }
+
             ]
         },
 
@@ -305,15 +341,15 @@ function GrowthChart(id) {
         data: {
             labels: dateArray,
             datasets: [{
-                 
-                     label: "height",
-                     fill: false,
-                     backgroundColor: 'rgb(100, 255, 100)',
-                     borderColor: 'rgb(100, 255, 100)',
-                     data: heightArray
-                     // data: [0, 10, 15, 20, 24, 30, 55],
-                 }
-           
+
+                label: "height",
+                fill: false,
+                backgroundColor: 'rgb(100, 255, 100)',
+                borderColor: 'rgb(100, 255, 100)',
+                data: heightArray
+                // data: [0, 10, 15, 20, 24, 30, 55],
+            }
+
             ]
         },
 
@@ -574,3 +610,4 @@ function validate() {
     else
         return true;
 }
+ 
