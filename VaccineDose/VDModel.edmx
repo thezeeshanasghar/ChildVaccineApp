@@ -80,6 +80,8 @@
           <Property Name="PhoneNo" Type="nvarchar" MaxLength="50" />
           <Property Name="ValidUpto" Type="date" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="int" />
+          <Property Name="ConsultationFee" Type="int" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -621,6 +623,8 @@
           <NavigationProperty Name="FollowUps" Relationship="VDModel.FK__FollowUp__Doctor" FromRole="Doctor" ToRole="FollowUp" />
           <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
+          <Property Name="InvoiceNumber" Type="Int32" />
+          <Property Name="ConsultationFee" Type="Int32" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -985,6 +989,8 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ValidUpto" ColumnName="ValidUpto" />
                 <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />

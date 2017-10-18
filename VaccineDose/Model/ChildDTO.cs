@@ -24,7 +24,15 @@ namespace VaccineDose
         public bool IsEPIDone { get; set; }
         public bool IsVerified { get; set; }
         public int ClinicID { get; set; }
+        
+        //Generate invoice optional fields
+        public bool IsBrand { get; set; }
+        public bool IsConsultationFee { get; set; }
 
+        [JsonConverter(typeof(OnlyDateConverter))]
+        public DateTime InvoiceDate { get; set; }
+
+        public int DoctorID { get; set; }
 
     }
 }

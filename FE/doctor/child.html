@@ -70,6 +70,54 @@
                 </div>
             </div>
         </div>
+        <!-- Generate Invoice modal -->
+        <div class="modal fade" id="generateInvoiceModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Generate Invoice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" data-toggle="validation">
+                            <input type="text" class="form-control" id="ChildId" style="display:none" />
+
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"  id="IsBrand" name="IsBrand" required />
+                                        Add Brand
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="IsConsultationFee" name="IsConsultationFee" required />
+                                        Add Fee
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div id="InvoiceDate-container">
+                                    <div class="input-group date">
+                                        <input type="text" id="InvoiceDate" placeholder="Invoice Date" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"  class="btn btn-primary" onclick="GenerateInvoice()">Generate Invoice</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- Generate Invoice modal -->
+
         <!-- followup modal -->
         <div class="modal fade" id="followUpModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -574,7 +622,16 @@
             });
             $('#followUpDate-container .input-group.date').datepicker('update', $("#Date").val());
         });
-
+        
+        $('#generateInvoiceModal').on('shown.bs.modal', function () {
+            $('#InvoiceDate-container .input-group.date').datepicker({
+                format: 'dd-mm-yyyy',
+                todayBtn: true,
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#InvoiceDate-container .input-group.date').datepicker('update', $("#InvoiceDate").val());
+        });
         $(document).ready(function () {
             $('#TogglePreferredDayOfReminder').change(function () {
                 if ($(this).is(":checked"))
