@@ -105,8 +105,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="footer.html" />
     <Content Include="img\child.jpg" />
+    <Content Include="img\download.jpg" />
+    <Content Include="img\download.png" />
     <Content Include="img\favicon.ico" />
     <Content Include="img\female.png" />
+    <Content Include="img\images %281%29.jpg" />
+    <Content Include="img\images %282%29.jpg" />
+    <Content Include="img\images.jpg" />
     <Content Include="img\injectionEmpty.png" />
     <Content Include="img\injectionFilled.png" />
     <Content Include="img\male.png" />
