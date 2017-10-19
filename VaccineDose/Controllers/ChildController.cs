@@ -85,7 +85,7 @@ namespace VaccineDose.Controllers
                     }
                     Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
                     UserEmail.ParentEmail(c);
-                    
+
                     // generate SMS and save it to the db
                     string sms = UserEmail.ParentSMS(c);
                     Message m = new Message();
@@ -339,7 +339,7 @@ namespace VaccineDose.Controllers
                 int amount = 0;
                 int count = 0;
                 int col = 3;
-                
+                int consultaionFee = 0;
 
                 using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
                 {
@@ -349,8 +349,8 @@ namespace VaccineDose.Controllers
                     writer.CloseStream = false;
 
                     document.Open();
-              
-                    Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 25, Font.BOLD);
+                    //Page Heading
+                    Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 30, Font.BOLD);
                     Chunk chunkCols = new Chunk("My Vaccs", ColFont);
                     Paragraph chunkParagraph = new Paragraph();
                     chunkParagraph.Alignment = Element.ALIGN_CENTER;
@@ -358,145 +358,115 @@ namespace VaccineDose.Controllers
                     document.Add(chunkParagraph);
                     document.Add(new Paragraph(""));
                     document.Add(new Chunk("\n"));
-
+                    //Access db data
                     VDConnectionString entities = new VDConnectionString();
                     var dbDoctor = entities.Doctors.Where(x => x.ID == childDTO.DoctorID).FirstOrDefault();
                     dbDoctor.InvoiceNumber = (dbDoctor.InvoiceNumber > 0) ? dbDoctor.InvoiceNumber + 1 : 1;
+                    var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
+                    var dbSchedules = entities.Schedules.Include("Dose").Include("Brand").Where(x => x.ChildId == childDTO.ID).ToList();
+                    //
+                    //Table 1 for description above amounts table
+                    PdfPTable upperTable = new PdfPTable(2);
+                    float[] upperTableWidths = new float[] { 250f, 250f };
+                    upperTable.HorizontalAlignment = 0;
+                    upperTable.TotalWidth = 500f;
+                    upperTable.LockedWidth = true;
+                    // upperTable.DefaultCell.PaddingLeft = 4;
+                    upperTable.SetWidths(upperTableWidths);
 
-                    Font invoiceNumberFont = FontFactory.GetFont(FontFactory.HELVETICA, 10, Font.BOLD);
-                    Chunk invoiceNumberLable = new Chunk("Invoice#: ", invoiceNumberFont);
-                    Phrase invoicePhrase = new Phrase();
-                    invoicePhrase.Add(invoiceNumberLable);
+                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left","description"));
+                    upperTable.AddCell(CreateCell("Invoice", "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Invoice # " + dbDoctor.InvoiceNumber, "noColor", 1, "right", "description"));
 
-                    //Font invoiceNumberValueFont = FontFactory.GetFont(FontFactory.HELVETICA,10);
-                    Chunk invoiceNumberValueLable = new Chunk(dbDoctor.InvoiceNumber.ToString());
-                    Phrase invoiceNumberValuePhrase = new Phrase();
-                    invoiceNumberValuePhrase.Add(invoiceNumberValueLable);
+                    upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Date: " + DateTime.Now, "noColor", 1, "right", "description"));
 
-                    Paragraph invoiceParagraph = new Paragraph();
-                    invoiceParagraph.Add(invoicePhrase);
-                    invoiceParagraph.Add(invoiceNumberValuePhrase);
-                    document.Add(invoiceParagraph);
+                    upperTable.AddCell(CreateCell("Doctor Ph: " + dbDoctor.PhoneNo, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
-
+                 
                     if (childDTO.IsConsultationFee)
                     {
-                        Font consultationFont = FontFactory.GetFont(FontFactory.HELVETICA, 10, Font.BOLD);
-                        Chunk consaltationLable = new Chunk("Consaltation Fee: ", consultationFont);
-                        Phrase consPhrase = new Phrase();
-                        consPhrase.Add(consaltationLable);
- 
-                        Chunk consultationValueLable = new Chunk(dbDoctor.ConsultationFee.ToString());
-                        Phrase consValuePhrase = new Phrase();
-                        consValuePhrase.Add(consultationValueLable);
-
-                        Paragraph consultaionParagraph = new Paragraph();
-                        consultaionParagraph.Add(consPhrase);
-                        consultaionParagraph.Add(consValuePhrase);
-                        document.Add(consultaionParagraph);
-                       
+                        consultaionFee = (int)dbDoctor.ConsultationFee;
                     }
+                    upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
 
+                    upperTable.AddCell(CreateCell("Bill To", "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
+                    document.Add(upperTable);
                     document.Add(new Paragraph(""));
-                     document.Add(new Chunk("\n"));
+                    document.Add(new Chunk("\n"));
 
-                    float[] widths = new float[] { 30f, 200f, 100f};
+                    //2nd Table
+                    float[] widths = new float[] { 30f, 200f, 100f };
                     if (childDTO.IsBrand)
                     {
                         col = 4;
                         widths = new float[] { 30f, 200f, 150f, 100f };
-                        
                     }
-                       
+
                     PdfPTable table = new PdfPTable(col);
-                   // table.WidthPercentage = 100;
-                  
+                    // table.WidthPercentage = 100;
+
                     table.HorizontalAlignment = 0;
                     table.TotalWidth = 500f;
                     table.LockedWidth = true;
                     table.SetWidths(widths);
 
-                    PdfPCell countHeader = new PdfPCell(new Phrase("#"));
-                    countHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
-                    countHeader.Colspan = 1;
-                    countHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-                    table.AddCell(countHeader);
-
-                    PdfPCell doseHeader = new PdfPCell(new Phrase("Vaccine"));
-                    doseHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
-                    doseHeader.Colspan = 1;
-                    doseHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-                    table.AddCell(doseHeader);
+                    table.AddCell(CreateCell("#", "backgroudLightGray", 1, "center","invoiceRecords"));
+                    table.AddCell(CreateCell("Vaccine", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     if (childDTO.IsBrand)
                     {
-                        PdfPCell brandHeader = new PdfPCell(new Phrase("Brand"));
-                        brandHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
-                        brandHeader.Colspan = 1;
-                        brandHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-                        table.AddCell(brandHeader);
+                        table.AddCell(CreateCell("Brand", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     }
-                  
-
-                    PdfPCell amountHeader = new PdfPCell(new Phrase("Price"));
-                    amountHeader.BackgroundColor = GrayColor.LIGHT_GRAY;
-                    amountHeader.Colspan = 1;
-                    amountHeader.HorizontalAlignment = Element.ALIGN_CENTER;
-                    table.AddCell(amountHeader);
-
-                  
-                    var dbSchedules = entities.Schedules.Include("Dose").Include("Brand").Where(x => x.ChildId == childDTO.ID).ToList();
-                      
+                    table.AddCell(CreateCell("Price", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     if (dbSchedules.Count != 0)
                     {
-                       
+
                         foreach (var schedule in dbSchedules)
                         {
-                        
-                            if (schedule.Date.ToString("dd/MM/yyyy") == childDTO.InvoiceDate.ToString("MM/dd/yyyy") && schedule.IsDone)
+                            //date is static due to date conversion issue
+                            if (schedule.IsDone && schedule.Date.Date == DateTime.Now.Date)
                             {
                                 count++;
-                                PdfPCell countCell = new PdfPCell(new Phrase(count.ToString()));
-                                countCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                                table.AddCell(countCell);
-
-                                PdfPCell doseCell = new PdfPCell(new Phrase(schedule.Dose.Vaccine.Name));
-                                table.AddCell(doseCell);
+                                table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
+                                table.AddCell(CreateCell(schedule.Dose.Vaccine.Name, "", 1, "center", "invoiceRecords"));
                                 if (childDTO.IsBrand)
                                 {
-                                    PdfPCell brandCell = new PdfPCell(new Phrase(schedule.Brand.Name));
-                                    table.AddCell(brandCell);
+                                    table.AddCell(CreateCell(schedule.Brand.Name, "", 1, "center", "invoiceRecords"));
                                 }
                                 var brandAmounts = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId).FirstOrDefault();
                                 amount = amount + Convert.ToInt32(brandAmounts.Amount);
-                                PdfPCell amountCell = new PdfPCell(new Phrase(brandAmounts.Amount.ToString()));
-                                amountCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                                table.AddCell(amountCell);
+                                table.AddCell(CreateCell(brandAmounts.Amount.ToString(), "", 1, "right", "invoiceRecords"));
                             }
-                          
+
                         }
-                       
+
                     }
 
-                    
-                    PdfPCell totalCell = new PdfPCell(new Phrase("Total(PKR)"));
-                    totalCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                    totalCell.Colspan = col-1;
-                    table.AddCell(totalCell);
+                    table.AddCell(CreateCell("Total(PKR)", "", col - 1, "right", "invoiceRecords"));
+                  
                     //add consultancy fee
                     if (childDTO.IsConsultationFee)
                     {
                         amount = amount + (int)dbDoctor.ConsultationFee;
                     }
-                    PdfPCell totalAmountCell = new PdfPCell(new Phrase(amount.ToString()));
-                    totalAmountCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                    totalAmountCell.Colspan = 1;
-                    table.AddCell(totalAmountCell);
+                    table.AddCell(CreateCell(amount.ToString(), "", 1, "right", "invoiceRecords"));
+
                     entities.SaveChanges();
                     document.Add(table);
                     document.Close();
                     output.Seek(0, SeekOrigin.Begin);
                     stream = output;
-                    
+
                 }
                 return new HttpResponseMessage
                 {
@@ -507,18 +477,53 @@ namespace VaccineDose.Controllers
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment")
                                 {
-                                    FileName = "myfile.pdf"
+                                    FileName = "Invoice"+"_"+DateTime.Now.Ticks+".pdf"
                                 }
                             }
                     },
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message);
             }
+
+        }
+        protected PdfPCell CreateCell(string value, string color, int colpan, string alignment,string table)
+        {
+          
+            Font font = FontFactory.GetFont(FontFactory.HELVETICA,10);
+            if (color == "bold")
+            {
+                  font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+            }
            
+            PdfPCell cell = new PdfPCell(new Phrase(value, font));
+            if (color == "backgroudLightGray")
+            {
+                cell.BackgroundColor = GrayColor.LIGHT_GRAY;
+            }
+            if (alignment == "right")
+            {
+                cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            }
+            if (alignment == "left")
+            {
+                cell.HorizontalAlignment = Element.ALIGN_LEFT;
+            }
+            if (alignment == "center")
+            {
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+            }
+            cell.Colspan = colpan;
+            if (table == "description")
+            {
+                cell.Border = 0;
+                cell.Padding = 2f;
+            }
+            return cell;
+
         }
 
         [HttpPost]
