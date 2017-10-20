@@ -10,6 +10,8 @@
     [PhoneNo]    NVARCHAR (50) NULL,
     [ValidUpto] DATE NULL, 
     [UserID] INT NOT NULL, 
+    [InvoiceNumber] INT NULL, 
+    [ConsultationFee] INT NULL, 
     CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED ([ID] ASC),
 	CONSTRAINT [FK_Doctor_User] FOREIGN KEY ([UserID]) REFERENCES [dbo].[User] ([ID])
 );
