@@ -245,6 +245,11 @@ namespace VaccineDose.Controllers
                 return new Response<DoctorScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
+
+        #region PDF Methods
+        
+        //Schedule PDF 
+
         [HttpGet]
         [Route("api/child/{id}/download-pdf")]
         public HttpResponseMessage DownloadPDF(int id)
@@ -329,6 +334,8 @@ namespace VaccineDose.Controllers
             }
         }
 
+        //Invoice PDF
+
         [HttpPost]
         [Route("api/child/invoice")]
         public HttpResponseMessage GenerateInvoicePDF(ChildDTO childDTO)
@@ -337,9 +344,10 @@ namespace VaccineDose.Controllers
             {
                 Stream stream;
                 int amount = 0;
-                int count = 0;
+                int count = 1;
                 int col = 3;
                 int consultaionFee = 0;
+                string childName = "";
 
                 using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
                 {
@@ -364,6 +372,7 @@ namespace VaccineDose.Controllers
                     dbDoctor.InvoiceNumber = (dbDoctor.InvoiceNumber > 0) ? dbDoctor.InvoiceNumber + 1 : 1;
                     var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
                     var dbSchedules = entities.Schedules.Include("Dose").Include("Brand").Where(x => x.ChildId == childDTO.ID).ToList();
+                    childName = dbChild.Name;
                     //
                     //Table 1 for description above amounts table
                     PdfPTable upperTable = new PdfPTable(2);
@@ -384,18 +393,16 @@ namespace VaccineDose.Controllers
                     upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "noColor", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("Date: " + DateTime.Now, "noColor", 1, "right", "description"));
 
-                    upperTable.AddCell(CreateCell("Doctor Ph: " + dbDoctor.PhoneNo, "noColor", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
-
-                 
+                
                     if (childDTO.IsConsultationFee)
                     {
                         consultaionFee = (int)dbDoctor.ConsultationFee;
                     }
-                    upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                  //  upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("Bill To", "bold", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
@@ -428,6 +435,11 @@ namespace VaccineDose.Controllers
                         table.AddCell(CreateCell("Brand", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     }
                     table.AddCell(CreateCell("Price", "backgroudLightGray", 1, "center", "invoiceRecords"));
+                    //Rows
+                    table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
+                    //col = (col > 3) ? col - 3 : col-2;
+                    table.AddCell(CreateCell("Consultation Fee", "", col-2, "right", "invoiceRecords"));
+                    table.AddCell(CreateCell(consultaionFee.ToString(), "", 1, "right", "invoiceRecords"));
                     if (dbSchedules.Count != 0)
                     {
 
@@ -477,7 +489,7 @@ namespace VaccineDose.Controllers
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment")
                                 {
-                                    FileName = "Invoice"+"_"+DateTime.Now.Ticks+".pdf"
+                                    FileName = childName.Replace(" ","") +"_Invoice"+"_"+DateTime.Now.Date.ToString("MMMM-dd-yyyy")+".pdf"
                                 }
                             }
                     },
@@ -525,6 +537,7 @@ namespace VaccineDose.Controllers
             return cell;
 
         }
+        #endregion
 
         [HttpPost]
         [Route("api/child/followup")]
