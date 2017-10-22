@@ -254,6 +254,11 @@ namespace VaccineDose.Controllers
         [Route("api/child/{id}/download-pdf")]
         public HttpResponseMessage DownloadPDF(int id)
         {
+            Child dbScheduleChild=new Child();
+          using(VDConnectionString entities=new VDConnectionString())
+            {
+                dbScheduleChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
+            }
             var stream = CreatePdf(id);
 
             return new HttpResponseMessage
@@ -265,7 +270,7 @@ namespace VaccineDose.Controllers
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment")
                                 {
-                                    FileName = "myfile.pdf"
+                                    FileName =dbScheduleChild.Name.Replace(" ","")+"_Schedule_" +DateTime.Now.ToString("MMMM-dd-yyyy")+ ".pdf"
                                 }
                             }
                 },
@@ -274,6 +279,16 @@ namespace VaccineDose.Controllers
         }
         private Stream CreatePdf(int childId)
         {
+            //Access db data
+            VDConnectionString entities = new VDConnectionString();
+            var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childId).FirstOrDefault();
+            var dbDoctor = dbChild.Clinic.Doctor;
+            var child = entities.Children.FirstOrDefault(c => c.ID == childId);
+            var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
+            var scheduleDoses = from schedule in dbSchedules
+                                group schedule.Dose by schedule.Date into scheduleDose
+                                select new { Date = scheduleDose.Key, Doses = scheduleDose.ToList() };
+            //
             using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
             {
                 var output = new MemoryStream();
@@ -282,19 +297,45 @@ namespace VaccineDose.Controllers
                 writer.CloseStream = false;
 
                 document.Open();
-                Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 15, Font.BOLD);
+                Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 30, Font.BOLD);
                 Chunk chunkCols = new Chunk("Vaccine Schedule", ColFont);
-                document.Add(new Paragraph(chunkCols));
-                document.Add(new Paragraph(new Chunk("")));
+                Paragraph chunkParagraph = new Paragraph();
+                chunkParagraph.Alignment = Element.ALIGN_CENTER;
+                chunkParagraph.Add(chunkCols);
+                document.Add(chunkParagraph);
+                document.Add(new Paragraph(""));
+                document.Add(new Chunk("\n"));
+               
+                //Table 1 for description above Schedule table
+                PdfPTable upperTable = new PdfPTable(2);
+                float[] upperTableWidths = new float[] { 250f, 250f };
+                upperTable.HorizontalAlignment = 0;
+                upperTable.TotalWidth = 500f;
+                upperTable.LockedWidth = true;
+                upperTable.SetWidths(upperTableWidths);
+
+                upperTable.AddCell(CreateCell("Clinic", "bold", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("Patient", "bold", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("Father: "+dbChild.FatherName, "", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("Father Ph: " + dbChild.User.MobileNumber, "", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell("Doctor Ph: " + dbDoctor.PhoneNo, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                document.Add(upperTable);
+                //
+                document.Add(new Paragraph(""));
+                document.Add(new Chunk("\n"));
+                //Schedule Table
                 PdfPTable table = new PdfPTable(2);
                 table.WidthPercentage = 100;
-                VDConnectionString entities = new VDConnectionString();
 
-                var child = entities.Children.FirstOrDefault(c => c.ID == childId);
-                var dbSchedules = child.Schedules.OrderBy(x => x.Date).ToList();
-                var scheduleDoses = from schedule in dbSchedules
-                                    group schedule.Dose by schedule.Date into scheduleDose
-                                    select new { Date = scheduleDose.Key, Doses = scheduleDose.ToList() };
                 var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/img");
                 foreach (var schedule in scheduleDoses)
                 {
@@ -309,7 +350,17 @@ namespace VaccineDose.Controllers
                         cell1.Border = 0;
                         table.AddCell(cell1);
                         // add a image
-                        Image img = Image.GetInstance(imgPath + "\\injectionEmpty.png");
+                        var isDone=dose.Schedules.Where(x=>x.IsDone).FirstOrDefault();
+                        string injectionPath = "";
+                        if (isDone != null)
+                        {
+                            injectionPath = "\\injectionFilled.png";
+                        }
+                        else
+                        {
+                            injectionPath = "\\injectionEmpty.png";
+                        }
+                        Image img = Image.GetInstance(imgPath + injectionPath);
                         img.ScaleAbsolute(2f, 2f);
                         PdfPCell imageCell = new PdfPCell(img, true);
                         imageCell.PaddingBottom = 5;
