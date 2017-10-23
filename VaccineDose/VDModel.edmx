@@ -154,30 +154,6 @@
           <Property Name="MinAge" Type="int" Nullable="false" />
           <Property Name="MaxAge" Type="int" />
         </EntityType>
-        <Association Name="FK__FollowUp__Child">
-          <End Role="Child" Type="Self.Child" Multiplicity="1" />
-          <End Role="FollowUp" Type="Self.FollowUp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Child">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FollowUp">
-              <PropertyRef Name="ChildID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__FollowUp__Doctor">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="FollowUp" Type="Self.FollowUp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FollowUp">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Brand_Vaccine">
           <End Role="Vaccine" Type="Self.Vaccine" Multiplicity="1" />
           <End Role="Brand" Type="Self.Brand" Multiplicity="*" />
@@ -322,6 +298,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_FollowUp_Child">
+          <End Role="Child" Type="Self.Child" Multiplicity="1" />
+          <End Role="FollowUp" Type="Self.FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FollowUp_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="FollowUp" Type="Self.FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Schedule_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
@@ -372,14 +372,6 @@
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vaccine" EntityType="Self.Vaccine" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__FollowUp__Child" Association="Self.FK__FollowUp__Child">
-            <End Role="Child" EntitySet="Child" />
-            <End Role="FollowUp" EntitySet="FollowUp" />
-          </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__Doctor" Association="Self.FK__FollowUp__Doctor">
-            <End Role="Doctor" EntitySet="Doctor" />
-            <End Role="FollowUp" EntitySet="FollowUp" />
-          </AssociationSet>
           <AssociationSet Name="FK_Brand_Vaccine" Association="Self.FK_Brand_Vaccine">
             <End Role="Vaccine" EntitySet="Vaccine" />
             <End Role="Brand" EntitySet="Brand" />
@@ -427,6 +419,14 @@
           <AssociationSet Name="FK_Dose_Vaccine" Association="Self.FK_Dose_Vaccine">
             <End Role="Vaccine" EntitySet="Vaccine" />
             <End Role="Dose" EntitySet="Dose" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FollowUp_Child" Association="Self.FK_FollowUp_Child">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="FollowUp" EntitySet="FollowUp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FollowUp_Doctor" Association="Self.FK_FollowUp_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="FollowUp" EntitySet="FollowUp" />
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_Brand" Association="Self.FK_Schedule_Brand">
             <End Role="Brand" EntitySet="Brand" />
@@ -483,10 +483,6 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="BrandInventory" EntitySet="BrandInventories" />
           </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__Child" Association="VDModel.FK__FollowUp__Child">
-            <End Role="Child" EntitySet="Children" />
-            <End Role="FollowUp" EntitySet="FollowUps" />
-          </AssociationSet>
           <AssociationSet Name="FK_Child_Clinic" Association="VDModel.FK_Child_Clinic">
             <End Role="Clinic" EntitySet="Clinics" />
             <End Role="Child" EntitySet="Children" />
@@ -494,6 +490,10 @@
           <AssociationSet Name="FK_Child_User" Association="VDModel.FK_Child_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FollowUp_Child" Association="VDModel.FK_FollowUp_Child">
+            <End Role="Child" EntitySet="Children" />
+            <End Role="FollowUp" EntitySet="FollowUps" />
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
             <End Role="Child" EntitySet="Children" />
@@ -503,10 +503,6 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="Clinic" EntitySet="Clinics" />
           </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__Doctor" Association="VDModel.FK__FollowUp__Doctor">
-            <End Role="Doctor" EntitySet="Doctors" />
-            <End Role="FollowUp" EntitySet="FollowUps" />
-          </AssociationSet>
           <AssociationSet Name="FK_Doctor_User" Association="VDModel.FK_Doctor_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Doctor" EntitySet="Doctors" />
@@ -514,6 +510,10 @@
           <AssociationSet Name="FK_DoctorSchedule_Doctor" Association="VDModel.FK_DoctorSchedule_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FollowUp_Doctor" Association="VDModel.FK_FollowUp_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="FollowUp" EntitySet="FollowUps" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
             <End Role="Dose" EntitySet="Doses" />
@@ -580,9 +580,9 @@
           <Property Name="IsVerified" Type="Boolean" />
           <Property Name="ClinicID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK__FollowUp__Child" FromRole="Child" ToRole="FollowUp" />
           <NavigationProperty Name="Clinic" Relationship="VDModel.FK_Child_Clinic" FromRole="Child" ToRole="Clinic" />
           <NavigationProperty Name="User" Relationship="VDModel.FK_Child_User" FromRole="Child" ToRole="User" />
+          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Child" FromRole="Child" ToRole="FollowUp" />
           <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="Clinic">
@@ -617,14 +617,14 @@
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ValidUpto" Type="DateTime" Precision="0" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="Int32" />
+          <Property Name="ConsultationFee" Type="Int32" />
           <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
           <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
           <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
-          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK__FollowUp__Doctor" FromRole="Doctor" ToRole="FollowUp" />
           <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
-          <Property Name="InvoiceNumber" Type="Int32" />
-          <Property Name="ConsultationFee" Type="Int32" />
+          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -659,8 +659,8 @@
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="ChildID" Type="Int32" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Child" Relationship="VDModel.FK__FollowUp__Child" FromRole="FollowUp" ToRole="Child" />
-          <NavigationProperty Name="Doctor" Relationship="VDModel.FK__FollowUp__Doctor" FromRole="FollowUp" ToRole="Doctor" />
+          <NavigationProperty Name="Child" Relationship="VDModel.FK_FollowUp_Child" FromRole="FollowUp" ToRole="Child" />
+          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="FollowUp" ToRole="Doctor" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -783,18 +783,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FollowUp__Child">
-          <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
-          <End Type="VDModel.FollowUp" Role="FollowUp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Child">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FollowUp">
-              <PropertyRef Name="ChildID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Child_Clinic">
           <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="1" />
           <End Type="VDModel.Child" Role="Child" Multiplicity="*" />
@@ -816,6 +804,18 @@
             </Principal>
             <Dependent Role="Child">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FollowUp_Child">
+          <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
+          <End Type="VDModel.FollowUp" Role="FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="ChildID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -843,18 +843,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FollowUp__Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.FollowUp" Role="FollowUp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FollowUp">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Doctor_User">
           <End Type="VDModel.User" Role="User" Multiplicity="1" />
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="*" />
@@ -875,6 +863,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FollowUp_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.FollowUp" Role="FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FollowUp">
               <PropertyRef Name="DoctorID" />
             </Dependent>
           </ReferentialConstraint>

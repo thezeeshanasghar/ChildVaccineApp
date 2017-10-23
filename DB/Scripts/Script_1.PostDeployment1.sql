@@ -55,3 +55,12 @@ INSERT [dbo].[Clinic] ([Name], [OffDays], [StartTime], [EndTime], [Lat], [Long],
 VALUES (N'KIDS & FAMILY clinic', N'Sunday', CAST(N'19:30:00' AS Time), CAST(N'22:00:00' AS Time), 33.590258458777022, 73.133164149047843, 
  (SELECT ID FROM Doctor WHERE FirstName='Salman' AND LastName='Bajwa'), N'03335196658', 1)
 GO
+INSERT INTO dbo.Brand(Name,VaccineID) VALUES
+('BCG Brand', (SELECT ID FROM Vaccine WHERE Name='BCG')),
+('OPV Brand', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+('PENTAVALENT Brand', (SELECT ID FROM Vaccine WHERE Name='PENTAVALENT')),
+('PCV Brand', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+('IPV Brand', (SELECT ID FROM Vaccine WHERE Name='IPV')),
+('Measles Brand', (SELECT ID FROM Vaccine WHERE Name='Measles')),
+('ROTARIX Brand', (SELECT ID FROM Vaccine WHERE Name='ROTARIX'))
+GO
