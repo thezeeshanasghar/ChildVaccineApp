@@ -62,6 +62,13 @@ namespace VaccineDose.Controllers
                     entities.Vaccines.Add(vaccinedb);
                     entities.SaveChanges();
                     vaccineDTO.ID = vaccinedb.ID;
+                    //add vaccine in brand
+                    Brand dbBrand = new Brand();
+                    dbBrand.VaccineID = vaccinedb.ID;
+                    dbBrand.Name = vaccinedb.Name + " World Brand";
+                    entities.Brands.Add(dbBrand);
+                    entities.SaveChanges();
+
                     return new Response<VaccineDTO>(true, null, vaccineDTO);
 
                 }

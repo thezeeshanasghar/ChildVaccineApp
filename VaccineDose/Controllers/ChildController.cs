@@ -489,7 +489,7 @@ namespace VaccineDose.Controllers
                     //Rows
                     table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
                     //col = (col > 3) ? col - 3 : col-2;
-                    table.AddCell(CreateCell("Consultation Fee", "", col-2, "right", "invoiceRecords"));
+                    table.AddCell(CreateCell("Consultation Fee", "", col-2, "left", "invoiceRecords"));
                     table.AddCell(CreateCell(consultaionFee.ToString(), "", 1, "right", "invoiceRecords"));
                     if (dbSchedules.Count != 0)
                     {
@@ -497,7 +497,8 @@ namespace VaccineDose.Controllers
                         foreach (var schedule in dbSchedules)
                         {
                             //date is static due to date conversion issue
-                            if (schedule.IsDone && schedule.Date.Date == DateTime.Now.Date)
+                          //  && schedule.Date.Date == DateTime.Now.Date
+                            if (schedule.IsDone)
                             {
                                 count++;
                                 table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));

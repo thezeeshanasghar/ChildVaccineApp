@@ -181,7 +181,7 @@ namespace VaccineDose.Controllers
                     dbDoctor.IsApproved = true;
                     entities.SaveChanges();
 
-                    
+                    int gapInDays = 0;
                     var vaccines = entities.Vaccines.ToList();
                     foreach (var vaccine in vaccines)
                     {
@@ -192,7 +192,8 @@ namespace VaccineDose.Controllers
                             DoctorSchedule ds = new DoctorSchedule();
                             ds.DoctorID = dbDoctor.ID;
                             ds.DoseID = dose.ID;
-                            ds.GapInDays = 0;
+                            gapInDays = gapInDays + 7;
+                            ds.GapInDays = gapInDays;
                             entities.DoctorSchedules.Add(ds);
                             entities.SaveChanges();
                         }
