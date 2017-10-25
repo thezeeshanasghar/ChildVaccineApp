@@ -91,10 +91,42 @@
                             var lat = item.Lat;
                             var lng = item.Long;
                             var myLatlng = new google.maps.LatLng(lat, lng);
+                            connectionString = '<table class="table table-bordered table-hover ">';
+                            connectionString += '<thead>'
+                            connectionString += '<tr>'
+                            connectionString += '<th> Clinic' + '</th>'
+                            connectionString += '<th> Ph#' + '</th>'
+                            connectionString += '<th> Start Time' + '</th>'
+                            connectionString += '<th> End Time' + '</th>'
+                            connectionString += '<th> Doctor' + '</th>'
+                            connectionString += '<th> Doctor Email' + '</th>'
+                            connectionString += '<th> Fee' + '</th>'
+                            connectionString += '<th> Doctor Ph#' + '</th>'
+                            connectionString += '</tr></thead>'
+                            connectionString += '<tbody>';
+                            connectionString += '<tr>';
+                            connectionString += '<td>' + item.Name + '</td>';
+                            connectionString += '<td>' + item.PhoneNumber + '</td>';
+                            connectionString += '<td>' + item.StartTime + '</td>';
+                            connectionString += '<td>' + item.EndTime + '</td>';
+                            connectionString += '<td>' + item.Doctor.FirstName +' '+item.Doctor.LastName+ '</td>';
+                            connectionString += '<td>' + item.Doctor.Email + '</td>';
+                            connectionString += '<td>' + item.Doctor.ConsultationFee + '</td>';
+                            connectionString += '<td>' + item.Doctor.PhoneNo + '</td>';
+
+                            connectionString += '</tr>'
+                            connectionString += '</tbody>';
+                            connectionString += '</table>';
+                            var infowindow = new google.maps.InfoWindow({
+                                content:connectionString
+                            })
                             var marker = new google.maps.Marker({
                                 position: myLatlng,
                                 map: g_map,
                                 title: item.Name
+                            });
+                            marker.addListener('click', function () {
+                                infowindow.open(g_map, marker);
                             });
                             marker.setMap(g_map);
                             markers.push(marker);

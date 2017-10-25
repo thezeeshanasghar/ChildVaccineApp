@@ -17,6 +17,7 @@ namespace VaccineDose
         public double Long { get; set; }
         public int DoctorID { get; set; }
         public bool IsOnline { get; set; }
+        public DoctorDTO Doctor { get; set; }
 
     }
 }

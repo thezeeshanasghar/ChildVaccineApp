@@ -17,7 +17,7 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var clinics = entities.Clinics.ToList();
+                    var clinics = entities.Clinics.Include("Doctor").ToList();
                     IEnumerable<ClinicDTO> clinicDTOs = Mapper.Map<IEnumerable<ClinicDTO>>(clinics);
                     return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
                 }
