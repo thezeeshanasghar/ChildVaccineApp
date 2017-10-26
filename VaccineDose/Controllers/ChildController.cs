@@ -599,6 +599,13 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
+                    //call when followup add from parent side
+                    if (followUpDto.DoctorID < 1)
+                    {
+                        FollowUpController fc = new FollowUpController();
+                        followUpDto.DoctorID=fc.DoctorID();
+                    }
+                    //
                     var dbFollowUps = entities.FollowUps.Where(f => f.DoctorID == followUpDto.DoctorID && f.ChildID == followUpDto.ChildID).ToList();
                     List<FollowUpDTO> followUpDTOs = Mapper.Map<List<FollowUpDTO>>(dbFollowUps);
                     return new Response<List<FollowUpDTO>>(true, null, followUpDTOs);

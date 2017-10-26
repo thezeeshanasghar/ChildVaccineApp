@@ -246,11 +246,16 @@ function AddFollowUp() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            ShowAlert('Added', 'Follow up is successfully added', 'success');
-            $("#Disease").val("");
-            $("#Date").val("");
-            $("#followUpID").val("");
-            $("#followUpModal").modal("hide");
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                ShowAlert('Added', 'Follow up is successfully added', 'success');
+                $("#Disease").val("");
+                $("#Date").val("");
+                $("#followUpID").val("");
+                $("#followUpModal").modal("hide");
+            }
         },
         error: function (errormessage) {
             var ob = JSON.parse(errormessage.responseText);
