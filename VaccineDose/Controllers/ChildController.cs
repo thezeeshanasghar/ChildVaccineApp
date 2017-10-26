@@ -606,7 +606,9 @@ namespace VaccineDose.Controllers
                         followUpDto.DoctorID=fc.DoctorID();
                     }
                     //
-                    var dbFollowUps = entities.FollowUps.Where(f => f.DoctorID == followUpDto.DoctorID && f.ChildID == followUpDto.ChildID).ToList();
+                    var dbFollowUps = entities.FollowUps
+                        .Where(f => f.DoctorID == followUpDto.DoctorID && f.ChildID == followUpDto.ChildID)
+                        .OrderByDescending(x=>x.Date).ToList();
                     List<FollowUpDTO> followUpDTOs = Mapper.Map<List<FollowUpDTO>>(dbFollowUps);
                     return new Response<List<FollowUpDTO>>(true, null, followUpDTOs);
                 }

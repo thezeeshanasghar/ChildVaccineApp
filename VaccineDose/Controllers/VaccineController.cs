@@ -65,7 +65,7 @@ namespace VaccineDose.Controllers
                     //add vaccine in brand
                     Brand dbBrand = new Brand();
                     dbBrand.VaccineID = vaccinedb.ID;
-                    dbBrand.Name = vaccinedb.Name + " World Brand";
+                    dbBrand.Name = "Local";
                     entities.Brands.Add(dbBrand);
                     entities.SaveChanges();
 

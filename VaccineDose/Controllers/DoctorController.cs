@@ -181,19 +181,34 @@ namespace VaccineDose.Controllers
                     dbDoctor.IsApproved = true;
                     entities.SaveChanges();
 
-                    int gapInDays = 0;
                     var vaccines = entities.Vaccines.ToList();
                     foreach (var vaccine in vaccines)
                     {
                         // add default schedule of doctor
                         var doses = vaccine.Doses;
-                        foreach (var dose in doses)
+
+
+                        for (int i = 0; i < doses.Count; i++)
                         {
+                            var dose = doses.ElementAt(i);
                             DoctorSchedule ds = new DoctorSchedule();
                             ds.DoctorID = dbDoctor.ID;
                             ds.DoseID = dose.ID;
-                            gapInDays = gapInDays + 7;
-                            ds.GapInDays = gapInDays;
+                            if (i == 0)
+                                ds.GapInDays = 0;
+                            else if (i == 1)
+                                ds.GapInDays = 42;
+                            else if (i == 2)
+                                ds.GapInDays = 49;
+                            else if (i == 3)
+                                ds.GapInDays = 56;
+                            else if (i == 4)
+                                ds.GapInDays = 63;
+                            else if (i == 5)
+                                ds.GapInDays = 70;
+                            else if (i == 6)
+                                ds.GapInDays = 77;
+
                             entities.DoctorSchedules.Add(ds);
                             entities.SaveChanges();
                         }
@@ -206,7 +221,7 @@ namespace VaccineDose.Controllers
                             ba.DoctorID = dbDoctor.ID;
                             ba.BrandID = brand.ID;
                             entities.BrandAmounts.Add(ba);
-                            
+
                             BrandInventory bi = new BrandInventory();
                             bi.Count = 0;
                             bi.DoctorID = dbDoctor.ID;
@@ -254,11 +269,11 @@ namespace VaccineDose.Controllers
         [HttpPut]
         [Route("api/doctor/{id}/validUpto")]
 
-        public Response<DoctorDTO> UpdateDate(int id,DoctorDTO doctorDTO)
+        public Response<DoctorDTO> UpdateDate(int id, DoctorDTO doctorDTO)
         {
             try
             {
-                using(VDConnectionString entties = new VDConnectionString())
+                using (VDConnectionString entties = new VDConnectionString())
                 {
                     var dbDoctor = entties.Doctors.Where(x => x.ID == id).FirstOrDefault();
                     dbDoctor.ValidUpto = doctorDTO.ValidUpto;
@@ -273,5 +288,5 @@ namespace VaccineDose.Controllers
             }
         }
     }
-  
+
 }

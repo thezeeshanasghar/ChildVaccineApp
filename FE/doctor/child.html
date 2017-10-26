@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox"  id="IsBrand" name="IsBrand" required />
+                                        <input type="checkbox" id="IsBrand" name="IsBrand" required />
                                         Add Brand
                                     </label>
                                 </div>
@@ -106,18 +106,17 @@
                                     </div>
                                 </div>
                             </div>
-                          
+
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button"  class="btn btn-primary" onclick="GenerateInvoice()">Generate Invoice</button>
+                        <button type="button" class="btn btn-primary" onclick="GenerateInvoice()">Generate Invoice</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- Generate Invoice modal -->
-
         <!-- followup modal -->
         <div class="modal fade" id="followUpModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -132,7 +131,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#followUpHistory">Follow Up History</a></li>
                             <li><a data-toggle="tab" href="#followUpNew">New Follow Up</a></li>
-                         </ul>
+                        </ul>
 
                         <div class="tab-content">
                             <div id="followUpHistory" class="tab-pane fade in active">
@@ -141,47 +140,51 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr. No</th>
-                                                <th>Disease</th>
                                                 <th>Date</th>
+                                                <th>Disease</th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody"></tbody>
                                     </table>
-                                    </form>
+                                </form>
                             </div>
                             <div id="followUpNew" class="tab-pane fade">
                                 <div class="row">
                                     <br />
                                     <div class="col-md-12">
-                                    <div class="form-group">
-                                         <input type="number" id="followUpID" style="display:none" />
+                                        <div class="form-group">
+                                            <input type="number" id="followUpID" style="display:none" />
 
-                                        <input type="text" class="form-control" id="Disease" placeholder="Enter Disease" />
-                                    </div>
-                                    <div class="form-group">
-                                        <div id="followUpDate-container">
-                                            <div class="input-group date">
-                                                <input type="text" id="Date" placeholder="Enter Date" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                            <input type="text" class="form-control" id="Disease" placeholder="Enter Disease" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div id="followUpDate-container">
+                                                <div class="input-group date">
+                                                    <input type="text" id="Date" placeholder="Enter Date" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                              </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" onclick="AddFollowUp()">Submit</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <!--  <button type="button" class="btn btn-primary">Save changes</button>-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- end tabs for charts -->
 
-                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="AddFollowUp()" >Submit</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <!--  <button type="button" class="btn btn-primary">Save changes</button>-->
                     </div>
+
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- followup modal -->
-    <!-- chart modal -->
+        <!-- chart modal -->
         <div class="modal fade" id="chartModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -200,9 +203,9 @@
 
                         <div class="tab-content">
                             <div id="childweightChartDiv" class="tab-pane fade in active">
-                              <canvas id="childWeightChart"></canvas>
-                               <!-- <canvas id="myChart"></canvas>-->
-                                
+                                <canvas id="childWeightChart"></canvas>
+                                <!-- <canvas id="myChart"></canvas>-->
+
                             </div>
                             <div id="childLengthChartDiv" class="tab-pane fade">
                                 <canvas id="childLengthChart"></canvas>
@@ -212,17 +215,17 @@
                             </div>
                         </div>
                         <!-- end tabs for charts -->
-                      
+
                         <canvas id="myChart"></canvas>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <!--  <button type="button" class="btn btn-primary">Save changes</button>-->
+                        <!--  <button type="button" class="btn btn-primary">Save changes</button>-->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-    <!-- chart modal -->
+        <!-- chart modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -478,10 +481,10 @@
                                 </div>
                             </div>
                             <!--<div class="form-group">
-            <label for="MobileNumber">Mobile Number</label>
-            <input type="text" class="form-control" id="MobileNumber" pattern="^[9]{1}[2]{1}[3]{1}\d{9}$"
-                   placeholder="Specify mobile number in this pattern 923465430413" required />
-        </div>-->
+                                <label for="MobileNumber">Mobile Number</label>
+                                <input type="text" class="form-control" id="MobileNumber" pattern="^[9]{1}[2]{1}[3]{1}\d{9}$"
+                                       placeholder="Specify mobile number in this pattern 923465430413" required />
+                            </div>-->
                             <div class="row">
                                 <div class="col-md-9">
                                     <div class="form-group">
@@ -598,7 +601,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/bootstrap-datepicker.min.js"></script>
     <script src="../js/validator.min.js"></script>
-    
+
 
     <script src="/server.js"></script>
     <script src="/common.js"></script>
@@ -622,7 +625,7 @@
             });
             $('#followUpDate-container .input-group.date').datepicker('update', $("#Date").val());
         });
-        
+
         $('#generateInvoiceModal').on('shown.bs.modal', function () {
             $('#InvoiceDate-container .input-group.date').datepicker({
                 format: 'dd-mm-yyyy',

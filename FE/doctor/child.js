@@ -212,8 +212,8 @@ function GetFollowUpById(childId) {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<tr>'
                     html += '   <td>' + (key + 1) + '</td>';
-                    html += '   <td>' + item.Disease + '</td>';
                     html += '   <td>' + item.Date + '</td>';
+                    html += '   <td>' + item.Disease + '</td>';
                     html += '</tr>'
 
                 });
