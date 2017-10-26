@@ -599,11 +599,11 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    //call when followup add from parent side
+                    //when followup call from parent side
                     if (followUpDto.DoctorID < 1)
                     {
-                        FollowUpController fc = new FollowUpController();
-                        followUpDto.DoctorID=fc.DoctorID();
+                        var dbChild = entities.Children.Include("Clinic").FirstOrDefault();
+                        followUpDto.DoctorID = dbChild.Clinic.DoctorID;
                     }
                     //
                     var dbFollowUps = entities.FollowUps
