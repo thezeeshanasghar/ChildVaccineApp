@@ -43,6 +43,7 @@ function getbyID(ID) {
                 $('#PMDC').val(result.ResponseData.PMDC);
                 $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
                 $("#ShowMobile").prop("checked", result.ResponseData.ShowMobile);
+                $("#ConsultationFee").val(result.ResponseData.ConsultationFee);
                 HideAlert();
             }
           
@@ -75,7 +76,8 @@ function Update() {
         PhoneNo: $("#PhoneNo").val(),
         ShowPhone: $("#ShowPhone").is(":checked"),
         ShowMobile: $("#ShowMobile").is(":checked"),
-        Password:$("#Password").val()
+        Password:$("#Password").val(),
+        ConsultationFee: $("#ConsultationFee").val()
     };
     $.ajax({
         url: SERVER + "doctor/" + $('#ID').val(),

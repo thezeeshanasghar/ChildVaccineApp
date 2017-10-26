@@ -48,6 +48,7 @@ function Add() {
         FirstName: $('#FirstName').val(),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
+        ConsultationFee: $('#ConsultationFee').val(),
         Password: PasswordGenerator(),
         CountryCode: $('#CountryCode').val(),
         MobileNumber: $('#MobileNumber').val(),
