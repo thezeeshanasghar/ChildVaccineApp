@@ -61,8 +61,7 @@ function GetChildMobileNumberFromLocalStorage() {
 function GetFollowUpById(childId) {
     $("#followUpID").val(childId);
     var obj = {
-        ChildID: childId,
-        DoctorID: DoctorId()
+        ChildID: childId
     }
     $.ajax({
         url: SERVER + 'child/followup',
@@ -79,8 +78,8 @@ function GetFollowUpById(childId) {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<tr>'
                     html += '   <td>' + (key + 1) + '</td>';
-                    html += '   <td>' + item.Disease + '</td>';
                     html += '   <td>' + item.Date + '</td>';
+                    html += '   <td>' + item.Disease + '</td>';
                     html += '</tr>'
 
                 });
@@ -98,36 +97,7 @@ function GetFollowUpById(childId) {
     });
 
 }
-//followup static
-function AddFollowUp() {
-    var obj = {
-        Disease: $("#Disease").val(),
-        Date: $("#Date").val(),
-        ChildID: $("#followUpID").val(),
-        DoctorID: DoctorId()
-    }
-    $.ajax({
-        url: SERVER + 'followup',
-        type: 'post',
-        data: JSON.stringify(obj),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            ShowAlert('Added', 'Follow up is successfully added', 'success');
-            $("#Disease").val("");
-            $("#Date").val("");
-            $("#followUpID").val("");
-            $("#followUpModal").modal("hide");
-        },
-        error: function (errormessage) {
-            var ob = JSON.parse(errormessage.responseText);
-            ShowAlert('Error', ob.Message, 'danger');
-        }
 
-
-    });
-
-}
 //function for chart modal
 function GrowthChart(id) {
 
