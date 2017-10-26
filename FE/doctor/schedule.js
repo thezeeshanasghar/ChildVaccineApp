@@ -189,7 +189,7 @@ function Update() {
 
 function openCalender(scheduleId, date) {
     $(".scheduleDate_" + scheduleId).datepicker({
-        format: 'dd-mm-yyyy',
+        format: 'dd-mm-yyyy hh:ii',
         todayBtn: true,
         autoclose: true,
         todayHighlight: true,
@@ -202,7 +202,7 @@ function openCalender(scheduleId, date) {
 
     $(".scheduleDate_" + scheduleId).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
          $.ajax({
              url: SERVER + "schedule/update-schedule/",
              data: JSON.stringify(obj),

@@ -45,16 +45,7 @@ function loadData(id) {
 
                         html += '   <h4>';
                         html += '       <span class="pull-right" style="font-size:20px">';
-
-                        if (!doseArray[index].isDone)
-                            html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
-                        if (localStorage.getItem("UserType") == "DOCTOR") {
-                            html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
-                            if (doseArray[index].isDone)
-                                html += '       <img src="../img/injectionFilled.png" style="height: 30px;" /></a>'
-                            else
-                                html += '       <img src="../img/injectionEmpty.png" style="height: 30px;" /></a>'
-                        }
+                        html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                         html += '       </span> ';
                         html += doseArray[index].doseName;
                         html += '   </h4>'
@@ -150,7 +141,7 @@ function openCalender(scheduleId, date) {
 
     $(".scheduleDate_" + scheduleId).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date;
+         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
          $.ajax({
              url: SERVER + "schedule/update-schedule/",
              data: JSON.stringify(obj),
@@ -190,7 +181,7 @@ function openBulkCalender(scheduleId, date) {
 
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date;
+         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
          $.ajax({
              url: SERVER + "schedule/update-bulk-schedule/",
              data: JSON.stringify(obj),
