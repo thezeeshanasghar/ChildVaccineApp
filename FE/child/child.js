@@ -20,7 +20,7 @@ function loadChildDataAgainstMobileNumber() {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
+                        html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
                     if (item.Gender == 'Boy')
                         html += 'blue">';
                     else
@@ -31,16 +31,22 @@ function loadChildDataAgainstMobileNumber() {
                     else
                         html += 'female.png" class="img-responsive pull-left" alt="female" style="max-width:90px;max-height:90px" />';
                     html += '   <h4>';
-                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + ' ' + item.FatherName + '</a>';
+                    html += '       &nbsp;';
+                    html += '       <a href="schedule.html?id=' + item.ID + '">' +item.Name + '</a><br/>';
                     html += '   </h4>';
-                    html += '   <div style="font-size:20px;padding-left:50px">';
-                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
+                    html += '   <div style="font-size:12px;padding-left:100px">';
+                    html += '       <i class="glyphicon glyphicon-user"></i> ' +item.FatherName + '<br/>';
+                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' +item.DOB + ' <br />';
+                    html += '       <i class="glyphicon glyphicon-earphone"></i> ' +item.MobileNumber;
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
-                    html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
-                    html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
-                    html += ' </div>';  
+                    html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' +item.ID + ')">Growth Chart</a>';
+                    html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' +item.ID + ')"  >Follow Up</a>';
+
+                    html += '   </div>';
                     html += '</div>';
+
+
 
                 });
 
