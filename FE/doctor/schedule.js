@@ -243,7 +243,7 @@ function openBulkCalender(scheduleId, date) {
 
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {
-         obj.Date = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
 
          $.ajax({
              url: SERVER + "schedule/update-bulk-schedule/",
