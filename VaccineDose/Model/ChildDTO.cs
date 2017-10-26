@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace VaccineDose
 {
@@ -33,6 +35,9 @@ namespace VaccineDose
         public DateTime InvoiceDate { get; set; }
 
         public int DoctorID { get; set; }
+
+        //To add Vaccine with child
+        public List<VaccineDTO> VaccineDTOs { get; set; }
 
     }
 }

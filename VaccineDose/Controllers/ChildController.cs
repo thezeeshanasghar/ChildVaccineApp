@@ -77,11 +77,22 @@ namespace VaccineDose.Controllers
                     {
                         Schedule cvd = new Schedule();
                         cvd.ChildId = childDTO.ID;
-                        cvd.DoseId = ds.DoseID;
-                        cvd.IsDone = false;
-                        cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
-                        entities.Schedules.Add(cvd);
-                        entities.SaveChanges();
+                        foreach(VaccineDTO vaccine in childDTO.VaccineDTOs)
+                        {
+                            var dbDose = entities.Doses.Where(x => x.ID == ds.DoseID).FirstOrDefault();
+                            var dbVaccineId = dbDose.Vaccine.ID;
+                            if (dbVaccineId == vaccine.ID)
+                            {
+                                cvd.DoseId = ds.DoseID;
+                                cvd.IsDone = false;
+                                cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
+                                entities.Schedules.Add(cvd);
+                                entities.SaveChanges();
+                                continue;
+                            }
+                           
+                        }
+                       
                     }
                     Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
                     UserEmail.ParentEmail(c);

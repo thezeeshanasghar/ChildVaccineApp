@@ -3,6 +3,9 @@ $(document).ready(function () {
     if (GetOnlineClinicIdFromLocalStorage() != 0) {
         DisableOffDays();
     }
+    $("#child").show();
+    $("#vaccine").hide();
+
 });
 
 function DisableOffDays() {
@@ -38,6 +41,37 @@ function DisableOffDays() {
         }
     });
 }
+//all vaccines to for child
+function GetVaccines() {
+    $.ajax({
+        url: SERVER + "vaccine",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var html = '';
+             if (!result.IsSuccess) {
+                ShowAlert('Loading data', 'Checking for existing brands', 'info');
+            }
+            else {
+                $.each(result.ResponseData, function (key, item) {
+                    html += '<div class="form-group">';
+                    html += '<label>';
+                    html += '<input type="checkbox" name="VaccineName" id="(' + 'VaccineID_' + key + ')" value="' + item.ID + '"  / >';
+                    html += '&nbsp;'+item.Name;
+                    html += '</label>';
+                    html += '</div>'
+                 });
+            }
+             $("#childVaccine").html(html);
+            HideAlert();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+        
+    });
+}
 
 function Add() {
     var res = validate();
@@ -58,6 +92,11 @@ function Add() {
         preferdayreminder = $('#PreferredDayOfReminder').val()
     }
 
+    var Vaccines = [];
+     $('input[name="VaccineName"]:checked').each(function () {
+        Vaccines.push({ ID: this.value });
+    });
+
     var obj = {
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
@@ -72,9 +111,9 @@ function Add() {
         PreferredSchedule: preferdayreminder,
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
-
         Password: PasswordGenerator(),
-        ClinicID: GetOnlineClinicIdFromLocalStorage()
+        ClinicID: GetOnlineClinicIdFromLocalStorage(),
+        VaccineDTOs: Vaccines,
     };
     $.ajax({
         url: SERVER + "child",
@@ -103,10 +142,21 @@ function Add() {
     });
 }
 
+
+function ShowHide(event) {
+    $('#form1').validator('validate');
+
+    var validator = $('#form1').data("bs.validator");
+    if (!validator.hasErrors()) {
+        $("#child").hide();
+        GetVaccines();
+        $("#vaccine").show();
+    }
+}
 //Valdidation using jquery  
 function validate() {
-    $('#form1').validator('validate');
-    var validator = $('#form1').data("bs.validator");
+    $('#form2').validator('validate');
+    var validator = $('#form2').data("bs.validator");
     if (validator.hasErrors())
         return false;
     else
