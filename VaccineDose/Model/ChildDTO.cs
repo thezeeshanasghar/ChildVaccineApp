@@ -36,8 +36,8 @@ namespace VaccineDose
 
         public int DoctorID { get; set; }
 
-        //To add Vaccine with child
-        public List<VaccineDTO> VaccineDTOs { get; set; }
+        //To select Vaccine of the child on add-new-child page
+        public List<VaccineDTO> ChildVaccines { get; set; }
 
     }
 }
