@@ -69,19 +69,23 @@ namespace VaccineDose.Controllers
                     }
                     childDTO.ID = childDB.ID;
 
-                    // get doctor schedule and apply it to child and save in Schedule page
+                    // get doctor schedule and apply it to child and save in Schedule table
                     Clinic clinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();
                     Doctor doctor = clinic.Doctor;
                     IEnumerable<DoctorSchedule> dss = doctor.DoctorSchedules;
                     foreach (DoctorSchedule ds in dss)
                     {
-                        Schedule cvd = new Schedule();
-                        cvd.ChildId = childDTO.ID;
-                        cvd.DoseId = ds.DoseID;
-                        cvd.IsDone = false;
-                        cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
-                        entities.Schedules.Add(cvd);
-                        entities.SaveChanges();
+                        var dbDose = entities.Doses.Where(x => x.ID == ds.DoseID).FirstOrDefault();
+                        if (childDTO.ChildVaccines.Any(x => x.ID == dbDose.Vaccine.ID))
+                        {
+                            Schedule cvd = new Schedule();
+                            cvd.ChildId = childDTO.ID;
+                            cvd.DoseId = ds.DoseID;
+                            cvd.IsDone = false;
+                            cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
+                            entities.Schedules.Add(cvd);
+                            entities.SaveChanges();
+                        }
                     }
                     Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
                     UserEmail.ParentEmail(c);
@@ -247,15 +251,15 @@ namespace VaccineDose.Controllers
         }
 
         #region PDF Methods
-        
+
         //Schedule PDF 
 
         [HttpGet]
         [Route("api/child/{id}/download-pdf")]
         public HttpResponseMessage DownloadPDF(int id)
         {
-            Child dbScheduleChild=new Child();
-          using(VDConnectionString entities=new VDConnectionString())
+            Child dbScheduleChild = new Child();
+            using (VDConnectionString entities = new VDConnectionString())
             {
                 dbScheduleChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
             }
@@ -305,7 +309,7 @@ namespace VaccineDose.Controllers
                 document.Add(chunkParagraph);
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
-               
+
                 //Table 1 for description above Schedule table
                 PdfPTable upperTable = new PdfPTable(2);
                 float[] upperTableWidths = new float[] { 250f, 250f };
@@ -318,7 +322,7 @@ namespace VaccineDose.Controllers
                 upperTable.AddCell(CreateCell("Patient", "bold", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
-                upperTable.AddCell(CreateCell("Father: "+dbChild.FatherName, "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
                 upperTable.AddCell(CreateCell("Father Ph: " + dbChild.User.MobileNumber, "", 1, "right", "description"));
@@ -350,7 +354,7 @@ namespace VaccineDose.Controllers
                         cell1.Border = 0;
                         table.AddCell(cell1);
                         // add a image
-                        var isDone=dose.Schedules.Where(x=>x.IsDone).FirstOrDefault();
+                        var isDone = dose.Schedules.Where(x => x.IsDone).FirstOrDefault();
                         string injectionPath = "";
                         if (isDone != null)
                         {
@@ -434,7 +438,7 @@ namespace VaccineDose.Controllers
                     // upperTable.DefaultCell.PaddingLeft = 4;
                     upperTable.SetWidths(upperTableWidths);
 
-                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left","description"));
+                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("Invoice", "bold", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
@@ -444,12 +448,12 @@ namespace VaccineDose.Controllers
                     upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "noColor", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("Date: " + DateTime.Now, "noColor", 1, "right", "description"));
 
-                
+
                     if (childDTO.IsConsultationFee)
                     {
                         consultaionFee = (int)dbDoctor.ConsultationFee;
                     }
-                  //  upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
+                    //  upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
@@ -479,7 +483,7 @@ namespace VaccineDose.Controllers
                     table.LockedWidth = true;
                     table.SetWidths(widths);
 
-                    table.AddCell(CreateCell("#", "backgroudLightGray", 1, "center","invoiceRecords"));
+                    table.AddCell(CreateCell("#", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     table.AddCell(CreateCell("Vaccine", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     if (childDTO.IsBrand)
                     {
@@ -489,7 +493,7 @@ namespace VaccineDose.Controllers
                     //Rows
                     table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
                     //col = (col > 3) ? col - 3 : col-2;
-                    table.AddCell(CreateCell("Consultation Fee", "", col-2, "left", "invoiceRecords"));
+                    table.AddCell(CreateCell("Consultation Fee", "", col - 2, "left", "invoiceRecords"));
                     table.AddCell(CreateCell(consultaionFee.ToString(), "", 1, "right", "invoiceRecords"));
                     if (dbSchedules.Count != 0)
                     {
@@ -497,7 +501,7 @@ namespace VaccineDose.Controllers
                         foreach (var schedule in dbSchedules)
                         {
                             //date is static due to date conversion issue
-                          //  && schedule.Date.Date == DateTime.Now.Date
+                            //  && schedule.Date.Date == DateTime.Now.Date
                             if (schedule.IsDone)
                             {
                                 count++;
@@ -517,7 +521,7 @@ namespace VaccineDose.Controllers
                     }
 
                     table.AddCell(CreateCell("Total(PKR)", "", col - 1, "right", "invoiceRecords"));
-                  
+
                     //add consultancy fee
                     if (childDTO.IsConsultationFee)
                     {
@@ -554,15 +558,15 @@ namespace VaccineDose.Controllers
             }
 
         }
-        protected PdfPCell CreateCell(string value, string color, int colpan, string alignment,string table)
+        protected PdfPCell CreateCell(string value, string color, int colpan, string alignment, string table)
         {
-          
-            Font font = FontFactory.GetFont(FontFactory.HELVETICA,10);
+
+            Font font = FontFactory.GetFont(FontFactory.HELVETICA, 10);
             if (color == "bold")
             {
-                  font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
             }
-           
+
             PdfPCell cell = new PdfPCell(new Phrase(value, font));
             if (color == "backgroudLightGray")
             {
@@ -608,7 +612,7 @@ namespace VaccineDose.Controllers
                     //
                     var dbFollowUps = entities.FollowUps
                         .Where(f => f.DoctorID == followUpDto.DoctorID && f.ChildID == followUpDto.ChildID)
-                        .OrderByDescending(x=>x.Date).ToList();
+                        .OrderByDescending(x => x.Date).ToList();
                     List<FollowUpDTO> followUpDTOs = Mapper.Map<List<FollowUpDTO>>(dbFollowUps);
                     return new Response<List<FollowUpDTO>>(true, null, followUpDTOs);
                 }
