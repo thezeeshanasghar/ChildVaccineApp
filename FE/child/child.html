@@ -41,22 +41,15 @@
                         <h4 class="modal-title">Follow Up</h4>
                     </div>
                     <div class="modal-body" id="modal-body">
-                        <!-- tabs for charts -->
-
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#followUpHistory">Follow Up History</a></li>
-                            <li><a data-toggle="tab" href="#followUpNew">New Follow Up</a></li>
-                        </ul>
-
+                        
                         <div class="tab-content">
-                            <div id="followUpHistory" class="tab-pane fade in active">
-                                <form id="form2" role="form" data-toggle="validator">
+                                 <form id="form2" role="form" data-toggle="validator">
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Sr. No</th>
-                                                <th>Disease</th>
                                                 <th>Date</th>
+                                                <th>Disease</th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody"></tbody>
@@ -65,34 +58,8 @@
                                 <div class="modal-footer">
                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
-                            </div>
-                            <div id="followUpNew" class="tab-pane fade">
-                                <div class="row">
-                                    <br />
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="number" id="followUpID" style="display:none" />
-
-                                            <input type="text" class="form-control" id="Disease" placeholder="Enter Disease" />
-                                        </div>
-                                        <div class="form-group">
-                                            <div id="followUpDate-container">
-                                                <div class="input-group date">
-                                                    <input type="text" id="Date" placeholder="Enter Date" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" onclick="AddFollowUp()">Submit</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end tabs for charts -->
-
-                    </div>
+                         </div>
+                     </div>
                      
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -112,7 +79,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#childweightChartDiv">Weight</a></li>
                             <li><a data-toggle="tab" href="#childLengthChartDiv">Length</a></li>
-                            <li><a data-toggle="tab" href="#childCercumferenceChartDiv">Cercumference</a></li>
+                            <li><a data-toggle="tab" href="#childCercumferenceChartDiv">Circumference</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -130,7 +97,6 @@
                         </div>
                         <!-- end tabs for charts -->
 
-                        <canvas id="myChart"></canvas>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -157,16 +123,6 @@
     <script src="/common.js"></script>
     <script src="/server.js"></script>
     <script src="child.js"></script>
-  <script>
-      $('#followUpModal').on('shown.bs.modal', function () {
-          $('#followUpDate-container .input-group.date').datepicker({
-              format: 'dd-mm-yyyy',
-              todayBtn: true,
-              autoclose: true,
-              todayHighlight: true
-          });
-          $('#followUpDate-container .input-group.date').datepicker('update', $("#Date").val());
-      });
-  </script> 
+ 
 </body>
 </html>
