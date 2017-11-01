@@ -57,7 +57,7 @@ function GetVaccines() {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<div class="form-group">';
                     html += '<label>';
-                    html += '<input type="checkbox" name="VaccineName" value="' + item.ID + '"  / >';
+                    html += '<input type="checkbox" checked name="VaccineName" value="' + item.ID + '"  / >';
                     html += '&nbsp;'+item.Name;
                     html += '</label>';
                     html += '</div>'
