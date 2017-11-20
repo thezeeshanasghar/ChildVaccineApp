@@ -3,6 +3,7 @@ using System.Web.Http;
 using AutoMapper;
 using System.Collections.Generic;
 using System;
+using VaccineDose.App_Code;
 
 namespace VaccineDose.Controllers
 {
@@ -94,14 +95,15 @@ namespace VaccineDose.Controllers
                     doctorDTO.ID = doctorDB.ID;
                     UserEmail.DoctorEmail(doctorDTO);
 
+
                     // generate SMS and save it to the db
-                    string sms = UserEmail.DoctorSMS(doctorDTO);
-                    Message m = new Message();
-                    m.MobileNumber = doctorDTO.MobileNumber;
-                    m.SMS = sms;
-                    m.Status = "PENDING";
-                    entities.Messages.Add(m);
-                    entities.SaveChanges();
+                    string sms = UserSMS.DoctorSMS(doctorDTO);
+                    //Message m = new Message();
+                    //m.MobileNumber = doctorDTO.MobileNumber;
+                    //m.SMS = sms;
+                    //m.Status = "PENDING";
+                    //entities.Messages.Add(m);
+                    //entities.SaveChanges();
                     // 
 
                     // 4- check if clinicDto exsist; then save clinic as well

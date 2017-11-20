@@ -76,8 +76,11 @@ function Add() {
 			
 			$("#btnAddClinic").prop('disabled', false);
             $("#btnAddClinic").button('reset');
-			
-            ShowAlert('Registration', 'Your are successfully singup for <b>MyVacc</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>MyVacc</b><br/>Your username and password have been send to your email address', 'success');
+            $("#clinic").hide();
+
+            ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>http://vaccs.io</b><br/>Your username and password have been send to your email address', 'success');
+
+            
             ScrollToTop();
         },
         error: function (errormessage) {
