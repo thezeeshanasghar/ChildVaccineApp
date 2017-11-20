@@ -79,10 +79,16 @@
             <div class="col-lg-12">
                 <div id="form1" data-toggle="validator" role="form">
                     <div class="form-signin">
+
                         <h2 class="form-signin-heading">Please sign in</h2>
                         <div class="row">
 
-                            <div class="col-md-4">
+                            <div id="alert_message" class="alert alert-dismissible alert-warning">
+                                <strong>loading title!</strong>
+                                <p>loading message</p>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-4">
                                 <select id="CountryCode" class="form-control">
                                     <!-- Countries often selected by users can be moved to the top of the list. -->
                                     <!-- Countries known to be subject to general US embargo are commented out by default. -->
@@ -305,10 +311,10 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-8 col-sm-10 col-xs-10">
+                            <div class="col-md-8 col-sm-8 col-xs-8">
                                 <div class="form-group">
                                     <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
-                                           placeholder="Specify mobile number in this pattern 3465430413"
+                                           placeholder="Input mobile # as like 3465430413"
                                            required />
                                     <div class="help-block with-errors"></div>
                                 </div>

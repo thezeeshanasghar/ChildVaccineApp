@@ -60,7 +60,7 @@ function SetMainNav() {
         markup += '            <span class="icon-bar"></span>';
         markup += '            <span class="icon-bar"></span>';
         markup += '        </button>';
-        markup += '        <a class="navbar-brand" href="#">MyVaccs</a>';
+        markup += '        <a class="navbar-brand" href="#">Vaccs.io</a>';
         markup += '    </div><!--/.nav-collapse -->';
         markup += '    <div id="navbar" class="navbar-collapse collapse">';
         markup += '        <ul class="nav navbar-nav navbar-right">';
@@ -107,7 +107,7 @@ function SetMainNav() {
         markup += '            <span class="icon-bar"></span>';
         markup += '            <span class="icon-bar"></span>';
         markup += '        </button>';
-        markup += '        <a class="navbar-brand" href="#">MyVaccs</a>';
+        markup += '        <a class="navbar-brand" href="#">Vaccs.io</a>';
         markup += '    </div><!--/.nav-collapse -->';
         markup += '    <div id="navbar" class="navbar-collapse collapse">';
         markup += '        <ul class="nav navbar-nav navbar-right">';

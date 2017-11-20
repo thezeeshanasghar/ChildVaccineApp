@@ -1,9 +1,10 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     HideAlert();
     $("#doctor").show();
     $("#clinic").hide();
-
 });
+
 var map, myMarker;
 function initMap() {
     var myLatLng = { lat: 33.5614494, lng: 73.069301 };
@@ -30,20 +31,20 @@ function initMap() {
     map.setCenter(myMarker.position);
     myMarker.setMap(map);
 }
+
 function Add() {
     var res = validate();
     if (res == false) {
         return false;
-		}
-		$("#btnAddClinic").button('loading');
-        $("#btnAddClinic").prop('disabled', true);
-		
+    }
+    $("#btnAddClinic").button('loading');
+    $("#btnAddClinic").prop('disabled', true);
+
     var result = [];
     $('input[name="OffDays"]:checked').each(function () {
-
         result.push(this.value);
-        console.log(result);
     });
+
     var obj = {
         FirstName: $('#FirstName').val(),
         LastName: $('#LastName').val(),
@@ -73,18 +74,24 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-			
-			$("#btnAddClinic").prop('disabled', false);
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            if (!result.IsSuccess) {
+                alert(result.Message);
+                return;
+            }
+            $("#btnAddClinic").prop('disabled', false);
             $("#btnAddClinic").button('reset');
             $("#clinic").hide();
 
             ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>http://vaccs.io</b><br/>Your username and password have been send to your email address', 'success');
 
-            
+
             ScrollToTop();
         },
         error: function (errormessage) {
-			$("#btnAddClinic").prop('disabled', false);
+            $("#btnAddClinic").prop('disabled', false);
             $("#btnAddClinic").button('reset');
             alert(errormessage.responseText);
         }

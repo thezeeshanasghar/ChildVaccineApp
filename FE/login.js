@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
+    HideAlert();
     localStorage.clear();
 });
+
 function Login() {
         $('#form1').validator('validate');
         var validator = $('#form1').data("bs.validator");
@@ -28,7 +30,9 @@ function Login() {
 
                 if (!result.IsSuccess) {
                     // TODO Muneeb: add proper bootstrap alert instead of browser alert
-                    alert(result.Message);
+                    //alert(result.Message);
+                    ShowAlert('Error', result.Message, 'danger');
+                    
                     return;
                 }
                 if (result.ResponseData.UserType == "SUPERADMIN") {

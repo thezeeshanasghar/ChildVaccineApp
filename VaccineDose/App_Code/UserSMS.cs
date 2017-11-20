@@ -41,28 +41,28 @@ namespace VaccineDose.App_Code
             return body;
         }
 
-        public static bool SendSMS(string CountryCode, string MobileNumber, string Email, string text)
+        public static string SendSMS(string CountryCode, string MobileNumber, string Email, string text)
         {
             // SMSified API endpoint.
+            //http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber=923345022330&message=Test%20Sherjeel&mask=VACCS%20IO
             string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";
 
             // Create new HTTP request.
-            string url = String.Format(webTarget, "923345022330", HttpUtility.HtmlEncode(text));
-
-            //http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber=923345022330&message=Test%20Sherjeel&mask=VACCS%20IO
+            string url = String.Format(webTarget, CountryCode + MobileNumber, HttpUtility.HtmlEncode(text));
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream stream = response.GetResponseStream();
             string responseStr = "";
             using (StreamReader reader = new StreamReader(stream))
             {
                 responseStr = reader.ReadToEnd();
-                dynamic jObj = JsonConvert.DeserializeObject(responseStr);
-                Console.WriteLine(jObj.returnString);
+                Console.WriteLine("Zeeshan");
+                Console.WriteLine(responseStr);
+                //dynamic jObj = JsonConvert.DeserializeObject(responseStr);
+                //Console.WriteLine(jObj.returnString);
             }
-            return true;
+            return responseStr;
         }
     }
 }
