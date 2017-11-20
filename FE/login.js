@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     HideAlert();
     localStorage.clear();
+    $("#MobileNumber").intlTelInput();
 });
 
 function Login() {
@@ -15,7 +16,7 @@ function Login() {
         var obj = {
             MobileNumber: $('#MobileNumber').val(),
             Password: $('#Password').val(),
-            CountryCode: $('#CountryCode').val()
+            CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode
         }
         $.ajax({
             url: SERVER + 'user/login',
