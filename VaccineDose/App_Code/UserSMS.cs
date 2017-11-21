@@ -23,22 +23,23 @@ namespace VaccineDose.App_Code
         }
         public static string ParentSMS(Child child)
         {
-            string body = "Dear Parents\n";
+            string body1 = "Dear Parents\n";
             if (child.Gender == "Boy")
-                body += "Your Son " + child.Name;
+                body1 += "Your Son " + child.Name;
 
             if (child.Gender == "Girl")
-                body += "Your Daughter " + child.Name;
+                body1 += "Your Daughter " + child.Name;
 
-            body += " has been registered at Clinic ";
-            body += child.Clinic.Name + "\n";
+            body1 += " has been registered at Clinic ";
+            body1 += child.Clinic.Name + "\n";
+            SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body1);
 
-            body += "ID: " + child.User.MobileNumber + "\n Password: " + child.User.Password
-                 + "\nClinic# " + child.Clinic.PhoneNumber + "\n"
-                 + "http://vaccs.io/";
+            string body2 = "ID: " + child.User.MobileNumber + "\n Password: " + child.User.Password
+                  + "\nClinic# " + child.Clinic.PhoneNumber + "\n"
+                  + "http://vaccs.io/";
 
-            SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body);
-            return body;
+            SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body2);
+            return body1+body2;
         }
 
         public static string SendSMS(string CountryCode, string MobileNumber, string Email, string text)
