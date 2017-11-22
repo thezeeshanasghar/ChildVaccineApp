@@ -596,7 +596,7 @@ namespace VaccineDose.Controllers
         #endregion
 
         [HttpPost]
-        [Route("api/child/followup")]
+        [Route("~/api/child/followup")]
         public Response<List<FollowUpDTO>> GetFollowUp(FollowUpDTO followUpDto)
         {
             try
@@ -609,10 +609,10 @@ namespace VaccineDose.Controllers
                         var dbChild = entities.Children.Include("Clinic").FirstOrDefault();
                         followUpDto.DoctorID = dbChild.Clinic.DoctorID;
                     }
-                    //
+                    // when followup call from doctor side
                     var dbFollowUps = entities.FollowUps
                         .Where(f => f.DoctorID == followUpDto.DoctorID && f.ChildID == followUpDto.ChildID)
-                        .OrderByDescending(x => x.Date).ToList();
+                        .OrderByDescending(x => x.CurrentVisitDate).ToList();
                     List<FollowUpDTO> followUpDTOs = Mapper.Map<List<FollowUpDTO>>(dbFollowUps);
                     return new Response<List<FollowUpDTO>>(true, null, followUpDTOs);
                 }

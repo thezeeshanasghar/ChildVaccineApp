@@ -212,7 +212,8 @@ function GetFollowUpById(childId) {
                 $.each(result.ResponseData, function (key, item) {
                     html += '<tr>'
                     html += '   <td>' + (key + 1) + '</td>';
-                    html += '   <td>' + item.Date + '</td>';
+                    html += '   <td>' + item.CurrentVisitDate + '</td>';
+                    html += '   <td>' + item.NextVisitDate + '</td>';
                     html += '   <td>' + item.Disease + '</td>';
                     html += '</tr>'
 
@@ -235,7 +236,8 @@ function GetFollowUpById(childId) {
 function AddFollowUp() {
     var obj = {
         Disease: $("#Disease").val(),
-        Date: $("#Date").val(),
+        CurrentVisitDate: GetCurrentDate(),
+        NextVisitDate: $("#Date").val(),
         ChildID: $("#followUpID").val(),
         DoctorID: DoctorId()
     }

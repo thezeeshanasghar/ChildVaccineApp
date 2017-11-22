@@ -36,7 +36,7 @@ $(document).ready(function () {
 });
 //capitalize first letter of name throughout the app
 $(".CapitalizeFirstLetter").keyup(function (event) {
-     $(".CapitalizeFirstLetter").css('textTransform', 'capitalize');
+    $(".CapitalizeFirstLetter").css('textTransform', 'capitalize');
     //var textBox = event.target;
     //var start = textBox.selectionStart;
     //var end = textBox.selectionEnd;
@@ -218,10 +218,10 @@ function DoctorId() {
     //if (id != 0)
     //    return id;
     //else {
-        var id = localStorage.getItem('DoctorID');
-        if (id)
-            return id;
-        else 0;
+    var id = localStorage.getItem('DoctorID');
+    if (id)
+        return id;
+    else 0;
     //}
 }
 //-----------------------------------------
@@ -253,4 +253,19 @@ function openNav() {
 
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+}
+
+function GetCurrentDate() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    return dd + '-' + mm + '-' + yyyy;
 }
