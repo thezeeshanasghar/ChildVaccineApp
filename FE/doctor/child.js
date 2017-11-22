@@ -445,9 +445,6 @@ function getbyID(ID) {
             $('#DOB').val(result.ResponseData.DOB);
             $('#DOB').attr('disabled', true);
 
-            $('#CountryCode').val(result.ResponseData.CountryCode);
-            $('#CountryCode').attr('disabled', true);
-
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
             $('#MobileNumber').attr('disabled', true);
 
@@ -513,10 +510,7 @@ function Update() {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
-        Email: $('#Email').val(),
         DOB: $('#DOB').val(),
-        CountryCode: $('#CountryCode').val(),
-        MobileNumber: $('#MobileNumber').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
         PreferredDayOfWeek: result.join(','),
