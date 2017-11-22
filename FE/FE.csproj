@@ -133,7 +133,7 @@
     <Content Include="js\utils.js" />
     <Content Include="server.js" />
     <Content Include="common.js" />
-    <Content Include="doctor\add-child.js" />
+    <Content Include="doctor\add-new-child.js" />
     <Content Include="doctor\child.js" />
     <Content Include="doctor\clinic-selection.js" />
     <Content Include="doctor\clinic.js" />

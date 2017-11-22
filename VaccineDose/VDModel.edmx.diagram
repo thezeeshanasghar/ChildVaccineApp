@@ -13,8 +13,7 @@
         <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="14.375" />
         <EntityTypeShape EntityType="VDModel.DoctorSchedule" Width="1.5" PointX="5.25" PointY="11.625" />
         <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="7.5" PointY="9.875" />
-        <EntityTypeShape EntityType="VDModel.FollowUp" Width="1.5" PointX="12.75" PointY="15.125" />
-        <EntityTypeShape EntityType="VDModel.Message" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VDModel.Message" Width="1.5" PointX="2.875" PointY="10.125" />
         <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="9.75" PointY="14.125" />
         <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="0.75" PointY="10.25" />
         <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="5.25" PointY="23.375" />
@@ -26,15 +25,16 @@
         <AssociationConnector Association="VDModel.FK_BrandInventory_Doctor" />
         <AssociationConnector Association="VDModel.FK_Child_Clinic" />
         <AssociationConnector Association="VDModel.FK_Child_User" />
-        <AssociationConnector Association="VDModel.FK_FollowUp_Child" />
         <AssociationConnector Association="VDModel.FK_Schedule_Child" />
         <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
         <AssociationConnector Association="VDModel.FK_Doctor_User" />
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Doctor" />
-        <AssociationConnector Association="VDModel.FK_FollowUp_Doctor" />
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
         <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
+        <EntityTypeShape EntityType="VDModel.FollowUp" Width="1.5" PointX="12.75" PointY="15" />
+        <AssociationConnector Association="VDModel.FK_FollowUp_Child" />
+        <AssociationConnector Association="VDModel.FK_FollowUp_Doctor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

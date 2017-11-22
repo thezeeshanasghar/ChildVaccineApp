@@ -16,7 +16,8 @@ namespace VaccineDose
     {
         public int ID { get; set; }
         public string Disease { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<System.DateTime> NextVisitDate { get; set; }
+        public Nullable<System.DateTime> CurrentVisitDate { get; set; }
         public int ChildID { get; set; }
         public int DoctorID { get; set; }
     

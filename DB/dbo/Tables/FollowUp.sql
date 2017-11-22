@@ -2,7 +2,8 @@
 (
 	[ID] INT IDENTITY(1,1) NOT NULL, 
     [Disease] NVARCHAR(MAX) NULL, 
-    [Date] DATE NULL, 
+    [NextVisitDate] DATE NULL, 
+	[CurrentVisitDate] DATE NULL,
     [ChildID] INT NOT NULL, 
     [DoctorID] INT NOT NULL, 
     CONSTRAINT [PK_FollowUp] PRIMARY KEY CLUSTERED ([ID] ASC),

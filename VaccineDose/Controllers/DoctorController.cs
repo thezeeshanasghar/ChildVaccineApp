@@ -181,6 +181,7 @@ namespace VaccineDose.Controllers
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     dbDoctor.IsApproved = true;
+                    dbDoctor.ValidUpto = DateTime.Now.AddMonths(3);
                     entities.SaveChanges();
 
                     var vaccines = entities.Vaccines.ToList();

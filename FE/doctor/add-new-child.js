@@ -50,7 +50,7 @@ function GetVaccines() {
         dataType: "json",
         success: function (result) {
             var html = '';
-             if (!result.IsSuccess) {
+            if (!result.IsSuccess) {
                 ShowAlert('Loading data', 'Checking for existing brands', 'info');
             }
             else {
@@ -58,18 +58,18 @@ function GetVaccines() {
                     html += '<div class="form-group">';
                     html += '<label>';
                     html += '<input type="checkbox" checked name="VaccineName" value="' + item.ID + '"  / >';
-                    html += '&nbsp;'+item.Name;
+                    html += '&nbsp;' + item.Name;
                     html += '</label>';
                     html += '</div>'
-                 });
+                });
             }
-             $("#childVaccine").html(html);
+            $("#childVaccine").html(html);
             HideAlert();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-        
+
     });
 }
 
@@ -78,8 +78,8 @@ function Add() {
     if (res == false) {
         return false;
     }
-	
-	$("#btnAdd").button('loading');
+
+    $("#btnAdd").button('loading');
     $("#btnAdd").prop('disabled', true);
 
     var result = [];
@@ -93,7 +93,7 @@ function Add() {
     }
 
     var Vaccines = [];
-     $('input[name="VaccineName"]:checked').each(function () {
+    $('input[name="VaccineName"]:checked').each(function () {
         Vaccines.push({ ID: this.value });
     });
 
@@ -102,7 +102,7 @@ function Add() {
         FatherName: $('#FatherName').val(),
         Email: $('#Email').val(),
         DOB: $('#DOB').val(),
-        CountryCode:$('#CountryCode').val(),
+        CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
         MobileNumber: $('#MobileNumber').val(),
         PreferredDayOfWeek: result.join(','),
         Gender: $("input[name='gender']:checked").val(),
@@ -122,10 +122,10 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-			
-			$("#btnAdd").prop('disabled', false);
+
+            $("#btnAdd").prop('disabled', false);
             $("#btnAdd").button('reset');
-			
+
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
                 ScrollToTop();
@@ -135,7 +135,7 @@ function Add() {
             }
         },
         error: function (errormessage, e) {
-			$("#btnAdd").prop('disabled', false);
+            $("#btnAdd").prop('disabled', false);
             $("#btnAdd").button('reset');
             displayErrors(errormessage, e);
         }

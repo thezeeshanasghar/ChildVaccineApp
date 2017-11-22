@@ -22,7 +22,7 @@ function Login() {
         Password: $('#Password').val(),
         CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode
     }
-    console.log(obj);
+
     $.ajax({
         url: SERVER + 'user/login',
         type: 'post',
