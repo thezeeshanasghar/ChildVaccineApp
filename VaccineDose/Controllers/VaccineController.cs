@@ -12,6 +12,7 @@ namespace VaccineDose.Controllers
 {
     public class VaccineController : BaseController
     {
+
         #region C R U D
 
         public Response<IEnumerable<VaccineDTO>> Get()
@@ -123,6 +124,12 @@ namespace VaccineDose.Controllers
 
         #endregion
 
+        public static string sendRequest(string url)
+        {
+            System.Net.Http.HttpClient c = new System.Net.Http.HttpClient();
+            var content = c.GetStringAsync(url).Result;
+            return content.ToString();
+        }
 
         [Route("api/vaccine/{id}/dosses")]
         public Response<IEnumerable<DoseDTO>> GetDosses(int id)

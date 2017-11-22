@@ -75,6 +75,19 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
+
+                    // 3- send email to doctor
+                    UserEmail.DoctorEmail(doctorDTO);
+
+                    // generate SMS and save it to the db
+                    //string sms = UserSMS.DoctorSMS(doctorDTO);
+                    //Message m = new Message();
+                    //m.MobileNumber = doctorDTO.MobileNumber;
+                    //m.SMS = sms;
+                    //m.Status = "PENDING";
+                    //entities.Messages.Add(m);
+                    //entities.SaveChanges();
+
                     // 1- save User first
                     User userDB = new User();
                     userDB.MobileNumber = doctorDTO.MobileNumber;
@@ -91,19 +104,7 @@ namespace VaccineDose.Controllers
                     entities.Doctors.Add(doctorDB);
                     entities.SaveChanges();
 
-                    // 3- send email to doctor
                     doctorDTO.ID = doctorDB.ID;
-                    UserEmail.DoctorEmail(doctorDTO);
-
-                    // generate SMS and save it to the db
-                    string sms = UserSMS.DoctorSMS(doctorDTO);
-                    Message m = new Message();
-                    m.MobileNumber = doctorDTO.MobileNumber;
-                    m.SMS = sms;
-                    m.Status = "PENDING";
-                    entities.Messages.Add(m);
-                    entities.SaveChanges();
-                    // 
 
                     // 4- check if clinicDto exsist; then save clinic as well
                     if (doctorDTO.ClinicDTO != null && !String.IsNullOrEmpty(doctorDTO.ClinicDTO.Name))
@@ -121,7 +122,7 @@ namespace VaccineDose.Controllers
             }
             catch (Exception ex)
             {
-                return new Response<DoctorDTO>(false, ex.Message, null);
+                return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(ex), null);
             }
         }
 

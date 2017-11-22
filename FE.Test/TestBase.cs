@@ -11,8 +11,8 @@ namespace FE.Test
     public class TestBase
     {
         protected IWebDriver driver;
-        //protected string baseURL = "http://www.vac.afz-sol.com/";
-        protected string baseURL = "http://localhost:8080/";
+        protected string baseURL = "http://vaccs.io/";
+        //protected string baseURL = "http://localhost:8080/";
         public TestBase()
         {
             driver = new ChromeDriver();

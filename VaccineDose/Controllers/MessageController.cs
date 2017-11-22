@@ -14,6 +14,7 @@ namespace VaccineDose.Controllers
     {
         public HttpResponseMessage Get()
         {
+            
             var response = new HttpResponseMessage(HttpStatusCode.OK);
 
             using (VDConnectionString entities = new VDConnectionString())

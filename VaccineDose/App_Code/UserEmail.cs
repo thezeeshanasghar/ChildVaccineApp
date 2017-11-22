@@ -43,7 +43,7 @@ namespace VaccineDose.App_Code
         #endregion
 
         #region Child Email
-        
+
         public static void DoctorEmail(DoctorDTO doctor)
         {
             string body = "Hi " + "<b>" + doctor.FirstName + " " + doctor.LastName + "</b>, <br />"
@@ -57,26 +57,30 @@ namespace VaccineDose.App_Code
 
         #endregion
 
-        public static bool SendEmail(string userName, string userEmail, string body)
+        public static void SendEmail(string userName, string userEmail, string body)
         {
 
-            using (MailMessage mail = new MailMessage(teamEmail, userEmail))
+            using (MailMessage mail = new MailMessage("admin@vaccs.io", userEmail))
             {
-                mail.Subject = "Registered into MyVacc";
+                mail.Subject = "Registered into Vaccs.io";
                 mail.Body = body;
                 mail.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.EnableSsl = true;
-                NetworkCredential NetworkCred = new NetworkCredential(teamEmail, teamEmailPassword);
-                smtp.UseDefaultCredentials = true;
-                smtp.Credentials = NetworkCred;
-                smtp.Port = 587;
-                smtp.Send(mail);
-                return true;
+
+                SmtpClient smtp = new SmtpClient("ws4.win.arvixe.com");
+                smtp.EnableSsl = false;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("admin@vaccs.io", "wIm7d1@3");
+                smtp.Port = 25;
+                try
+                {
+                    smtp.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
 
         }
-       
     }
 }
