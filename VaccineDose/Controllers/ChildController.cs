@@ -292,6 +292,8 @@ namespace VaccineDose.Controllers
             var scheduleDoses = from schedule in dbSchedules
                                 group schedule.Dose by schedule.Date into scheduleDose
                                 select new { Date = scheduleDose.Key, Doses = scheduleDose.ToList() };
+
+            int count = 0;
             //
             using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
             {
@@ -322,13 +324,15 @@ namespace VaccineDose.Controllers
                 upperTable.AddCell(CreateCell("Patient", "bold", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
-                upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
+                //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell(dbChild.Name , "", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
-                upperTable.AddCell(CreateCell("Father Ph: " + dbChild.User.MobileNumber, "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell(dbChild.FatherName, "", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "", 1, "left", "description"));
-                upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
+                //upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell(dbChild.User.MobileNumber, "", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell("Doctor Ph: " + dbDoctor.PhoneNo, "", 1, "left", "description"));
                 upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
@@ -337,23 +341,47 @@ namespace VaccineDose.Controllers
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
-                PdfPTable table = new PdfPTable(2);
-                table.WidthPercentage = 100;
+                float[] widths = new float[] { 30f, 100f, 100f, 50f, 50f, 70f, 100f};
+            
+                PdfPTable table = new PdfPTable(7);
+                table.HorizontalAlignment = 0;
+                table.TotalWidth = 500f;
+                table.LockedWidth = true;
+                table.SetWidths(widths);
+
+                table.AddCell(CreateCell("S#", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Vaccine", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Due Date", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Weight", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Height", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Circumference", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Injected", "backgroudLightGray", 1, "center", "scheduleRecords"));
 
                 var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/img");
                 foreach (var schedule in scheduleDoses)
                 {
-                    PdfPCell cell = new PdfPCell(new Phrase(schedule.Date.Date.ToString("dd-MM-yyyy")));
-                    cell.Colspan = 2;
-                    cell.HorizontalAlignment = Element.ALIGN_CENTER;
-                    cell.Border = 0;
-                    table.AddCell(cell);
+                    //PdfPCell cell = new PdfPCell(new Phrase(schedule.Date.Date.ToString("dd-MM-yyyy")));
+                    //cell.Colspan = 2;
+                    //cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    //cell.Border = 0;
+                    //table.AddCell(cell);
+
                     foreach (var dose in schedule.Doses)
                     {
-                        PdfPCell cell1 = new PdfPCell(new Phrase(dose.Name));
-                        cell1.Border = 0;
-                        table.AddCell(cell1);
-                        // add a image
+                        count++;
+                        table.AddCell(CreateCell(count.ToString(), "", 1, "center", "scheduleRecords"));
+                        table.AddCell(CreateCell(dose.Name, "", 1, "", "scheduleRecords"));
+                     
+                        // select only injected dose schedule
+                        var dbSchedule = dose.Schedules.Where(x => x.DoseId==dose.ID).FirstOrDefault();
+
+                        table.AddCell(CreateCell(schedule.Date.Date.ToString("dd-MM-yyyy"), "", 1, "", "scheduleRecords"));
+                        table.AddCell(CreateCell(dbSchedule.Weight.ToString(), "", 1, "", "scheduleRecords"));
+                        table.AddCell(CreateCell(dbSchedule.Height.ToString(), "", 1, "", "scheduleRecords"));
+                        table.AddCell(CreateCell(dbSchedule.Circle.ToString(), "", 1, "", "scheduleRecords"));
+
+
+                        ////  add a image
                         var isDone = dose.Schedules.Where(x => x.IsDone).FirstOrDefault();
                         string injectionPath = "";
                         if (isDone != null)
@@ -369,14 +397,14 @@ namespace VaccineDose.Controllers
                         PdfPCell imageCell = new PdfPCell(img, true);
                         imageCell.PaddingBottom = 5;
                         imageCell.Colspan = 1; // either 1 if you need to insert one cell
-                        imageCell.Border = 0;
-                        imageCell.FixedHeight = 40f;
-                        imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                        //imageCell.Border = 0;
+                        imageCell.FixedHeight = 20f;
+                        imageCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         table.AddCell(imageCell);
                     }
 
 
-                    //imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    //  imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
                 }
 
