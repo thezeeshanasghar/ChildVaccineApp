@@ -82,6 +82,9 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="InvoiceNumber" Type="int" />
           <Property Name="ConsultationFee" Type="int" />
+          <Property Name="ProfileImage" Type="nvarchar(max)" />
+          <Property Name="SignatureImage" Type="nvarchar(max)" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -620,6 +623,9 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="InvoiceNumber" Type="Int32" />
           <Property Name="ConsultationFee" Type="Int32" />
+          <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
           <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
           <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
@@ -991,6 +997,9 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
+                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
                 <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
                 <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />

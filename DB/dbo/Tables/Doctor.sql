@@ -12,6 +12,9 @@
     [UserID] INT NOT NULL, 
     [InvoiceNumber] INT NULL, 
     [ConsultationFee] INT NULL, 
+    [ProfileImage] NVARCHAR(MAX) NULL, 
+    [SignatureImage] NVARCHAR(MAX) NULL, 
+    [DisplayName] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED ([ID] ASC),
 	CONSTRAINT [FK_Doctor_User] FOREIGN KEY ([UserID]) REFERENCES [dbo].[User] ([ID])
 );

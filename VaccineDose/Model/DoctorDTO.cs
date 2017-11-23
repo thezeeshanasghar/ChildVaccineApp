@@ -19,6 +19,9 @@ namespace VaccineDose
         public bool ShowMobile { get; set; }
         public int InvoiceNumber { get; set; }
         public int ConsultationFee { get; set; }
+        public string ProfileImage { get; set; }
+        public string SignatureImage { get; set; }
+        public string DisplayName { get; set; }
 
         [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime ValidUpto { get; set; }

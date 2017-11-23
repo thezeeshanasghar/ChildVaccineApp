@@ -4,6 +4,8 @@ using AutoMapper;
 using System.Collections.Generic;
 using System;
 using VaccineDose.App_Code;
+using System.IO;
+using System.Web;
 
 namespace VaccineDose.Controllers
 {
@@ -125,6 +127,8 @@ namespace VaccineDose.Controllers
                 return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(ex), null);
             }
         }
+        
+      
 
         public Response<DoctorDTO> Put(int Id, DoctorDTO doctorDTO)
         {
@@ -290,6 +294,49 @@ namespace VaccineDose.Controllers
                 return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
+
+
+        [HttpPost()]
+        [Route("api/doctor/image")]
+        public void UploadFiles()
+        {
+            try
+            {
+                VDConnectionString entities = new VDConnectionString();
+                 var dbDoctors = entities.Doctors.ToList();
+                var doctor =dbDoctors[dbDoctors.Count - 1];
+                if (HttpContext.Current.Request.Files.AllKeys.Any())
+                {
+                    // Get the uploaded image from the Files collection
+                    var httpPostedProfileImage = HttpContext.Current.Request.Files["ProfileImage"];
+                    var httpPostedSignatureImage = HttpContext.Current.Request.Files["SignatureImage"];
+
+                    if (httpPostedProfileImage != null)
+                    {
+                        // Validate the uploaded image(optional)
+                        // Get the complete file path
+                        var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedProfileImage.FileName);
+                        // Save the uploaded file to "UploadedFiles" folder
+                        httpPostedProfileImage.SaveAs(fileSavePath);
+                        doctor.ProfileImage = fileSavePath;
+                    }
+                    if (httpPostedSignatureImage != null)
+                    {
+                        var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedSignatureImage.FileName);
+                        httpPostedSignatureImage.SaveAs(fileSavePath);
+                        doctor.SignatureImage = fileSavePath;
+                    }
+                     entities.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+          
+      
+        }
+ 
     }
 
 }
