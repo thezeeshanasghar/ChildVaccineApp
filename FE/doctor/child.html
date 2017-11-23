@@ -139,19 +139,22 @@
 
                         <div class="tab-content">
                             <div id="followUpHistory" class="tab-pane fade in active">
-                                <form id="form2" role="form" data-toggle="validator">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr. No</th>
-                                                <th>Visit Date</th>
-                                                <th>Next Visit Date</th>
-                                                <th>Disease</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody"></tbody>
-                                    </table>
-                                </form>
+
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No</th>
+                                            <th>Visited</th>
+                                            <th>Next Visit</th>
+                                            <th>Disease</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody"></tbody>
+                                </table>
+                                    
+                                    <button type="button" class="btn btn-primary" onclick="PrintFollowUp()">Print</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                
                             </div>
                             <div id="followUpNew" class="tab-pane fade">
                                 <div class="row">
@@ -377,10 +380,10 @@
     </div><!-- /.container -->
 
 
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/bootstrap-datepicker.min.js"></script>
-    <script src="../js/validator.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/validator.min.js"></script>
 
 
     <script src="/server.js"></script>

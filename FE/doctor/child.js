@@ -169,10 +169,18 @@ function GenerateInvoice() {
         InvoiceDate: $("#InvoiceDate").val(),
         DoctorID: DoctorId()
     }
-    $.download(SERVER + 'child/invoice', obj, "POST");
+    $.download(SERVER + 'child/Download-Invoice-PDF', obj, "POST");
     $("#generateInvoiceModal").modal("hide");
 }
 
+function PrintFollowUp() {
+    var obj = {
+        ChildID: $("#followUpID").val(),
+        DoctorID: DoctorId()
+    }
+    console.log(obj);
+    $.download(SERVER + 'child/Download-FollowUp-PDF', obj, "POST");
+}
 
 jQuery.download = function (url, data, method) {
     //url and data options required

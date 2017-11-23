@@ -161,8 +161,64 @@ namespace VaccineDose.Controllers
 
         #endregion
 
+        [HttpGet]
+        [Route("~/api/child/{id}/GetChildAgainstMobile")]
+        public Response<IEnumerable<ChildDTO>> GetChildAgainstMobile(string id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    User user = entities.Users.Where(x => x.MobileNumber == id).FirstOrDefault();
+                    if (user != null)
+                    {
+                        var children = entities.Children.Where(c => c.UserID == user.ID).ToList();
+                        IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(children);
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                    }
+                    else
+                    {
+                        return new Response<IEnumerable<ChildDTO>>(false, "Childs not found", null);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
 
-        [Route("api/child/{id}/schedule")]
+        [HttpGet]
+        [Route("~/api/child/{id}/GetCustomScheduleAgainsClinic")]
+        public Response<DoctorScheduleDTO> GetCustomScheduleAgainsClinic(int id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var clinic = entities.Clinics.Where(c => c.ID == id).FirstOrDefault();
+                    var doctorSchedule = clinic.Doctor.DoctorSchedules.FirstOrDefault();
+                    if (doctorSchedule != null)
+                    {
+                        DoctorScheduleDTO doctorScheduleDTO = Mapper.Map<DoctorScheduleDTO>(doctorSchedule);
+                        return new Response<DoctorScheduleDTO>(true, null, doctorScheduleDTO);
+                    }
+                    else
+                    {
+                        return new Response<DoctorScheduleDTO>(false, "Custom schedule is not added", null);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<DoctorScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+        #region Schedule and Schedule PDF Methods
+
+        [Route("~/api/child/{id}/schedule")]
         public Response<IEnumerable<ScheduleDTO>> GetChildSchedule(int id)
         {
             try
@@ -196,84 +252,23 @@ namespace VaccineDose.Controllers
         }
 
         [HttpGet]
-        [Route("api/child/{id}/GetChildAgainstMobile")]
-        public Response<IEnumerable<ChildDTO>> GetChildAgainstMobile(string id)
+        [Route("~/api/child/{id}/Download-Schedule-PDF")]
+        public HttpResponseMessage DownloadSchedulePDF(int id)
         {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    User user = entities.Users.Where(x => x.MobileNumber == id).FirstOrDefault();
-                    if (user != null)
-                    {
-                        var children = entities.Children.Where(c => c.UserID == user.ID).ToList();
-                        IEnumerable<ChildDTO> childDTOs = Mapper.Map<IEnumerable<ChildDTO>>(children);
-                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
-                    }
-                    else
-                    {
-                        return new Response<IEnumerable<ChildDTO>>(false, "Childs not found", null);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
-        [HttpGet]
-        [Route("api/child/{id}/GetCustomScheduleAgainsClinic")]
-        public Response<DoctorScheduleDTO> GetCustomScheduleAgainsClinic(int id)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    var clinic = entities.Clinics.Where(c => c.ID == id).FirstOrDefault();
-                    var doctorSchedule = clinic.Doctor.DoctorSchedules.FirstOrDefault();
-                    if (doctorSchedule != null)
-                    {
-                        DoctorScheduleDTO doctorScheduleDTO = Mapper.Map<DoctorScheduleDTO>(doctorSchedule);
-                        return new Response<DoctorScheduleDTO>(true, null, doctorScheduleDTO);
-                    }
-                    else
-                    {
-                        return new Response<DoctorScheduleDTO>(false, "Custom schedule is not added", null);
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<DoctorScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
-        #region PDF Methods
-
-        //Schedule PDF 
-
-        [HttpGet]
-        [Route("api/child/{id}/download-pdf")]
-        public HttpResponseMessage DownloadPDF(int id)
-        {
-            Child dbScheduleChild = new Child();
+            Child dbScheduleChild;
             using (VDConnectionString entities = new VDConnectionString())
             {
                 dbScheduleChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
             }
-            var stream = CreatePdf(id);
+            var stream = CreateSchedulePdf(id);
 
             return new HttpResponseMessage
             {
                 Content = new StreamContent(stream)
                 {
-                    Headers =
-                            {
+                    Headers = {
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
-                                ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                                {
+                                ContentDisposition = new ContentDispositionHeaderValue("attachment") {
                                     FileName =dbScheduleChild.Name.Replace(" ","")+"_Schedule_" +DateTime.Now.ToString("MMMM-dd-yyyy")+ ".pdf"
                                 }
                             }
@@ -281,7 +276,8 @@ namespace VaccineDose.Controllers
                 StatusCode = HttpStatusCode.OK
             };
         }
-        private Stream CreatePdf(int childId)
+
+        private Stream CreateSchedulePdf(int childId)
         {
             //Access db data
             VDConnectionString entities = new VDConnectionString();
@@ -303,14 +299,7 @@ namespace VaccineDose.Controllers
                 writer.CloseStream = false;
 
                 document.Open();
-                Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 30, Font.BOLD);
-                Chunk chunkCols = new Chunk("Vaccine Schedule", ColFont);
-                Paragraph chunkParagraph = new Paragraph();
-                chunkParagraph.Alignment = Element.ALIGN_CENTER;
-                chunkParagraph.Add(chunkCols);
-                document.Add(chunkParagraph);
-                document.Add(new Paragraph(""));
-                document.Add(new Chunk("\n"));
+                GetPDFHeading(document, "Child Vaccine Schedule");
 
                 //Table 1 for description above Schedule table
                 PdfPTable upperTable = new PdfPTable(2);
@@ -325,7 +314,7 @@ namespace VaccineDose.Controllers
 
                 upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
                 //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
-                upperTable.AddCell(CreateCell(dbChild.Name , "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell(dbChild.Name, "", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
                 upperTable.AddCell(CreateCell(dbChild.FatherName, "", 1, "right", "description"));
@@ -341,8 +330,8 @@ namespace VaccineDose.Controllers
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
-                float[] widths = new float[] { 30f, 100f, 100f, 50f, 50f, 70f, 100f};
-            
+                float[] widths = new float[] { 30f, 100f, 100f, 50f, 50f, 70f, 100f };
+
                 PdfPTable table = new PdfPTable(7);
                 table.HorizontalAlignment = 0;
                 table.TotalWidth = 500f;
@@ -371,9 +360,9 @@ namespace VaccineDose.Controllers
                         count++;
                         table.AddCell(CreateCell(count.ToString(), "", 1, "center", "scheduleRecords"));
                         table.AddCell(CreateCell(dose.Name, "", 1, "", "scheduleRecords"));
-                     
+
                         // select only injected dose schedule
-                        var dbSchedule = dose.Schedules.Where(x => x.DoseId==dose.ID).FirstOrDefault();
+                        var dbSchedule = dose.Schedules.Where(x => x.DoseId == dose.ID).FirstOrDefault();
 
                         table.AddCell(CreateCell(schedule.Date.Date.ToString("dd-MM-yyyy"), "", 1, "", "scheduleRecords"));
                         table.AddCell(CreateCell(dbSchedule.Weight.ToString(), "", 1, "", "scheduleRecords"));
@@ -417,11 +406,14 @@ namespace VaccineDose.Controllers
             }
         }
 
-        //Invoice PDF
+
+        #endregion
+
+        #region Invoice PDF Methods
 
         [HttpPost]
-        [Route("api/child/invoice")]
-        public HttpResponseMessage GenerateInvoicePDF(ChildDTO childDTO)
+        [Route("api/child/Download-Invoice-PDF")]
+        public HttpResponseMessage DownloadInvoicePDF(ChildDTO childDTO)
         {
             try
             {
@@ -441,14 +433,8 @@ namespace VaccineDose.Controllers
 
                     document.Open();
                     //Page Heading
-                    Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 30, Font.BOLD);
-                    Chunk chunkCols = new Chunk("My Vaccs", ColFont);
-                    Paragraph chunkParagraph = new Paragraph();
-                    chunkParagraph.Alignment = Element.ALIGN_CENTER;
-                    chunkParagraph.Add(chunkCols);
-                    document.Add(chunkParagraph);
-                    document.Add(new Paragraph(""));
-                    document.Add(new Chunk("\n"));
+                    GetPDFHeading(document, "Vaccs.io");
+
                     //Access db data
                     VDConnectionString entities = new VDConnectionString();
                     var dbDoctor = entities.Doctors.Where(x => x.ID == childDTO.DoctorID).FirstOrDefault();
@@ -573,7 +559,7 @@ namespace VaccineDose.Controllers
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment")
                                 {
-                                    FileName = childName.Replace(" ","") +"_Invoice"+"_"+DateTime.Now.Date.ToString("MMMM-dd-yyyy")+".pdf"
+                                    FileName = childName.Replace(" ","") +"_FollowUp"+"_"+DateTime.Now.Date.ToString("MMMM-dd-yyyy")+".pdf"
                                 }
                             }
                     },
@@ -586,6 +572,19 @@ namespace VaccineDose.Controllers
             }
 
         }
+
+        private static void GetPDFHeading(Document document, String headingText)
+        {
+            Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 30, Font.BOLD);
+            Chunk chunkCols = new Chunk(headingText, ColFont);
+            Paragraph chunkParagraph = new Paragraph();
+            chunkParagraph.Alignment = Element.ALIGN_CENTER;
+            chunkParagraph.Add(chunkCols);
+            document.Add(chunkParagraph);
+            document.Add(new Paragraph(""));
+            document.Add(new Chunk("\n"));
+        }
+
         protected PdfPCell CreateCell(string value, string color, int colpan, string alignment, string table)
         {
 
@@ -621,7 +620,10 @@ namespace VaccineDose.Controllers
             return cell;
 
         }
+
         #endregion
+
+        #region FollowUp and FollowUp PDF Methods
 
         [HttpPost]
         [Route("~/api/child/followup")]
@@ -650,7 +652,87 @@ namespace VaccineDose.Controllers
                 return new Response<List<FollowUpDTO>>(false, GetMessageFromExceptionObject(e), null);
 
             }
-
         }
+
+        [HttpPost]
+        [Route("~/api/child/Download-FollowUp-PDF")]
+        public HttpResponseMessage DownloadFollowUpPDF(FollowUpDTO followUpDto)
+        {
+            VDConnectionString entities = new VDConnectionString();
+            Child child = entities.Children.Where(x => x.ID == followUpDto.ChildID).FirstOrDefault();
+            var stream = CreateFollowUpPdf(child);
+
+            return new HttpResponseMessage
+            {
+                Content = new StreamContent(stream)
+                {
+                    Headers = {
+                                ContentType = new MediaTypeHeaderValue("application/pdf"),
+                                ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                                {
+                                    FileName = "myfile.pdf"
+                                }
+                            }
+                },
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+        private Stream CreateFollowUpPdf(Child child)
+        {
+            using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
+            {
+                var output = new MemoryStream();
+                var writer = PdfWriter.GetInstance(document, output);
+                writer.CloseStream = false;
+
+                document.Open();
+
+                GetPDFHeading(document, "Child Visit History");
+
+                PdfPTable table = new PdfPTable(4);
+                table.TotalWidth = 500f;
+                //fix the absolute width of the table
+                table.LockedWidth = true;
+
+                //relative col widths in proportions - 1/3 and 2/3
+                float[] widths = new float[] { 2f, 3f,3f, 8f };
+                table.SetWidths(widths);
+                table.HorizontalAlignment = 0;
+                //leave a gap before and after the table
+                table.SpacingBefore = 20f;
+                table.SpacingAfter = 30f;
+
+                table.AddCell(GetHeaderCell("Sr #"));
+                table.AddCell(GetHeaderCell("Visited"));
+                table.AddCell(GetHeaderCell("Next Visit"));
+                table.AddCell(GetHeaderCell("Disesase"));
+                var followUps = child.FollowUps.ToList();
+                foreach (var item in followUps)
+                {
+                    table.AddCell(new PdfPCell(new Phrase( (followUps.IndexOf(item) + 1) + "")));
+                    table.AddCell(new PdfPCell(new Phrase(item.CurrentVisitDate.Value.ToString("dd-MM-yyyy"))));
+                    table.AddCell(new PdfPCell(new Phrase(item.NextVisitDate.Value.ToString("dd-MM-yyyy"))));
+                    table.AddCell(new PdfPCell(new Phrase(item.Disease.ToString())));
+                }
+
+                document.Add(table);
+
+                document.Close();
+
+                output.Seek(0, SeekOrigin.Begin);
+
+                return output;
+            }
+        }
+
+        private PdfPCell GetHeaderCell(string v)
+        {
+            Font font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+            PdfPCell cell = new PdfPCell(new Phrase(v, font));
+            return cell;
+        }
+
+        #endregion
     }
 }

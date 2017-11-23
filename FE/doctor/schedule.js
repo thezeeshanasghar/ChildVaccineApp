@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
-    $('#print').attr('href', SERVER + 'child/' + id + '/download-pdf');
+    $('#print').attr('href', SERVER + 'child/' + id + '/Download-Schedule-PDF');
 
 });
 
@@ -73,6 +73,7 @@ function loadData(id) {
     });
 
 }
+
 function getbyID(ID) {
     $("#ID").val(ID);
     var html = '';
@@ -125,6 +126,7 @@ function getbyID(ID) {
     });
     return false;
 }
+
 //on brand change
 function checkBrandInventory(brand) {
     brandId = brand.value;
@@ -150,6 +152,7 @@ function checkBrandInventory(brand) {
         }
     });
 }
+
 function Update() {
     var obj = {
         ID: $("#ID").val(),
