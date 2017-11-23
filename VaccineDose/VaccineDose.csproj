@@ -438,6 +438,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\UserImages\" />
     <Folder Include="Views\Message\" />
   </ItemGroup>
   <ItemGroup>

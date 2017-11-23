@@ -57,6 +57,8 @@ function Add() {
         PhoneNo: $("#PhoneNo").val(),
         ShowPhone: $("#ShowPhone").is(":checked"),
         ShowMobile: $("#ShowMobile").is(":checked"),
+        DisplayName: $('#DisplayName').val(),
+     
         ClinicDTO: {
             Name: $('#Name').val(),
             StartTime: $('#StartTime').val(),
@@ -80,6 +82,7 @@ function Add() {
                 $("#btnAddClinic").button('reset');
                 return;
             } else {
+                uploadImages();
                 $("#btnAddClinic").prop('disabled', false);
                 $("#btnAddClinic").button('reset');
                 $("#clinic").hide();
@@ -94,6 +97,42 @@ function Add() {
             alert(errormessage.responseText);
         }
     });
+}
+
+function uploadImages() {
+    var data = new FormData();
+    var file = $("#ProfileImage").get(0).files;
+    var file1 = $("#SignatureImage").get(0).files;
+    var dt = new Date();
+    var date = dt.getDate() + "-" + dt.getMonth() + "-" + dt.getFullYear() + "_" + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+     // Add the uploaded image content to the form data collection
+       
+    if (file.length > 0) {
+        file[0].name = "ProfileImage_" + date + file[0].name;
+        data.append("ProfileImage", file[0]);
+    }
+    if (file1.length > 0) {
+        file1[0].name = "SignatureImage_" + date + file1[0].name;
+        data.append("SignatureImage", file1[0]);
+    }
+    if (file.length > 0 || file1.length > 0) {
+        $.ajax({
+            type: "POST",
+            url: SERVER + 'doctor/image',    // CALL WEB API TO SAVE THE FILES.
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,         // PREVENT AUTOMATIC DATA PROCESSING.
+            cache: false,
+            data: data, 		        // DATA OR FILES IN THIS CONTEXT.
+            success: function (data, textStatus, xhr) {
+                
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }
+        });
+    }
+   
 }
 function validate() {
     var validator = $('#form2').data("bs.validator");
