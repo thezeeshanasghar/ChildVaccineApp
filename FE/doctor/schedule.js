@@ -1,5 +1,7 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
+    $("#btnbulkInjection").hide();
+    $('#btnUpdate').hide();
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
     $('#print').attr('href', SERVER + 'child/' + id + '/Download-Schedule-PDF');
@@ -39,8 +41,16 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    html += '   <h3 style="text-align:center">' + date + ' <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span></h3>';
-                    html += '<div class="well" style="background-color:rgb(240, 240, 240); padding-top:9px;padding-bottom:9px">';
+                    html += '<div class="col-md-7">'
+                    html += '<h3 style="text-align:right">' + date + ' <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span></h3>';
+                    html += '</div>'
+                    html += '<div class="col-md-5">'
+                    html += '<span><a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')">';
+                    html += ' <img src="../img/injectionEmpty.png" style="height: 30px;margin-top: 15px;">'
+                    html += '</a></span>';
+                    html += '</div>';
+
+                    html += '<div class="well col-md-12" style="background-color:rgb(240, 240, 240); padding-top:9px;padding-bottom:9px">';
 
                     var doseArray = dateVsArrayOfScheuleMap[date];
                     for (var index in doseArray) {
@@ -87,7 +97,7 @@ function getbyID(ID) {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                
+
                 $("#Weight").val(result.ResponseData.Weight);
                 $("#Height").val(result.ResponseData.Height);
                 $("#Circumference").val(result.ResponseData.Circle);
@@ -96,7 +106,7 @@ function getbyID(ID) {
                     $("#Weight").prop('readonly', true);
                     $("#Height").prop('readonly', true);
                     $("#Circumference").prop('readonly', true);
-                    $("#Brand").attr("disabled", true); 
+                    $("#Brand").attr("disabled", true);
                 }
                 else {
                     $("#Weight").prop('readonly', false);
@@ -109,15 +119,17 @@ function getbyID(ID) {
                 html = '<select id="Brand" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
                 html += '<option value="">-- Select Brand --</option>';
                 $.each(result.ResponseData.Brands, function (key, item) {
-                   
+
                     html += '<option value=' + item.ID;
-                    html += (result.ResponseData.BrandId==item.ID) ? selectedAttribute : '';
-                    html += '>'+item.Name + '</option>';
+                    html += (result.ResponseData.BrandId == item.ID) ? selectedAttribute : '';
+                    html += '>' + item.Name + '</option>';
                 });
-                html+='</select>';
+                html += '</select>';
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
+                $("#btnbulkInjection").hide();
+
             }
         },
         error: function (errormessage) {
@@ -131,14 +143,14 @@ function getbyID(ID) {
 function checkBrandInventory(brand) {
     brandId = brand.value;
     var html = '';
-     $.ajax({
-         url: SERVER + 'schedule/brandinventory-stock/' + brandId,
+    $.ajax({
+        url: SERVER + 'schedule/brandinventory-stock/' + brandId,
         type: 'GET',
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
         success: function (result) {
             if (!result.IsSuccess) {
-                html ='<span><b style="color:red">' + result.Message + '</b></span>';
+                html = '<span><b style="color:red">' + result.Message + '</b></span>';
                 $("#ddBrand").append(html);
                 $('#btnUpdate').hide();
             }
@@ -271,5 +283,64 @@ function openBulkCalender(scheduleId, date) {
              }
          });
      });
+}
+
+function openVaccineDetails(ID, date) {
+  
+    $("#Weight").prop('readonly', false);
+    $("#Height").prop('readonly', false);
+    $("#Circumference").prop('readonly', false);
+    $("#Brand").attr("disabled", false);
+    $("#Weight").val("");
+    $("#Height").val("");
+    $("#Circumference").val("");
+    $("#Brand").hide();
+
+    $("#ID").val(ID);
+    $('#date').val(date);
+    $('#myModal').modal('show');
+    $("#btnbulkInjection").show();
+    $('#btnUpdate').hide();
+}
+function UpdateBulkInjection() {
+
+    var obj = {
+        ID: $("#ID").val(),
+        Date: $('#date').val(),
+        Weight: $("#Weight").val(),
+        Height: $("#Height").val(),
+        Circle: $("#Circumference").val(),
+        IsDone: "true",
+    }
+
+    $.ajax({
+        url: SERVER + "schedule/update-bulk-injection/",
+        data: JSON.stringify(obj),
+        type: "PUT",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $('#myModal').modal('hide');
+                $("#ID").val("");
+                $('#date').val("");
+                $("#Weight").val("");
+                $("#Height").val("");
+                $("#Circumference").val("");
+
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
+
+                ShowAlert('Success', result.Message, 'success');
+                ScrollToTop();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
 }
 

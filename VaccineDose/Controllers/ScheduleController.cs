@@ -150,6 +150,41 @@ namespace VaccineDose.Controllers
             }
         }
 
+
+        [HttpPut]
+        [Route("api/schedule/update-bulk-injection")]
+        public Response<ScheduleDTO> UpdateBulkInjection(ScheduleDTO scheduleDTO)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
+                     ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
+
+                    foreach (Schedule schedule in childSchedules)
+                    {
+                        if (schedule.Date.Date == dbSchedule.Date.Date)
+                        {
+                            schedule.Weight = scheduleDTO.Weight;
+                            schedule.Height = scheduleDTO.Height;
+                            schedule.Circle = scheduleDTO.Circle;
+                            schedule.IsDone = scheduleDTO.IsDone;
+                            entities.Schedules.Attach(schedule);
+                            entities.Entry(schedule).State = EntityState.Modified;
+                            entities.SaveChanges();
+
+                        }
+                    }
+                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<ScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
         [HttpPut]
         [Route("api/schedule/update-schedule")]
         public Response<ScheduleDTO> UpdateSchedule(ScheduleDTO scheduleDTO)
@@ -209,7 +244,7 @@ namespace VaccineDose.Controllers
                     var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandId).FirstOrDefault();
                     BrandInventoryDTO brandInventoryDTO = Mapper.Map<BrandInventoryDTO>(dbBrandInventory);
                     if (brandInventoryDTO.Count > 0)
-                         return new Response<BrandInventoryDTO>(true, null, brandInventoryDTO);
+                        return new Response<BrandInventoryDTO>(true, null, brandInventoryDTO);
 
                     return new Response<BrandInventoryDTO>(false, "Sorry this brand is out of stock", null);
 
