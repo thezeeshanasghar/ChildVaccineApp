@@ -516,7 +516,8 @@ namespace VaccineDose.Controllers
                         {
                             //date is static due to date conversion issue
                             //  && schedule.Date.Date == DateTime.Now.Date
-                            if (schedule.IsDone)
+                            //when we add bulk injection we don't add brandId in schedule
+                            if (schedule.IsDone && schedule.BrandId>0)
                             {
                                 count++;
                                 table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
