@@ -60,6 +60,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\dashboard.html" />
+    <Content Include="admin\dashboard.js" />
     <Content Include="admin\vaccine-brand.html" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\intlTelInput.css" />

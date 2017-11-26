@@ -18,6 +18,25 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
+                    var dbDoctor = entities.Doctors.ToList();
+                    IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
+                    foreach (var item in doctorDTOs)
+                        item.MobileNumber = dbDoctor.Where(x => x.ID == item.ID).First().User.MobileNumber;
+                    return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+        [Route("~/api/doctor/approved")]
+        public Response<IEnumerable<DoctorDTO>> GetApproved()
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
                     foreach (var item in doctorDTOs)
@@ -28,9 +47,9 @@ namespace VaccineDose.Controllers
             catch (Exception e)
             {
                 return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
-
             }
         }
+
         [Route("~/api/doctor/unapproved")]
         public Response<IEnumerable<DoctorDTO>> GetUnApproved()
         {
@@ -127,8 +146,8 @@ namespace VaccineDose.Controllers
                 return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(ex), null);
             }
         }
-        
-      
+
+
 
         public Response<DoctorDTO> Put(int Id, DoctorDTO doctorDTO)
         {
@@ -303,8 +322,8 @@ namespace VaccineDose.Controllers
             try
             {
                 VDConnectionString entities = new VDConnectionString();
-                 var dbDoctors = entities.Doctors.ToList();
-                var doctor =dbDoctors[dbDoctors.Count - 1];
+                var dbDoctors = entities.Doctors.ToList();
+                var doctor = dbDoctors[dbDoctors.Count - 1];
                 if (HttpContext.Current.Request.Files.AllKeys.Any())
                 {
                     // Get the uploaded image from the Files collection
@@ -326,17 +345,17 @@ namespace VaccineDose.Controllers
                         httpPostedSignatureImage.SaveAs(fileSavePath);
                         doctor.SignatureImage = fileSavePath;
                     }
-                     entities.SaveChanges();
+                    entities.SaveChanges();
                 }
             }
             catch (Exception e)
             {
 
             }
-          
-      
+
+
         }
- 
+
     }
 
 }
