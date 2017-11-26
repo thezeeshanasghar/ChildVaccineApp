@@ -5,6 +5,8 @@
     loadDoctors();
     loadChilds();
 
+    HideAlert();
+
 });
 
 
