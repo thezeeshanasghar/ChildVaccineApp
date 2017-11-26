@@ -76,10 +76,10 @@ function SetMainNav() {
     } else if (UserType == 'DOCTOR') {
         markup += '<div class="btn-group btn-group-justified">';
         markup += '     <a id="openSideNav" href="#" onclick="openNav()" class="btn btn-primary btn-lg" style="width:.35%;padding: 10px 10px;"><span class="glyphicon glyphicon-align-justify"></span></a>';
-        markup += '     <a href="alert.html" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-alert"></span></a>';
-        markup += '     <a id="addNewChild" href="add-new-child.html" class="btn btn-primary  btn-lg"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
-        markup += '     <a href="child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
-        markup += '     <a href="doctor-edit.html" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-pencil"></span></a>';
+        markup += '     <a href="/doctor/alert.html" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-alert"></span></a>';
+        markup += '     <a id="addNewChild" href="/doctor/add-new-child.html" class="btn btn-primary  btn-lg"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
+        markup += '     <a href="/doctor/child.html?id=' + OnlineClinic + '" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
+        markup += '     <a href="/doctor/doctor-edit.html" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-pencil"></span></a>';
         markup += '</div>';
         markup += '<div id="mySidenav" class="sidenav">';
         markup += '     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>';

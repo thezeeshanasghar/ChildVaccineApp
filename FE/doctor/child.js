@@ -221,7 +221,6 @@ function GetFollowUpById(childId) {
                     html += '<tr>'
                     html += '   <td>' + (key + 1) + '</td>';
                     html += '   <td>' + item.CurrentVisitDate + '</td>';
-                    html += '   <td>' + item.NextVisitDate + '</td>';
                     html += '   <td>' + item.Disease + '</td>';
                     html += '</tr>'
 

@@ -34,7 +34,7 @@ namespace VaccineDose.App_Code
                 + "Clinic Phone Number <b>" + child.Clinic.PhoneNumber + "</b><br>";
 
             body += "Doctor Phone Number: <b>" + child.Clinic.Doctor.PhoneNo + "<b><br>";
-            body += "Web Link: http://vaccs.io/";
+            body += "Web Link: <a href=\"http://vaccs.io\" target=\"_blank\" rel=\"noopener noreferrer\">http://vaccs.io</a>";
             //TODO: website and android link
             SendEmail(child.Name, child.Email, body);
         }
@@ -51,7 +51,7 @@ namespace VaccineDose.App_Code
                 + "Your account credentials are: <br />"
                 + "ID/Mobile Number: " + doctor.MobileNumber + "<br />"
                 + "Password: " + doctor.Password + "<br />"
-                + "Web Link: http://vaccs.io/";
+                + "Web Link: <a href=\"http://vaccs.io\" target=\"_blank\" rel=\"noopener noreferrer\">http://vaccs.io</a>";
             SendEmail(doctor.FirstName, doctor.Email, body);
         }
 
