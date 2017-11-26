@@ -295,12 +295,49 @@ function openVaccineDetails(ID, date) {
     $("#Height").val("");
     $("#Circumference").val("");
     $("#Brand").hide();
+    var obj = {
+        ChildId: parseInt(getParameterByName("id")),
+        Date:date
+    }
+    $.ajax({
+        url: SERVER + "schedule/bulk-brand/",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $("#ID").val(ID);
+                $('#date').val(date);
+                var html = '';
+                $.each(result.ResponseData, function (key, schedule) {
+                
+                    //show vaccine brands
+                    html += '<select id="Brand" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
+                    html += '<option value="">-- Select '+schedule.Dose.Name+ ' Brand --</option>';
+                    $.each(schedule.Brands, function (key, brand) {
+                        html += '<option value=' + brand.ID;
+                        html += '>' + brand.Name + '</option>';
 
-    $("#ID").val(ID);
-    $('#date').val(date);
-    $('#myModal').modal('show');
-    $("#btnbulkInjection").show();
-    $('#btnUpdate').hide();
+                    });
+                    html += '</select>';
+                    html += "<br>";
+                });
+                $("#ddBrand").html(html);
+                $('#myModal').modal('show');
+                $("#btnbulkInjection").show();
+                $('#btnUpdate').hide();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
 }
 function UpdateBulkInjection() {
 

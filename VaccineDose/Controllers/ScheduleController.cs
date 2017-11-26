@@ -255,5 +255,39 @@ namespace VaccineDose.Controllers
                 return new Response<BrandInventoryDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
+
+        [HttpPost]
+        [Route("api/schedule/bulk-brand")]
+
+        public Response<List<ScheduleDTO>> GetVaccineBrands(ScheduleDTO scheduleDto)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbSchedule = entities.Schedules.Where(x => x.Date == scheduleDto.Date && x.ChildId==scheduleDto.ChildId).ToList();
+                    
+                    List<ScheduleDTO> scheduleDTOs = new List<ScheduleDTO>();
+                    foreach (var schedule in dbSchedule)
+                    {
+                        ScheduleDTO scheduleDTO = new ScheduleDTO();
+                        var dbBrands = schedule.Dose.Vaccine.Brands.ToList();
+                        List<BrandDTO> brandDTOs = Mapper.Map<List<BrandDTO>>(dbBrands);
+                        scheduleDTO.Dose=Mapper.Map<DoseDTO>(schedule.Dose);
+                        scheduleDTO.Brands = brandDTOs;
+                        scheduleDTOs.Add(scheduleDTO);
+                     }
+
+                 return new Response<List<ScheduleDTO>>(true, null, scheduleDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<List<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+
     }
+
 }
