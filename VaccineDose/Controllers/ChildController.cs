@@ -14,11 +14,33 @@ using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
 {
-    //[RoutePrefix("api/child")]
     public class ChildController : BaseController
     {
         #region C R U D
-
+        public Response<IEnumerable<ChildDTO>> Get()
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbChilds = entities.Children.ToList();
+                    List<ChildDTO> childDTOs = new List<ChildDTO>();
+                    foreach (var child in dbChilds)
+                    {
+                        ChildDTO childDTO = Mapper.Map<ChildDTO>(child);
+                        childDTO.CountryCode = child.User.CountryCode;
+                        childDTO.MobileNumber = child.User.MobileNumber;
+                        childDTOs.Add(childDTO);
+                    }
+                    
+                    return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
         public Response<ChildDTO> Get(int Id)
         {
             try

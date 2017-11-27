@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/img/favicon.ico" rel="icon">
+
+</head>
+<body>
+    <div class="container">
+        <div id="menu"></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Dashboard</h2>
+
+                <div id="alert_message" class="alert alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                    <strong></strong>
+                    <p></p>
+                </div>
+
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul id="tabs" class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#doctor" aria-controls="doctor" role="tab" data-toggle="tab">Doctors</a></li>
+                        <li role="presentation"><a href="#child" aria-controls="child" role="tab" data-toggle="tab">Childs</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        <div role="tabpanel" class="tab-pane active" id="doctor">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="6%">
+                                            Sr. No
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Mobile No
+                                        </th>
+                                        <th>
+                                            PMDC No
+                                        </th>
+                                        <th>
+                                            Valid Up To
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody-doctor"></tbody>
+                            </table>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="child">
+                            <p>&nbsp;</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-daterange input-group" id="datepicker">
+                                        <input type="text" class="input form-control" name="start" placeholder="Registered From" disabled />
+                                        <span class="input-group-addon">to</span>
+                                        <input type="text" class="input form-control" name="end" placeholder="Registered To" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="City" class="form-control" name="City" disabled>
+                                        <option value="">-- select city --</option>
+                                        <option value="Islamabad">Islamabad</option>
+                                        <option value="Lahore">Lahore</option>
+                                        <option value="Multan">Multan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary pull-right" style="vertical-align:bottom" disabled>Search</button>
+                                </div>
+                            </div>
+                            <p>&nbsp;</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th width="6%">
+                                                    Sr. No
+                                                </th>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Father Name
+                                                </th>
+                                                <th>
+                                                    Mobile No
+                                                </th>
+                                                <th>
+                                                    City
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody-child"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="footer"></div>
+
+    </div><!-- /.container -->
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/validator.min.js"></script>
+
+    <script src="/server.js"></script>
+    <script src="/common.js"></script>
+    <script src="dashboard.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            openTabBasedOnUrlHashValue();
+
+            $('.input-daterange').datepicker({
+                format: "dd-mm-yyyy",
+                todayBtn: true,
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+        function openTabBasedOnUrlHashValue() {
+            // Below Script is for opening other than first tab using url hash like http://site/admin/dashboard.html#secondTab
+            // it assumes tabs have  id="tabs" and tab content have class  class="tab-content"
+
+            //grabs the hash tag from the url
+            var hash = window.location.hash;
+            //checks whether or not the hash tag is set
+            if (hash != "") {
+                //removes all active classes from tabs
+                $('#tabs li').each(function () {
+                    $(this).removeClass('active');
+                });
+                $('.tab-content div').each(function () {
+                    $(this).removeClass('active');
+                });
+                //this will add the active class on the hashtagged value
+                var link = "";
+                $('#tabs li').each(function () {
+                    link = $(this).find('a').attr('href');
+                    if (link == hash) {
+                        $(this).addClass('active');
+                    }
+                });
+                $('.tab-content div').each(function () {
+                    link = $(this).attr('id');
+                    if ('#' + link == hash) {
+                        $(this).addClass('active');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

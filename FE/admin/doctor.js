@@ -1,5 +1,4 @@
-﻿// TODO: Muneeb change calendar to selected date if ValidUpto date exists in db
-$(document).ready(function () {
+﻿$(document).ready(function () {
     loadData();
 });
 
@@ -9,7 +8,7 @@ function loadData() {
 
     // Get approved doctors
     $.ajax({
-        url: SERVER + "doctor",
+        url: SERVER + "doctor/approved",
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -26,15 +25,7 @@ function loadData() {
                     html += '   <td>' + item.Email + '</td>';
                     html += '   <td>' + item.MobileNumber + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
-                    //TODO:testing for this check
-                    if (item.ValidUpto != null && item.ValidUpto != "01-01-0001") {
-                        html += '   <td>' + item.ValidUpto;
-                    }
-                    else {
-                        html += '   <td>';
-                    }
-                    html += '      &nbsp;&nbsp;<span class="glyphicon glyphicon-calendar validUpto_' + key + '"  onclick=" return openCalender(' + item.ID + ',' + key + ',\''+item.ValidUpto+'\')"></span>';
-                    html += '   </td>';
+                    html += '   <td> <span class="glyphicon glyphicon-calendar validUpto"  onclick=" return openCalender(' + item.ID + ',' + key + ',\'' + item.ValidUpto + '\')"></span></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
@@ -60,9 +51,7 @@ function loadData() {
                 html += '   <td>' + item.Email + '</td>';
                 html += '   <td>' + item.MobileNumber + '</td>';
                 html += '   <td>' + item.PMDC + '</td>';
-
-                html += '   <td>' +
-                    '           <a href="#" onclick="return Approve(' + item.ID + ')">Approve</a></td>';
+                html += '   <td> <a href="#" onclick="return Approve(' + item.ID + ')">Approve</a></td>';
                 html += '</tr>';
             });
             $('.tbodyUnApproved').html(html);
@@ -74,22 +63,22 @@ function loadData() {
     });
 }
 
-function openCalender(doctorId,index,validUpTO) {
+function openCalender(doctorId, validUpTO) {
 
-    $(".validUpto_" + index).datepicker({
-            format: 'dd-mm-yyyy',
-            todayBtn: true,
-            autoclose: true,
-            todayHighlight: true,
+    $(".validUpto").datepicker({
+        format: 'dd-mm-yyyy',
+        todayBtn: true,
+        autoclose: true,
+        todayHighlight: true,
     });
-    if (validUpTO!=null)
-    $('.validUpto_' + index).datepicker('update', validUpTO);
-    $(".validUpto_" + index).datepicker('show');
+    if (validUpTO != null)
+        $('.validUpto').datepicker('update', validUpTO);
+    $(".validUpto").datepicker('show');
 
-        var obj = {};
-        obj.ID = doctorId;
+    var obj = {};
+    obj.ID = doctorId;
 
-    $(".validUpto_" + index).datepicker()
+    $(".validUpto").datepicker()
          .on('changeDate', function (e) {
              obj.ValidUpto = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
              $.ajax({
@@ -103,7 +92,7 @@ function openCalender(doctorId,index,validUpTO) {
                          ShowAlert('Error', result.Message, 'danger');
                      }
                      else {
-                          loadData();
+                         loadData();
                          ShowAlert('Success', result.Message, 'success');
                          ScrollToTop();
                      }
@@ -113,7 +102,7 @@ function openCalender(doctorId,index,validUpTO) {
                  }
              });
          });
-    }
+}
 
 
 // function for approve doctor

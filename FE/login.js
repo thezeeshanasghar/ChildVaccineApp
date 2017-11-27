@@ -43,7 +43,7 @@ function Login() {
             }
             if (result.ResponseData.UserType == "SUPERADMIN") {
                 localStorage.setItem('UserType', "SUPERADMIN");
-                window.location.replace('/index.html');
+                window.location.replace('/admin/dashboard.html');
             }
             else if (result.ResponseData.UserType == "DOCTOR") {
                 localStorage.setItem('UserType', "DOCTOR");
