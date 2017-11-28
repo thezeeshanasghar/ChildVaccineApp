@@ -1,7 +1,5 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
-    $("#btnbulkInjection").hide();
-    $('#btnUpdate').hide();
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
     $('#print').attr('href', SERVER + 'child/' + id + '/Download-Schedule-PDF');
@@ -128,8 +126,7 @@ function getbyID(ID) {
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
-                $("#btnbulkInjection").hide();
-
+ 
             }
         },
         error: function (errormessage) {
@@ -286,15 +283,7 @@ function openBulkCalender(scheduleId, date) {
 }
 
 function openVaccineDetails(ID, date) {
-  
-    $("#Weight").prop('readonly', false);
-    $("#Height").prop('readonly', false);
-    $("#Circumference").prop('readonly', false);
-    $("#Brand").attr("disabled", false);
-    $("#Weight").val("");
-    $("#Height").val("");
-    $("#Circumference").val("");
-    $("#Brand").hide();
+   
     var obj = {
         ChildId: parseInt(getParameterByName("id")),
         Date:date
@@ -326,11 +315,10 @@ function openVaccineDetails(ID, date) {
                     html += '</select>';
                     html += "<br>";
                 });
-                $("#ddBrand").html(html);
-                $('#myModal').modal('show');
+                $("#ddBrand_bulk").html(html);
+                $('#bulkModel').modal('show');
                 $("#btnbulkInjection").show();
-                $('#btnUpdate').hide();
-            }
+             }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -352,9 +340,9 @@ function UpdateBulkInjection() {
     var obj = {
         ID: $("#ID").val(),
         Date: $('#date').val(),
-        Weight: $("#Weight").val(),
-        Height: $("#Height").val(),
-        Circle: $("#Circumference").val(),
+        Weight: $("#BulkWeight").val(),
+        Height: $("#BulkHeight").val(),
+        Circle: $("#BulkCircumference").val(),
         IsDone: "true",
         ScheduleBrands: scheduleBrands
     }
@@ -370,12 +358,12 @@ function UpdateBulkInjection() {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                $('#myModal').modal('hide');
+                $('#bulkModel').modal('hide');
                 $("#ID").val("");
                 $('#date').val("");
-                $("#Weight").val("");
-                $("#Height").val("");
-                $("#Circumference").val("");
+                $("#BulkWeight").val("");
+                $("#BulkHeight").val("");
+                $("#BulkCircumference").val("");
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
