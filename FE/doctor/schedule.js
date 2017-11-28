@@ -314,9 +314,9 @@ function openVaccineDetails(ID, date) {
                 $('#date').val(date);
                 var html = '';
                 $.each(result.ResponseData, function (key, schedule) {
-                
+                    html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
                     //show vaccine brands
-                    html += '<select id="Brand" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
+                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
                     html += '<option value="">-- Select '+schedule.Dose.Name+ ' Brand --</option>';
                     $.each(schedule.Brands, function (key, brand) {
                         html += '<option value=' + brand.ID;
@@ -340,7 +340,15 @@ function openVaccineDetails(ID, date) {
 
 }
 function UpdateBulkInjection() {
-
+       
+    var scheduleBrands = [];
+    //for time being I'm using loop upto 10 dropdown values
+    for (i = 1; i <= 10; i++) {
+        if ($("#ScheduleId_" + i).val() && $("#BrandId_" + i).val()) {
+            scheduleBrands.push({ ScheduleId: $("#ScheduleId_" + i).val(), BrandId: $("#BrandId_" + i).val() });
+        }
+    }
+       
     var obj = {
         ID: $("#ID").val(),
         Date: $('#date').val(),
@@ -348,6 +356,7 @@ function UpdateBulkInjection() {
         Height: $("#Height").val(),
         Circle: $("#Circumference").val(),
         IsDone: "true",
+        ScheduleBrands: scheduleBrands
     }
 
     $.ajax({
