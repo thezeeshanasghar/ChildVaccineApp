@@ -63,6 +63,9 @@
     <Content Include="admin\dashboard.html" />
     <Content Include="admin\dashboard.js" />
     <Content Include="admin\vaccine-brand.html" />
+    <Content Include="child\child-food-nutrition.html" />
+    <Content Include="child\child-safety.html" />
+    <Content Include="child\vaccine-information.html" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\intlTelInput.css" />
     <Content Include="doctor\brand-amount.html" />

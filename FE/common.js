@@ -92,10 +92,18 @@ function SetMainNav() {
         markup += '</div>';
     } else if (UserType == 'PARENT') {
         markup += '<div class="btn-group btn-group-justified">';
+        markup += '     <a id="openSideNav" href="#" onclick="openNav()" class="btn btn-primary btn-lg" style="width:.35%;padding: 10px 10px;"><span class="glyphicon glyphicon-align-justify"></span></a>';
         markup += '     <a href="/child/child-specialist.html" class="btn btn-primary btn-lg">Find Child Specialist</a>';
         markup += '     <a href="#" class="btn btn-primary btn-lg">Child safety</a>';
         markup += '     <a href="/child/child.html" class="btn btn-primary btn-lg">My Children</a>';
-        markup += '     <a href="#" class="btn btn-primary btn-lg" onclick="return logout()" id="menu-logout">Logout</a>';
+        markup += '     <a href="#" class="btn btn-primary btn-lg">Online Help</a>';
+        markup += '</div>';
+                markup += '<div id="mySidenav" class="sidenav">';
+        markup += '     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>';
+        markup += '     <a href="/child/child-safety.html">Child Safety</a>';
+        markup += '     <a href="/child/vaccine-information.html">Vaccine Informations</a>';
+        markup += '     <a href="/child/child-food-nutrition.html">Baby food and nutrituion guide</a>';
+        markup += '     <a href="#" onclick="return logout()">Logout</a>';
         markup += '</div>';
     } else {
         markup += '<nav class="navbar navbar-default">';
