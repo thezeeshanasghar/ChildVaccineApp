@@ -91,32 +91,50 @@
                             var lat = item.Lat;
                             var lng = item.Long;
                             var myLatlng = new google.maps.LatLng(lat, lng);
-                            connectionString = '<table class="table table-bordered table-hover ">';
-                            connectionString += '<thead>'
-                            connectionString += '<tr>'
-                            connectionString += '<th> Clinic' + '</th>'
-                            connectionString += '<th> Ph#' + '</th>'
-                            connectionString += '<th> Start Time' + '</th>'
-                            connectionString += '<th> End Time' + '</th>'
-                            connectionString += '<th> Doctor' + '</th>'
-                            connectionString += '<th> Doctor Email' + '</th>'
-                            connectionString += '<th> Fee' + '</th>'
-                            connectionString += '<th> Doctor Ph#' + '</th>'
-                            connectionString += '</tr></thead>'
-                            connectionString += '<tbody>';
-                            connectionString += '<tr>';
-                            connectionString += '<td>' + item.Name + '</td>';
-                            connectionString += '<td>' + item.PhoneNumber + '</td>';
-                            connectionString += '<td>' + item.StartTime + '</td>';
-                            connectionString += '<td>' + item.EndTime + '</td>';
-                            connectionString += '<td>' + item.Doctor.FirstName +' '+item.Doctor.LastName+ '</td>';
-                            connectionString += '<td>' + item.Doctor.Email + '</td>';
-                            connectionString += '<td>' + item.Doctor.ConsultationFee + '</td>';
-                            connectionString += '<td>' + item.Doctor.PhoneNo + '</td>';
 
-                            connectionString += '</tr>'
-                            connectionString += '</tbody>';
-                            connectionString += '</table>';
+                            connectionString = '<div class="col-md-row map-infowindow" >';
+                            connectionString += '<div class="col-md-12 window-image align_center" >';
+                             connectionString += '<img src="' + SERVER_IP +":"+ SERVER_PORT +"/"+ item.Doctor.ProfileImage + '" />';
+                            connectionString += '</div>';
+                             connectionString += '<div class="col-md-12" >';
+                             connectionString += '<p style="font-size: 17px; color: #2fa4e7;" >'+item.Name+'</p>';
+                            connectionString += '</div>';
+                            connectionString += '<div class="col-md-12" >';
+                            connectionString += '<p>' + item.Doctor.FirstName + ' ' + item.Doctor.LastName + '</p>';
+                            connectionString += '</div>';
+                            connectionString += '<div class="col-md-12" >';
+                            connectionString += '<p>Consultation Fee-Rs ' + item.Doctor.ConsultationFee +'</p>';
+                            connectionString += '</div>';
+                            connectionString += '<div class="col-md-12 align_center" >';
+                            connectionString += '<a style="width:104%;" class="btn btn-primary" href="#">Doctors List</a>';
+                            connectionString += '</div>';
+                            connectionString += '</div>'
+                            //connectionString = '<table class="table table-bordered table-hover ">';
+                            //connectionString += '<thead>'
+                            //connectionString += '<tr>'
+                            //connectionString += '<th> Clinic' + '</th>'
+                            //connectionString += '<th> Ph#' + '</th>'
+                            //connectionString += '<th> Start Time' + '</th>'
+                            //connectionString += '<th> End Time' + '</th>'
+                            //connectionString += '<th> Doctor' + '</th>'
+                            //connectionString += '<th> Doctor Email' + '</th>'
+                            //connectionString += '<th> Fee' + '</th>'
+                            //connectionString += '<th> Doctor Ph#' + '</th>'
+                            //connectionString += '</tr></thead>'
+                            //connectionString += '<tbody>';
+                            //connectionString += '<tr>';
+                            //connectionString += '<td>' + item.Name + '</td>';
+                            //connectionString += '<td>' + item.PhoneNumber + '</td>';
+                            //connectionString += '<td>' + item.StartTime + '</td>';
+                            //connectionString += '<td>' + item.EndTime + '</td>';
+                            //connectionString += '<td>' + item.Doctor.FirstName +' '+item.Doctor.LastName+ '</td>';
+                            //connectionString += '<td>' + item.Doctor.Email + '</td>';
+                            //connectionString += '<td>' + item.Doctor.ConsultationFee + '</td>';
+                            //connectionString += '<td>' + item.Doctor.PhoneNo + '</td>';
+
+                            //connectionString += '</tr>'
+                            //connectionString += '</tbody>';
+                            //connectionString += '</table>';
                             var infowindow = new google.maps.InfoWindow({
                                 content:connectionString
                             })
