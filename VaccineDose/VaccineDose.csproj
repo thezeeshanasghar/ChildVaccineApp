@@ -294,6 +294,7 @@
     <Compile Include="Model\DoctorScheduleDTO.cs" />
     <Compile Include="Model\FollowUpDTO.cs" />
     <Compile Include="Model\MessageDTO.cs" />
+    <Compile Include="Model\ScheduleBrandDTO.cs" />
     <Compile Include="Model\ScheduleDTO.cs" />
     <Compile Include="Model\ClinicDTO.cs" />
     <Compile Include="Model\DoctorDTO.cs" />

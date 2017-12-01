@@ -97,15 +97,12 @@
 
 
                                     <div class="form-group">
-                                        <label for="Weight">Weight</label>
                                         <input type="number" class="form-control" id="Weight" placeholder="Weight" required />
                                     </div>
                                     <div class="form-group">
-                                        <label for="Height">Height</label>
                                         <input type="number" class="form-control" id="Height" placeholder="Height" required />
                                     </div>
                                     <div class="form-group">
-                                        <label for="Circumference">Circumference</label><br />
                                         <input type="number" class="form-control" id="Circumference" placeholder="Circle Circumference" required />
                                     </div>
                                     <div class="form-group">
@@ -119,13 +116,47 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Submit</button>
-                                <button type="button" class="btn btn-primary" id="btnbulkInjection" style="display:none;" onclick="UpdateBulkInjection();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Apply</button>
-
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+        <div class="modal fade" id="bulkModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&nbsp;×&nbsp;</button>
+                        <h4 class="modal-title" id="myModalLabel">Vaccine Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" data-toggle="validation">
+                            <input type="text" class="form-control" id="ID" style="display:none" />
+                            <input type="text" class="form-control" id="date" style="display:none" />
+
+
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="BulkWeight" placeholder="Weight" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="BulkHeight" placeholder="Height" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="BulkCircumference" placeholder="Circle Circumference" required />
+                            </div>
+                            <div class="form-group">
+                                <div id="ddBrand_bulk"></div>
+                            </div>
+                        
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-primary" id="btnbulkInjection" style="display:none;" onclick="UpdateBulkInjection();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Apply</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
                 <div id="footer"></div>
             </div>

@@ -1,7 +1,5 @@
 ﻿//Load Data in Table when documents is ready  
 $(document).ready(function () {
-    $("#btnbulkInjection").hide();
-    $('#btnUpdate').hide();
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
     $('#print').attr('href', SERVER + 'child/' + id + '/Download-Schedule-PDF');
@@ -128,8 +126,7 @@ function getbyID(ID) {
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
-                $("#btnbulkInjection").hide();
-
+ 
             }
         },
         error: function (errormessage) {
@@ -286,31 +283,68 @@ function openBulkCalender(scheduleId, date) {
 }
 
 function openVaccineDetails(ID, date) {
-  
-    $("#Weight").prop('readonly', false);
-    $("#Height").prop('readonly', false);
-    $("#Circumference").prop('readonly', false);
-    $("#Brand").attr("disabled", false);
-    $("#Weight").val("");
-    $("#Height").val("");
-    $("#Circumference").val("");
-    $("#Brand").hide();
+   
+    var obj = {
+        ChildId: parseInt(getParameterByName("id")),
+        Date:date
+    }
+    $.ajax({
+        url: SERVER + "schedule/bulk-brand/",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $("#ID").val(ID);
+                $('#date').val(date);
+                var html = '';
+                $.each(result.ResponseData, function (key, schedule) {
+                    html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
+                    //show vaccine brands
+                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
+                    html += '<option value="">-- Select '+schedule.Dose.Name+ ' Brand --</option>';
+                    $.each(schedule.Brands, function (key, brand) {
+                        html += '<option value=' + brand.ID;
+                        html += '>' + brand.Name + '</option>';
 
-    $("#ID").val(ID);
-    $('#date').val(date);
-    $('#myModal').modal('show');
-    $("#btnbulkInjection").show();
-    $('#btnUpdate').hide();
+                    });
+                    html += '</select>';
+                    html += "<br>";
+                });
+                $("#ddBrand_bulk").html(html);
+                $('#bulkModel').modal('show');
+                $("#btnbulkInjection").show();
+             }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
 }
 function UpdateBulkInjection() {
-
+       
+    var scheduleBrands = [];
+    //for time being I'm using loop upto 10 dropdown values
+    for (i = 1; i <= 10; i++) {
+        if ($("#ScheduleId_" + i).val() && $("#BrandId_" + i).val()) {
+            scheduleBrands.push({ ScheduleId: $("#ScheduleId_" + i).val(), BrandId: $("#BrandId_" + i).val() });
+        }
+    }
+       
     var obj = {
         ID: $("#ID").val(),
         Date: $('#date').val(),
-        Weight: $("#Weight").val(),
-        Height: $("#Height").val(),
-        Circle: $("#Circumference").val(),
+        Weight: $("#BulkWeight").val(),
+        Height: $("#BulkHeight").val(),
+        Circle: $("#BulkCircumference").val(),
         IsDone: "true",
+        ScheduleBrands: scheduleBrands
     }
 
     $.ajax({
@@ -324,12 +358,12 @@ function UpdateBulkInjection() {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                $('#myModal').modal('hide');
+                $('#bulkModel').modal('hide');
                 $("#ID").val("");
                 $('#date').val("");
-                $("#Weight").val("");
-                $("#Height").val("");
-                $("#Circumference").val("");
+                $("#BulkWeight").val("");
+                $("#BulkHeight").val("");
+                $("#BulkCircumference").val("");
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
