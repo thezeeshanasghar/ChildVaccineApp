@@ -39,5 +39,7 @@ namespace VaccineDose
         //To select Vaccine of the child on add-new-child page
         public List<VaccineDTO> ChildVaccines { get; set; }
 
+        public ClinicDTO Clinic { get; set; }
+
     }
 }
