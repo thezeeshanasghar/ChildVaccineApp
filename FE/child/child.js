@@ -34,12 +34,14 @@ function loadChildDataAgainstMobileNumber() {
                     html += '       &nbsp;';
                     html += '       <a href="schedule.html?id=' + item.ID + '">' +item.Name + '</a><br/>';
                     html += '   </h4>';
-                    html += '   <div style="font-size:12px;padding-left:100px">';
-                    html += '       <i class="glyphicon glyphicon-user"></i> ' +item.FatherName + '<br/>';
-                    html += '       <i class="glyphicon glyphicon-calendar"></i> ' +item.DOB + ' <br />';
-                    html += '       <i class="glyphicon glyphicon-earphone"></i> ' +item.MobileNumber;
+                    html += '   <div style="font-size:12px;padding-left:100px;padding-bottom: 7px;">';
+                    html += '       <i class="glyphicon glyphicon-user"></i> '+"<b>Treating Doctor:</b> " + item.Clinic.Doctor.FirstName + " " + item.Clinic.Doctor.LastName + '<br/>';
+                    //html += '       <i class="glyphicon glyphicon-calendar"></i> ' +item.DOB + ' <br />';
+                    //html += '       <i class="glyphicon glyphicon-earphone"></i> ' +item.MobileNumber;
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
+                    html += '       <a class="btn btn-success btn-sm" href="#">Change Doctor</a>';
+                    html += '       <a class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' +item.ID + ')">Growth Chart</a>';
                     html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' +item.ID + ')"  >Follow Up</a>';
 
