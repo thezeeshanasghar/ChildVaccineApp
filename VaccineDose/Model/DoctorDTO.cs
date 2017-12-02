@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace VaccineDose
 {
@@ -27,5 +28,7 @@ namespace VaccineDose
         public DateTime ValidUpto { get; set; }
 
         public ClinicDTO ClinicDTO { get; set; }
+        public List<ClinicDTO> Clinics { get; set; }
+
     }
 }
