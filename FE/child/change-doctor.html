@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link rel="icon" href="../img/favicon.ico">
+</head>
+<body>
+    <div class="container">
+
+        <div id="menu"></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Doctors</h2>
+
+
+                <div id="alert_message" class="alert alert-dismissible alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                    <strong>loading title!</strong>
+                    <p>loading message</p>
+                </div>
+
+                <div id="doctorRecords">
+
+                </div>
+
+                <!-- Change Doctor modal -->
+                <div class="modal fade" id="changeDoctorModel" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Do You Want To Change Doctor?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" data-toggle="validation">
+                                    <input type="text" class="form-control" id="ChildId" style="display:none" />
+                                    <input type="text" class="form-control" id="ClinicId" style="display:none" />
+
+                                    <div class="form-group">
+                                            <label>
+                                                <input type="radio" id="Yes" name="ChangeDoctor" value="Yes"  />
+                                                Yes
+                                            </label>
+                                    </div>
+                                    <div class="form-group">
+                                             <label>
+                                                <input type="radio" id="No" name="ChangeDoctor" value="No"  />
+                                                No
+                                            </label>
+                                     </div>
+ 
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="ChangeDoctor()">Save</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <!-- Change Doctor -->
+            </div>
+        </div>
+
+
+        <!--menu will be insert in below div; code written in common.js-->
+        <div id="footer"></div>
+
+
+    </div><!-- /.container -->
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+
+
+    <script src="/common.js"></script>
+    <script src="/server.js"></script>
+    <script src="change-doctor.js"></script>
+</body>
+</html>
