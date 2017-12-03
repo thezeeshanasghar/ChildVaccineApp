@@ -40,7 +40,7 @@ function loadChildDataAgainstMobileNumber() {
                     //html += '       <i class="glyphicon glyphicon-earphone"></i> ' +item.MobileNumber;
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
-                    html += '       <a class="btn btn-success btn-sm" href="#">Change Doctor</a>';
+                    html += '       <a class="btn btn-success btn-sm" href="change-doctor.html?id=' + item.ID + '">Change Doctor</a>';
                     html += '       <a class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' +item.ID + ')">Growth Chart</a>';
                     html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';

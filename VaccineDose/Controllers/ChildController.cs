@@ -757,5 +757,27 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
+
+        [HttpPost]
+        [Route("api/child/change-doctor")]
+        public Response<ChildDTO> ChangeDoctor(ChildDTO childDTO)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
+                    dbChild.ClinicID = childDTO.ClinicID;
+                    entities.SaveChanges();
+                    return new Response<ChildDTO>(true, null, childDTO);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+
     }
 }
