@@ -54,7 +54,23 @@ namespace VaccineDose.App_Code
                 + "Web Link: <a href=\"http://vaccs.io\" target=\"_blank\" rel=\"noopener noreferrer\">http://vaccs.io</a>";
             SendEmail(doctor.FirstName, doctor.Email, body);
         }
-
+        //send email to doctor when child change the doctor
+        public static void DoctorEmail(ChildDTO child,string doctor)
+        {
+            string body = "";
+            if (doctor == "old")
+            {
+                body = "Hi " + "<b>" + child.Clinic.Doctor.FirstName + " " + child.Clinic.Doctor.LastName + "</b>, <br />"
+               + "Your patient: <b>" + child.Name + "</b> selected some other doctor";
+            }
+            else
+            {
+                body = "Hi " + "<b>" + child.Clinic.Doctor.FirstName + " " + child.Clinic.Doctor.LastName + "</b>, <br />"
+                + "A new patient: <b>" + child.Name + "</b> has been registered to you";
+            }
+           
+            SendEmail(child.Clinic.Doctor.FirstName, child.Clinic.Doctor.Email, body);
+        }
         #endregion
 
         public static void SendEmail(string userName, string userEmail, string body)
