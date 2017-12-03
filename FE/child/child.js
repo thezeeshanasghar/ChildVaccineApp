@@ -43,7 +43,8 @@ function loadChildDataAgainstMobileNumber() {
                     html += '       <a class="btn btn-success btn-sm" href="#">Change Doctor</a>';
                     html += '       <a class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
                     html += '       <a class="btn btn-success btn-sm"  onclick="GrowthChart(' +item.ID + ')">Growth Chart</a>';
-                    html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' +item.ID + ')"  >Follow Up</a>';
+                    html += '       <a class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
+                    html += '       <a class="btn btn-success btn-sm" disabled href="#" >Develoment</a>';
 
                     html += '   </div>';
                     html += '</div>';
