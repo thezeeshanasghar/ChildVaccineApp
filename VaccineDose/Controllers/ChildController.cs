@@ -767,6 +767,16 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
+                    //give notification to old doctor
+                    UserEmail.DoctorEmail(Mapper.Map<ChildDTO>(dbChild),"old");
+                    //TODO: give notification on sms, to both doctors
+
+                    var dbClinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();
+                    childDTO.Name = dbChild.Name;
+                    childDTO.Clinic = Mapper.Map<ClinicDTO>(dbClinic);
+                    //give notification to new selected doctor
+                    UserEmail.DoctorEmail(childDTO, "new");
+
                     dbChild.ClinicID = childDTO.ClinicID;
                     entities.SaveChanges();
                     return new Response<ChildDTO>(true, null, childDTO);
