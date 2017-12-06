@@ -741,31 +741,56 @@ namespace VaccineDose.Controllers
 
                 document.Open();
 
-                GetPDFHeading(document, "Child Visit History");
+                GetPDFHeading(document, "Medical Visit History");
+                
+                
+                //Table 1 for description above history table
+                PdfPTable upperTable = new PdfPTable(2);
+                float[] upperTableWidths = new float[] { 250f, 250f };
+                upperTable.HorizontalAlignment = 0;
+                upperTable.TotalWidth = 500f;
+                upperTable.LockedWidth = true;
+                upperTable.SetWidths(upperTableWidths);
 
-                PdfPTable table = new PdfPTable(4);
+                upperTable.AddCell(CreateCell("Dr " + child.Clinic.Doctor.FirstName + " " + child.Clinic.Doctor.LastName, "bold", 1, "left", "description"));
+                upperTable.AddCell(CreateCell(child.Name, "bold", 1, "right", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell(child.Clinic.Name, "bold", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("Date of Birth: "+child.DOB.ToString("dd-MM-yyyy"), "bold", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell("P: " + child.Clinic.Doctor.PhoneNo, "bold", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell("M: " + child.Clinic.Doctor.User.MobileNumber, "bold", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+
+                document.Add(upperTable);
+
+                PdfPTable table = new PdfPTable(3);
                 table.TotalWidth = 500f;
                 //fix the absolute width of the table
                 table.LockedWidth = true;
 
                 //relative col widths in proportions - 1/3 and 2/3
-                float[] widths = new float[] { 2f, 3f,3f, 8f };
+                float[] widths = new float[] { 30f, 200f,270f};
                 table.SetWidths(widths);
                 table.HorizontalAlignment = 0;
                 //leave a gap before and after the table
                 table.SpacingBefore = 20f;
                 table.SpacingAfter = 30f;
 
-                table.AddCell(GetHeaderCell("Sr #"));
-                table.AddCell(GetHeaderCell("Visited"));
-                table.AddCell(GetHeaderCell("Next Visit"));
-                table.AddCell(GetHeaderCell("Disesase"));
+                table.AddCell(GetHeaderCell("#"));
+                table.AddCell(GetHeaderCell("Date"));
+                table.AddCell(GetHeaderCell("Diagnosis"));
                 var followUps = child.FollowUps.ToList();
                 foreach (var item in followUps)
                 {
                     table.AddCell(new PdfPCell(new Phrase( (followUps.IndexOf(item) + 1) + "")));
                     table.AddCell(new PdfPCell(new Phrase(item.CurrentVisitDate.Value.ToString("dd-MM-yyyy"))));
-                    table.AddCell(new PdfPCell(new Phrase(item.NextVisitDate.Value.ToString("dd-MM-yyyy"))));
+                    //table.AddCell(new PdfPCell(new Phrase(item.NextVisitDate.Value.ToString("dd-MM-yyyy"))));
                     table.AddCell(new PdfPCell(new Phrase(item.Disease.ToString())));
                 }
 
