@@ -337,13 +337,14 @@ namespace VaccineDose.Controllers
                         var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedProfileImage.FileName);
                         // Save the uploaded file to "UploadedFiles" folder
                         httpPostedProfileImage.SaveAs(fileSavePath);
-                        doctor.ProfileImage = fileSavePath;
+                        //doctor.ProfileImage = fileSavePath;
+                        doctor.ProfileImage = httpPostedProfileImage.FileName;
                     }
                     if (httpPostedSignatureImage != null)
                     {
                         var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedSignatureImage.FileName);
                         httpPostedSignatureImage.SaveAs(fileSavePath);
-                        doctor.SignatureImage = fileSavePath;
+                        doctor.SignatureImage = httpPostedSignatureImage.FileName;
                     }
                     entities.SaveChanges();
                 }

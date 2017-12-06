@@ -597,6 +597,23 @@ namespace VaccineDose.Controllers
 
                     bottomTable.AddCell(CreateCell("Thank you for your vaccination", "bold", 1, "left", "description"));
                     bottomTable.AddCell(CreateCell("Total Amount: "+amount.ToString()+"/-", "bold", 1, "right", "description"));
+
+                    var imgcellLeft = CreateCell("", "", 1, "left", "description");
+                    imgcellLeft.PaddingTop = 5;
+                    bottomTable.AddCell(imgcellLeft);
+
+                    var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/UserImages");
+
+                    Image img = Image.GetInstance(imgPath + "\\" + dbDoctor.SignatureImage);
+                    img.ScaleAbsolute(2f, 2f);
+                    PdfPCell imageCell = new PdfPCell(img, true);
+                    imageCell.PaddingTop = 5;
+                    imageCell.Colspan = 1; // either 1 if you need to insert one cell
+                    imageCell.Border = 0;
+                    imageCell.FixedHeight = 40f;
+                    imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    bottomTable.AddCell(imageCell);
+
                     document.Add(bottomTable);
                     document.Close();
                     output.Seek(0, SeekOrigin.Begin);
