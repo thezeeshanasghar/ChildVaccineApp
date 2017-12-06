@@ -455,7 +455,7 @@ namespace VaccineDose.Controllers
 
                     document.Open();
                     //Page Heading
-                    GetPDFHeading(document, "Vaccs.io");
+                    GetPDFHeading(document, "INVOICE");
 
                     //Access db data
                     VDConnectionString entities = new VDConnectionString();
@@ -474,15 +474,17 @@ namespace VaccineDose.Controllers
                     // upperTable.DefaultCell.PaddingLeft = 4;
                     upperTable.SetWidths(upperTableWidths);
 
-                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Invoice", "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Dr "+dbDoctor.FirstName+ dbDoctor.LastName, "bold", 1, "left", "description"));
+                    //upperTable.AddCell(CreateCell("Invoice", "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Invoice # " + dbDoctor.InvoiceNumber, "bold", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "noColor", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Invoice # " + dbDoctor.InvoiceNumber, "noColor", 1, "right", "description"));
+                    
+                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
 
-                    upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "noColor", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Date: " + DateTime.Now, "noColor", 1, "right", "description"));
+                    //upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "noColor", 1, "left", "description"));
+
+                    upperTable.AddCell(CreateCell("Date: " + DateTime.Now, "bold", 1, "right", "description"));
 
 
                     if (childDTO.IsConsultationFee)
@@ -490,15 +492,20 @@ namespace VaccineDose.Controllers
                         consultaionFee = (int)dbDoctor.ConsultationFee;
                     }
                     //  upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    //upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Bill To", "bold", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Bill To: "+ dbChild.Name, "noColor", 1, "right", "description"));
+                    //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
+                    //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    //upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("P: "+dbDoctor.PhoneNo, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("M: " + dbDoctor.User.MobileNumber, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+
                     document.Add(upperTable);
                     document.Add(new Paragraph(""));
                     document.Add(new Chunk("\n"));
@@ -520,16 +527,25 @@ namespace VaccineDose.Controllers
                     table.SetWidths(widths);
 
                     table.AddCell(CreateCell("#", "backgroudLightGray", 1, "center", "invoiceRecords"));
-                    table.AddCell(CreateCell("Vaccine", "backgroudLightGray", 1, "center", "invoiceRecords"));
+                    table.AddCell(CreateCell("Item", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     if (childDTO.IsBrand)
                     {
                         table.AddCell(CreateCell("Brand", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     }
-                    table.AddCell(CreateCell("Price", "backgroudLightGray", 1, "center", "invoiceRecords"));
+                    table.AddCell(CreateCell("Amount", "backgroudLightGray", 1, "center", "invoiceRecords"));
                     //Rows
                     table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
                     //col = (col > 3) ? col - 3 : col-2;
-                    table.AddCell(CreateCell("Consultation Fee", "", col - 2, "left", "invoiceRecords"));
+                    if (col - 2 < 2)
+                    {
+                        table.AddCell(CreateCell("Consultation Fee", "", col - 2, "left", "invoiceRecords"));
+                    }
+                    else
+                    {
+                        table.AddCell(CreateCell("Consultation Fee", "", 1, "left", "invoiceRecords"));
+                        table.AddCell(CreateCell("------------------", "", 1, "center", "invoiceRecords"));
+
+                    }
                     table.AddCell(CreateCell(consultaionFee.ToString(), "", 1, "right", "invoiceRecords"));
                     if (dbSchedules.Count != 0)
                     {
@@ -557,17 +573,31 @@ namespace VaccineDose.Controllers
 
                     }
 
-                    table.AddCell(CreateCell("Total(PKR)", "", col - 1, "right", "invoiceRecords"));
+                    //table.AddCell(CreateCell("Total(PKR)", "", col - 1, "right", "invoiceRecords"));
 
                     //add consultancy fee
                     if (childDTO.IsConsultationFee)
                     {
                         amount = amount + (int)dbDoctor.ConsultationFee;
                     }
-                    table.AddCell(CreateCell(amount.ToString(), "", 1, "right", "invoiceRecords"));
+                    //table.AddCell(CreateCell(amount.ToString(), "", 1, "right", "invoiceRecords"));
 
                     entities.SaveChanges();
                     document.Add(table);
+
+                    document.Add(new Paragraph(""));
+                    document.Add(new Chunk("\n"));
+                    //Table 3 for description above amounts table
+                    PdfPTable bottomTable = new PdfPTable(2);
+                    float[] bottomTableWidths = new float[] { 200f, 200f };
+                    bottomTable.HorizontalAlignment = 0;
+                    bottomTable.TotalWidth = 400f;
+                    bottomTable.LockedWidth = true;
+                    bottomTable.SetWidths(bottomTableWidths);
+
+                    bottomTable.AddCell(CreateCell("Thank you for your vaccination", "bold", 1, "left", "description"));
+                    bottomTable.AddCell(CreateCell("Total Amount: "+amount.ToString()+"/-", "bold", 1, "right", "description"));
+                    document.Add(bottomTable);
                     document.Close();
                     output.Seek(0, SeekOrigin.Begin);
                     stream = output;
