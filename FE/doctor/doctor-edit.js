@@ -44,6 +44,13 @@ function getbyID(ID) {
                 $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
                 $("#ShowMobile").prop("checked", result.ResponseData.ShowMobile);
                 $("#ConsultationFee").val(result.ResponseData.ConsultationFee);
+                var profileImageHtml = '';
+                profileImageHtml += '<img style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/"+ result.ResponseData.ProfileImage + '"   />'
+                var signatureImageHtml = '';
+                signatureImageHtml += '<img  style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + result.ResponseData.SignatureImage + '" />'
+                $("#oldProfileImage").html(profileImageHtml);
+                $("#oldSignatureImage").html(signatureImageHtml);
+
                 HideAlert();
             }
           
@@ -71,12 +78,12 @@ function Update() {
         IsApproved: $("#IsApproved").is(":checked"),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
-        MobileNumber: $('#MobileNumber').val(),
+       // MobileNumber: $('#MobileNumber').val(),
         PMDC: $('#PMDC').val(),
         PhoneNo: $("#PhoneNo").val(),
         ShowPhone: $("#ShowPhone").is(":checked"),
         ShowMobile: $("#ShowMobile").is(":checked"),
-        Password:$("#Password").val(),
+        //Password:$("#Password").val(),
         ConsultationFee: $("#ConsultationFee").val()
     };
     $.ajax({
@@ -86,7 +93,12 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-			
+            var file = $("#ProfileImage").get(0).files;
+            var file1 = $("#SignatureImage").get(0).files;
+            if (file.length > 0 && file1.length > 0)
+            {
+                updateImages(result.ResponseData.ID);
+            }
 			$("#btnUpdate").prop('disabled', false);
             $("#btnUpdate").button('reset');
 			
@@ -104,6 +116,42 @@ function Update() {
 			
         }
     });
+}
+
+function updateImages(doctorId) {
+    var data = new FormData();
+    var file = $("#ProfileImage").get(0).files;
+    var file1 = $("#SignatureImage").get(0).files;
+    var dt = new Date();
+    var date = dt.getDate() + "-" + dt.getMonth() + "-" + dt.getFullYear() + "_" + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+    // Add the uploaded image content to the form data collection
+
+    if (file.length > 0) {
+        file[0].name = "ProfileImage_" + date + file[0].name;
+        data.append("ProfileImage", file[0]);
+    }
+    if (file1.length > 0) {
+        file1[0].name = "SignatureImage_" + date + file1[0].name;
+        data.append("SignatureImage", file1[0]);
+    }
+    if (file.length > 0 || file1.length > 0) {
+        $.ajax({
+            type: "POST",
+            url: SERVER + 'doctor/' + doctorId + '/update-images',    // CALL WEB API TO SAVE THE FILES.
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,         // PREVENT AUTOMATIC DATA PROCESSING.
+            cache: false,
+            data: data, 		        // DATA OR FILES IN THIS CONTEXT.
+            success: function (data, textStatus, xhr) {
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }
+        });
+    }
+
 }
 //Valdidation using jquery  
 function validate() {
