@@ -6,6 +6,11 @@
             initialCountry: "PK"
         }
     );
+    $("#ForgotMobileNumber").intlTelInput(
+    {
+        initialCountry: "PK"
+    }
+);
 });
 
 function Login() {
@@ -64,6 +69,44 @@ function Login() {
         error: function (jqXHR, exception) {
             $("#btnSignIn").prop('disabled', false);
             $("#btnSignIn").button('reset');
+            displayErrors(jqXHR, exception);
+        }
+    });
+}
+
+function openForgotPasswordModal() {
+    $("#forgotPasswordModal").modal('show');
+}
+
+function Send() {
+    $('#form2').validator('validate');
+    var validator = $('#form2').data("bs.validator");
+    if (validator.hasErrors())
+        return false;
+
+    var obj = {
+        MobileNumber:$("#ForgotMobileNumber").val(),
+        Email: $("#ForgotEmail").val(),
+        CountryCode: $("#ForgotMobileNumber").intlTelInput("getSelectedCountryData").dialCode
+    }
+    $.ajax({
+        url: SERVER + 'user/forgot-password',
+        type: 'post',
+        data: JSON.stringify(obj),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+                return;
+            }
+            else {
+                ShowAlert('Success', result.Message, 'success');
+            }
+    
+        },
+        error: function (jqXHR, exception) {
             displayErrors(jqXHR, exception);
         }
     });

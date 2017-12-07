@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using VaccineDose.App_Code;
 
 namespace VaccineDose.Controllers
 {
@@ -209,5 +210,63 @@ namespace VaccineDose.Controllers
                 return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
+
+        [HttpPost]
+        [Route("forgot-password")]
+        public Response<UserDTO> ForgotPassword(UserDTO user)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.CountryCode == user.CountryCode).FirstOrDefault();
+                    if (dbUser == null)
+                        return new Response<UserDTO>(false, "Invalid Mobilenumber", null);
+
+                    if (dbUser.UserType.Equals("DOCTOR"))
+                    {
+
+                        var doctorDb = entities.Doctors.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == user.Email).FirstOrDefault();
+                        if (doctorDb == null)
+                        {
+                            return new Response<UserDTO>(false, "Invalid Email", null);
+
+                        }
+                        else
+                        {
+                            UserEmail.DoctorForgotPassword(doctorDb);
+                            return new Response<UserDTO>(true, "your password has been sent to your email address", null);
+
+                        }
+                    }
+                    else if (dbUser.UserType.Equals("PARENT"))
+                    {
+                        var childDB = entities.Children.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == user.Email).FirstOrDefault();
+                        if (childDB == null)
+                        {
+                            return new Response<UserDTO>(false, "Invalid Email", null);
+                        }
+                        else
+                        {
+                            UserEmail.ParentForgotPassword(childDB);
+                            return new Response<UserDTO>(true, "your password has been sent to your email address", null);
+                        }
+                    }
+                    else
+                    {
+                        return new Response<UserDTO>(false, "Please contact with admin", null);
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<UserDTO>(false, GetMessageFromExceptionObject(e), null);
+
+            }
+        }
+
     }
+
 }
