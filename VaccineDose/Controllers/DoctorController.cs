@@ -156,7 +156,17 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
-                    dbDoctor = Mapper.Map<DoctorDTO, Doctor>(doctorDTO, dbDoctor);
+                    dbDoctor.FirstName = doctorDTO.FirstName;
+                    dbDoctor.LastName = doctorDTO.LastName;
+                    doctorDTO.IsApproved = doctorDTO.IsApproved;
+                    dbDoctor.Email = doctorDTO.Email;
+                    dbDoctor.PMDC = doctorDTO.PMDC;
+                    dbDoctor.PhoneNo = doctorDTO.PhoneNo;
+                    dbDoctor.ShowPhone = doctorDTO.ShowPhone;
+                    dbDoctor.ShowMobile = doctorDTO.ShowMobile;
+                    dbDoctor.ConsultationFee = doctorDTO.ConsultationFee;
+         
+                    //dbDoctor = Mapper.Map<DoctorDTO, Doctor>(doctorDTO, dbDoctor);
                     //entities.Entry<Doctor>(dbDoctor).State = System.Data.Entity.EntityState.Modified;
                     entities.SaveChanges();
                     return new Response<DoctorDTO>(true, null, doctorDTO);
@@ -314,6 +324,42 @@ namespace VaccineDose.Controllers
             }
         }
 
+        [HttpPost()]
+        [Route("api/doctor/{id}/update-images")]
+        public void UpdateUploadedImages(int id)
+        {
+            try
+            {
+                VDConnectionString entities = new VDConnectionString();
+                var dbDoctor = entities.Doctors.Where(d=>d.ID== id).FirstOrDefault();
+                 if (HttpContext.Current.Request.Files.AllKeys.Any())
+                {
+                    var httpPostedProfileImage = HttpContext.Current.Request.Files["ProfileImage"];
+                    var httpPostedSignatureImage = HttpContext.Current.Request.Files["SignatureImage"];
+
+                    if (httpPostedProfileImage != null)
+                    {
+           
+                        var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedProfileImage.FileName);
+                         httpPostedProfileImage.SaveAs(fileSavePath);
+                        dbDoctor.ProfileImage = httpPostedProfileImage.FileName;
+                    }
+                    if (httpPostedSignatureImage != null)
+                    {
+                        var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedSignatureImage.FileName);
+                        httpPostedSignatureImage.SaveAs(fileSavePath);
+                        dbDoctor.SignatureImage = httpPostedSignatureImage.FileName;
+                    }
+                    entities.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+
+        }
 
         [HttpPost()]
         [Route("api/doctor/image")]

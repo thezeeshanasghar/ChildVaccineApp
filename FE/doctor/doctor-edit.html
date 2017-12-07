@@ -29,6 +29,7 @@
                 <form id="form1" role="form" style="display: block;" data-toggle="validator">
                     <div id="doctor" class="col-sm-6 col-sm-offset-3">
                         <input type="text" class="form-control" id="ID" style="display:none" />
+
                         <input type="text" class="form-control" id="Password" style="display:none" />
                         <input id="IsApproved" name="IsApproved" type="checkbox" style="display:none" checked="checked" />
                         <div class="form-group">
@@ -75,6 +76,16 @@
                         </div>
                         <div class="form-group">
                             <input type="number" class="form-control" id="ConsultationFee" placeholder="Consultation Fee" />
+                        </div>
+                        <div class="form-group">
+                            <label for="ProfileImage">Profile Image</label>
+                            <div id="oldProfileImage"></div>
+                             <input type="file" id="ProfileImage" placeholder="Add Profile Image" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SignatureImage">Signature Image</label>
+                            <div id="oldSignatureImage"></div>
+                            <input id="SignatureImage" type="file" placeholder="Add Signature Image" class="form-control" />
                         </div>
                         <div class="form-group">
                             <button type="button" class="btn btn-primary btn-lg btn-block" id="btnUpdate" onclick="Update()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Update</button>
