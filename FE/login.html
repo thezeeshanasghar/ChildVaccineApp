@@ -20,47 +20,47 @@
             margin: 0 auto;
         }
 
-        .form-signin .form-signin-heading,
-        .form-signin .checkbox {
-            margin-bottom: 10px;
-        }
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
 
-        .form-signin .checkbox {
-            font-weight: normal;
-        }
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
 
-        .form-signin .form-control {
-            position: relative;
-            height: auto;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            padding: 10px;
-            font-size: 16px;
-        }
+            .form-signin .form-control {
+                position: relative;
+                height: auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 16px;
+            }
 
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
 
-        .form-signin input[type="email"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
 
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            margin-top: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                margin-top: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
     </style>
 </head>
 
 <body>
 
-    
+
     <div class="container">
         <div id="menu"></div>
         <!--<nav class="navbar navbar-default">
@@ -91,22 +91,63 @@
                             </div>
 
                             <div class="col-md-12">
-                                <input placeholder="3135673456" type="tel" style="width: 400px; height: 42px;" id="MobileNumber">                            
-                             </div>                        
+                                <input placeholder="3135673456" type="tel" style="width: 400px; height: 42px;" id="MobileNumber">
+                            </div>
                         </div>
 
-                     
+
                         <div class="form-group">
                             <label for="Password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="Password" data-minlength="4"  name="Password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="Password" data-minlength="4" name="Password" placeholder="Password" required>
                         </div>
                         <!--<div class="checkbox">
                         <label>
                             <input type="checkbox" value="remember-me"> Remember me
                         </label></div>-->
                         <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" onclick="return Login();"
-                                  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                                data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
                         >Sign in</button>
+                        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" onclick="return openForgotPasswordModal();">Forgot Password?</button>
+
+                        <!-- forgot password model -->
+                        
+                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Forgot Password</h4>
+                                    </div>
+                                    <form id="form2" role="form" data-toggle="validator">
+                                        <div class="modal-body" id="modal-body">
+
+
+                                            <div class="row">
+                                                <div class="col-md-offset-2">
+                                                    <p>Enter Your Mobile Number and Email</p>
+                                                    <div class="form-group">
+                                                        <input required class="form-control" placeholder="3135673456" style="width: 400px" type="tel" id="ForgotMobileNumber">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input required class="form-control" placeholder="Email" style="width: 400px" type="email" id="ForgotEmail">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Send()">Send</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                        <!-- forgot password modal -->
+
+
                     </div>
 
                 </div>
@@ -119,8 +160,8 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/validator.min.js"></script>
     <script src="/js/intlTelInput.min.js"></script>
- 
-    <script src="/server.js"></script>             
+
+    <script src="/server.js"></script>
     <script src="/common.js"></script>
     <script src="login.js"></script>
 </body>

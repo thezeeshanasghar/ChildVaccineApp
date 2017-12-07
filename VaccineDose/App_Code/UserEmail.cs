@@ -55,7 +55,7 @@ namespace VaccineDose.App_Code
             SendEmail(doctor.FirstName, doctor.Email, body);
         }
         //send email to doctor when child change the doctor
-        public static void DoctorEmail(ChildDTO child,string doctor)
+        public static void DoctorEmail(ChildDTO child, string doctor)
         {
             string body = "";
             if (doctor == "old")
@@ -68,9 +68,28 @@ namespace VaccineDose.App_Code
                 body = "Hi " + "<b>" + child.Clinic.Doctor.FirstName + " " + child.Clinic.Doctor.LastName + "</b>, <br />"
                 + "A new patient: <b>" + child.Name + "</b> has been registered to you";
             }
-           
+
             SendEmail(child.Clinic.Doctor.FirstName, child.Clinic.Doctor.Email, body);
         }
+        //Forgot Password Email
+
+        public static void DoctorForgotPassword(Doctor doctor)
+        {
+            string body = ""
+                   + "Hi " + "<b>" + doctor.DisplayName + "</b>, <br />"
+                   + "Your password is <b>" + doctor.User.Password + "</b>";
+
+            SendEmail(doctor.DisplayName, doctor.Email, body);
+        }
+        public static void ParentForgotPassword(Child child)
+        {
+            string body = ""
+                   + "Hi " + "<b>" + child.Name + "</b>, <br />"
+                   + "Your password is <b>" + child.User.Password + "</b>";
+
+            SendEmail(child.Name, child.Email, body);
+        }
+
         #endregion
 
         public static void SendEmail(string userName, string userEmail, string body)
