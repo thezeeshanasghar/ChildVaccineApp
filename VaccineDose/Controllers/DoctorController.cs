@@ -100,14 +100,14 @@ namespace VaccineDose.Controllers
                     // 3- send email to doctor
                     UserEmail.DoctorEmail(doctorDTO);
 
-                    // generate SMS and save it to the db
-                    //string sms = UserSMS.DoctorSMS(doctorDTO);
-                    //Message m = new Message();
-                    //m.MobileNumber = doctorDTO.MobileNumber;
-                    //m.SMS = sms;
-                    //m.Status = "PENDING";
-                    //entities.Messages.Add(m);
-                    //entities.SaveChanges();
+                    //generate SMS and save it to the db
+                    string sms = UserSMS.DoctorSMS(doctorDTO);
+                    Message m = new Message();
+                    m.MobileNumber = doctorDTO.MobileNumber;
+                    m.SMS = sms;
+                    m.Status = "PENDING";
+                    entities.Messages.Add(m);
+                    entities.SaveChanges();
 
                     // 1- save User first
                     User userDB = new User();
