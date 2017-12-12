@@ -290,7 +290,14 @@ namespace VaccineDose.Controllers
                     else
                     {
                         var dbClinics = doctor.Clinics.ToList();
-                        var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
+                        List<ClinicDTO> clinicDTOs = new List<ClinicDTO>();
+                        foreach (var clinic in dbClinics)
+                        {
+                            ClinicDTO clinicDTO = Mapper.Map<ClinicDTO>(clinic);
+                            clinicDTO.Children = clinic.Children.Count();
+                            clinicDTOs.Add(clinicDTO);
+                        }
+                         //var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
                         return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
                     }
                 }

@@ -18,6 +18,10 @@ namespace VaccineDose
         public int DoctorID { get; set; }
         public bool IsOnline { get; set; }
         public DoctorDTO Doctor { get; set; }
+        
+        //to show child count 
+        public int Children { get; set; }
+
 
     }
 }
