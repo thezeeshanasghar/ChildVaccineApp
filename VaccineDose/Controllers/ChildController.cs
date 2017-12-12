@@ -393,9 +393,9 @@ namespace VaccineDose.Controllers
 
 
                         ////  add a image
-                        var isDone = dose.Schedules.Where(x => x.IsDone).FirstOrDefault();
+                        //var isDone = dbSchedule.Where(x => x.IsDone).FirstOrDefault();
                         string injectionPath = "";
-                        if (isDone != null)
+                        if (dbSchedule.IsDone)
                         {
                             injectionPath = "\\injectionFilled.png";
                         }
