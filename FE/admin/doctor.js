@@ -25,7 +25,7 @@ function loadData() {
                     html += '   <td>' + item.Email + '</td>';
                     html += '   <td>' + item.MobileNumber + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
-                    html += '   <td> <span class="glyphicon glyphicon-calendar validUpto"  onclick=" return openCalender(' + item.ID + ',' + key + ',\'' + item.ValidUpto + '\')"></span></td>';
+                    html += '   <td> <span class="glyphicon glyphicon-calendar validUpto"  onclick=" return openCalender(' + item.ID + ',\'' + item.ValidUpto + '\')"></span></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
@@ -80,7 +80,8 @@ function openCalender(doctorId, validUpTO) {
 
     $(".validUpto").datepicker()
          .on('changeDate', function (e) {
-             obj.ValidUpto = e.date.getDate() + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+             obj.ValidUpto = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+
              $.ajax({
                  url: SERVER + "doctor/" + obj.ID + "/validUpto",
                  data: JSON.stringify(obj),
