@@ -108,6 +108,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
+
         [HttpPost]
         [Route("login")]
         public Response<UserDTO> login(UserDTO user)
@@ -213,20 +214,19 @@ namespace VaccineDose.Controllers
 
         [HttpPost]
         [Route("forgot-password")]
-        public Response<UserDTO> ForgotPassword(UserDTO user)
+        public Response<UserDTO> ForgotPassword(UserDTO userDTO)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.CountryCode == user.CountryCode).FirstOrDefault();
+                    var dbUser = entities.Users.Where(x => x.MobileNumber == userDTO.MobileNumber).Where(x => x.CountryCode == userDTO.CountryCode).FirstOrDefault();
                     if (dbUser == null)
-                        return new Response<UserDTO>(false, "Invalid Mobilenumber", null);
+                        return new Response<UserDTO>(false, "Invalid Mobile Number", null);
 
                     if (dbUser.UserType.Equals("DOCTOR"))
                     {
-
-                        var doctorDb = entities.Doctors.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == user.Email).FirstOrDefault();
+                        var doctorDb = entities.Doctors.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == userDTO.Email).FirstOrDefault();
                         if (doctorDb == null)
                         {
                             return new Response<UserDTO>(false, "Invalid Email", null);
@@ -241,7 +241,7 @@ namespace VaccineDose.Controllers
                     }
                     else if (dbUser.UserType.Equals("PARENT"))
                     {
-                        var childDB = entities.Children.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == user.Email).FirstOrDefault();
+                        var childDB = entities.Children.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == userDTO.Email).FirstOrDefault();
                         if (childDB == null)
                         {
                             return new Response<UserDTO>(false, "Invalid Email", null);
@@ -255,7 +255,6 @@ namespace VaccineDose.Controllers
                     else
                     {
                         return new Response<UserDTO>(false, "Please contact with admin", null);
-
                     }
 
                 }

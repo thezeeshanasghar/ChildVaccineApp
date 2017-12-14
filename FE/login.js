@@ -1,16 +1,8 @@
 ﻿$(document).ready(function () {
     HideAlert();
     localStorage.clear();
-    $("#MobileNumber").intlTelInput(
-        {
-            initialCountry: "PK"
-        }
-    );
-    $("#ForgotMobileNumber").intlTelInput(
-    {
-        initialCountry: "PK"
-    }
-);
+    $("#MobileNumber").intlTelInput({ initialCountry: "PK" });
+    $("#ForgotMobileNumber").intlTelInput({ initialCountry: "PK" });
 });
 
 function Login() {
@@ -74,19 +66,15 @@ function Login() {
     });
 }
 
-function openForgotPasswordModal() {
-    $("#forgotPasswordModal").modal('show');
-}
-
-function Send() {
+function SendForgetPasswordRequest() {
     $('#form2').validator('validate');
     var validator = $('#form2').data("bs.validator");
     if (validator.hasErrors())
         return false;
 
     var obj = {
-        MobileNumber:$("#ForgotMobileNumber").val(),
-        Email: $("#ForgotEmail").val(),
+        MobileNumber: $("#ForgotMobileNumber").val(),
+        //Email: $("#ForgotEmail").val(),
         CountryCode: $("#ForgotMobileNumber").intlTelInput("getSelectedCountryData").dialCode
     }
     $.ajax({
@@ -104,7 +92,7 @@ function Send() {
             else {
                 ShowAlert('Success', result.Message, 'success');
             }
-    
+
         },
         error: function (jqXHR, exception) {
             displayErrors(jqXHR, exception);

@@ -30,9 +30,8 @@ namespace VaccineDose.App_Code
             sms1 += child.Clinic.Name + "\n";
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
 
-            string sms2 = "ID: " + child.User.MobileNumber + "\n Password: " + child.User.Password
-                  + "\nClinic# " + child.Clinic.PhoneNumber + "\n"
-                  + "http://vaccs.io/";
+            string sms2 = "ID: " + child.User.MobileNumber + "\nPassword: " + child.User.Password
+                  + "\nClinic: " + child.Clinic.PhoneNumber + "\nhttp://vaccs.io/";
 
             var response2 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms2);
             return response1 + response2;
@@ -42,7 +41,7 @@ namespace VaccineDose.App_Code
         {
             //string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";
             string webTarget = "http://icworldsms.com:82/Service.asmx/SendSMS?SessionID=Ud1vaibfSexGvkohsFVVVEzoWrhUKfpylFZqOFVy9EB7CaifKP&CompaignName=text&MobileNo={0}&MaskName=VACCS+IO&Message={1}&MessageType=English";
-            string url = String.Format(webTarget, "0"+MobileNumber, HttpUtility.HtmlEncode(text));
+            string url = String.Format(webTarget, "0"+MobileNumber, HttpUtility.UrlEncode(text));
 
             return Controllers.VaccineController.sendRequest(url);
         }

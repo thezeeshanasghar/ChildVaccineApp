@@ -68,7 +68,7 @@
                 <div id="form1" data-toggle="validator" role="form">
                     <div class="form-signin">
 
-                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <h2 class="form-signin-heading">Sign in</h2>
                         <div class="row">
 
                             <div id="alert_message" class="alert alert-dismissible alert-warning">
@@ -77,7 +77,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <input placeholder="3135673456" type="tel" style="width: 400px; height: 42px;" id="MobileNumber">
+                                <input placeholder="enter # like 3465430413" type="tel" style="width: 400px; height: 42px;" id="MobileNumber">
                             </div>
                         </div>
 
@@ -90,12 +90,15 @@
                         <label>
                             <input type="checkbox" value="remember-me"> Remember me
                         </label></div>-->
-                        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" onclick="return Login();"
-                                data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
-                        >Sign in</button>
-                        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" onclick="return openForgotPasswordModal();">Forgot Password?</button>
-
-
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button id="btnSignIn" class="btn btn-lg btn-primary pull-right" onclick="return Login();"
+                                        data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">
+                                    Sign in
+                                </button>
+                                <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" style="position:absolute; bottom:0;">Forgot Password ?</a>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -104,41 +107,36 @@
     </div>
     <!-- forgot password model -->
     <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Forgot Password</h4>
-                </div>
-                <form id="form2" role="form" data-toggle="validator">
+
+        <form id="form2" role="form" data-toggle="validator">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Forgot Password</h4>
+                    </div>
                     <div class="modal-body" id="modal-body">
-
-
                         <div class="row">
                             <div class="col-md-offset-2">
-                                <p>Enter Your Mobile Number and Email</p>
                                 <div class="form-group">
-                                    <input required class="form-control" placeholder="3135673456" style="width: 400px" type="tel" id="ForgotMobileNumber">
+                                    <input required class="form-control" placeholder="enter # like 3465430413" style="width: 400px" type="tel" id="ForgotMobileNumber">
                                 </div>
-                                <div class="form-group">
-                                    <input required class="form-control" placeholder="Email" style="width: 400px" type="email" id="ForgotEmail">
-                                </div>
+                                <!--<div class="form-group">
+                                    <input class="form-control" placeholder="Email" style="width: 400px" type="email" id="ForgotEmail">
+                                </div>-->
                             </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Send()">Send</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="SendForgetPasswordRequest()">Send Email / SMS</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
                     </div>
-                </form>
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
     </div><!-- /.modal -->
     <!-- forgot password modal -->
-
     <!-- /container -->
 
     <script src="/js/jquery.min.js"></script>
