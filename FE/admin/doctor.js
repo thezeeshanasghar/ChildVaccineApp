@@ -25,7 +25,7 @@ function loadData() {
                     html += '   <td>' + item.Email + '</td>';
                     html += '   <td>' + item.MobileNumber + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
-                    html += '   <td> <span class="glyphicon glyphicon-calendar validUpto"  onclick=" return openCalender(' + item.ID + ',\'' + item.ValidUpto + '\')"></span></td>';
+                    html += '   <td> ' + item.ValidUpto + ' <span class="glyphicon glyphicon-calendar validUpto"  onclick=" return openCalender(' + item.ID + ',\'' + item.ValidUpto + '\')"></span></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
