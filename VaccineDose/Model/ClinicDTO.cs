@@ -20,7 +20,7 @@ namespace VaccineDose
         public DoctorDTO Doctor { get; set; }
         
         //to show child count 
-        public int Children { get; set; }
+        public int childrenCount { get; set; }
 
 
     }

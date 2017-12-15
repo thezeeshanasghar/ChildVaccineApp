@@ -294,7 +294,7 @@ namespace VaccineDose.Controllers
                         foreach (var clinic in dbClinics)
                         {
                             ClinicDTO clinicDTO = Mapper.Map<ClinicDTO>(clinic);
-                            clinicDTO.Children = clinic.Children.Count();
+                            clinicDTO.childrenCount = clinic.Children.Count();
                             clinicDTOs.Add(clinicDTO);
                         }
                          //var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);

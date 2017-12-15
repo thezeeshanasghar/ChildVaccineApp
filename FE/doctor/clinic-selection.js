@@ -28,7 +28,7 @@ function loadData(id) {
                 ShowAlert('Error', result.Message, 'danger');
             else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<div class="well well-lg" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:30px">' + item.Name + '<span class="badge pull-right" style="font-size:25px">' + item.Children + '</span></li></div>';
+                    html += '<div class="well well-lg" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:30px">' + item.Name + '<span class="badge pull-right" style="font-size:25px">' + item.childrenCount + '</span></li></div>';
                 });
                 $('.wells').html(html);
                 HideAlert();
