@@ -29,6 +29,10 @@ namespace VaccineDose
 
         public ClinicDTO ClinicDTO { get; set; }
         public List<ClinicDTO> Clinics { get; set; }
+        
+        //to show child info on change doctor page
+        public ChildDTO ChildDTO { get; set; }
+
 
     }
 }
