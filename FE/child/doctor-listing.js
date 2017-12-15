@@ -17,7 +17,7 @@ function loadData() {
                 $.each(result.ResponseData, function (key, item) {
                      html += '<div class="col-md-12 well" style="background-color:rgb(255, 255, 255); padding-top:9px;padding-bottom:9px;border-width:2px;" >';
                     html += '<div class="col-md-4 map-infowindow" style="width:113px !important">';
-                    html += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/" + item.ProfileImage + '" />';
+                    html += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + item.ProfileImage + '" />';
                     html += '</div>';
                     html += '<div class="col-md-4 ">';
                     html += '<p style="color: #48afe9;font-size:17px;">' + item.FirstName + " " + item.LastName + '</p>';

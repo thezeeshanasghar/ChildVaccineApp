@@ -165,7 +165,7 @@ namespace VaccineDose.Controllers
                     dbDoctor.ShowPhone = doctorDTO.ShowPhone;
                     dbDoctor.ShowMobile = doctorDTO.ShowMobile;
                     dbDoctor.ConsultationFee = doctorDTO.ConsultationFee;
-         
+
                     //dbDoctor = Mapper.Map<DoctorDTO, Doctor>(doctorDTO, dbDoctor);
                     //entities.Entry<Doctor>(dbDoctor).State = System.Data.Entity.EntityState.Modified;
                     entities.SaveChanges();
@@ -297,7 +297,7 @@ namespace VaccineDose.Controllers
                             clinicDTO.childrenCount = clinic.Children.Count();
                             clinicDTOs.Add(clinicDTO);
                         }
-                         //var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
+                        //var clinicDTOs = Mapper.Map<List<ClinicDTO>>(dbClinics);
                         return new Response<IEnumerable<ClinicDTO>>(true, null, clinicDTOs);
                     }
                 }
@@ -338,17 +338,17 @@ namespace VaccineDose.Controllers
             try
             {
                 VDConnectionString entities = new VDConnectionString();
-                var dbDoctor = entities.Doctors.Where(d=>d.ID== id).FirstOrDefault();
-                 if (HttpContext.Current.Request.Files.AllKeys.Any())
+                var dbDoctor = entities.Doctors.Where(d => d.ID == id).FirstOrDefault();
+                if (HttpContext.Current.Request.Files.AllKeys.Any())
                 {
                     var httpPostedProfileImage = HttpContext.Current.Request.Files["ProfileImage"];
                     var httpPostedSignatureImage = HttpContext.Current.Request.Files["SignatureImage"];
 
                     if (httpPostedProfileImage != null)
                     {
-           
+
                         var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/UserImages"), httpPostedProfileImage.FileName);
-                         httpPostedProfileImage.SaveAs(fileSavePath);
+                        httpPostedProfileImage.SaveAs(fileSavePath);
                         dbDoctor.ProfileImage = httpPostedProfileImage.FileName;
                     }
                     if (httpPostedSignatureImage != null)
@@ -410,6 +410,30 @@ namespace VaccineDose.Controllers
 
         }
 
-    }
+        //show doctors and their clinics on change doctor page and also show child data on it
+        [Route("api/doctor/{id}/doctor-clinics")]
+        public Response<IEnumerable<DoctorDTO>> GetDoctorClinics(int id)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
+                    var dbChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
+ 
+                    IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
+                    foreach (var doctor in doctorDTOs)
+                    {
+                        doctor.ChildDTO = Mapper.Map<ChildDTO>(dbChild);
+                    }
+                    return new Response<IEnumerable<DoctorDTO>>(true, null, doctorDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
 
+    }
 }
