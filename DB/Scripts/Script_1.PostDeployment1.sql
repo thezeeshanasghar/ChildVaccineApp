@@ -16,7 +16,10 @@ INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
 ('PCV', 42, NULL),
 ('IPV', 42, NULL),
 ('Measles', 168, NULL),
-('ROTARIX', 42, NULL);
+('ROTARIX', 42, NULL),
+('Hexavalent', 42, NULL),
+('CHICKEN POX', 84, NULL),
+('MMR', 84, NULL);
 GO
 INSERT INTO Dose (Name, VaccineID) VALUES
 ('BCG # 1', (SELECT ID FROM Vaccine WHERE Name='BCG')),

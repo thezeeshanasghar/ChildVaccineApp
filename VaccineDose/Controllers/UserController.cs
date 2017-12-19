@@ -132,7 +132,7 @@ namespace VaccineDose.Controllers
                         if (doctorDb == null)
                             return new Response<UserDTO>(false, "Doctor not found.", null);
                         if (!doctorDb.IsApproved)
-                            return new Response<UserDTO>(false, "You are not approved. Contact admin for approval at 923465430413", null);
+                            return new Response<UserDTO>(false, "You are not approved. Contact admin for approval at 923335196658", null);
 
                         userDTO.DoctorID = doctorDb.ID;
                     }
