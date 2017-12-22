@@ -122,7 +122,7 @@ function loadData() {
                     html += '   <h4>';
                     html += '       <span class="pull-right" style="font-size:12px">';
                     html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a>';
-                    //html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
+                    html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
                     html += '       &nbsp;';
                     html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/>';
@@ -569,10 +569,13 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                if (result.IsSuccess)
+                if (result.IsSuccess) {
+                    ShowAlert('Success', result.Message, 'success');
                     loadData();
-                else
+                }
+                else {
                     ShowAlert('Rquest Failed', result.Message, 'error');
+                }
             },
             error: function (errormessage) {
                 var ob = JSON.parse(errormessage.responseText);
