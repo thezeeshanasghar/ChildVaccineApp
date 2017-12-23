@@ -82,11 +82,7 @@ function Add() {
     $("#btnAdd").button('loading');
     $("#btnAdd").prop('disabled', true);
 
-    var result = [];
-    $('input[name="PreferredDayOfWeek"]:checked').each(function () {
-        result.push(this.value);
-    });
-
+   
     var preferdayreminder = "0";
     if (document.getElementById("TogglePreferredDayOfReminder").checked) {
         preferdayreminder = $('#PreferredDayOfReminder').val()
@@ -104,7 +100,7 @@ function Add() {
         DOB: $('#DOB').val(),
         CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
         MobileNumber: $('#MobileNumber').val(),
-        PreferredDayOfWeek: result.join(','),
+        PreferredDayOfWeek: $('#PreferredDayOfWeek').find(":selected").text(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),

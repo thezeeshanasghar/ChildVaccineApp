@@ -100,7 +100,8 @@ function Add() {
             }
         },
         error: function (errormessage) {
-            alert(errormessage.responseText);
+            var ob = JSON.parse(errormessage.responseText);
+            ShowAlert('Error', ob.Message, 'danger');
         }
     });
 }

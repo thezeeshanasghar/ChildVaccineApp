@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="/css/intlTelInput.css">
 
     <style>
-        .intl-tel-input {width: 100%;}
+        .intl-tel-input {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -33,19 +35,19 @@
                 </div>
                 <form id="form1" role="form" style="display: block;" data-toggle="validator">
                     <div id="child" class="col-sm-6 col-sm-offset-3">
-                        
+
                         <div class="form-group">
-                            <input type="text" class="form-control CapitalizeFirstLetter" id="Name" placeholder="Name" required />
+                            <input type="text" class="form-control CapitalizeFirstLetter" id="Name" placeholder="Child Name" required />
                         </div>
-                        
+
                         <div class="form-group">
-                            <input type="text" class="form-control CapitalizeFirstLetter" id="FatherName" placeholder="Father Name" required />
+                            <input type="text" class="form-control CapitalizeFirstLetter" id="FatherName" placeholder="Father/Mother Name" required />
                         </div>
-                        
+
                         <div class="form-group">
                             <input type="email" class="form-control" id="Email" placeholder="Email" required />
                         </div>
-                        
+
                         <div class="form-group">
                             <div id="dob-container">
                                 <div class="input-group date">
@@ -60,49 +62,28 @@
                             <div class="help-block with-errors"></div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label class="col-md-12" style="padding: 0px;">Preferred Day of Week</label><br />
-                                    <div class="checkbox-inline">
-                                        <label><input id="Monday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Monday" />Monday</label>
-                                    </div>
-                                    <div class="checkbox-inline">
-                                        <label><input id="Tuesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Tuesday" />Tuesday</label>
-                                    </div>
-                                    <div class="checkbox-inline">
-                                        <label><input id="Wednesday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Wednesday" />Wednesday</label>
-                                    </div>
-                                    <br />
-                                    <div class="checkbox-inline">
-                                        <label><input id="Thursday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Thursday" />Thursday</label>
-                                    </div>
-
-                                    <div class="checkbox-inline">
-                                        <label><input id="Friday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Friday" />Friday</label>
-                                    </div>
-                                    &nbsp;
-                                    <div class="checkbox-inline">
-                                        <label><input id="Saturday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Saturday" />Saturday</label>
-                                    </div>
-                                    <div class="checkbox-inline">
-                                        <label><input id="Sunday" name="PreferredDayOfWeek" class="PreferredDayOfWeek" type="checkbox" value="Sunday" />Sunday</label>
-                                    </div>
-                                </div>
+                        <div class="form-group">
+                            <select id="PreferredDayOfWeek" class="form-control" name="PreferredDayOfWeek" required title="Preferred Day of Week">
+                                <option value="">-- Preferred Day of Week --</option>
+                                <option value="Any" selected="selected">Any</option>
+                                <option value="Monday" id="Monday">Monday</option>
+                                <option value="Tuesday" id="Tuesday">Tuesday</option>
+                                <option value="Wednesday" id="Wednesday">Wednesday</option>
+                                <option value="Thursday" id="Thursday">Thursday</option>
+                                <option value="Friday" id="Friday">Friday</option>
+                                <option value="Saturday" id="Saturday">Saturday</option>
+                                <option value="Sunday" id="Sunday">Sunday</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Gender">Gender</label><br />
+                            <div class="radio-inline">
+                                <label><input type="radio" name="gender" value="Boy" checked="checked">Boy</label>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="Gender">Gender</label><br />
-                                    <div class="radio-inline">
-                                        <label><input type="radio" name="gender" value="Boy" checked="checked">Boy</label>
-                                    </div>
-                                    <div class="radio-inline">
-                                        <label><input type="radio" name="gender" value="Girl">Girl</label>
-                                    </div>
-                                </div>
+                            <div class="radio-inline">
+                                <label><input type="radio" name="gender" value="Girl">Girl</label>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <select id="City" class="form-control" name="City" required>
                                 <option value="">-- select city --</option>
@@ -111,34 +92,21 @@
                                 <option value="Multan">Multan</option>
                             </select>
                         </div>
-                        
+
                         <div class="row form-group">
-                            <div class="col-md-10">
-                                <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled>
+                            <div class="col-md-8">
+                                <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled title="Preferred day of reminder">
                                     <option value="">-- select preferred day of reminder --</option>
+                                    <option value="0" selected="selected">On Same Day</option>
                                     <option value="1">One Day Before</option>
                                     <option value="2">Two Day Before</option>
                                     <option value="3">Three Day Before</option>
-                                    <option value="4">Four Day Before</option>
-                                    <option value="5">Five Day Before</option>
-                                    <option value="6">Six Day Before</option>
-                                    <option value="7">Seven Day Before</option>
-                                    <option value="8">Eight Day Before</option>
-                                    <option value="9">Nine Day Before</option>
-                                    <option value="10">Ten Day Before</option>
-                                    <option value="11">Eleven Day Before</option>
-                                    <option value="12">Twelve Day Before</option>
-                                    <option value="13">Thirteen Day Before</option>
-                                    <option value="14">Fourteen Day Before</option>
-                                    <option value="15">Fifteen Day Before</option>
                                 </select>
                             </div>
-                            <div class="col-md-2" style="vertical-align:central">
-
+                            <div class="col-md-2" style="vertical-align:middle">
                                 <div class="checkbox-inline">
                                     <label><input id="TogglePreferredDayOfReminder" type="checkbox" />Enable</label>
                                 </div>
-
                             </div>
                         </div>
                         <div class="form-group">
@@ -165,7 +133,7 @@
                     <div id="vaccine" class="col-sm-6 col-sm-offset-3">
                         <h2 class="text-center">Select vaccines for this child</h2>
                         <div id="childVaccine"></div>
-                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Submit</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Save</button>
                     </div>
                 </form>
 

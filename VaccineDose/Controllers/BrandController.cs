@@ -101,7 +101,7 @@ namespace VaccineDose.Controllers
             catch (Exception ex)
             {
                 if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
-                    return new Response<string>(false, "The DELETE statement conflicted with the REFERENCE constraint", null);
+                    return new Response<string>(false, "Cannot delete brand because it is used in Child Schedule, Inventory or Invoice.", null);
                 else
                     return new Response<string>(false, GetMessageFromExceptionObject(ex), null);
             }
