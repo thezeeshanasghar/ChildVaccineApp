@@ -19,6 +19,7 @@ namespace VaccineDose
         public double Height { get; set; }
         public double Circle { get; set; }
         public bool IsDone { get; set; }
+        public bool Due2EPI { get; set; }
         public DoseDTO Dose { get; set; }
         public virtual ChildDTO Child { get; set; }
         public List<BrandDTO> Brands { get; set; }

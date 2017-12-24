@@ -8,6 +8,7 @@
     [Circle]  FLOAT (53)    NULL,
     [BrandId]   INT NULL,
     [IsDone]  BIT           CONSTRAINT [DF_Schedule_IsDone] DEFAULT ((0)) NOT NULL,
+    [Due2EPI] BIT NOT NULL DEFAULT ((0)), 
     CONSTRAINT [PK_Schedule] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Schedule_Child] FOREIGN KEY ([ChildId]) REFERENCES [dbo].[Child] ([ID]),
     CONSTRAINT [FK_Schedule_Dose] FOREIGN KEY ([DoseId]) REFERENCES [dbo].[Dose] ([ID]),

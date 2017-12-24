@@ -28,7 +28,8 @@ function loadData(id) {
                     var vaccineSchedule = {
                         doseName: item.Dose.Name,
                         scheduleID: item.ID,
-                        isDone: item.IsDone
+                        isDone: item.IsDone,
+                        Due2EPI: item.Due2EPI
                     };
                     if (item.Date in dateVsArrayOfScheuleMap) {
                         dateVsArrayOfScheuleMap[item.Date].push(vaccineSchedule);
@@ -58,13 +59,15 @@ function loadData(id) {
 
                         if (!doseArray[index].isDone)
                             html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
-                        if (localStorage.getItem("UserType") == "DOCTOR") {
-                            html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
-                            if (doseArray[index].isDone)
-                                html += '       <img src="../img/injectionFilled.png" style="height: 30px;" /></a>'
-                            else
-                                html += '       <img src="../img/injectionEmpty.png" style="height: 30px;" /></a>'
-                        }
+                        if (doseArray[index].Due2EPI)
+                            html += '<small>EPI</small>';
+                        html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
+
+                        if (doseArray[index].isDone)
+                            html += '       <img src="../img/injectionFilled.png" style="height: 30px;" /></a>'
+                        else
+                            html += '       <img src="../img/injectionEmpty.png" style="height: 30px;" /></a>'
+
                         html += '       </span> ';
                         html += doseArray[index].doseName;
                         html += '   </h4>'
@@ -126,7 +129,7 @@ function getbyID(ID) {
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
- 
+
             }
         },
         error: function (errormessage) {
@@ -283,10 +286,10 @@ function openBulkCalender(scheduleId, date) {
 }
 
 function openVaccineDetails(ID, date) {
-   
+
     var obj = {
         ChildId: parseInt(getParameterByName("id")),
-        Date:date
+        Date: date
     }
     $.ajax({
         url: SERVER + "schedule/bulk-brand/",
@@ -306,7 +309,7 @@ function openVaccineDetails(ID, date) {
                     html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
                     //show vaccine brands
                     html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
-                    html += '<option value="">-- Select '+schedule.Dose.Name+ ' Brand --</option>';
+                    html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
                     $.each(schedule.Brands, function (key, brand) {
                         html += '<option value=' + brand.ID;
                         html += '>' + brand.Name + '</option>';
@@ -318,7 +321,7 @@ function openVaccineDetails(ID, date) {
                 $("#ddBrand_bulk").html(html);
                 $('#bulkModel').modal('show');
                 $("#btnbulkInjection").show();
-             }
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -328,7 +331,7 @@ function openVaccineDetails(ID, date) {
 
 }
 function UpdateBulkInjection() {
-       
+
     var scheduleBrands = [];
     //for time being I'm using loop upto 10 dropdown values
     for (i = 1; i <= 10; i++) {
@@ -336,7 +339,7 @@ function UpdateBulkInjection() {
             scheduleBrands.push({ ScheduleId: $("#ScheduleId_" + i).val(), BrandId: $("#BrandId_" + i).val() });
         }
     }
-       
+
     var obj = {
         ID: $("#ID").val(),
         Date: $('#date').val(),
