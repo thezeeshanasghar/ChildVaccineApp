@@ -21,153 +21,370 @@
         #current {
             padding-top: 10px;
         }
-        .intl-tel-input {width: 100%;}
+
+        .intl-tel-input {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
         <div id="menu"></div>
         <div class="row">
-            <div class="col-lg-12">
-                <h1 class="text-center">Doctor Signup</h1>
-                <div id="alert_message" class="alert alert-dismissible alert-warning">
-                    <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
-                    <strong>loading title!</strong>
-                    <p>loading message</p>
-                </div>
-                <form id="form1" role="form" style="display: block;" data-toggle="validator">
-                    <div id="doctor" class="col-sm-6 col-sm-offset-3">
-                        <input type="text" class="form-control" id="ID" style="display:none" />
-                        <div class="form-group">
-                            <input type="text" class="form-control CapitalizeFirstLetter" id="FirstName" placeholder="First Name" required />
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control CapitalizeFirstLetter" id="LastName" placeholder="Last Name" required />
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control CapitalizeFirstLetter" id="DisplayName" placeholder="Display Name" required />
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="Email" placeholder="Email" required />
-                        </div>
-                       
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-10 col-sm-10 col-xs-10">
+            <section>
+                <div class="wizard">
+                    <div class="wizard-inner">
+                        <div class="connecting-line"></div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#step1" data-toggle="tab" id="doctorTab" aria-controls="step1" role="tab" title="Step 1">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-folder-open"></i>
+                                    </span>
+                                </a>
+
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step2" data-toggle="tab" id="clinicTab" aria-controls="step2" role="tab" title="Step 2">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step3" data-toggle="tab" id="scheduleTab" aria-controls="step3" role="tab" title="Step 3">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-picture"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#complete" data-toggle="tab" id="completeTab" aria-controls="complete" role="tab" title="Complete">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" id="step1">
+                            <h1 class="text-center">Personal Informations</h1>
+                             <form id="personalInfoForm" role="form" style="display: block;" data-toggle="validator">
+                                <div id="doctor" class="col-sm-6 col-sm-offset-3">
+                                    <input type="text" class="form-control" id="ID" style="display:none" />
                                     <div class="form-group">
-                                        <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
-                                               placeholder="Enter number like 3335196658"
-                                               required />
+                                        <input type="text" class="form-control CapitalizeFirstLetter" id="FirstName" placeholder="First Name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control CapitalizeFirstLetter" id="LastName" placeholder="Last Name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control CapitalizeFirstLetter" id="DisplayName" placeholder="Display Name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" id="Email" placeholder="Email" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-10 col-sm-10 col-xs-10">
+                                                <div class="form-group">
+                                                    <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
+                                                           placeholder="Enter number like 3335196658"
+                                                           required />
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                                <div class="checkbox">
+                                                    <label><input id="ShowMobile" name="ShowMobile" type="checkbox" checked="checked">Display</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-10 col-sm-10 col-xs-10">
+                                                <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" />
+                                            </div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                                <div class="checkbox">
+                                                    <label><input id="ShowPhone" name="ShowPhone" type="checkbox" checked="checked">Display</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" pattern="\d{5}-\w" class="form-control" id="PMDC" placeholder="PMDC Number"
+                                               required data-error="Specify pmdc number in this pattern 12345-A" />
                                         <div class="help-block with-errors"></div>
                                     </div>
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="ConsultationFee" placeholder="Consultation Fee" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ProfileImage">Profile Image</label>
+                                        <input type="file" id="ProfileImage" placeholder="Add Profile Image" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="SignatureImage">Signature Image</label>
+                                        <input id="SignatureImage" type="file" placeholder="Add Signature Image" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="return doctorNext();"  >Save and continue</button>
+                                    </div>
                                 </div>
+                            </form>
+                            <!--<ul class="list-inline pull-right">
+                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                            </ul>-->
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="step2">
+                            <form id="clinicForm" role="form" style="display: block;" data-toggle="validator">
+                                <div id="clinic" class="col-sm-6 col-sm-offset-3">
+                                    <h2 class="text-center">Clinic Information</h2>
+                                    <input type="text" class="form-control" id="ID" style="display:none" />
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Name" placeholder="Clinic Name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12" style="padding: 0px;">Select Off Days of Clinic</label><br />
+                                        <div class="checkbox-inline">
+                                            <label><input id="Monday" class="OffDays" name="OffDays" type="checkbox" value="Monday">Monday</label>
+                                        </div>
+                                        <div class="checkbox-inline">
+                                            <label><input id="Tuesday" class="OffDays" name="OffDays" type="checkbox" value="Tuesday">Tuesday</label>
+                                        </div>
+                                        <div class="checkbox-inline">
+                                            <label><input id="Wednesday" class="OffDays" name="OffDays" type="checkbox" value="Wednesday">Wednesday</label>
+                                        </div>
+                                        <div class="checkbox-inline">
+                                            <label><input id="Thursday" class="OffDays" name="OffDays" type="checkbox" value="Thursday">Thursday</label>
+                                        </div>
+                                        <br />
+                                        <div class="checkbox-inline">
+                                            <label><input id="Friday" class="OffDays" name="OffDays" type="checkbox" value="Friday">Friday</label>
+                                        </div>
+                                        <div class="checkbox-inline">
+                                            <label><input id="Saturday" class="OffDays" name="OffDays" type="checkbox" value="Saturday">Saturday</label>
+                                        </div>
+                                        <div class="checkbox-inline">
+                                            <label><input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday">Sunday</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="StartTime" type="text" class="form-control input-small" placeholder="Start Time of clinic" required />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="EndTime" type="text" class="form-control input-small" placeholder="End Time of clinic" required />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <div id="Location"></div>
+                                        <div id="current">Select marker and drag it to your location...</div>
+                                    </div>
+                                    <!--<div class="form-group">
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAddClinic" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Finish Singup</button>
+        </div>-->
+                                    <!--<ul class="list-inline pull-right">
+            <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+            <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+        </ul>-->
+                                    <div class="form-group">
+                                          <button type="button" class="btn btn-primary btn-lg btn-block" onclick="return clinicNext();">Save and continue</button>
+                                    </div>
+                                </div>
+                                 </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="step3">
+                            <form id="scheduleForm" action="" method="post" class="add-clinic-form" role="form" data-toggle="validator">
+                                 <p class="btnLine">
+                                    <input type="hidden" value="1" name="total_forms" class="total-forms" />
+                                    <input type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" value="Save and continue"  />
+                                 </p>
+                                 
+                            </form>
+                            <input type="hidden" id="DoctorId" name="DoctorId"  />
 
-                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                    <div class="checkbox">
-                                        <label><input id="ShowMobile" name="ShowMobile" type="checkbox" checked="checked">Display</label>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<ul class="list-inline pull-right">
+                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                <li><button type="button" class="btn btn-default next-step">Skip</button></li>
+                                <li><button type="button" class="btn btn-primary btn-info-full next-step">Save and continue</button></li>
+                            </ul>-->
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-10 col-sm-10 col-xs-10">
-                                    <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" />
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                    <div class="checkbox">
-                                        <label><input id="ShowPhone" name="ShowPhone" type="checkbox" checked="checked">Display</label>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="tab-pane" role="tabpanel" id="complete">
+                            <h3>Complete</h3>
+                            <div id="alert_message" class="alert alert-dismissible alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                                <strong>loading title!</strong>
+                                <p>loading message</p>
+                            </div>  
                         </div>
-                        <div class="form-group">
-                            <input type="text" pattern="\d{5}-\w" class="form-control" id="PMDC" placeholder="PMDC Number"
-                                   required data-error="Specify pmdc number in this pattern 12345-A" />
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-control" id="ConsultationFee" placeholder="Consultation Fee" />
-                        </div>
-                        <div class="form-group">
-                            <label for="ProfileImage">Profile Image</label>
-                            <input type="file" id="ProfileImage" placeholder="Add Profile Image" class="form-control"  />
-                        </div>
-                        <div class="form-group">
-                            <label for="SignatureImage">Signature Image</label>
-                            <input id="SignatureImage" type="file" placeholder="Add Signature Image"  class="form-control"  />
-                        </div>
-                          <div class="form-group">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="ShowHide()">Add Clinic</button>
-                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                </form>
-                <form id="form2" role="form" style="display: block;" data-toggle="validator">
-                    <div id="clinic" class="col-sm-6 col-sm-offset-3">
-                        <h2 class="text-center">Add Clinic Information</h2>
-                        <input type="text" class="form-control" id="ID" style="display:none" />
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="Name" placeholder="Clinic Name" required />
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" required />
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-12" style="padding: 0px;">Select Off Days of Clinic</label><br />
-                            <div class="checkbox-inline">
-                                <label><input id="Monday" class="OffDays" name="OffDays" type="checkbox" value="Monday">Monday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Tuesday" class="OffDays" name="OffDays" type="checkbox" value="Tuesday">Tuesday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Wednesday" class="OffDays" name="OffDays" type="checkbox" value="Wednesday">Wednesday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Thursday" class="OffDays" name="OffDays" type="checkbox" value="Thursday">Thursday</label>
-                            </div>
-                            <br />
-                            <div class="checkbox-inline">
-                                <label><input id="Friday" class="OffDays" name="OffDays" type="checkbox" value="Friday">Friday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Saturday" class="OffDays" name="OffDays" type="checkbox" value="Saturday">Saturday</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <label><input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday">Sunday</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group bootstrap-timepicker timepicker">
-                                <input id="StartTime" type="text" class="form-control input-small" placeholder="Start Time of clinic" required />
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group bootstrap-timepicker timepicker">
-                                <input id="EndTime" type="text" class="form-control input-small" placeholder="End Time of clinic" required />
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Location</label>
-                            <div id="Location"></div>
-                            <div id="current">Select marker and drag it to your location...</div>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAddClinic" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Finish Singup</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </section>
         </div>
     </div>
+
+    <!--<div class="container">
+            <div id="menu"></div>
+    <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="text-center">Doctor Signup</h1>
+                    <div id="alert_message" class="alert alert-dismissible alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
+                        <strong>loading title!</strong>
+                        <p>loading message</p>
+                    </div>
+                    <form id="form1" role="form" style="display: block;" data-toggle="validator">
+                        <div id="doctor" class="col-sm-6 col-sm-offset-3">
+                            <input type="text" class="form-control" id="ID" style="display:none" />
+                            <div class="form-group">
+                                <input type="text" class="form-control CapitalizeFirstLetter" id="FirstName" placeholder="First Name" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control CapitalizeFirstLetter" id="LastName" placeholder="Last Name" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control CapitalizeFirstLetter" id="DisplayName" placeholder="Display Name" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="Email" placeholder="Email" required />
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-10 col-sm-10 col-xs-10">
+                                        <div class="form-group">
+                                            <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
+                                                   placeholder="Enter number like 3335196658"
+                                                   required />
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2 col-sm-2 col-xs-2">
+                                        <div class="checkbox">
+                                            <label><input id="ShowMobile" name="ShowMobile" type="checkbox" checked="checked">Display</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-10 col-sm-10 col-xs-10">
+                                        <input type="text" class="form-control" id="PhoneNo" placeholder="Phone Number" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2">
+                                        <div class="checkbox">
+                                            <label><input id="ShowPhone" name="ShowPhone" type="checkbox" checked="checked">Display</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" pattern="\d{5}-\w" class="form-control" id="PMDC" placeholder="PMDC Number"
+                                       required data-error="Specify pmdc number in this pattern 12345-A" />
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="ConsultationFee" placeholder="Consultation Fee" />
+                            </div>
+                            <div class="form-group">
+                                <label for="ProfileImage">Profile Image</label>
+                                <input type="file" id="ProfileImage" placeholder="Add Profile Image" class="form-control"  />
+                            </div>
+                            <div class="form-group">
+                                <label for="SignatureImage">Signature Image</label>
+                                <input id="SignatureImage" type="file" placeholder="Add Signature Image"  class="form-control"  />
+                            </div>
+                              <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAdd" onclick="ShowHide()">Add Clinic</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form id="form2" role="form" style="display: block;" data-toggle="validator">
+                        <div id="clinic" class="col-sm-6 col-sm-offset-3">
+                            <h2 class="text-center">Add Clinic Information</h2>
+                            <input type="text" class="form-control" id="ID" style="display:none" />
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="Name" placeholder="Clinic Name" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12" style="padding: 0px;">Select Off Days of Clinic</label><br />
+                                <div class="checkbox-inline">
+                                    <label><input id="Monday" class="OffDays" name="OffDays" type="checkbox" value="Monday">Monday</label>
+                                </div>
+                                <div class="checkbox-inline">
+                                    <label><input id="Tuesday" class="OffDays" name="OffDays" type="checkbox" value="Tuesday">Tuesday</label>
+                                </div>
+                                <div class="checkbox-inline">
+                                    <label><input id="Wednesday" class="OffDays" name="OffDays" type="checkbox" value="Wednesday">Wednesday</label>
+                                </div>
+                                <div class="checkbox-inline">
+                                    <label><input id="Thursday" class="OffDays" name="OffDays" type="checkbox" value="Thursday">Thursday</label>
+                                </div>
+                                <br />
+                                <div class="checkbox-inline">
+                                    <label><input id="Friday" class="OffDays" name="OffDays" type="checkbox" value="Friday">Friday</label>
+                                </div>
+                                <div class="checkbox-inline">
+                                    <label><input id="Saturday" class="OffDays" name="OffDays" type="checkbox" value="Saturday">Saturday</label>
+                                </div>
+                                <div class="checkbox-inline">
+                                    <label><input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday">Sunday</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group bootstrap-timepicker timepicker">
+                                    <input id="StartTime" type="text" class="form-control input-small" placeholder="Start Time of clinic" required />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group bootstrap-timepicker timepicker">
+                                    <input id="EndTime" type="text" class="form-control input-small" placeholder="End Time of clinic" required />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <div id="Location"></div>
+                                <div id="current">Select marker and drag it to your location...</div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAddClinic" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">Finish Singup</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>-->
+
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQiiY3BORTJDHVJ6SFZTiSMk0MoMuU18"></script>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/bootstrap-timepicker.min.js"></script>
     <script src="../js/validator.min.js"></script>
     <script src="../js/intlTelInput.min.js"></script>
+    <script src="/js/wizard.js"></script>
+
     <script src="/server.js"></script>
     <script src="/common.js"></script>
     <script src="doctor-signup.js"></script>
