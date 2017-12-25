@@ -25,7 +25,7 @@ function loadData() {
                     html += '   <td>' + item.Email + '</td>';
                     html += '   <td>' + item.MobileNumber + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
-                    html += '   <td> ' + item.ValidUpto + ' <span class="glyphicon glyphicon-calendar validUpto"  onclick=" return openCalender(' + item.ID + ',\'' + item.ValidUpto + '\')"></span></td>';
+                    html += '   <td> ' + item.ValidUpto + ' <span class="glyphicon glyphicon-calendar validUpto_'+item.ID+'"  onclick=" return openCalender(' + item.ID + ',\'' + item.ValidUpto + '\')"></span></td>';
                     html += '</tr>';
                 });
                 $('.tbody').html(html);
@@ -65,20 +65,20 @@ function loadData() {
 
 function openCalender(doctorId, validUpTO) {
 
-    $(".validUpto").datepicker({
+    $(".validUpto_"+doctorId).datepicker({
         format: 'dd-mm-yyyy',
         todayBtn: true,
         autoclose: true,
         todayHighlight: true,
     });
     if (validUpTO != null)
-        $('.validUpto').datepicker('update', validUpTO);
-    $(".validUpto").datepicker('show');
+        $(".validUpto_"+doctorId).datepicker('update', validUpTO);
+    $(".validUpto_" + doctorId).datepicker('show');
 
     var obj = {};
     obj.ID = doctorId;
 
-    $(".validUpto").datepicker()
+    $(".validUpto_" + doctorId).datepicker()
          .on('changeDate', function (e) {
              obj.ValidUpto = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
 

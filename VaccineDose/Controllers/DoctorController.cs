@@ -220,34 +220,6 @@ namespace VaccineDose.Controllers
                     var vaccines = entities.Vaccines.ToList();
                     foreach (var vaccine in vaccines)
                     {
-                        // add default schedule of doctor
-                        var doses = vaccine.Doses;
-
-
-                        for (int i = 0; i < doses.Count; i++)
-                        {
-                            var dose = doses.ElementAt(i);
-                            DoctorSchedule ds = new DoctorSchedule();
-                            ds.DoctorID = dbDoctor.ID;
-                            ds.DoseID = dose.ID;
-                            if (i == 0)
-                                ds.GapInDays = 0;
-                            else if (i == 1)
-                                ds.GapInDays = 42;
-                            else if (i == 2)
-                                ds.GapInDays = 49;
-                            else if (i == 3)
-                                ds.GapInDays = 56;
-                            else if (i == 4)
-                                ds.GapInDays = 63;
-                            else if (i == 5)
-                                ds.GapInDays = 70;
-                            else if (i == 6)
-                                ds.GapInDays = 77;
-
-                            entities.DoctorSchedules.Add(ds);
-                            entities.SaveChanges();
-                        }
                         // add default brands amount and inventory count of doctor
                         var brands = vaccine.Brands;
                         foreach (var brand in brands)

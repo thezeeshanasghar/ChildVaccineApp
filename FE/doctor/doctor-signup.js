@@ -323,6 +323,7 @@ function next() {
     var $active = $('.wizard .nav-tabs li.active');
     $active.next().removeClass('disabled');
     nextTab($active);
+    ScrollToTop();
 }
 //custom schedule end
 function validateDoctor() {
