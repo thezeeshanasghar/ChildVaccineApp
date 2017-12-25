@@ -32,7 +32,7 @@ namespace VaccineDose.Controllers
                         childDTO.MobileNumber = child.User.MobileNumber;
                         childDTOs.Add(childDTO);
                     }
-                    
+
                     return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
                 }
             }
@@ -104,7 +104,29 @@ namespace VaccineDose.Controllers
                             Schedule cvd = new Schedule();
                             cvd.ChildId = childDTO.ID;
                             cvd.DoseId = ds.DoseID;
-                            cvd.IsDone = false;
+                            if (childDTO.IsEPIDone)
+                            {
+                                if (ds.Dose.Name.StartsWith("BCG") || ds.Dose.Name.StartsWith("HBV"))
+                                {
+                                    cvd.IsDone = true;
+                                    cvd.Due2EPI = true;
+                                }
+                                else if (ds.Dose.Name.Equals("OPV # 1", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("OPV # 2", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("OPV # 3", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("PENTAVALENT # 1", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("PENTAVALENT # 2", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("PENTAVALENT # 3", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("PCV # 1", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("PCV # 2", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("PCV # 3", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("Measles # 1", StringComparison.OrdinalIgnoreCase)
+                                  )
+                                {
+                                    cvd.IsDone = true;
+                                    cvd.Due2EPI = true;
+                                }
+                            }
                             cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
                             entities.Schedules.Add(cvd);
                             entities.SaveChanges();
@@ -493,12 +515,12 @@ namespace VaccineDose.Controllers
                     // upperTable.DefaultCell.PaddingLeft = 4;
                     upperTable.SetWidths(upperTableWidths);
 
-                    upperTable.AddCell(CreateCell("Dr "+dbDoctor.FirstName+ dbDoctor.LastName, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Dr " + dbDoctor.FirstName + dbDoctor.LastName, "bold", 1, "left", "description"));
                     //upperTable.AddCell(CreateCell("Invoice", "bold", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("Invoice # " + dbDoctor.InvoiceNumber, "bold", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
-                    
+
                     upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
 
                     //upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "noColor", 1, "left", "description"));
@@ -515,12 +537,12 @@ namespace VaccineDose.Controllers
                     //upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Bill To: "+ dbChild.Name, "noColor", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Bill To: " + dbChild.Name, "noColor", 1, "right", "description"));
                     //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
                     //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     //upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("P: "+dbDoctor.PhoneNo, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("P: " + dbDoctor.PhoneNo, "bold", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("M: " + dbDoctor.User.MobileNumber, "bold", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
@@ -574,7 +596,7 @@ namespace VaccineDose.Controllers
                             //date is static due to date conversion issue
                             //  && schedule.Date.Date == DateTime.Now.Date
                             //when we add bulk injection we don't add brandId in schedule
-                            if (schedule.IsDone && schedule.BrandId>0)
+                            if (schedule.IsDone && schedule.BrandId > 0)
                             {
                                 count++;
                                 table.AddCell(CreateCell(count.ToString(), "", 1, "center", "invoiceRecords"));
@@ -615,7 +637,7 @@ namespace VaccineDose.Controllers
                     bottomTable.SetWidths(bottomTableWidths);
 
                     bottomTable.AddCell(CreateCell("Thank you for your vaccination", "bold", 1, "left", "description"));
-                    bottomTable.AddCell(CreateCell("Total Amount: "+amount.ToString()+"/-", "bold", 1, "right", "description"));
+                    bottomTable.AddCell(CreateCell("Total Amount: " + amount.ToString() + "/-", "bold", 1, "right", "description"));
 
                     var imgcellLeft = CreateCell("", "", 1, "left", "description");
                     imgcellLeft.PaddingTop = 5;
@@ -778,8 +800,8 @@ namespace VaccineDose.Controllers
                 document.Open();
 
                 GetPDFHeading(document, "Medical Visit History");
-                
-                
+
+
                 //Table 1 for description above history table
                 PdfPTable upperTable = new PdfPTable(2);
                 float[] upperTableWidths = new float[] { 250f, 250f };
@@ -793,7 +815,7 @@ namespace VaccineDose.Controllers
                 upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                 upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
                 upperTable.AddCell(CreateCell(child.Clinic.Name, "bold", 1, "left", "description"));
-                upperTable.AddCell(CreateCell("Date of Birth: "+child.DOB.ToString("dd-MM-yyyy"), "bold", 1, "right", "description"));
+                upperTable.AddCell(CreateCell("Date of Birth: " + child.DOB.ToString("dd-MM-yyyy"), "bold", 1, "right", "description"));
 
                 upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                 upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
@@ -811,7 +833,7 @@ namespace VaccineDose.Controllers
                 table.LockedWidth = true;
 
                 //relative col widths in proportions - 1/3 and 2/3
-                float[] widths = new float[] { 30f, 200f,270f};
+                float[] widths = new float[] { 30f, 200f, 270f };
                 table.SetWidths(widths);
                 table.HorizontalAlignment = 0;
                 //leave a gap before and after the table
@@ -824,7 +846,7 @@ namespace VaccineDose.Controllers
                 var followUps = child.FollowUps.ToList();
                 foreach (var item in followUps)
                 {
-                    table.AddCell(new PdfPCell(new Phrase( (followUps.IndexOf(item) + 1) + "")));
+                    table.AddCell(new PdfPCell(new Phrase((followUps.IndexOf(item) + 1) + "")));
                     table.AddCell(new PdfPCell(new Phrase(item.CurrentVisitDate.Value.ToString("dd-MM-yyyy"))));
                     //table.AddCell(new PdfPCell(new Phrase(item.NextVisitDate.Value.ToString("dd-MM-yyyy"))));
                     table.AddCell(new PdfPCell(new Phrase(item.Disease.ToString())));
@@ -859,7 +881,7 @@ namespace VaccineDose.Controllers
                 {
                     var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
                     //give notification to old doctor
-                    UserEmail.DoctorEmail(Mapper.Map<ChildDTO>(dbChild),"old");
+                    UserEmail.DoctorEmail(Mapper.Map<ChildDTO>(dbChild), "old");
                     //TODO: give notification on sms, to both doctors
 
                     var dbClinic = entities.Clinics.Where(x => x.ID == childDTO.ClinicID).FirstOrDefault();

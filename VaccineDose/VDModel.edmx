@@ -138,6 +138,7 @@
           <Property Name="Circle" Type="float" />
           <Property Name="BrandId" Type="int" />
           <Property Name="IsDone" Type="bit" Nullable="false" />
+          <Property Name="Due2EPI" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -695,6 +696,7 @@
           <NavigationProperty Name="Brand" Relationship="VDModel.FK_Schedule_Brand" FromRole="Schedule" ToRole="Brand" />
           <NavigationProperty Name="Child" Relationship="VDModel.FK_Schedule_Child" FromRole="Schedule" ToRole="Child" />
           <NavigationProperty Name="Dose" Relationship="VDModel.FK_Schedule_Dose" FromRole="Schedule" ToRole="Dose" />
+          <Property Name="Due2EPI" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1062,6 +1064,7 @@
           <EntitySetMapping Name="Schedules">
             <EntityTypeMapping TypeName="VDModel.Schedule">
               <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="Due2EPI" ColumnName="Due2EPI" />
                 <ScalarProperty Name="IsDone" ColumnName="IsDone" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />
                 <ScalarProperty Name="Circle" ColumnName="Circle" />

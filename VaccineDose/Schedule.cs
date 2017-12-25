@@ -23,6 +23,7 @@ namespace VaccineDose
         public Nullable<double> Circle { get; set; }
         public Nullable<int> BrandId { get; set; }
         public bool IsDone { get; set; }
+        public bool Due2EPI { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual Child Child { get; set; }
