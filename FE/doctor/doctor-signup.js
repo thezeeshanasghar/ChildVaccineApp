@@ -59,7 +59,7 @@ function Add() {
         ShowPhone: $("#ShowPhone").is(":checked"),
         ShowMobile: $("#ShowMobile").is(":checked"),
         DisplayName: $('#DisplayName').val(),
-     
+
         ClinicDTO: {
             Name: $('#Name').val(),
             StartTime: $('#StartTime').val(),
@@ -88,10 +88,9 @@ function Add() {
                 $("#btnAdd").prop('disabled', false);
                 $("#btnAdd").button('reset');
                 AddSchedule();
-             }
+            }
         },
         error: function (errormessage) {
-
             alert(errormessage.responseText);
         }
     });
@@ -103,8 +102,8 @@ function uploadImages() {
     var file1 = $("#SignatureImage").get(0).files;
     var dt = new Date();
     var date = dt.getDate() + "-" + dt.getMonth() + "-" + dt.getFullYear() + "_" + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-     // Add the uploaded image content to the form data collection
-       
+    // Add the uploaded image content to the form data collection
+
     if (file.length > 0) {
         file[0].name = "ProfileImage_" + date + file[0].name;
         data.append("ProfileImage", file[0]);
@@ -123,14 +122,14 @@ function uploadImages() {
             cache: false,
             data: data, 		        // DATA OR FILES IN THIS CONTEXT.
             success: function (data, textStatus, xhr) {
-                
+
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(textStatus + ': ' + errorThrown);
             }
         });
     }
-   
+
 }
 
 //custom schedule start
@@ -294,7 +293,7 @@ function AddSchedule() {
                 ShowAlert('Error', result.Message, 'danger');
             else {
                 next();
-                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>http://vaccs.io</b><br/>Your username and password have been send to your email address', 'success');
+                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Now admin will approve your singup then you can <a href="/login.html?UserType=DOCTOR">login</a> to <b>http://vaccs.io</b><br/>Your username and password have been send to your email address', 'success');
                 ScrollToTop();
             }
         },
@@ -330,7 +329,7 @@ function validateDoctor() {
     $('#personalInfoForm').validator('validate');
     var validator = $('#personalInfoForm').data("bs.validator");
     if (!validator.hasErrors()) {
-         return true;
+        return true;
     } else {
         return false;
     }
@@ -338,13 +337,13 @@ function validateDoctor() {
 function validateClinic() {
     $('#clinicForm').validator('validate');
     var validator = $('#clinicForm').data("bs.validator");
-    if (validator.hasErrors()){
+    if (validator.hasErrors()) {
         return false;
     }
     else {
         return true;
     }
-        
+
 }
 function validateSchedule() {
     var total_errors = 0;
