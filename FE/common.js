@@ -126,6 +126,7 @@ function SetMainNav() {
         markup += '            <li class="dropdown" id="menu-login">';
         markup += '                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Login <span class="caret"></span></a>';
         markup += '                    <ul class="dropdown-menu">';
+        markup += '                         <li><a href="/login.html?UserType=SUPERADMIN">Admin Login</a></li>';
         markup += '                         <li><a href="/login.html?UserType=DOCTOR">Doctor Login</a></li>';
         markup += '                         <li><a href="/login.html?UserType=PARENT">Parent Login</a></li>';
         markup += '                    </ul>';

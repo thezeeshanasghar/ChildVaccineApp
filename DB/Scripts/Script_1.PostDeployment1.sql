@@ -9,6 +9,37 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+--INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
+--('BCG', 0, NULL),
+--('OPV', 0, NULL),
+--('PCV', 42, NULL),
+--('Rota Virus GE', 42, NULL),
+--('Chicken Pox', 84, NULL),
+--('MMR', 84, NULL),
+--('MenB Vaccine', 56, NULL),
+--('MenACWY vaccine', 63, NULL),
+--('Yellow Fever', 63, NULL),
+--('Typhoid', 168, NULL),
+--('Flu Vaccine', 168, NULL),
+--('OPV/IPV+DPT+Hib+HBV', 42, NULL);
+--GO
+--INSERT INTO Dose (Name, VaccineID) VALUES
+--('BCG # 1', (SELECT ID FROM Vaccine WHERE Name='BCG')),
+--('OPV # 0', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+--('OPV # 1', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+--('OPV # 2', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+--('OPV # 3', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+--('OPV # 4', (SELECT ID FROM Vaccine WHERE Name='OPV')),
+--('PENTAVALENT # 1', (SELECT ID FROM Vaccine WHERE Name='OPV/IPV+DPT+Hib+HBV')),
+--('PENTAVALENT # 2', (SELECT ID FROM Vaccine WHERE Name='OPV/IPV+DPT+Hib+HBV')),
+--('PENTAVALENT # 3', (SELECT ID FROM Vaccine WHERE Name='OPV/IPV+DPT+Hib+HBV')),
+--('PENTAVALENT # 4', (SELECT ID FROM Vaccine WHERE Name='OPV/IPV+DPT+Hib+HBV')),
+--('PCV # 1', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+--('PCV # 2', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+--('PCV # 3', (SELECT ID FROM Vaccine WHERE Name='PCV')),
+--('PCV # 4', (SELECT ID FROM Vaccine WHERE Name='PCV'));
+--GO
+
 INSERT INTO Vaccine(Name, MinAge, MaxAge) VALUES
 ('BCG', 0, NULL),
 ('OPV', 0, NULL),
