@@ -75,7 +75,7 @@ function SendForgetPasswordRequest() {
 
     var obj = {
         MobileNumber: $("#ForgotMobileNumber").val(),
-        //Email: $("#ForgotEmail").val(),
+        UserType: getParameterByName('UserType'),
         CountryCode: $("#ForgotMobileNumber").intlTelInput("getSelectedCountryData").dialCode
     }
     $.ajax({

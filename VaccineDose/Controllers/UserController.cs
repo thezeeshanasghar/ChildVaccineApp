@@ -224,16 +224,19 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbUser = entities.Users.Where(x => x.MobileNumber == userDTO.MobileNumber).Where(x => x.CountryCode == userDTO.CountryCode).FirstOrDefault();
+                    var dbUser = entities.Users.Where(x => x.MobileNumber == userDTO.MobileNumber)
+                        .Where(x => x.CountryCode == userDTO.CountryCode)
+                        .Where(ut =>ut.UserType==userDTO.UserType).FirstOrDefault();
+
                     if (dbUser == null)
                         return new Response<UserDTO>(false, "Invalid Mobile Number", null);
 
                     if (dbUser.UserType.Equals("DOCTOR"))
                     {
-                        var doctorDb = entities.Doctors.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == userDTO.Email).FirstOrDefault();
+                        var doctorDb = entities.Doctors.Where(x => x.UserID == dbUser.ID).FirstOrDefault();
                         if (doctorDb == null)
                         {
-                            return new Response<UserDTO>(false, "Invalid Email", null);
+                            return new Response<UserDTO>(false, "Invalid Mobile Number", null);
 
                         }
                         else
@@ -245,10 +248,10 @@ namespace VaccineDose.Controllers
                     }
                     else if (dbUser.UserType.Equals("PARENT"))
                     {
-                        var childDB = entities.Children.Where(x => x.UserID == dbUser.ID).Where(x => x.Email == userDTO.Email).FirstOrDefault();
+                        var childDB = entities.Children.Where(x => x.UserID == dbUser.ID).FirstOrDefault();
                         if (childDB == null)
                         {
-                            return new Response<UserDTO>(false, "Invalid Email", null);
+                            return new Response<UserDTO>(false, "Invalid Mobile Number", null);
                         }
                         else
                         {
