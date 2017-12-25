@@ -1,8 +1,7 @@
 ﻿
 $(document).ready(function () {
     HideAlert();
-    $("#doctor").show();
-    $("#clinic").hide();
+    ShowAddForm();
 });
 
 var map, myMarker;
@@ -32,13 +31,15 @@ function initMap() {
     myMarker.setMap(map);
 }
 
+
 function Add() {
-    var res = validate();
+    var res = validateSchedule();
     if (res == false) {
         return false;
     }
-    $("#btnAddClinic").button('loading');
-    $("#btnAddClinic").prop('disabled', true);
+    //$("#btnAddClinic").button('loading');
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
 
     var result = [];
     $('input[name="OffDays"]:checked').each(function () {
@@ -78,19 +79,16 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-                $("#btnAddClinic").prop('disabled', false);
-                $("#btnAddClinic").button('reset');
+                $("#btnAdd").prop('disabled', false);
+                $("#btnAdd").button('reset');
                 return;
             } else {
+                $("#DoctorId").val(result.ResponseData.ID)
                 uploadImages();
-                $("#btnAddClinic").prop('disabled', false);
-                $("#btnAddClinic").button('reset');
-                $("#clinic").hide();
-
-                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>http://vaccs.io</b><br/>Your username and password have been send to your email address', 'success');
-
-                ScrollToTop();
-            }
+                $("#btnAdd").prop('disabled', false);
+                $("#btnAdd").button('reset');
+                AddSchedule();
+             }
         },
         error: function (errormessage) {
 
@@ -134,21 +132,234 @@ function uploadImages() {
     }
    
 }
-function validate() {
-    var validator = $('#form2').data("bs.validator");
-    $('#form2').validator('validate');
-    if (validator.hasErrors())
-        return false;
-    else
-        return true;
-}
-function ShowHide(event) {
-    $('#form1').validator('validate');
 
-    var validator = $('#form1').data("bs.validator");
+//custom schedule start
+
+function ShowAddForm() {
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + "dose",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                $.each(result.ResponseData, function (key, item) {
+                    markup = '';
+                    if (key == 0) {
+                        markup = getClinicForm(1, item);
+                        $('.btnLine').before(markup);
+                        total_forms = 1;
+                        $('.add-clinic-form .total-forms').val(total_forms);
+
+                    } else {
+                        form_id = $('.form-fields:last').attr('data-form-id');
+                        form_id++;
+                        markup = getClinicForm(form_id, item);
+                        $('.form-fields:last').after(markup);
+                        total_forms = $('.form-fields').length;
+                        $('.add-clinic-form .total-forms').val(total_forms);
+                    }
+                });
+                HideAlert();
+            }
+        },
+        error: function (errrmessage) {
+            var ob = JSON.parse(errormessage.responseText);
+            ShowAlert('Error', ob.Message, 'danger');
+        }
+    });
+
+}
+
+function getClinicForm(form_id, dose) {
+    markup = '<div class="form-group form-fields" data-form-id="' + form_id + '">';
+    markup += '<div class="row">';
+    markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+    markup += '<select id="GapInDays_' + form_id + '" name="GapPeriod_' + form_id + '" class="form-control input-box" required>';
+    markup += '<option value="">-- select time --</option>';
+    markup += '<option value="0">At Birth</option>';
+    markup += '<option value="42">6 Weeks</option>';
+    markup += '<option value="49">7 Weeks</option>';
+    markup += '<option value="56">8 Weeks</option>';
+    markup += '<option value="63">9 Weeks</option>';
+    markup += '<option value="70">10 Weeks</option>';
+    markup += '<option value="77">11 Weeks</option>';
+    markup += '<option value="84">12 Weeks</option>';
+    markup += '<option value="91">13 Weeks</option>';
+    markup += '<option value="98">14 Weeks</option>';
+    markup += '<option value="105">15 Weeks</option>';
+    markup += '<option value="112">16 Weeks</option>';
+    markup += '<option value="119">17 Weeks</option>';
+    markup += '<option value="126">18 Weeks</option>';
+    markup += '<option value="133">19 Weeks</option>';
+    markup += '<option value="140">20 Weeks</option>';
+    markup += '<option value="147">21 Weeks</option>';
+    markup += '<option value="154">22 Weeks</option>';
+    markup += '<option value="161">23 Weeks</option>';
+    markup += '<option value="168">24 Weeks</option>';
+    markup += '<option value="212">7 Months</option>';
+    markup += '<option value="243">8 Months</option>';
+    markup += '<option value="273">9 Months</option>';
+    markup += '<option value="304">10 Months</option>';
+    markup += '<option value="334">11 Months</option>';
+    markup += '<option value="365">12 Months</option>';
+    markup += '<option value="395">13 Months</option>';
+    markup += '<option value="426">14 Months</option>';
+    markup += '<option value="456">15 Months</option>';
+    markup += '<option value="486">16 Months</option>';
+    markup += '<option value="516">17 Months</option>';
+    markup += '<option value="546">18 Months</option>';
+    markup += '<option value="576">19 Months</option>';
+    markup += '<option value="606">20 Months</option>';
+    markup += '<option value="636">21 Months</option>';
+    markup += '<option value="666">22 Months</option>';
+    markup += '<option value="696">23 Months</option>';
+    markup += '<option value="726">24 Months</option>';
+    markup += '<option value="756">25 Months</option>';
+    markup += '<option value="786">26 Months</option>';
+    markup += '<option value="816">27 Months</option>';
+    markup += '<option value="846">28 Months</option>';
+    markup += '<option value="876">29 Months</option>';
+    markup += '<option value="906">30 Months</option>';
+    markup += '<option value="936">31 Months</option>';
+    markup += '<option value="966">32 Months</option>';
+    markup += '<option value="996">33 Months</option>';
+    markup += '<option value="1026">34 Months</option>';
+    markup += '<option value="1056">35 Months</option>';
+    markup += '<option value="1086">36 Months</option>';
+    markup += '<option value="1116">37 Months</option>';
+    markup += '<option value="1146">38 Months</option>';
+    markup += '<option value="1176">39 Months</option>';
+    markup += '<option value="1206">40 Months</option>';
+    markup += '<option value="1236">41 Months</option>';
+    markup += '<option value="1266">42 Months</option>';
+    markup += '<option value="1296">43 Months</option>';
+    markup += '<option value="1326">44 Months</option>';
+    markup += '<option value="1356">45 Months</option>';
+    markup += '<option value="1386">46 Months</option>';
+    markup += '<option value="1416">47 Months</option>';
+    markup += '<option value="1446">48 Months</option>';
+    markup += '<option value="1476">49 Months</option>';
+    markup += '<option value="1506">50 Months</option>';
+    markup += '<option value="1536">51 Months</option>';
+    markup += '<option value="1566">52 Months</option>';
+    markup += '<option value="1596">53 Months</option>';
+    markup += '<option value="1626">54 Months</option>';
+    markup += '<option value="1656">55 Months</option>';
+    markup += '<option value="1686">56 Months</option>';
+    markup += '<option value="1716">57 Months</option>';
+    markup += '<option value="1746">58 Months</option>';
+    markup += '<option value="1776">59 Months</option>';
+    markup += '<option value="1806">60 Months</option>';
+    markup += '</select>';
+    markup += '</div>';
+    markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+    markup += '<input type="hidden" id="DoseID_' + form_id + '" name="DoseID_' + form_id + '" value="' + dose.ID + '">';
+    markup += '<input type="text" class="form-control" disabled  placeholder="Dose Name" id="DoseName_' + form_id + '" name="DoseName_' + form_id + '" value="' + dose.Name + '" />';
+    markup += '</div>';
+    markup += '</row>';
+    markup += '</div>';
+    return markup;
+}
+
+function AddSchedule() {
+    var res = validateSchedule();
+    if (res == false) {
+        return false;
+    }
+    var total_forms = $('.add-clinic-form .total-forms').val();
+
+    var DoctorSchedule = [];
+
+    var DoctorID = $("#DoctorId").val();
+    for (var i = 1; i <= total_forms; i++) {
+        var doseID = $("#DoseID_" + i).val();
+        var Gap = $("#GapInDays_" + i).val();
+
+        DoctorSchedule.push({ DoseID: doseID, GapInDays: Gap, DoctorID: DoctorID })
+    }
+
+    $.ajax({
+        url: SERVER + "doctorschedule",
+        data: JSON.stringify(DoctorSchedule),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (!result.IsSuccess)
+                ShowAlert('Error', result.Message, 'danger');
+            else {
+                next();
+                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Now admin will approve your singup then you can <a href="/login.html">login</a> to <b>http://vaccs.io</b><br/>Your username and password have been send to your email address', 'success');
+                ScrollToTop();
+            }
+        },
+        error: function (errormessage) {
+            var ob = JSON.parse(errormessage.responseText);
+            ShowAlert('Error', ob.Message, 'danger');
+        }
+    });
+}
+
+function doctorNext() {
+    var res = validateDoctor();
+    if (res == false) {
+        return false;
+    }
+    initMap();
+    next();
+}
+function clinicNext() {
+    var res = validateClinic();
+    if (res == false) {
+        return false;
+    }
+    next();
+}
+function next() {
+    var $active = $('.wizard .nav-tabs li.active');
+    $active.next().removeClass('disabled');
+    nextTab($active);
+}
+//custom schedule end
+function validateDoctor() {
+    $('#personalInfoForm').validator('validate');
+    var validator = $('#personalInfoForm').data("bs.validator");
     if (!validator.hasErrors()) {
-        initMap();
-        $("#doctor").hide();
-        $("#clinic").show();
+         return true;
+    } else {
+        return false;
     }
 }
+function validateClinic() {
+    $('#clinicForm').validator('validate');
+    var validator = $('#clinicForm').data("bs.validator");
+    if (validator.hasErrors()){
+        return false;
+    }
+    else {
+        return true;
+    }
+        
+}
+function validateSchedule() {
+    var total_errors = 0;
+    $('.form-fields .input-box').each(function () {
+        if ($(this).val() == '') {
+            $(this).addClass('input-error').removeClass('input-success');
+            total_errors += 1;
+        } else {
+            $(this).addClass('input-success').removeClass('input-error');
+        }
+    });
+    if (total_errors == 0)
+        return true;
+    else
+        return false;
+
+}
+

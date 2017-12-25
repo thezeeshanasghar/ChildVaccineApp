@@ -140,6 +140,7 @@
     <Content Include="js\Chart.min.js" />
     <Content Include="js\intlTelInput.min.js" />
     <Content Include="js\utils.js" />
+    <Content Include="js\wizard.js" />
     <Content Include="server.js" />
     <Content Include="common.js" />
     <Content Include="doctor\add-new-child.js" />
