@@ -111,18 +111,22 @@ namespace VaccineDose.Controllers
 
         [HttpPost]
         [Route("login")]
-        public Response<UserDTO> login(UserDTO user)
+        public Response<UserDTO> login(UserDTO userDTO)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbUser = entities.Users.Where(x => x.MobileNumber == user.MobileNumber).Where(x => x.Password == user.Password).Where(x=>x.CountryCode==user.CountryCode).FirstOrDefault();
+                    var dbUser = entities.Users.FirstOrDefault(x => 
+                                                                x.MobileNumber == userDTO.MobileNumber && 
+                                                                x.Password == userDTO.Password && 
+                                                                x.CountryCode==userDTO.CountryCode &&
+                                                                x.UserType == userDTO.UserType);
                     if (dbUser == null)
-                        return new Response<UserDTO>(false, "Invalid Mobilenumber/Password", null);
+                        return new Response<UserDTO>(false, "Invalid Mobile Number and Password.", null);
 
 
-                    UserDTO userDTO = Mapper.Map<UserDTO>(dbUser);
+                    
                     if (userDTO.UserType.Equals("SUPERADMIN"))
                         return new Response<UserDTO>(true, null, userDTO);
                     else if (userDTO.UserType.Equals("DOCTOR"))

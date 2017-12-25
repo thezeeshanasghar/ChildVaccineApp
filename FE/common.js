@@ -123,7 +123,13 @@ function SetMainNav() {
         markup += '        <ul class="nav navbar-nav navbar-right">';
         markup += '            <li><a href="/index.html">Home</a></li>';
         markup += '            <li><a id="btnDoctorSignup" href="/doctor/doctor-signup.html">Doctor signup</a></li>';
-        markup += '            <li id="menu-login"><a href="/login.html">Login</a></li>';
+        markup += '            <li class="dropdown" id="menu-login">';
+        markup += '                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Login <span class="caret"></span></a>';
+        markup += '                    <ul class="dropdown-menu">';
+        markup += '                         <li><a href="/login.html?UserType=DOCTOR">Doctor Login</a></li>';
+        markup += '                         <li><a href="/login.html?UserType=PARENT">Parent Login</a></li>';
+        markup += '                    </ul>';
+        markup += '            </li>';
 
         markup += '        </ul>';
         markup += '    </div><!--/.nav-collapse -->';
