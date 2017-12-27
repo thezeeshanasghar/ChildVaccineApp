@@ -74,7 +74,7 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
-                    dbVaccineBrand = Mapper.Map<BrandDTO, Brand>(vaccineBrandDTO, dbVaccineBrand);
+                    dbVaccineBrand.Name = vaccineBrandDTO.Name;
                     entities.SaveChanges();
                     return new Response<BrandDTO>(true, null, vaccineBrandDTO);
                 }

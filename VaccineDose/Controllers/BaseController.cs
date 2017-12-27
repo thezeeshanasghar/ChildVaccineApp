@@ -13,7 +13,7 @@ namespace VaccineDose.Controllers
         {
             String message = ex.Message;
             message += (ex.InnerException != null) ? ("<br />" + ex.InnerException.Message) : "";
-            message += (ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
+            message += (ex.InnerException != null && ex.InnerException.InnerException != null) ? ("<br />" + ex.InnerException.InnerException.Message) : "";
             return message;
         }
     }
