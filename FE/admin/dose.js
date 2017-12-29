@@ -22,7 +22,7 @@ function loadData(id) {
                     html += '<tr>';
                     html += '<td>' + (key + 1) + '</td>';
                     html += '<td>' + item.Name + '</td>';
-                    html += '<td>' + item.GapInDays + '</td>';
+                    html += '<td>' + getUserAge(item.GapInDays) + '</td>';
                     html += '<td>' + item.DoseOrder + '</td>';
                     html += '<td>' +
                         '<a href="#" id="btnEditDose" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
