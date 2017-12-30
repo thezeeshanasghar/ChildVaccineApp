@@ -339,8 +339,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\avatar.png" />
     <Content Include="Content\img\injectionEmpty.png" />
     <Content Include="Content\img\injectionFilled.png" />
+    <Content Include="Content\UserImages\avatar.png" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -438,7 +440,6 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\UserImages\" />
     <Folder Include="Views\Message\" />
   </ItemGroup>
   <ItemGroup>
