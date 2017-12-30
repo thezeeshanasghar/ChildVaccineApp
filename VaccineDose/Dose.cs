@@ -24,7 +24,9 @@ namespace VaccineDose
         public int ID { get; set; }
         public string Name { get; set; }
         public int VaccineID { get; set; }
-        public Nullable<int> GapInDays { get; set; }
+        public Nullable<int> MinAge { get; set; }
+        public Nullable<int> MaxAge { get; set; }
+        public Nullable<int> MinGap { get; set; }
         public Nullable<int> DoseOrder { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -73,7 +73,9 @@ namespace VaccineDose.Controllers
                 {
                     var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
                     dbDose.Name = doseDTO.Name;
-                    dbDose.GapInDays = doseDTO.GapInDays;
+                    dbDose.MinAge = doseDTO.MinAge;
+                    dbDose.MaxAge = doseDTO.MaxAge;
+                    dbDose.MinGap = doseDTO.MinGap;
                     dbDose.DoseOrder = doseDTO.DoseOrder;
                     entities.SaveChanges();
                     return new Response<DoseDTO>(true, null, doseDTO);

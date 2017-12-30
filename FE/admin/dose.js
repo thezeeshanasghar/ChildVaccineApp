@@ -22,7 +22,9 @@ function loadData(id) {
                     html += '<tr>';
                     html += '<td>' + (key + 1) + '</td>';
                     html += '<td>' + item.Name + '</td>';
-                    html += '<td>' + getUserAge(item.GapInDays) + '</td>';
+                    html += '<td>' + getUserAge(item.MinAge) + '</td>';
+                    html += '<td>' + getUserAge(item.MaxAge) + '</td>';
+                    html += '<td>' + getUserAge(item.MinGap) + '</td>';
                     html += '<td>' + item.DoseOrder + '</td>';
                     html += '<td>' +
                         '<a href="#" id="btnEditDose" onclick="return getbyID(' + item.ID + ')"> <span class="glyphicon glyphicon-pencil"></span></a> | ' +
@@ -73,7 +75,9 @@ function Add() {
     $("#btnAdd").prop('disabled', true);
     var obj = {
         Name: $('#Name').val(),
-        GapInDays: $('#GapInDays').val(),
+        MinAge: $('#MinAge').val(),
+        MaxAge: $('#MaxAge').val(),
+        MinGap: $('#MinGap').val(),
         DoseOrder: $('#DoseOrder').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
@@ -119,7 +123,9 @@ function getbyID(ID) {
             else {
                 $("#ID").val(result.ResponseData.ID);
                 $('#Name').val(result.ResponseData.Name);
-                $('#GapInDays').val(result.ResponseData.GapInDays);
+                $('#MinAge').val(result.ResponseData.MinAge);
+                $('#MaxAge').val(result.ResponseData.MaxAge);
+                $('#MinGap').val(result.ResponseData.MinGap);
                 $('#DoseOrder').val(result.ResponseData.DoseOrder);
 
                 $('#myModal').modal('show');
@@ -145,7 +151,9 @@ function Update() {
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
-        GapInDays: $('#GapInDays').val(),
+        MinAge: $('#MinAge').val(),
+        MaxAge: $('#MaxAge').val(),
+        MinGap: $('#MinGap').val(),
         DoseOrder: $('#DoseOrder').val(),
         VaccineID: parseInt(getParameterByName("id")) || 0
     };
@@ -158,7 +166,6 @@ function Update() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-              
             }
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
@@ -207,7 +214,9 @@ function Delele(ID) {
 function clearTextBox() {
     $('#ID').val("");
     $('#Name').val("");
-    $('#GapInDays').val("");
+    $('#MinAge').val("");
+    $('#MaxAge').val("");
+    $('#MinGap').val("");
     $('#DoseOrder').val("");
 
     $('#btnUpdate').hide();

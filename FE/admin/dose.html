@@ -19,7 +19,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Vaccine Doses</h2>
-                <button type="button" id="btnModal" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="DoseName();">Add New</button><br /><br />
+                <a href="vaccine.html" class="btn btn-default">Back</a> &nbsp;
+                <button type="button" id="btnModal" class="btn btn-primary" data-toggle="modal" 
+                        data-target="#myModal" onclick="DoseName();">Add New</button><br /><br />
 
                 <div id="alert_message" class="alert alert-dismissible alert-warning">
                     <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
@@ -36,7 +38,13 @@
                                 Name
                             </th>
                             <th>
-                                Gap (In Days)
+                                Min Age
+                            </th>
+                            <th>
+                                Max Age
+                            </th>
+                            <th>
+                                Gap from Prev Dose
                             </th>
                             <th>
                                 Dose Order
@@ -66,11 +74,17 @@
                                 <input type="text" class="form-control" id="Name" placeholder="Name" required data-minlength="7" />
                                 <div class="help-block with-errors"></div>
                             </div>
+
                             <div class="form-group">
-                                <label for="MinAge">Min Age</label>
-                                <select id="GapInDays" class="form-control" required>
-                                    <option value="">-- select gap --</option>
+                                <label for="MinAge">Select Min Age</label>
+                                <select id="MinAge" class="form-control" required>
+                                    <option value="">-- select min age --</option>
                                     <option value="0">At Birth</option>
+                                    <option value="7">1 Week</option>
+                                    <option value="14">2 Weeks</option>
+                                    <option value="21">3 Weeks</option>
+                                    <option value="28">4 Weeks</option>
+                                    <option value="35">5 Weeks</option>
                                     <option value="42">6 Weeks</option>
                                     <option value="49">7 Weeks</option>
                                     <option value="56">8 Weeks</option>
@@ -158,7 +172,203 @@
                                     <option value="5475">15 Years</option>
                                 </select>
                             </div>
-                           
+
+                            <div class="form-group">
+                                <label for="MaxAge">Select Max Age</label>
+                                <select id="MaxAge" class="form-control">
+                                    <option value="">-- select max age --</option>
+                                    <option value="0">At Birth</option>
+                                    <option value="7">1 Week</option>
+                                    <option value="14">2 Weeks</option>
+                                    <option value="21">3 Weeks</option>
+                                    <option value="28">4 Weeks</option>
+                                    <option value="35">5 Weeks</option>
+                                    <option value="42">6 Weeks</option>
+                                    <option value="49">7 Weeks</option>
+                                    <option value="56">8 Weeks</option>
+                                    <option value="63">9 Weeks</option>
+                                    <option value="70">10 Weeks</option>
+                                    <option value="77">11 Weeks</option>
+                                    <option value="84">12 Weeks</option>
+                                    <option value="91">13 Weeks</option>
+                                    <option value="98">14 Weeks</option>
+                                    <option value="105">15 Weeks</option>
+                                    <option value="112">16 Weeks</option>
+                                    <option value="119">17 Weeks</option>
+                                    <option value="126">18 Weeks</option>
+                                    <option value="133">19 Weeks</option>
+                                    <option value="140">20 Weeks</option>
+                                    <option value="147">21 Weeks</option>
+                                    <option value="154">22 Weeks</option>
+                                    <option value="161">23 Weeks</option>
+                                    <option value="168">24 Weeks</option>
+                                    <option value="212">7 Months</option>
+                                    <option value="243">8 Months</option>
+                                    <option value="273">9 Months</option>
+                                    <option value="304">10 Months</option>
+                                    <option value="334">11 Months</option>
+                                    <option value="365">12 Months</option>
+                                    <option value="395">13 Months</option>
+                                    <option value="426">14 Months</option>
+                                    <option value="456">15 Months</option>
+                                    <option value="486">16 Months</option>
+                                    <option value="516">17 Months</option>
+                                    <option value="546">18 Months</option>
+                                    <option value="576">19 Months</option>
+                                    <option value="606">20 Months</option>
+                                    <option value="636">21 Months</option>
+                                    <option value="666">22 Months</option>
+                                    <option value="696">23 Months</option>
+                                    <option value="726">24 Months</option>
+                                    <option value="756">25 Months</option>
+                                    <option value="786">26 Months</option>
+                                    <option value="816">27 Months</option>
+                                    <option value="846">28 Months</option>
+                                    <option value="876">29 Months</option>
+                                    <option value="906">30 Months</option>
+                                    <option value="936">31 Months</option>
+                                    <option value="966">32 Months</option>
+                                    <option value="996">33 Months</option>
+                                    <option value="1026">34 Months</option>
+                                    <option value="1056">35 Months</option>
+                                    <option value="1086">36 Months</option>
+                                    <option value="1116">37 Months</option>
+                                    <option value="1146">38 Months</option>
+                                    <option value="1176">39 Months</option>
+                                    <option value="1206">40 Months</option>
+                                    <option value="1236">41 Months</option>
+                                    <option value="1266">42 Months</option>
+                                    <option value="1296">43 Months</option>
+                                    <option value="1326">44 Months</option>
+                                    <option value="1356">45 Months</option>
+                                    <option value="1386">46 Months</option>
+                                    <option value="1416">47 Months</option>
+                                    <option value="1446">48 Months</option>
+                                    <option value="1476">49 Months</option>
+                                    <option value="1506">50 Months</option>
+                                    <option value="1536">51 Months</option>
+                                    <option value="1566">52 Months</option>
+                                    <option value="1596">53 Months</option>
+                                    <option value="1626">54 Months</option>
+                                    <option value="1656">55 Months</option>
+                                    <option value="1686">56 Months</option>
+                                    <option value="1716">57 Months</option>
+                                    <option value="1746">58 Months</option>
+                                    <option value="1776">59 Months</option>
+                                    <option value="1806">60 Months</option>
+                                    <option value="2190">6 Years</option>
+                                    <option value="2555">7 Years</option>
+                                    <option value="2920">8 Years</option>
+                                    <option value="3285">9 Years</option>
+                                    <option value="3315">9 Year 1 Month</option>
+                                    <option value="3650">10 Years</option>
+                                    <option value="3833">10 Year 6 Months</option>
+                                    <option value="4015">11 Years</option>
+                                    <option value="4380">12 Years</option>
+                                    <option value="4745">13 Years</option>
+                                    <option value="5110">14 Years</option>
+                                    <option value="5475">15 Years</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="MinGap">Min Gap from Prev Dose</label>
+                                <select id="MinGap" class="form-control">
+                                    <option value="">-- select min gap from previsou dose --</option>
+                                    <option value="0">At Birth</option>
+                                    <option value="7">1 Week</option>
+                                    <option value="14">2 Weeks</option>
+                                    <option value="21">3 Weeks</option>
+                                    <option value="28">4 Weeks</option>
+                                    <option value="35">5 Weeks</option>
+                                    <option value="42">6 Weeks</option>
+                                    <option value="49">7 Weeks</option>
+                                    <option value="56">8 Weeks</option>
+                                    <option value="63">9 Weeks</option>
+                                    <option value="70">10 Weeks</option>
+                                    <option value="77">11 Weeks</option>
+                                    <option value="84">12 Weeks</option>
+                                    <option value="91">13 Weeks</option>
+                                    <option value="98">14 Weeks</option>
+                                    <option value="105">15 Weeks</option>
+                                    <option value="112">16 Weeks</option>
+                                    <option value="119">17 Weeks</option>
+                                    <option value="126">18 Weeks</option>
+                                    <option value="133">19 Weeks</option>
+                                    <option value="140">20 Weeks</option>
+                                    <option value="147">21 Weeks</option>
+                                    <option value="154">22 Weeks</option>
+                                    <option value="161">23 Weeks</option>
+                                    <option value="168">24 Weeks</option>
+                                    <option value="212">7 Months</option>
+                                    <option value="243">8 Months</option>
+                                    <option value="273">9 Months</option>
+                                    <option value="304">10 Months</option>
+                                    <option value="334">11 Months</option>
+                                    <option value="365">12 Months</option>
+                                    <option value="395">13 Months</option>
+                                    <option value="426">14 Months</option>
+                                    <option value="456">15 Months</option>
+                                    <option value="486">16 Months</option>
+                                    <option value="516">17 Months</option>
+                                    <option value="546">18 Months</option>
+                                    <option value="576">19 Months</option>
+                                    <option value="606">20 Months</option>
+                                    <option value="636">21 Months</option>
+                                    <option value="666">22 Months</option>
+                                    <option value="696">23 Months</option>
+                                    <option value="726">24 Months</option>
+                                    <option value="756">25 Months</option>
+                                    <option value="786">26 Months</option>
+                                    <option value="816">27 Months</option>
+                                    <option value="846">28 Months</option>
+                                    <option value="876">29 Months</option>
+                                    <option value="906">30 Months</option>
+                                    <option value="936">31 Months</option>
+                                    <option value="966">32 Months</option>
+                                    <option value="996">33 Months</option>
+                                    <option value="1026">34 Months</option>
+                                    <option value="1056">35 Months</option>
+                                    <option value="1086">36 Months</option>
+                                    <option value="1116">37 Months</option>
+                                    <option value="1146">38 Months</option>
+                                    <option value="1176">39 Months</option>
+                                    <option value="1206">40 Months</option>
+                                    <option value="1236">41 Months</option>
+                                    <option value="1266">42 Months</option>
+                                    <option value="1296">43 Months</option>
+                                    <option value="1326">44 Months</option>
+                                    <option value="1356">45 Months</option>
+                                    <option value="1386">46 Months</option>
+                                    <option value="1416">47 Months</option>
+                                    <option value="1446">48 Months</option>
+                                    <option value="1476">49 Months</option>
+                                    <option value="1506">50 Months</option>
+                                    <option value="1536">51 Months</option>
+                                    <option value="1566">52 Months</option>
+                                    <option value="1596">53 Months</option>
+                                    <option value="1626">54 Months</option>
+                                    <option value="1656">55 Months</option>
+                                    <option value="1686">56 Months</option>
+                                    <option value="1716">57 Months</option>
+                                    <option value="1746">58 Months</option>
+                                    <option value="1776">59 Months</option>
+                                    <option value="1806">60 Months</option>
+                                    <option value="2190">6 Years</option>
+                                    <option value="2555">7 Years</option>
+                                    <option value="2920">8 Years</option>
+                                    <option value="3285">9 Years</option>
+                                    <option value="3315">9 Year 1 Month</option>
+                                    <option value="3650">10 Years</option>
+                                    <option value="3833">10 Year 6 Months</option>
+                                    <option value="4015">11 Years</option>
+                                    <option value="4380">12 Years</option>
+                                    <option value="4745">13 Years</option>
+                                    <option value="5110">14 Years</option>
+                                    <option value="5475">15 Years</option>
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label for="DoseOrder">Dose Order</label>
                                 <input type="text" class="form-control" id="DoseOrder" placeholder="DoseOrder" />
