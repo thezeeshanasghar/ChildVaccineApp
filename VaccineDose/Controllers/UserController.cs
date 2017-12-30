@@ -125,8 +125,8 @@ namespace VaccineDose.Controllers
                     if (dbUser == null)
                         return new Response<UserDTO>(false, "Invalid Mobile Number and Password.", null);
 
+                    userDTO.ID = dbUser.ID;
 
-                    
                     if (userDTO.UserType.Equals("SUPERADMIN"))
                         return new Response<UserDTO>(true, null, userDTO);
                     else if (userDTO.UserType.Equals("DOCTOR"))
