@@ -94,10 +94,15 @@
 
                             connectionString = '<div class="col-md-row map-infowindow" >';
                             connectionString += '<div class="col-md-12 window-image align_center" >';
-                            connectionString += '<img src="' + SERVER_IP +":"+ SERVER_PORT + "/Content/UserImages/"+ item.Doctor.ProfileImage + '" />';
+                            if (item.Doctor.ProfileImage) {
+                                connectionString += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + item.Doctor.ProfileImage + '" />';
+
+                            } else {
+                                connectionString += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/avatar.png" + '"/>';
+                            }
                             connectionString += '</div>';
-                             connectionString += '<div class="col-md-12" >';
-                             connectionString += '<p style="font-size: 17px; color: #2fa4e7;" >'+item.Name+'</p>';
+                            connectionString += '<div class="col-md-12" >';
+                            connectionString += '<p style="font-size: 17px; color: #2fa4e7;" >'+item.Name+'</p>';
                             connectionString += '</div>';
                             connectionString += '<div class="col-md-12" >';
                             connectionString += '<p>' + item.Doctor.FirstName + ' ' + item.Doctor.LastName + '</p>';

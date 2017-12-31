@@ -644,8 +644,13 @@ namespace VaccineDose.Controllers
                     bottomTable.AddCell(imgcellLeft);
 
                     var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/UserImages");
+                    var signatureImage = dbDoctor.SignatureImage;
+                    if (signatureImage == null)
+                    {
+                        signatureImage = "avatar.png";
+                    }  
+                    Image img = Image.GetInstance(imgPath + "\\" + signatureImage);
 
-                    Image img = Image.GetInstance(imgPath + "\\" + dbDoctor.SignatureImage);
                     img.ScaleAbsolute(2f, 2f);
                     PdfPCell imageCell = new PdfPCell(img, true);
                     imageCell.PaddingTop = 5;
