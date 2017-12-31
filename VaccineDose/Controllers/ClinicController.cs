@@ -71,15 +71,17 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
-                    if (clinicDTO.IsOnline)
-                    {
-                        dbClinic.IsOnline = true;
-                    }
-                    else
-                    {
-                        clinicDTO.IsOnline = false;
-                        dbClinic = Mapper.Map<ClinicDTO, Clinic>(clinicDTO, dbClinic);
-                    }
+                    clinicDTO.IsOnline = false;
+                    dbClinic.Name = clinicDTO.Name;
+                    dbClinic.ConsultationFee = clinicDTO.ConsultationFee;
+                    dbClinic.StartTime = clinicDTO.StartTime;
+                    dbClinic.EndTime = clinicDTO.EndTime;
+                    dbClinic.PhoneNumber = clinicDTO.PhoneNumber;
+                    dbClinic.OffDays = clinicDTO.OffDays;
+                    dbClinic.Lat = clinicDTO.Lat;
+                    dbClinic.Long = clinicDTO.Long;
+
+                    
                     entities.SaveChanges();
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }

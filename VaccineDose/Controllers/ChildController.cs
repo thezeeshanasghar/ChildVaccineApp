@@ -530,7 +530,7 @@ namespace VaccineDose.Controllers
 
                     if (childDTO.IsConsultationFee)
                     {
-                        consultaionFee = (int)dbDoctor.ConsultationFee;
+                        consultaionFee = (int)dbChild.Clinic.ConsultationFee;
                     }
                     //  upperTable.AddCell(CreateCell("Consultation Fee: " + consultaionFee, "noColor", 1, "left", "description"));
                     //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
@@ -619,7 +619,7 @@ namespace VaccineDose.Controllers
                     //add consultancy fee
                     if (childDTO.IsConsultationFee)
                     {
-                        amount = amount + (int)dbDoctor.ConsultationFee;
+                        amount = amount + (int)dbChild.Clinic.ConsultationFee;
                     }
                     //table.AddCell(CreateCell(amount.ToString(), "", 1, "right", "invoiceRecords"));
 

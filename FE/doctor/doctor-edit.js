@@ -43,7 +43,6 @@ function getbyID(ID) {
                 $('#PMDC').val(result.ResponseData.PMDC);
                 $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
                 $("#ShowMobile").prop("checked", result.ResponseData.ShowMobile);
-                $("#ConsultationFee").val(result.ResponseData.ConsultationFee);
                 var profileImageHtml = '';
                 profileImageHtml += '<img style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/"+ result.ResponseData.ProfileImage + '"   />'
                 var signatureImageHtml = '';
@@ -78,13 +77,10 @@ function Update() {
         IsApproved: $("#IsApproved").is(":checked"),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
-       // MobileNumber: $('#MobileNumber').val(),
         PMDC: $('#PMDC').val(),
         PhoneNo: $("#PhoneNo").val(),
         ShowPhone: $("#ShowPhone").is(":checked"),
         ShowMobile: $("#ShowMobile").is(":checked"),
-        //Password:$("#Password").val(),
-        ConsultationFee: $("#ConsultationFee").val()
     };
     $.ajax({
         url: SERVER + "doctor/" + $('#ID').val(),
@@ -102,8 +98,6 @@ function Update() {
 			$("#btnUpdate").prop('disabled', false);
             $("#btnUpdate").button('reset');
 			
-            //loadData();
-            //clearTextBox();
             ScrollToTop();
             ShowAlert('Success',"Updated sucessfully" , 'success');
         },

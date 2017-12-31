@@ -164,7 +164,6 @@ namespace VaccineDose.Controllers
                     dbDoctor.PhoneNo = doctorDTO.PhoneNo;
                     dbDoctor.ShowPhone = doctorDTO.ShowPhone;
                     dbDoctor.ShowMobile = doctorDTO.ShowMobile;
-                    dbDoctor.ConsultationFee = doctorDTO.ConsultationFee;
 
                     //dbDoctor = Mapper.Map<DoctorDTO, Doctor>(doctorDTO, dbDoctor);
                     //entities.Entry<Doctor>(dbDoctor).State = System.Data.Entity.EntityState.Modified;

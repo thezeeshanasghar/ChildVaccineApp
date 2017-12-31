@@ -31,6 +31,7 @@ function loadData(id) {
                     html += '<tr>';
                     html += '<td>' + (key + 1) + '</td>';
                     html += '<td>' + item.Name + '</td>';
+                    html += '<td>' + item.ConsultationFee + '</td>';
                     html += '<td>' + item.OffDays + '</td>';
                     html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
                     html += '<td>' +
@@ -68,6 +69,7 @@ function Add() {
 
     var obj = {
         Name: $('#Name').val(),
+        ConsultationFee: $('#ConsultationFee').val(),
         StartTime: $('#StartTime').val(),
         EndTime: $('#EndTime').val(),
         PhoneNumber: $('#PhoneNumber').val(),
@@ -106,6 +108,7 @@ function getbyID(ID) {
         success: function (result) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
+            $('#ConsultationFee').val(result.ResponseData.ConsultationFee);
 
             var OffDays = result.ResponseData.OffDays.split(",");
             if ($.inArray("Monday", OffDays) != -1)
@@ -162,13 +165,15 @@ function Update() {
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
+        ConsultationFee: $('#ConsultationFee').val(),
         OffDays: result.join(','),
         StartTime: $('#StartTime').val(),
         EndTime: $('#EndTime').val(),
         PhoneNumber: $('#PhoneNumber').val(),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
-        DoctorID: DoctorId()
+        IsOnline: GetOnlineClinicIdFromLocalStorage() == $('#ID').val(),
+        DoctorID: DoctorId(),
     };
     $.ajax({
         url: SERVER + "clinic/" + $('#ID').val(),
@@ -178,13 +183,14 @@ function Update() {
         dataType: "json",
         success: function (result) {
             loadData(DoctorId());
-            $("#btnUpdate").button('loading');
-            $("#btnUpdate").prop('disabled', true);
+            $("#btnUpdate").button('reset');
+            $("#btnUpdate").prop('disabled', false);
 
             $('#myModal').modal('hide');
 
             $('#ID').val("");
             $('#Name').val("");
+            $('#ConsultationFee').val("");
             $("input:checkbox").prop("checked", false);
             $('#StartTime').val("");
             $('#EndTime').val("");

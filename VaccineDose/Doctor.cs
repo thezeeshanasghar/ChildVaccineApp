@@ -36,7 +36,6 @@ namespace VaccineDose
         public Nullable<System.DateTime> ValidUpto { get; set; }
         public int UserID { get; set; }
         public Nullable<int> InvoiceNumber { get; set; }
-        public Nullable<int> ConsultationFee { get; set; }
         public string ProfileImage { get; set; }
         public string SignatureImage { get; set; }
         public string DisplayName { get; set; }

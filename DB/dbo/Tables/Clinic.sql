@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Clinic] (
     [ID]          INT           IDENTITY (1, 1) NOT NULL,
     [Name]        NVARCHAR (50) NOT NULL,
+    [ConsultationFee] INT NULL, 
     [OffDays]     NVARCHAR (56) NOT NULL,
     [StartTime]   TIME (7)      NOT NULL,
     [EndTime]     TIME (7)      NOT NULL,
