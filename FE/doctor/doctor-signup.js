@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function () {
     HideAlert();
-    ShowAddForm();
+    GenerateScheduleForm();
 });
 
 var map, myMarker;
@@ -134,7 +134,7 @@ function uploadImages() {
 
 //custom schedule start
 
-function ShowAddForm() {
+function GenerateScheduleForm() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
         url: SERVER + "dose",
@@ -145,10 +145,11 @@ function ShowAddForm() {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
-                $.each(result.ResponseData, function (key, item) {
+                var doses = result.ResponseData;
+                $.each(doses, function (key, item) {
                     markup = '';
                     if (key == 0) {
-                        markup = getClinicForm(1, item);
+                        markup = GenerateScheduleRow(1, item);
                         $('.btnLine').before(markup);
                         total_forms = 1;
                         $('.add-clinic-form .total-forms').val(total_forms);
@@ -156,12 +157,60 @@ function ShowAddForm() {
                     } else {
                         form_id = $('.form-fields:last').attr('data-form-id');
                         form_id++;
-                        markup = getClinicForm(form_id, item);
+                        markup = GenerateScheduleRow(form_id, item);
                         $('.form-fields:last').after(markup);
                         total_forms = $('.form-fields').length;
                         $('.add-clinic-form .total-forms').val(total_forms);
                     }
+                    ///
+
                 });
+
+                for (i = 1; i <= total_forms; i++) {
+                    //$("#GapInDays_" + i).prop("disabled", true);
+
+                    if (doses[i - 1].MinAge) {
+                        $("#GapInDays_" + i + " option").each(function (optionIndex) {
+                            // this check is to skip the very first option like -- select min age --
+                            if (optionIndex != 0) {
+                                if ($(this).val() < doses[i - 1].MinAge)
+                                    $(this).prop('disabled', true);
+                            }
+                        });
+
+
+
+                        $("#GapInDays_" + i + " option").each(function (optionIndex) {
+                            // this check is to skip the very first option like -- select max age --
+                            if (optionIndex != 0) {
+                                if ($(this).val() < doses[i - 1].MinAge)
+                                    $(this).prop('disabled', true);
+                            }
+                        });
+                    }
+
+                    // first to look for MaxAge is defined or not
+                    if (doses[i - 1].MaxAge) {
+                        $("#GapInDays_" + i + " option").each(function (optionIndex) {
+                            // this check is to skip the very first option like -- select min age --
+                            if (optionIndex != 0) {
+                                if ($(this).val() > doses[i - 1].MaxAge)
+                                    $(this).prop('disabled', true);
+                            }
+                        });
+
+                        $("#GapInDays_" + i + " option").each(function (optionIndex) {
+                            // this check is to skip the very first option like -- select max age --
+                            if (optionIndex != 0) {
+                                if ($(this).val() > doses[i - 1].MaxAge)
+                                    $(this).prop('disabled', true);
+                            }
+                        });
+                    }
+
+                }
+
+
                 HideAlert();
             }
         },
@@ -172,15 +221,36 @@ function ShowAddForm() {
     });
 
 }
+function showAlert(id, MinGap) {
+    if (MinGap && id > 1) {
 
-function getClinicForm(form_id, dose) {
+        currentDropdownVal = $("#GapInDays_" + id).val();
+        currentDoseName = $("#DoseName_" + id).val();
+        previousDropdownVal = $("#GapInDays_" + (id - 1)).val();
+        previousDoseName = $("#DoseName_" + (id-1)).val();
+
+        if (currentDoseName.substr(0, currentDoseName.indexOf('#') + 1) === previousDoseName.substr(0, previousDoseName.indexOf('#') + 1)) {
+            //console.log(previousDoseName.substr(0, previousDoseName.indexOf('#')+1));
+
+            if (parseInt(previousDropdownVal)) {
+                if (currentDropdownVal - previousDropdownVal < MinGap) {
+                    alert('Cannot set this value because minimum gap from previous dose is ' + MinGap);
+                    $("#GapInDays_" + id).val('');
+                }
+            }
+        }
+        console.log(currentDropdownVal + ' Prev: ' + previousDropdownVal + ' Min: ' + MinGap);
+    }
+}
+
+function GenerateScheduleRow(form_id, dose) {
     markup = '<div class="form-group form-fields" data-form-id="' + form_id + '">';
     markup += '<div class="row">';
     markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
-    markup += '<select id="GapInDays_' + form_id + '" name="GapPeriod_' + form_id + '" class="form-control input-box" required>';
+    markup += '<select id="GapInDays_' + form_id + '" name="GapPeriod_' + form_id + '" class="form-control input-box" required onchange="showAlert(' + form_id + ',' + dose.MinGap + ')"  >';
     markup += '<option value="">-- select time --</option>';
-    
-    
+
+
     markup += '<option value="0">At Birth</option>';
     markup += '<option value="7">1 Week</option>';
     markup += '<option value="14">2 Weeks</option>';
@@ -262,7 +332,7 @@ function getClinicForm(form_id, dose) {
     markup += '<option value="1806">60 Months</option>';
     markup += '<option value="2190">6 Years</option>';
     markup += '<option value="2555">7 Years</option>';
-    markup += '<option value="2920">8 Years</option>  ';    
+    markup += '<option value="2920">8 Years</option>  ';
     markup += '<option value="3285">9 Years</option>';
     markup += '<option value="3315">9 Year 1 Month</option>';
     markup += '<option value="3650">10 Years</option>';
