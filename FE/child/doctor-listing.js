@@ -20,7 +20,7 @@ function loadData() {
                      if (item.ProfileImage) {
                          html += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + item.ProfileImage + '" />';
                      } else {
-                         html += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/avatar.png" + '"/>';
+                         html += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/img/avatar.png" + '"/>';
                      }
                     html += '</div>';
                     html += '<div class="col-md-4 ">';
