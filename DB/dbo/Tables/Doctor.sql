@@ -11,7 +11,6 @@
     [ValidUpto] DATE NULL, 
     [UserID] INT NOT NULL, 
     [InvoiceNumber] INT NULL, 
-    [ConsultationFee] INT NULL, 
     [ProfileImage] NVARCHAR(MAX) NULL, 
     [SignatureImage] NVARCHAR(MAX) NULL, 
     [DisplayName] NVARCHAR(50) NOT NULL, 

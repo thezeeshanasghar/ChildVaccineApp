@@ -22,6 +22,7 @@ namespace VaccineDose
     
         public int ID { get; set; }
         public string Name { get; set; }
+        public Nullable<int> ConsultationFee { get; set; }
         public string OffDays { get; set; }
         public System.TimeSpan StartTime { get; set; }
         public System.TimeSpan EndTime { get; set; }
