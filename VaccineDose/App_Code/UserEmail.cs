@@ -95,17 +95,40 @@ namespace VaccineDose.App_Code
         public static void SendEmail(string userName, string userEmail, string body)
         {
 
-            using (MailMessage mail = new MailMessage("admin@vaccs.io", userEmail))
+            //using (MailMessage mail = new MailMessage("admin@vaccs.io", userEmail))
+            //{
+            //    mail.Subject = "Registered into Vaccs.io";
+            //    mail.Body = body;
+            //    mail.IsBodyHtml = true;
+
+            //    SmtpClient smtp = new SmtpClient("mail.vaccs.io");
+            //    smtp.EnableSsl = false;
+            //    smtp.UseDefaultCredentials = false;
+            //    smtp.Credentials = new NetworkCredential("admin@vaccs.io", "wIm7d1@3");
+            //    smtp.Port = 25;
+            //    try
+            //    {
+            //        smtp.Send(mail);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //}
+
+
+            using (MailMessage mail = new MailMessage(teamEmail, userEmail))
             {
                 mail.Subject = "Registered into Vaccs.io";
                 mail.Body = body;
                 mail.IsBodyHtml = true;
-
-                SmtpClient smtp = new SmtpClient("ws4.win.arvixe.com");
-                smtp.EnableSsl = false;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("admin@vaccs.io", "wIm7d1@3");
-                smtp.Port = 25;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential(teamEmail, teamEmailPassword);
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
                 try
                 {
                     smtp.Send(mail);

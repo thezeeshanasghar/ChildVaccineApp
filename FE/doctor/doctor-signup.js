@@ -179,7 +179,14 @@ function getClinicForm(form_id, dose) {
     markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
     markup += '<select id="GapInDays_' + form_id + '" name="GapPeriod_' + form_id + '" class="form-control input-box" required>';
     markup += '<option value="">-- select time --</option>';
+    
+    
     markup += '<option value="0">At Birth</option>';
+    markup += '<option value="7">1 Week</option>';
+    markup += '<option value="14">2 Weeks</option>';
+    markup += '<option value="21">3 Weeks</option>';
+    markup += '<option value="28">4 Weeks</option>';
+    markup += '<option value="35">5 Weeks</option>';
     markup += '<option value="42">6 Weeks</option>';
     markup += '<option value="49">7 Weeks</option>';
     markup += '<option value="56">8 Weeks</option>';
@@ -253,6 +260,18 @@ function getClinicForm(form_id, dose) {
     markup += '<option value="1746">58 Months</option>';
     markup += '<option value="1776">59 Months</option>';
     markup += '<option value="1806">60 Months</option>';
+    markup += '<option value="2190">6 Years</option>';
+    markup += '<option value="2555">7 Years</option>';
+    markup += '<option value="2920">8 Years</option>  ';    
+    markup += '<option value="3285">9 Years</option>';
+    markup += '<option value="3315">9 Year 1 Month</option>';
+    markup += '<option value="3650">10 Years</option>';
+    markup += '<option value="3833">10 Year 6 Months</option>';
+    markup += '<option value="4015">11 Years</option>';
+    markup += '<option value="4380">12 Years</option>';
+    markup += '<option value="4745">13 Years</option>';
+    markup += '<option value="5110">14 Years</option>';
+    markup += '<option value="5475">15 Years</option>';
     markup += '</select>';
     markup += '</div>';
     markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
