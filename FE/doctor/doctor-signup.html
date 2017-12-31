@@ -11,6 +11,8 @@
 
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/intlTelInput.css">
+    <link rel="stylesheet" href="/css/style.css">
+
     <link rel="icon" href="../img/favicon.ico">
     <style>
         #Location {
@@ -75,30 +77,42 @@
                                 <div id="doctor" class="col-sm-6 col-sm-offset-3">
                                     <input type="text" class="form-control" id="ID" style="display:none" />
                                     <div class="form-group">
-                                        <input type="text" class="form-control CapitalizeFirstLetter" id="FirstName" placeholder="First Name" required />
-                                        <div class="help-block with-errors"></div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon1">*</span>
+                                            <input type="text" class="form-control CapitalizeFirstLetter" id="FirstName" aria-describedby="basic-addon1" placeholder="First Name" required />
+                                        </div>
+                                             <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control CapitalizeFirstLetter" id="LastName" placeholder="Last Name" required />
-                                        <div class="help-block with-errors"></div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon2">*</span>
+                                            <input type="text" class="form-control CapitalizeFirstLetter" id="LastName" aria-describedby="basic-addon2" placeholder="Last Name" required />
+                                        </div>
+                                             <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control CapitalizeFirstLetter" id="DisplayName" placeholder="Display Name" required />
-                                        <div class="help-block with-errors"></div>
-                                    </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon3">*</span>
+                                            <input aria-describedby="basic-addon3" type="text" class="form-control CapitalizeFirstLetter" id="DisplayName" placeholder="Display Name" required />
+                                        </div>
+                                             <div class="help-block with-errors"></div>
+                                        </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control" id="Email" placeholder="Email" required />
-                                        <div class="help-block with-errors"></div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon4">*</span>
+                                            <input aria-describedby="basic-addon4" type="email" class="form-control" id="Email" placeholder="Email" required />
+                                        </div>
+                                             <div class="help-block with-errors"></div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-10 col-sm-10 col-xs-10">
                                                 <div class="form-group">
-                                                    <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
-                                                           placeholder="Enter number like 3335196658"
-                                                           required />
-                                                    <div class="help-block with-errors"></div>
+                                                    <span class="red">*</span>
+                                                         <input type="text" pattern="^[3]{1}\d{9}$" class="form-control" id="MobileNumber" name="MobileNumber"
+                                                               placeholder="Enter number like 3335196658"
+                                                               required />
+                                                         <div class="help-block with-errors"></div>
                                                 </div>
                                             </div>
 
@@ -122,9 +136,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" pattern="\d{5}-\w" class="form-control" id="PMDC" placeholder="PMDC Number"
-                                               required data-error="Specify pmdc number in this pattern 12345-A" />
-                                        <div class="help-block with-errors"></div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon6">*</span>
+                                            <input aria-describedby="basic-addon6" type="text" pattern="\d{5}-\w" class="form-control" id="PMDC" placeholder="PMDC Number"
+                                                   required data-error="Specify pmdc number in this pattern 12345-A" />
+                                        </div>
+                                              <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <input type="number" class="form-control" id="ConsultationFee" placeholder="Consultation Fee" />
@@ -152,12 +169,18 @@
                                 <div id="clinic" class="col-sm-6 col-sm-offset-3">
                                     <input type="text" class="form-control" id="ID" style="display:none" />
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="Name" placeholder="Clinic Name" required />
-                                        <div class="help-block with-errors"></div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon7">*</span>
+                                            <input aria-describedby="basic-addon7" type="text" class="form-control" id="Name" placeholder="Clinic Name" required />
+                                        </div>
+                                             <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" required />
-                                        <div class="help-block with-errors"></div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon red" id="basic-addon8">*</span>
+                                            <input aria-describedby="basic-addon8" type="text" class="form-control" id="PhoneNumber" placeholder="Phone Number" required />
+                                        </div>
+                                            <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12" style="padding: 0px;">Select Off Days of Clinic</label><br />
@@ -185,14 +208,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-group bootstrap-timepicker timepicker">
-                                            <input id="StartTime" type="text" class="form-control input-small" placeholder="Start Time of clinic" required />
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                             <div class="input-group bootstrap-timepicker timepicker">
+                                                <span class="input-group-addon red" id="basic-addon9">*</span>
+                                                <input aria-describedby="basic-addon9" id="StartTime" type="text" class="form-control input-small" placeholder="Start Time of clinic" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
                                         </div>
-                                    </div>
                                     <div class="form-group">
                                         <div class="input-group bootstrap-timepicker timepicker">
-                                            <input id="EndTime" type="text" class="form-control input-small" placeholder="End Time of clinic" required />
+                                            <span class="input-group-addon red" id="basic-addon10">*</span>
+                                            <input aria-describedby="basic-addon10" id="EndTime" type="text" class="form-control input-small" placeholder="End Time of clinic" required /> 
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
                                     </div>
