@@ -40,7 +40,8 @@ function loadData(id) {
         }
     });
 }
-function DoseName() {
+
+function SuggestDoseName() {
     $.ajax({
         url: SERVER + "vaccine/" + parseInt(getParameterByName("id")),
         type: "GET",
@@ -51,13 +52,35 @@ function DoseName() {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                var DoseName = '';
-                $.each(result.ResponseData, function (key, item) {
-                    DoseName = result.ResponseData.Name + " # ";
-                });
-                $("#Name").val(function () {
-                    return this.value = DoseName;
-                });
+                var DoseName = result.ResponseData.Name + " # ";
+                $("#Name").val(DoseName);
+
+                // first to look for MinAge is defined or not
+                if (result.ResponseData.MinAge) {
+                    $("#MinAge option").each(function (i) {
+                        // this check is to skip the very first option like -- select min age --
+                        if (i != 0) {
+                            if ($(this).val() < result.ResponseData.MinAge)
+                                $(this).prop('disabled', true);
+                            if ($(this).val() > result.ResponseData.MaxAge)
+                                $(this).prop('disabled', true);
+                        }
+                    });
+                }
+
+                // first to look for MaxAge is defined or not
+                if (result.ResponseData.MaxAge) {
+                    $("#MaxAge option").each(function (i) {
+                        // this check is to skip the very first option like -- select max age --
+                        if (i != 0) {
+                            if ($(this).val() < result.ResponseData.MinAge)
+                                $(this).prop('disabled', true);
+
+                            if ($(this).val() > result.ResponseData.MaxAge)
+                                $(this).prop('disabled', true);
+                        }
+                    });
+                }
             }
         },
         error: function (errormessage) {
@@ -65,6 +88,7 @@ function DoseName() {
         }
     });
 }
+
 //Add Data Function   
 function Add() {
     var res = validate();
@@ -90,13 +114,13 @@ function Add() {
         success: function (result) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
-               
+
             }
             else {
 
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
-               
+
                 $('#myModal').modal('hide');
             }
             $("#btnAdd").prop('disabled', false);
@@ -170,7 +194,7 @@ function Update() {
             else {
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
-               
+
                 $('#myModal').modal('hide');
                 $('#ID').val("");
                 $('#Name').val("");
