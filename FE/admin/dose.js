@@ -55,32 +55,7 @@ function SuggestDoseName() {
                 var DoseName = result.ResponseData.Name + " # ";
                 $("#Name").val(DoseName);
 
-                // first to look for MinAge is defined or not
-                if (result.ResponseData.MinAge) {
-                    $("#MinAge option").each(function (i) {
-                        // this check is to skip the very first option like -- select min age --
-                        if (i != 0) {
-                            if ($(this).val() < result.ResponseData.MinAge)
-                                $(this).prop('disabled', true);
-                            if ($(this).val() > result.ResponseData.MaxAge)
-                                $(this).prop('disabled', true);
-                        }
-                    });
-                }
-
-                // first to look for MaxAge is defined or not
-                if (result.ResponseData.MaxAge) {
-                    $("#MaxAge option").each(function (i) {
-                        // this check is to skip the very first option like -- select max age --
-                        if (i != 0) {
-                            if ($(this).val() < result.ResponseData.MinAge)
-                                $(this).prop('disabled', true);
-
-                            if ($(this).val() > result.ResponseData.MaxAge)
-                                $(this).prop('disabled', true);
-                        }
-                    });
-                }
+                DisableMinMaxAgeDropdown(result.ResponseData);
             }
         },
         error: function (errormessage) {
@@ -155,6 +130,25 @@ function getbyID(ID) {
                 $('#myModal').modal('show');
                 $('#btnUpdate').show();
                 $('#btnAdd').hide();
+
+                // get call vaccine to diasable Min Max age dropdown on edit click as well.
+                $.ajax({
+                    url: SERVER + "vaccine/" + parseInt(getParameterByName("id")),
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        if (!result.IsSuccess) {
+                            ShowAlert('Error', result.Message, 'danger');
+                        }
+                        else {
+                            DisableMinMaxAgeDropdown(result.ResponseData);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
             }
         },
         error: function (errormessage) {
@@ -234,6 +228,47 @@ function Delele(ID) {
     }
 }
 
+function DisableMinMaxAgeDropdown(vaccine) {
+    // first to look for MinAge is defined or not
+    if (vaccine.MinAge) {
+        $("#MinAge option").each(function (i) {
+            // this check is to skip the very first option like -- select min age --
+            if (i != 0) {
+                if ($(this).val() < vaccine.MinAge)
+                    $(this).prop('disabled', true);
+            }
+        });
+
+
+
+        $("#MaxAge option").each(function (i) {
+            // this check is to skip the very first option like -- select max age --
+            if (i != 0) {
+                if ($(this).val() < vaccine.MinAge)
+                    $(this).prop('disabled', true);
+            }
+        });
+    }
+
+    // first to look for MaxAge is defined or not
+    if (vaccine.MaxAge) {
+        $("#MinAge option").each(function (i) {
+            // this check is to skip the very first option like -- select min age --
+            if (i != 0) {
+                if ($(this).val() > vaccine.MaxAge)
+                    $(this).prop('disabled', true);
+            }
+        });
+
+        $("#MaxAge option").each(function (i) {
+            // this check is to skip the very first option like -- select max age --
+            if (i != 0) {
+                if ($(this).val() > vaccine.MaxAge)
+                    $(this).prop('disabled', true);
+            }
+        });
+    }
+}
 //Function for clearing the textboxes  
 function clearTextBox() {
     $('#ID').val("");

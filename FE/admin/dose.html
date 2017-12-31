@@ -21,7 +21,7 @@
                 <h2>Vaccine Doses</h2>
                 <a href="vaccine.html" class="btn btn-default">Back</a> &nbsp;
                 <button type="button" id="btnModal" class="btn btn-primary" data-toggle="modal"
-                        data-target="#myModal">
+                        data-target="#myModal" onclick="SuggestDoseName()">
                     Add New
                 </button><br /><br />
 
@@ -401,7 +401,7 @@
     <script src="dose.js"></script>
     <script>
         $('#myModal').on('shown.bs.modal', function () {
-            SuggestDoseName();
+            //SuggestDoseName();
         });
     </script>
 </body>
