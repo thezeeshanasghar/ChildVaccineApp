@@ -234,7 +234,7 @@ function showAlert(id, MinGap) {
 
             if (parseInt(previousDropdownVal)) {
                 if (currentDropdownVal - previousDropdownVal < MinGap) {
-                    alert('Cannot set this value because minimum gap from previous dose is ' + MinGap);
+                    alert('Cannot set this value because minimum gap from previous dose is ' + (MinGap/7) + ' weeks');
                     $("#GapInDays_" + id).val('');
                 }
             }
