@@ -407,136 +407,136 @@ function getUserAge(ageNum) {
         case 486:
             day = '16 Months';
             break;
-        case 516:
+        case 517:
             day = '17 Months';
             break;
-        case 546:
+        case 547:
             day = '18 Months';
             break;
-        case 576:
+        case 578:
             day = '19 Months';
             break;
-        case 606:
+        case 608:
             day = '20 Months';
             break;
-        case 636:
+        case 639:
             day = '21 Months';
             break;
-        case 666:
+        case 669:
             day = '22 Months';
             break;
-        case 696:
+        case 699:
             day = '23 Months';
             break;
-        case 726:
+        case 730:
             day = '24 Months';
             break;
-        case 756:
+        case 760:
             day = '25 Months';
             break;
-        case 786:
+        case 791:
             day = '26 Months';
             break;
-        case 816:
+        case 821:
             day = '27 Months';
             break;
-        case 846:
+        case 851:
             day = '28 Months';
             break;
-        case 876:
+        case 882:
             day = '29 Months';
             break;
-        case 906:
+        case 912:
             day = '30 Months';
             break;
-        case 936:
+        case 943:
             day = '31 Months';
             break;
-        case 966:
+        case 973:
             day = '32 Months';
             break;
-        case 996:
+        case 1004:
             day = '33 Months';
             break;
-        case 1026:
+        case 1034:
             day = '34 Months';
             break;
-        case 1056:
+        case 1064:
             day = '35 Months';
             break;
-        case 1086:
+        case 1095:
             day = '36 Months';
             break;
-        case 1116:
+        case 1125:
             day = '37 Months';
             break;
-        case 1146:
+        case 1156:
             day = '38 Months';
             break;
-        case 1176:
+        case 1186:
             day = '39 Months';
             break;
-        case 1206:
+        case 1216:
             day = '40 Months';
             break;
-        case 1236:
+        case 1247:
             day = '41 Months';
             break;
-        case 1266:
+        case 1277:
             day = '42 Months';
             break;
-        case 1296:
+        case 1308:
             day = '43 Months';
             break;
-        case 1326:
+        case 1338:
             day = '44 Months';
             break;
-        case 1356:
+        case 1369:
             day = '45 Months';
             break;
-        case 1386:
+        case 1399:
             day = '46 Months';
             break;
-        case 1416:
+        case 1429:
             day = '47 Months';
             break;
-        case 1446:
+        case 1460:
             day = '48 Months';
             break;
-        case 1476:
+        case 1490:
             day = '49 Months';
             break;
-        case 1506:
+        case 1521:
             day = '50 Months';
             break;
-        case 1536:
+        case 1551:
             day = '51 Months';
             break;
-        case 1566:
+        case 1582:
             day = '52 Months';
             break;
-        case 1596:
+        case 1612:
             day = '53 Months';
             break;
-        case 1626:
+        case 1642:
             day = '54 Months';
             break;
-        case 1656:
+        case 1673:
             day = '55 Months';
             break;
-        case 1686:
+        case 1703:
             day = '56 Months';
             break;
-        case 1716:
+        case 1734:
             day = '57 Months';
             break;
-        case 1746:
+        case 1764:
             day = '58 Months';
             break;
-        case 1776:
+        case 1795:
             day = '59 Months';
             break;
-        case 1806:
+        case 1825:
             day = '60 Months';
             break;
         case 2190:

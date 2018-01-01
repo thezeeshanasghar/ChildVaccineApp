@@ -228,18 +228,18 @@ function showAlert(id, MinGap) {
         currentDoseName = $("#DoseName_" + id).val();
         previousDropdownVal = $("#GapInDays_" + (id - 1)).val();
         previousDoseName = $("#DoseName_" + (id-1)).val();
-
+        difference = MinGap - (currentDropdownVal - previousDropdownVal);
         if (currentDoseName.substr(0, currentDoseName.indexOf('#') + 1) === previousDoseName.substr(0, previousDoseName.indexOf('#') + 1)) {
             //console.log(previousDoseName.substr(0, previousDoseName.indexOf('#')+1));
 
             if (parseInt(previousDropdownVal)) {
-                if (currentDropdownVal - previousDropdownVal < MinGap) {
+                if (currentDropdownVal - previousDropdownVal < MinGap && difference > 2) {
                     alert('Cannot set this value because minimum gap from previous dose is ' + (MinGap/7) + ' weeks');
                     $("#GapInDays_" + id).val('');
                 }
             }
         }
-        console.log(currentDropdownVal + ' Prev: ' + previousDropdownVal + ' Min: ' + MinGap);
+        console.log('selected value: '+currentDropdownVal + ' Prev: ' + previousDropdownVal + ' Min: ' + MinGap);
     }
 }
 
