@@ -156,9 +156,9 @@ INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge],
 GO
 INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (43, N'Pneumococcal # 3', 20, 3, 98, NULL, 28)
 GO
-INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (44, N'MMR # 1', 10, 1, NULL, NULL, NULL)
+INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (44, N'MMR # 1', 10, 1, 365, NULL, NULL)
 GO
-INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (45, N'MMR # 2', 10, 2, NULL, NULL, NULL)
+INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (45, N'MMR # 2', 10, 2, 546, NULL, 168)
 GO
 INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (46, N'HPV # 1', 22, 1, 3285, NULL, NULL)
 GO
@@ -197,6 +197,8 @@ GO
 INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (65, N'Rota Virus GE # 2', 7, 2, 70, 243, 28)
 GO
 INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (66, N'Pneumococcal # 4', 20, 4, 365, NULL, 168)
+GO
+INSERT [dbo].[Dose] ([ID], [Name], [VaccineID], [DoseOrder], [MinAge], [MaxAge], [MinGap]) VALUES (67, N'PPSV # 1', 24, 1, 726, NULL, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Dose] OFF
 GO
