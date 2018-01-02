@@ -105,12 +105,32 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
     markup += '<input type="hidden" id="DoctorSchduleID_' + form_id + '" name="DoctorSchduleID_' + form_id + '" value="' + doctorSchdule.ID + '">';
     markup += '<div class="row">';
     markup += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
-    markup += '<select id="GapInDays_' + form_id + '" name="GapPeriod_' + form_id + '" class="form-control input-box" required>';
+    markup += '<select onchange="showAlert(' + form_id + ',' + doctorSchdule.Dose.MinGap + ')" id="GapInDays_' + form_id + '" name="GapPeriod_' + form_id + '" class="form-control input-box" required>';
     markup += '<option value="">-- select time --</option>';
 
     markup += '<option value="0" ';
     markup += (doctorSchdule.GapInDays == 0) ? selectedAttribute : '';
     markup += '>At Birth</option>';
+
+    markup += '<option value="7"';
+    markup += doctorSchdule.GapInDays == 7 ? selectedAttribute : '';
+    markup += '>1 Week</option>';
+
+    markup += '<option value="14"';
+    markup += doctorSchdule.GapInDays == 14 ? selectedAttribute : '';
+    markup += '>2 Weeks</option>';
+
+    markup += '<option value="21"';
+    markup += doctorSchdule.GapInDays == 21 ? selectedAttribute : '';
+    markup += '>3 Weeks</option>';
+
+    markup += '<option value="28"';
+    markup += doctorSchdule.GapInDays == 28 ? selectedAttribute : '';
+    markup += '>4 Weeks</option>';
+
+    markup += '<option value="35"';
+    markup += doctorSchdule.GapInDays == 35 ? selectedAttribute : '';
+    markup += '>5 Weeks</option>';
 
     markup += '<option value="42"';
     markup += doctorSchdule.GapInDays == 42 ? selectedAttribute : '';
@@ -196,7 +216,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
     markup += doctorSchdule.GapInDays == 243 ? selectedAttribute : '';
     markup += '>8 Months</option>';
 
-    markup += '<option value="273"';
+    markup += '<option value="274"';
     markup += doctorSchdule.GapInDays == 273 ? selectedAttribute : ''
     markup += '>9 Months</option>';
 
@@ -228,181 +248,229 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
     markup += doctorSchdule.GapInDays == 486 ? selectedAttribute : '';
     markup += '>16 Months</option>';
 
-    markup += '<option value="516" ';
-    markup += doctorSchdule.GapInDays == 516 ? selectedAttribute : '';
+    markup += '<option value="517" ';
+    markup += doctorSchdule.GapInDays == 517 ? selectedAttribute : '';
     markup += '>17 Months</option>';
 
-    markup += '<option value="546" ';
-    markup += doctorSchdule.GapInDays == 546 ? selectedAttribute : '';
+    markup += '<option value="547" ';
+    markup += doctorSchdule.GapInDays == 547 ? selectedAttribute : '';
     markup += '>18 Months</option>';
 
-    markup += '<option value="576" ';
-    markup += doctorSchdule.GapInDays == 576 ? selectedAttribute : '';
+    markup += '<option value="578" ';
+    markup += doctorSchdule.GapInDays == 578 ? selectedAttribute : '';
     markup += '>19 Months</option>';
 
-    markup += '<option value="606" ';
-    markup += doctorSchdule.GapInDays == 606 ? selectedAttribute : '';
+    markup += '<option value="608" ';
+    markup += doctorSchdule.GapInDays == 608 ? selectedAttribute : '';
     markup += '>20 Months</option>';
 
-    markup += '<option value="636" ';
-    markup += doctorSchdule.GapInDays == 636 ? selectedAttribute : '';
+    markup += '<option value="639" ';
+    markup += doctorSchdule.GapInDays == 639 ? selectedAttribute : '';
     markup += '>21 Months</option>';
 
-    markup += '<option value="666" ';
-    markup += doctorSchdule.GapInDays == 666 ? selectedAttribute : '';
+    markup += '<option value="669" ';
+    markup += doctorSchdule.GapInDays == 669 ? selectedAttribute : '';
     markup += '>22 Months</option>';
 
-    markup += '<option value="696" ';
-    markup += doctorSchdule.GapInDays == 696 ? selectedAttribute : '';
+    markup += '<option value="699" ';
+    markup += doctorSchdule.GapInDays == 699 ? selectedAttribute : '';
     markup += '>23 Months</option>';
 
-    markup += '<option value="726" ';
-    markup += doctorSchdule.GapInDays == 726 ? selectedAttribute : '';
+    markup += '<option value="730" ';
+    markup += doctorSchdule.GapInDays == 730 ? selectedAttribute : '';
     markup += '>24 Months</option>';
 
-    markup += '<option value="756" ';
-    markup += doctorSchdule.GapInDays == 756 ? selectedAttribute : '';
+    markup += '<option value="760" ';
+    markup += doctorSchdule.GapInDays == 760 ? selectedAttribute : '';
     markup += '>25 Months</option>';
 
-    markup += '<option value="786" ';
-    markup += doctorSchdule.GapInDays == 786 ? selectedAttribute : '';
+    markup += '<option value="791" ';
+    markup += doctorSchdule.GapInDays == 791 ? selectedAttribute : '';
     markup += '>26 Months</option>';
 
-    markup += '<option value="816" ';
-    markup += doctorSchdule.GapInDays == 816 ? selectedAttribute : '';
+    markup += '<option value="821" ';
+    markup += doctorSchdule.GapInDays == 821 ? selectedAttribute : '';
     markup += '>27 Months</option>';
 
-    markup += '<option value="846" ';
-    markup += doctorSchdule.GapInDays == 846 ? selectedAttribute : '';
+    markup += '<option value="851" ';
+    markup += doctorSchdule.GapInDays == 851 ? selectedAttribute : '';
     markup += '>28 Months</option>';
 
-    markup += '<option value="876" ';
-    markup += doctorSchdule.GapInDays == 876 ? selectedAttribute : '';
+    markup += '<option value="882" ';
+    markup += doctorSchdule.GapInDays == 882 ? selectedAttribute : '';
     markup += '>29 Months</option>';
 
-    markup += '<option value="906" ';
-    markup += doctorSchdule.GapInDays == 906 ? selectedAttribute : '';
+    markup += '<option value="912" ';
+    markup += doctorSchdule.GapInDays == 912 ? selectedAttribute : '';
     markup += '>30 Months</option>';
 
-    markup += '<option value="936" ';
-    markup += doctorSchdule.GapInDays == 936 ? selectedAttribute : '';
+    markup += '<option value="943" ';
+    markup += doctorSchdule.GapInDays == 943 ? selectedAttribute : '';
     markup += '>31 Months</option>';
 
-    markup += '<option value="966" ';
-    markup += doctorSchdule.GapInDays == 966 ? selectedAttribute : '';
+    markup += '<option value="973" ';
+    markup += doctorSchdule.GapInDays == 973 ? selectedAttribute : '';
     markup += '>32 Months</option>';
 
-    markup += '<option value="996" ';
-    markup += doctorSchdule.GapInDays == 996 ? selectedAttribute : '';
+    markup += '<option value="1004" ';
+    markup += doctorSchdule.GapInDays == 1004 ? selectedAttribute : '';
     markup += '>33 Months</option>';
 
-    markup += '<option value="1026" ';
-    markup += doctorSchdule.GapInDays == 1026 ? selectedAttribute : '';
+    markup += '<option value="1034" ';
+    markup += doctorSchdule.GapInDays == 1034 ? selectedAttribute : '';
     markup += '>34 Months</option>';
 
-    markup += '<option value="1056" ';
-    markup += doctorSchdule.GapInDays == 1056 ? selectedAttribute : '';
+    markup += '<option value="1064" ';
+    markup += doctorSchdule.GapInDays == 1064 ? selectedAttribute : '';
     markup += '>35 Months</option>';
 
-    markup += '<option value="1086" ';
-    markup += doctorSchdule.GapInDays == 1086 ? selectedAttribute : '';
+    markup += '<option value="1095" ';
+    markup += doctorSchdule.GapInDays == 1095 ? selectedAttribute : '';
     markup += '>36 Months</option>';
 
-    markup += '<option value="1116" ';
-    markup += doctorSchdule.GapInDays == 1116 ? selectedAttribute : '';
+    markup += '<option value="1125" ';
+    markup += doctorSchdule.GapInDays == 1125 ? selectedAttribute : '';
     markup += '>37 Months</option>';
 
-    markup += '<option value="1146" ';
-    markup += doctorSchdule.GapInDays == 1146 ? selectedAttribute : '';
+    markup += '<option value="1156" ';
+    markup += doctorSchdule.GapInDays == 1156 ? selectedAttribute : '';
     markup += '>38 Months</option>';
 
-    markup += '<option value="1176" ';
-    markup += doctorSchdule.GapInDays == 1176 ? selectedAttribute : '';
+    markup += '<option value="1186" ';
+    markup += doctorSchdule.GapInDays == 1186 ? selectedAttribute : '';
     markup += '>39 Months</option>';
 
-    markup += '<option value="1206" ';
-    markup += doctorSchdule.GapInDays == 1206 ? selectedAttribute : '';
+    markup += '<option value="1216" ';
+    markup += doctorSchdule.GapInDays == 1216 ? selectedAttribute : '';
     markup += '>40 Months</option>';
 
-    markup += '<option value="1236" ';
-    markup += doctorSchdule.GapInDays == 1236 ? selectedAttribute : '';
+    markup += '<option value="1247" ';
+    markup += doctorSchdule.GapInDays == 1247 ? selectedAttribute : '';
     markup += '>41 Months</option>';
 
-    markup += '<option value="1266" ';
-    markup += doctorSchdule.GapInDays == 1266 ? selectedAttribute : '';
+    markup += '<option value="1277" ';
+    markup += doctorSchdule.GapInDays == 1277 ? selectedAttribute : '';
     markup += '>42 Months</option>';
 
-    markup += '<option value="1296" ';
-    markup += doctorSchdule.GapInDays == 1296 ? selectedAttribute : '';
+    markup += '<option value="1308" ';
+    markup += doctorSchdule.GapInDays == 1308 ? selectedAttribute : '';
     markup += '>43 Months</option>';
 
-    markup += '<option value="1326" ';
-    markup += doctorSchdule.GapInDays == 1326 ? selectedAttribute : '';
+    markup += '<option value="1338" ';
+    markup += doctorSchdule.GapInDays == 1338 ? selectedAttribute : '';
     markup += '>44 Months</option>';
 
-    markup += '<option value="1356" ';
-    markup += doctorSchdule.GapInDays == 1356 ? selectedAttribute : '';
+    markup += '<option value="1369" ';
+    markup += doctorSchdule.GapInDays == 1369 ? selectedAttribute : '';
     markup += '>45 Months</option>';
 
-    markup += '<option value="1386" ';
-    markup += doctorSchdule.GapInDays == 1386 ? selectedAttribute : '';
+    markup += '<option value="1399" ';
+    markup += doctorSchdule.GapInDays == 1399 ? selectedAttribute : '';
     markup += '>46 Months</option>';
 
-    markup += '<option value="1416" ';
-    markup += doctorSchdule.GapInDays == 1416 ? selectedAttribute : '';
+    markup += '<option value="1429" ';
+    markup += doctorSchdule.GapInDays == 1429 ? selectedAttribute : '';
     markup += '>47 Months</option>';
 
-    markup += '<option value="1446" ';
-    markup += doctorSchdule.GapInDays == 1446 ? selectedAttribute : '';
+    markup += '<option value="1460" ';
+    markup += doctorSchdule.GapInDays == 1460 ? selectedAttribute : '';
     markup += '>48 Months</option>';
 
-    markup += '<option value="1476" ';
-    markup += doctorSchdule.GapInDays == 1476 ? selectedAttribute : '';
+    markup += '<option value="1490" ';
+    markup += doctorSchdule.GapInDays == 1490 ? selectedAttribute : '';
     markup += '>49 Months</option>';
 
-    markup += '<option value="1506" ';
-    markup += doctorSchdule.GapInDays == 1506 ? selectedAttribute : '';
+    markup += '<option value="1521" ';
+    markup += doctorSchdule.GapInDays == 1521 ? selectedAttribute : '';
     markup += '>50 Months</option>';
 
-    markup += '<option value="1536" ';
-    markup += doctorSchdule.GapInDays == 1536 ? selectedAttribute : '';
+    markup += '<option value="1551" ';
+    markup += doctorSchdule.GapInDays == 1551 ? selectedAttribute : '';
     markup += '>51 Months</option>';
 
-    markup += '<option value="1566" ';
-    markup += doctorSchdule.GapInDays == 1566 ? selectedAttribute : '';
+    markup += '<option value="1582" ';
+    markup += doctorSchdule.GapInDays == 1582 ? selectedAttribute : '';
     markup += '>52 Months</option>';
 
-    markup += '<option value="1596" ';
-    markup += doctorSchdule.GapInDays == 1596 ? selectedAttribute : '';
+    markup += '<option value="1612" ';
+    markup += doctorSchdule.GapInDays == 1612 ? selectedAttribute : '';
     markup += '>53 Months</option>';
 
-    markup += '<option value="1626" ';
-    markup += doctorSchdule.GapInDays == 1626 ? selectedAttribute : '';
+    markup += '<option value="1642" ';
+    markup += doctorSchdule.GapInDays == 1642 ? selectedAttribute : '';
     markup += '>54 Months</option>';
 
-    markup += '<option value="1656" ';
-    markup += doctorSchdule.GapInDays == 1656 ? selectedAttribute : '';
+    markup += '<option value="1673" ';
+    markup += doctorSchdule.GapInDays == 1673 ? selectedAttribute : '';
     markup += '>55 Months</option>';
 
-    markup += '<option value="1686" ';
-    markup += doctorSchdule.GapInDays == 1686 ? selectedAttribute : '';
+    markup += '<option value="1703" ';
+    markup += doctorSchdule.GapInDays == 1703 ? selectedAttribute : '';
     markup += '>56 Months</option>';
 
-    markup += '<option value="1716" ';
-    markup += doctorSchdule.GapInDays == 1716 ? selectedAttribute : '';
+    markup += '<option value="1734" ';
+    markup += doctorSchdule.GapInDays == 1734 ? selectedAttribute : '';
     markup += '>57 Months</option>';
 
-    markup += '<option value="1746" ';
-    markup += doctorSchdule.GapInDays == 1746 ? selectedAttribute : '';
+    markup += '<option value="1764" ';
+    markup += doctorSchdule.GapInDays == 1764 ? selectedAttribute : '';
     markup += '>58 Months</option>';
 
-    markup += '<option value="1776" ';
-    markup += doctorSchdule.GapInDays == 1776 ? selectedAttribute : '';
+    markup += '<option value="1795" ';
+    markup += doctorSchdule.GapInDays == 1795 ? selectedAttribute : '';
     markup += '>59 Months</option>';
 
-    markup += '<option value="1806" ';
-    markup += doctorSchdule.GapInDays == 1806 ? selectedAttribute : '';
+    markup += '<option value="1825" ';
+    markup += doctorSchdule.GapInDays == 1825 ? selectedAttribute : '';
     markup += '>60 Months</option>';
+
+    markup += '<option value="2190" ';
+    markup += doctorSchdule.GapInDays == 2190 ? selectedAttribute : '';
+    markup += '>6 Years</option>';
+
+    markup += '<option value="2555" ';
+    markup += doctorSchdule.GapInDays == 2555 ? selectedAttribute : '';
+    markup += '>7 Years</option>';
+
+    markup += '<option value="2920" ';
+    markup += doctorSchdule.GapInDays == 2920 ? selectedAttribute : '';
+    markup += '>8 Years</option>';
+
+    markup += '<option value="3285" ';
+    markup += doctorSchdule.GapInDays == 3285 ? selectedAttribute : '';
+    markup += '>9 Years</option>';
+
+    markup += '<option value="3315" ';
+    markup += doctorSchdule.GapInDays == 3315 ? selectedAttribute : '';
+    markup += '>9 Year 1 Month</option>';
+
+    markup += '<option value="3650" ';
+    markup += doctorSchdule.GapInDays == 3650 ? selectedAttribute : '';
+    markup += '>10 Years</option>';
+
+    markup += '<option value="3833" ';
+    markup += doctorSchdule.GapInDays == 3833 ? selectedAttribute : '';
+    markup += '>10 Year 6 Months</option>';
+
+    markup += '<option value="4015" ';
+    markup += doctorSchdule.GapInDays == 4015 ? selectedAttribute : '';
+    markup += '>11 Years</option>';
+
+    markup += '<option value="4380" ';
+    markup += doctorSchdule.GapInDays == 4380 ? selectedAttribute : '';
+    markup += '>12 Years</option>';
+
+    markup += '<option value="4745" ';
+    markup += doctorSchdule.GapInDays == 4745 ? selectedAttribute : '';
+    markup += '>13 Years</option>';
+
+    markup += '<option value="5110" ';
+    markup += doctorSchdule.GapInDays == 5110 ? selectedAttribute : '';
+    markup += '>14 Years</option>';
+
+    markup += '<option value="5475" ';
+    markup += doctorSchdule.GapInDays == 5475 ? selectedAttribute : '';
+    markup += '>15 Years</option>';
 
     markup += '</select>';
     markup += '</div>';
@@ -413,6 +481,28 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
     markup += '</row>';
     markup += '</div>';
     return markup;
+}
+
+function showAlert(id, MinGap) {
+    if (MinGap && id > 1) {
+
+        currentDropdownVal = $("#GapInDays_" + id).val();
+        currentDoseName = $("#DoseName_" + id).val();
+        previousDropdownVal = $("#GapInDays_" + (id - 1)).val();
+        previousDoseName = $("#DoseName_" + (id - 1)).val();
+        difference = MinGap - (currentDropdownVal - previousDropdownVal);
+        if (currentDoseName.substr(0, currentDoseName.indexOf('#') + 1) === previousDoseName.substr(0, previousDoseName.indexOf('#') + 1)) {
+            //console.log(previousDoseName.substr(0, previousDoseName.indexOf('#')+1));
+
+            if (parseInt(previousDropdownVal)) {
+                if (difference > 2) {
+                    alert('Cannot set this value because minimum gap from previous dose is ' + (MinGap / 7) + ' weeks');
+                    $("#GapInDays_" + id).val('');
+                }
+            }
+        }
+        console.log('selected value: ' + currentDropdownVal + ' Prev: ' + previousDropdownVal + ' Min: ' + MinGap);
+    }
 }
 
 function validate() {
