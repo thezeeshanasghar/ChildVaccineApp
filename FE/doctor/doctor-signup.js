@@ -233,7 +233,7 @@ function showAlert(id, MinGap) {
             //console.log(previousDoseName.substr(0, previousDoseName.indexOf('#')+1));
 
             if (parseInt(previousDropdownVal)) {
-                if (currentDropdownVal - previousDropdownVal < MinGap && difference > 2) {
+                if (difference > 2) {
                     alert('Cannot set this value because minimum gap from previous dose is ' + (MinGap/7) + ' weeks');
                     $("#GapInDays_" + id).val('');
                 }
