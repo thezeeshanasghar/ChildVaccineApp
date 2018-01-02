@@ -21,7 +21,7 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbVaccines = entities.Vaccines.ToList();
+                    var dbVaccines = entities.Vaccines.OrderBy(x=>x.MinAge).ToList();
                     IEnumerable<VaccineDTO> vaccineDTOs = Mapper.Map<IEnumerable<VaccineDTO>>(dbVaccines);
                     return new Response<IEnumerable<VaccineDTO>>(true, null, vaccineDTOs);
                 }
