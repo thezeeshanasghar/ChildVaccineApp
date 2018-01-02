@@ -383,7 +383,7 @@ function getUserAge(ageNum) {
         case 243:
             day = '8 Months';
             break;
-        case 273:
+        case 274:
             day = '9 Months';
             break;
         case 304:

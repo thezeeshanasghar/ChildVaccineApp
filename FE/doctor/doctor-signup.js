@@ -169,12 +169,15 @@ function GenerateScheduleForm() {
                 for (i = 1; i <= total_forms; i++) {
                     //$("#GapInDays_" + i).prop("disabled", true);
 
-                    if (doses[i - 1].MinAge) {
+                    //if (doses[i - 1].MinAge ) { // commented because Dose must have MinAge; its required field in dose form
                         $("#GapInDays_" + i + " option").each(function (optionIndex) {
                             // this check is to skip the very first option like -- select min age --
                             if (optionIndex != 0) {
                                 if ($(this).val() < doses[i - 1].MinAge)
                                     $(this).prop('disabled', true);
+                                if ($(this).val() == doses[i - 1].MinAge)
+                                    $(this).attr('selected', 'selected');
+
                             }
                         });
 
@@ -187,7 +190,7 @@ function GenerateScheduleForm() {
                                     $(this).prop('disabled', true);
                             }
                         });
-                    }
+                    //}
 
                     // first to look for MaxAge is defined or not
                     if (doses[i - 1].MaxAge) {
