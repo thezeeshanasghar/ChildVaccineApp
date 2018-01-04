@@ -19,7 +19,8 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
 
-                    List<DoctorSchedule> doctorSchduleDBs = entities.DoctorSchedules.Include("Dose").Include("Doctor").Where(x => x.DoctorID == Id).ToList();
+                    List<DoctorSchedule> doctorSchduleDBs = entities.DoctorSchedules.Include("Dose").Include("Doctor").Where(x => x.DoctorID == Id)
+                        .OrderBy(x=>x.Dose.MinAge).ThenBy(x=>x.Dose.Name).ToList();
                     if(doctorSchduleDBs==null || doctorSchduleDBs.Count()==0)
                         return new Response<List<DoctorScheduleDTO>>(false, "DoctorSchedule not found", null);
 

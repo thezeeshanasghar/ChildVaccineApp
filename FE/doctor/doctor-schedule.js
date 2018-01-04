@@ -217,7 +217,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
     markup += '>8 Months</option>';
 
     markup += '<option value="274"';
-    markup += doctorSchdule.GapInDays == 273 ? selectedAttribute : ''
+    markup += doctorSchdule.GapInDays == 274 ? selectedAttribute : ''
     markup += '>9 Months</option>';
 
     markup += '<option value="304"';

@@ -26,8 +26,8 @@ namespace VaccineDose.App_Code
             if (child.Gender == "Girl")
                 sms1 += "Your Daughter " + child.Name;
 
-            sms1 += " has been registered at Clinic ";
-            sms1 += child.Clinic.Name + "\n";
+            sms1 += " has been registered at Clinic: ";
+            sms1 += child.Clinic.Name.Replace("&","and") + "\n";
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
 
             string sms2 = "ID: " + child.User.MobileNumber + "\nPassword: " + child.User.Password
