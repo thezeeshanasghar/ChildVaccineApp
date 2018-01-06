@@ -64,8 +64,7 @@
 
                         <div class="form-group">
                             <select id="PreferredDayOfWeek" class="form-control" name="PreferredDayOfWeek" required title="Preferred Day of Week">
-                                <option value="">-- Preferred Day of Week --</option>
-                                <option value="Any" selected="selected">Any</option>
+                                <option value="Any">-- Preferred Day of Week -- Any</option>
                                 <option value="Monday" id="Monday">Monday</option>
                                 <option value="Tuesday" id="Tuesday">Tuesday</option>
                                 <option value="Wednesday" id="Wednesday">Wednesday</option>
@@ -93,21 +92,13 @@
                             </select>
                         </div>
 
-                        <div class="row form-group">
-                            <div class="col-md-8">
-                                <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled title="Preferred day of reminder">
-                                    <option value="">-- select preferred day of reminder --</option>
-                                    <option value="0" selected="selected">On Same Day</option>
-                                    <option value="1">One Day Before</option>
-                                    <option value="2">Two Day Before</option>
-                                    <option value="3">Three Day Before</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2" style="vertical-align:middle">
-                                <div class="checkbox-inline">
-                                    <label><input id="TogglePreferredDayOfReminder" type="checkbox" />Enable</label>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <select id="PreferredDayOfReminder" class="form-control" name="PreferredDayOfReminder" disabled title="Preferred day of reminder">
+                                <option value="0">-- preferred day of reminder -- On Due Day</option>
+                                <option value="1">Due day + 1 Day Before</option>
+                                <option value="2">Due day + 2 Day Before</option>
+                                <option value="3">Due day + 3 Day Before</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <select id="PreferredSchedule" class="form-control" name="PreferredSchedule" disabled>
@@ -167,12 +158,7 @@
                 todayHighlight: true
             });
 
-            $('#TogglePreferredDayOfReminder').change(function () {
-                if ($(this).is(":checked"))
-                    $("#PreferredDayOfReminder").attr('disabled', false);
-                else
-                    $("#PreferredDayOfReminder").attr('disabled', true);
-            });
+          
 
         });
     </script>

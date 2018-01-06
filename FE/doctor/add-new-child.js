@@ -83,10 +83,7 @@ function Add() {
     $("#btnAdd").prop('disabled', true);
 
    
-    var preferdayreminder = "0";
-    if (document.getElementById("TogglePreferredDayOfReminder").checked) {
-        preferdayreminder = $('#PreferredDayOfReminder').val()
-    }
+    var preferdayreminder = $('#PreferredDayOfReminder').val()
 
     var Vaccines = [];
     $('input[name="VaccineName"]:checked').each(function () {
