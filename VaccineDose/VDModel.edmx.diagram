@@ -22,10 +22,6 @@
         <AssociationConnector Association="VDModel.FK_Child_User" />
         <AssociationConnector Association="VDModel.FK_FollowUp_Child" />
         <AssociationConnector Association="VDModel.FK_Schedule_Child" />
-        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="10.5" PointY="5.75" />
-        <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
-        <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
-        <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
         <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="5.25" PointY="5.75" />
         <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="5" />
         <AssociationConnector Association="VDModel.FK_BrandAmount_Doctor" />
@@ -35,6 +31,10 @@
         <AssociationConnector Association="VDModel.FK_Doctor_User" />
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Doctor" />
         <AssociationConnector Association="VDModel.FK_FollowUp_Doctor" />
+        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="10.5" PointY="5.75" />
+        <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
+        <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
+        <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
