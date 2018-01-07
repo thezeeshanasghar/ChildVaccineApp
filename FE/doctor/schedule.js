@@ -40,7 +40,7 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    html += '<div class="col-md-7">'
+                    html += '<div class="col-xs-8 col-md-7">'
                     html += '<h3 style="text-align:right">' + date + ' <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span></h3>';
                     html += '</div>'
                     html += '<div class="col-md-5">'
