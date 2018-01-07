@@ -133,7 +133,10 @@ namespace VaccineDose.Controllers
                         }
                     }
                     Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
-                    UserEmail.ParentEmail(c);
+                    if (c.Email != "")
+                    {
+                        UserEmail.ParentEmail(c);
+                    }
 
                     // generate SMS and save it to the db
                     string sms = UserSMS.ParentSMS(c);

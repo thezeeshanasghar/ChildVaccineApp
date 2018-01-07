@@ -81,7 +81,7 @@ namespace VaccineDose.Controllers
                     dbClinic.Lat = clinicDTO.Lat;
                     dbClinic.Long = clinicDTO.Long;
 
-                    
+
                     entities.SaveChanges();
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
@@ -128,10 +128,22 @@ namespace VaccineDose.Controllers
                         return new Response<IEnumerable<ChildDTO>>(false, "Clinic not found", null);
                     else
                     {
-                        var dbChild = clinic.Children.OrderByDescending(x=>x.ID).ToList();
-                        var childDTOs = Mapper.Map<List<ChildDTO>>(dbChild);
+                        var doctorClinics = entities.Clinics.Where(x => x.DoctorID == clinic.DoctorID).ToList();
+                        List<ChildDTO> childDTOs = new List<ChildDTO>();
+                        List<Child> dbChild = new List<Child>();
+                        foreach (var dc in doctorClinics)
+                        {
+                            var dbChildren = dc.Children.OrderByDescending(x => x.ID).ToList();
+                            dbChild.AddRange(dbChildren);
+                            childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(dbChildren));
+                        }
+
                         foreach (var item in childDTOs)
-                            item.MobileNumber = dbChild.Where(x => x.ID == item.ID).First().User.MobileNumber;
+                        {
+                            var dbMobileNumber = dbChild.Where(x => x.ID == item.ID).FirstOrDefault().User.MobileNumber;
+                            if (dbMobileNumber != null)
+                                item.MobileNumber = dbMobileNumber;
+                        }
                         return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
                     }
                 }
@@ -170,11 +182,11 @@ namespace VaccineDose.Controllers
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new Response<ClinicDTO>(false, ex.Message, null);
             }
-           
+
         }
     }
 }
