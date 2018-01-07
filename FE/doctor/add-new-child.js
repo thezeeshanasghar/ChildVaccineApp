@@ -55,12 +55,15 @@ function GetVaccines() {
             }
             else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<div class="form-group">';
-                    html += '<label>';
-                    html += '<input type="checkbox" checked name="VaccineName" value="' + item.ID + '"  / >';
-                    html += '&nbsp;' + item.Name;
-                    html += '</label>';
-                    html += '</div>'
+                    if ($("input[name='gender']:checked").val() == "Boy" && item.Name.indexOf("HPV") >= 0) {
+                    } else {
+                        html += '<div class="form-group">';
+                        html += '<label>';
+                        html += '<input type="checkbox" checked name="VaccineName" value="' + item.ID + '"  / >';
+                        html += '&nbsp;' + item.Name;
+                        html += '</label>';
+                        html += '</div>'
+                    }
                 });
             }
             $("#childVaccine").html(html);
@@ -82,7 +85,7 @@ function Add() {
     $("#btnAdd").button('loading');
     $("#btnAdd").prop('disabled', true);
 
-   
+
     var preferdayreminder = $('#PreferredDayOfReminder').val()
 
     var Vaccines = [];
