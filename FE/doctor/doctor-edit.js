@@ -17,6 +17,7 @@ function GetDoctorIdFromUrlOrLocalStorage() {
 function getbyID(ID) {
     $('#FirstName').css('border-color', 'lightgrey');
     $('#LastName').css('border-color', 'lightgrey');
+    $('#DisplayName').css('border-color', 'lightgrey');
     $('#Email').css('border-color', 'lightgrey');
     $('#MobileNumber').css('border-color', 'lightgrey');
     $('#PMDC').css('border-color', 'lightgrey');
@@ -37,6 +38,7 @@ function getbyID(ID) {
                 $("#IsApproved").prop("checked", result.ResponseData.IsApproved);
                 $('#FirstName').val(result.ResponseData.FirstName);
                 $('#LastName').val(result.ResponseData.LastName);
+                $('#DisplayName').val(result.ResponseData.DisplayName);
                 $('#Email').val(result.ResponseData.Email);
                 $('#MobileNumber').val(result.ResponseData.MobileNumber);
                 $('#PhoneNo').val(result.ResponseData.PhoneNo);
@@ -44,9 +46,17 @@ function getbyID(ID) {
                 $("#ShowPhone").prop("checked", result.ResponseData.ShowPhone);
                 $("#ShowMobile").prop("checked", result.ResponseData.ShowMobile);
                 var profileImageHtml = '';
-                profileImageHtml += '<img style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/"+ result.ResponseData.ProfileImage + '"   />'
+                if (result.ResponseData.ProfileImage) {
+                    profileImageHtml += '<img style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + result.ResponseData.ProfileImage + '"   />'
+                } else {
+                    profileImageHtml += '<img style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/img/avatar.png" + '" />'
+                }
                 var signatureImageHtml = '';
-                signatureImageHtml += '<img  style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + result.ResponseData.SignatureImage + '" />'
+                if (result.ResponseData.SignatureImage) {
+                    signatureImageHtml += '<img  style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + result.ResponseData.SignatureImage + '" />'
+                } else {
+                    signatureImageHtml += '<img style="height: 44px;  width: 88px;border-radius: 5px;" src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/img/avatar.png" + '" />'
+                }
                 $("#oldProfileImage").html(profileImageHtml);
                 $("#oldSignatureImage").html(signatureImageHtml);
 
@@ -74,6 +84,7 @@ function Update() {
     var obj = {
         ID: $('#ID').val(),
         FirstName: $('#FirstName').val(),
+        DisplayName: $("#DisplayName").val(),
         IsApproved: $("#IsApproved").is(":checked"),
         LastName: $('#LastName').val(),
         Email: $('#Email').val(),
@@ -91,7 +102,7 @@ function Update() {
         success: function (result) {
             var file = $("#ProfileImage").get(0).files;
             var file1 = $("#SignatureImage").get(0).files;
-            if (file.length > 0 && file1.length > 0)
+            if (file.length > 0 || file1.length > 0)
             {
                 updateImages(result.ResponseData.ID);
             }

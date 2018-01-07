@@ -140,9 +140,7 @@ namespace VaccineDose.Controllers
 
                         foreach (var item in childDTOs)
                         {
-                            var dbMobileNumber = dbChild.Where(x => x.ID == item.ID).FirstOrDefault().User.MobileNumber;
-                            if (dbMobileNumber != null)
-                                item.MobileNumber = dbMobileNumber;
+                            item.MobileNumber = dbChild.Where(x => x.ID == item.ID).FirstOrDefault().User.MobileNumber;
                         }
                         return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
                     }

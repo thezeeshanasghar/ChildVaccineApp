@@ -158,6 +158,7 @@ namespace VaccineDose.Controllers
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     dbDoctor.FirstName = doctorDTO.FirstName;
                     dbDoctor.LastName = doctorDTO.LastName;
+                    dbDoctor.DisplayName = doctorDTO.DisplayName;
                     doctorDTO.IsApproved = doctorDTO.IsApproved;
                     dbDoctor.Email = doctorDTO.Email;
                     dbDoctor.PMDC = doctorDTO.PMDC;
