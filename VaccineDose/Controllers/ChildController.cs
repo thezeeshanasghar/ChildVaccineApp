@@ -360,9 +360,10 @@ namespace VaccineDose.Controllers
 
                 var writer = PdfWriter.GetInstance(document, output);
                 writer.CloseStream = false;
-
+                // calling PDFFooter class to Include in document
+                writer.PageEvent = new PDFFooter(child);
                 document.Open();
-                GetPDFHeading(document, "Child Vaccine Schedule");
+                GetPDFHeading(document, "Childhood Vaccination Record");
 
                 //Table 1 for description above Schedule table
                 PdfPTable upperTable = new PdfPTable(2);
@@ -372,22 +373,40 @@ namespace VaccineDose.Controllers
                 upperTable.LockedWidth = true;
                 upperTable.SetWidths(upperTableWidths);
 
-                upperTable.AddCell(CreateCell("Clinic", "bold", 1, "left", "description"));
-                upperTable.AddCell(CreateCell("Patient", "bold", 1, "right", "description"));
+                //upperTable.AddCell(CreateCell("Clinic", "bold", 1, "left", "description"));
+                //upperTable.AddCell(CreateCell("Patient", "bold", 1, "right", "description"));
 
-                upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell(dbDoctor.DisplayName, "bold", 1, "left", "description"));
                 //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
-                upperTable.AddCell(CreateCell(dbChild.Name, "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell(dbChild.Name, "bold", 1, "right", "description"));
 
-                upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
-                upperTable.AddCell(CreateCell(dbChild.FatherName, "", 1, "right", "description"));
+                if (dbDoctor.ShowPhone)
+                {
+                    upperTable.AddCell(CreateCell("Doctor Ph#: +" + dbDoctor.User.CountryCode + "-" + dbDoctor.PhoneNo, "", 1, "left", "description"));
+                }
+                else
+                {
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
 
-                upperTable.AddCell(CreateCell("Doctor: " + dbDoctor.FirstName, "", 1, "left", "description"));
+                }
+                if (dbChild.Gender == "Girl")
+                {
+                    upperTable.AddCell(CreateCell("D/O " + dbChild.FatherName, "", 1, "right", "description"));
+                }
+                else
+                {
+                    upperTable.AddCell(CreateCell("S/O " + dbChild.FatherName, "", 1, "right", "description"));
+                }
+
+                upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
                 //upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
-                upperTable.AddCell(CreateCell(dbChild.User.MobileNumber, "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell("+" + dbChild.User.CountryCode + "-" + dbChild.User.MobileNumber, "", 1, "right", "description"));
 
-                upperTable.AddCell(CreateCell("Doctor Ph: " + dbDoctor.PhoneNo, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("Clinic Ph#: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell(dbChild.DOB.ToString("MM/dd/yyyy"), "", 1, "right", "description"));
+
                 upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                 document.Add(upperTable);
                 //
                 document.Add(new Paragraph(""));
@@ -648,7 +667,7 @@ namespace VaccineDose.Controllers
                     if (signatureImage == null)
                     {
                         signatureImage = "avatar.png";
-                    }  
+                    }
                     Image img = Image.GetInstance(imgPath + "\\" + signatureImage);
 
                     img.ScaleAbsolute(2f, 2f);
@@ -907,5 +926,58 @@ namespace VaccineDose.Controllers
         }
 
 
+    }
+    public class PDFFooter : PdfPageEventHelper
+    {
+        Child child = new Child();
+        public PDFFooter(Child postedChild)
+        {
+            child = postedChild;
+        }
+        // write on top of document
+        //public override void OnOpenDocument(PdfWriter writer, Document document)
+        //{
+        //    base.OnOpenDocument(writer, document);
+        //    PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+        //    tabFot.SpacingAfter = 10F;
+        //    PdfPCell cell;
+        //    tabFot.TotalWidth = 300F;
+        //    cell = new PdfPCell(new Phrase("Header"));
+        //    tabFot.AddCell(cell);
+        //    tabFot.WriteSelectedRows(0, -1, 150, document.Top, writer.DirectContent);
+        //}
+
+        // write on start of each page
+        public override void OnStartPage(PdfWriter writer, Document document)
+        {
+            base.OnStartPage(writer, document);
+        }
+
+        // write on end of each page
+        public override void OnEndPage(PdfWriter writer, Document document)
+        {
+            base.OnEndPage(writer, document);
+            string footer = @"This schedule is automatically generated for "+ child.Clinic.Name+ @" by Vaccs.io Visit http://www.vaccs.io/ for more details
+             _____________________________________________________________________________________
+             Disclaimer: This schedule provides recommended dates for immunizations for your child based on date of birth. Your pediatrician
+             may update due dates or add/remove vaccines from this schedule.Vaccs.io or its management or staff holds no responsibility on any loss or damage due to any vaccine given to child at any given timeOfSending.";
+             footer = footer.Replace(Environment.NewLine, String.Empty).Replace("  ", String.Empty);
+            Chunk beginning = new Chunk(footer);
+            
+            PdfPTable tabFot = new PdfPTable(1);
+            PdfPCell cell;
+            tabFot.SetTotalWidth(new float[] { 575f });
+            tabFot.DefaultCell.HorizontalAlignment = Element.ALIGN_LEFT;
+            cell = new PdfPCell(new Phrase(beginning));
+            cell.Border = 0;
+            tabFot.AddCell(cell);
+            tabFot.WriteSelectedRows(0, -1, 10, 100,writer.DirectContent);
+        }
+
+        //write on close of document
+        public override void OnCloseDocument(PdfWriter writer, Document document)
+        {
+            base.OnCloseDocument(writer, document);
+        }
     }
 }
