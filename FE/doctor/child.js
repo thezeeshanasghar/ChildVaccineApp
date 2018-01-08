@@ -585,6 +585,66 @@ function Delele(ID) {
     }
 }
 
+function SearchChild() {
+    if ($.trim($("#SearchItem").val())=="") {
+        return false;
+    }
+    else {
+        ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+        $.ajax({
+            url: SERVER + 'child/' + $("#SearchItem").val() + '/search',
+            type: 'GET',
+            contentType: 'application/json;utf-8',
+            success: function (result) {
+                var html = '';
+                if (!result.IsSuccess) {
+                    ShowAlert('Error', result.Message, 'danger');
+                } else {
+                    $.each(result.ResponseData, function (key, item) {
+                        html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
+                        if (item.Gender == 'Boy')
+                            html += 'blue">';
+                        else
+                            html += '#FF1493">';
+                        html += '       <img id="ImgMaleFemale" src="/img/';
+                        if (item.Gender == 'Boy')
+                            html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:90px;max-height:90px" />';
+                        else
+                            html += 'female.png" class="img-responsive pull-left" alt="female" style="max-width:90px;max-height:90px" />';
+                        html += '   <h4>';
+                        html += '       <span class="pull-right" style="font-size:20px">';
+                        html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a>';
+                        html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
+                        html += '       </span>';
+                        html += '       &nbsp;';
+                        html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/>';
+                        html += '   </h4>';
+                        html += '   <div style="font-size:12px;padding-left:100px">';
+                        html += '       <i class="glyphicon glyphicon-user"></i> ' + item.FatherName + '<br/>';
+                        html += '       <i class="glyphicon glyphicon-calendar"></i> ' + item.DOB + ' <br />';
+                        html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber;
+                        html += '   </div>';
+                        html += '   <div style="padding-left:100px">';
+                        html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
+                        html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Generate Invoice</a>';
+                        html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
+                        html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
+
+                        html += '   </div>';
+                        html += '</div>';
+
+                    });
+                    $("#childrecords").html(html);
+                    HideAlert();
+                }
+            },
+            error: function (error) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+   
+}
 //Function for clearing the textboxes  
 function clearTextBox() {
     $('#ID').val("");

@@ -928,7 +928,35 @@ namespace VaccineDose.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/child/{keyword}/search")]
+        public Response<IEnumerable<ChildDTO>> SearchChildren(string keyword)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
 
+                    List<Child> dbChildrenResults = new List<Child>();
+                    List<ChildDTO> childDTOs = new List<ChildDTO>();
+
+                    dbChildrenResults = entities.Children.Where(c => c.Name.ToLower().Contains(keyword.ToLower()) ||
+                                        c.FatherName.ToLower().Contains(keyword.ToLower())).ToList();
+                    childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(dbChildrenResults));
+
+                    foreach (var item in childDTOs)
+                    {
+                        item.MobileNumber = dbChildrenResults.Where(x => x.ID == item.ID).FirstOrDefault().User.MobileNumber;
+                    }
+
+                    return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
     }
     public class PDFFooter : PdfPageEventHelper
     {
@@ -960,13 +988,13 @@ namespace VaccineDose.Controllers
         public override void OnEndPage(PdfWriter writer, Document document)
         {
             base.OnEndPage(writer, document);
-            string footer = @"This schedule is automatically generated for "+ child.Clinic.Name+ @" by Vaccs.io Visit http://www.vaccs.io/ for more details
+            string footer = @"This schedule is automatically generated for " + child.Clinic.Name + @" by Vaccs.io Visit http://www.vaccs.io/ for more details
              _____________________________________________________________________________________
              Disclaimer: This schedule provides recommended dates for immunizations for your child based on date of birth. Your pediatrician
              may update due dates or add/remove vaccines from this schedule.Vaccs.io or its management or staff holds no responsibility on any loss or damage due to any vaccine given to child at any given timeOfSending.";
-             footer = footer.Replace(Environment.NewLine, String.Empty).Replace("  ", String.Empty);
+            footer = footer.Replace(Environment.NewLine, String.Empty).Replace("  ", String.Empty);
             Chunk beginning = new Chunk(footer);
-            
+
             PdfPTable tabFot = new PdfPTable(1);
             PdfPCell cell;
             tabFot.SetTotalWidth(new float[] { 575f });
@@ -974,7 +1002,7 @@ namespace VaccineDose.Controllers
             cell = new PdfPCell(new Phrase(beginning));
             cell.Border = 0;
             tabFot.AddCell(cell);
-            tabFot.WriteSelectedRows(0, -1, 10, 100,writer.DirectContent);
+            tabFot.WriteSelectedRows(0, -1, 10, 100, writer.DirectContent);
         }
 
         //write on close of document
