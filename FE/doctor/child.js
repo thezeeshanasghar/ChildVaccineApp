@@ -120,7 +120,7 @@ function loadData() {
                     else
                         html += 'female.png" class="img-responsive pull-left" alt="female" style="max-width:90px;max-height:90px" />';
                     html += '   <h4>';
-                    html += '       <span class="pull-right" style="font-size:20px">';
+                    html += '       <span class="pull-right" style="font-size:16px">';
                     html += '           <a href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a>';
                     html += '           <a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
@@ -133,11 +133,10 @@ function loadData() {
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber;
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
-                    html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
-                    html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Generate Invoice</a>';
-                    html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
-                    html += '       <a style="margin: 2px 2px;" class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
-
+                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
+                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
+                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
+                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
 

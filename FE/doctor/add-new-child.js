@@ -85,9 +85,6 @@ function Add() {
     $("#btnAdd").button('loading');
     $("#btnAdd").prop('disabled', true);
 
-
-    var preferdayreminder = $('#PreferredDayOfReminder').val()
-
     var Vaccines = [];
     $('input[name="VaccineName"]:checked').each(function () {
         Vaccines.push({ ID: this.value });
@@ -100,11 +97,11 @@ function Add() {
         DOB: $('#DOB').val(),
         CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
         MobileNumber: $('#MobileNumber').val(),
-        PreferredDayOfWeek: $('#PreferredDayOfWeek').find(":selected").text(),
+        PreferredDayOfWeek: $('#PreferredDayOfWeek').find(":selected").val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").text(),
         PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
-        PreferredSchedule: preferdayreminder,
+        PreferredSchedule: $('#PreferredVacccineSchedule').find(":selected").val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
         Password: PasswordGenerator(),

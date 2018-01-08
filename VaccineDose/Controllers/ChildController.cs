@@ -357,7 +357,7 @@ namespace VaccineDose.Controllers
 
             int count = 0;
             //
-            using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
+            using (var document = new Document(PageSize.A4, 50, 50, 25, 105))
             {
                 var output = new MemoryStream();
 
@@ -415,7 +415,7 @@ namespace VaccineDose.Controllers
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
-                float[] widths = new float[] { 30f, 100f, 100f, 50f, 50f, 70f, 100f };
+                float[] widths = new float[] { 25f, 145f, 80f, 50f, 50f, 75f, 80f };
 
                 PdfPTable table = new PdfPTable(7);
                 table.HorizontalAlignment = 0;
@@ -713,7 +713,7 @@ namespace VaccineDose.Controllers
 
         private static void GetPDFHeading(Document document, String headingText)
         {
-            Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 30, Font.BOLD);
+            Font ColFont = FontFactory.GetFont(FontFactory.HELVETICA, 26, Font.BOLD);
             Chunk chunkCols = new Chunk(headingText, ColFont);
             Paragraph chunkParagraph = new Paragraph();
             chunkParagraph.Alignment = Element.ALIGN_CENTER;
