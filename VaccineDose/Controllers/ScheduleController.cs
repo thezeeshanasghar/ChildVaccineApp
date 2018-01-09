@@ -44,7 +44,8 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleDTO.BrandId).FirstOrDefault();
+                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleDTO.BrandId
+                    && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
                     var dbSchedule = entities.Schedules.Where(c => c.ID == scheduleDTO.ID).FirstOrDefault();
                     if (dbBrandInventory.Count > 0)
                     {
@@ -160,7 +161,7 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
-                     ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
+                    ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
 
                     foreach (var schedule in childSchedules)
                     {
@@ -172,24 +173,21 @@ namespace VaccineDose.Controllers
                             schedule.IsDone = scheduleDTO.IsDone;
                             if (scheduleDTO.ScheduleBrands.Count > 0)
                             {
-                                //foreach(var sb in scheduleDTO.ScheduleBrands)
-                                //{
-                                //    if(schedule.ID == sb.ScheduleId)
-                                //    {
-                                //        schedule.BrandId = sb.BrandId;
-                                //    }
-                                //}
-                                var scheduleBrand=scheduleDTO.ScheduleBrands.Find(x => x.ScheduleId == schedule.ID);
-                                if(scheduleBrand!=null)
+                                var scheduleBrand = scheduleDTO.ScheduleBrands.Find(x => x.ScheduleId == schedule.ID);
+                                if (scheduleBrand != null)
+                                {
                                     schedule.BrandId = scheduleBrand.BrandId;
+                                    var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
+                                    brandInventory.Count--;
+                                }
                             }
-                            entities.Schedules.Attach(schedule);
-                            entities.Entry(schedule).State = EntityState.Modified;
+                            //entities.Schedules.Attach(schedule);
+                            //entities.Entry(schedule).State = EntityState.Modified;
                             entities.SaveChanges();
 
                         }
                     }
-                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
+                    return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
                 }
             }
             catch (Exception e)
@@ -245,16 +243,17 @@ namespace VaccineDose.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/schedule/brandinventory-stock/{brandId}")]
-
-        public Response<BrandInventoryDTO> checkBrandInventoryStock(int brandId)
+        [HttpPost]
+        [Route("api/schedule/brandinventory-stock")]
+        public Response<BrandInventoryDTO> checkBrandInventoryStock(BrandInventoryDTO brandInventoryDTo)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandId).FirstOrDefault();
+                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandInventoryDTo.BrandID
+                    && b.DoctorID==brandInventoryDTo.DoctorID).FirstOrDefault();
+
                     BrandInventoryDTO brandInventoryDTO = Mapper.Map<BrandInventoryDTO>(dbBrandInventory);
                     if (brandInventoryDTO.Count > 0)
                         return new Response<BrandInventoryDTO>(true, null, brandInventoryDTO);
@@ -278,21 +277,21 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbSchedule = entities.Schedules.Where(x => x.Date == scheduleDto.Date && x.ChildId==scheduleDto.ChildId).ToList();
-                    
+                    var dbSchedule = entities.Schedules.Where(x => x.Date == scheduleDto.Date && x.ChildId == scheduleDto.ChildId).ToList();
+
                     List<ScheduleDTO> scheduleDTOs = new List<ScheduleDTO>();
                     foreach (var schedule in dbSchedule)
                     {
                         ScheduleDTO scheduleDTO = new ScheduleDTO();
                         var dbBrands = schedule.Dose.Vaccine.Brands.ToList();
                         List<BrandDTO> brandDTOs = Mapper.Map<List<BrandDTO>>(dbBrands);
-                        scheduleDTO.Dose=Mapper.Map<DoseDTO>(schedule.Dose);
+                        scheduleDTO.Dose = Mapper.Map<DoseDTO>(schedule.Dose);
                         scheduleDTO.ID = schedule.ID;
                         scheduleDTO.Brands = brandDTOs;
                         scheduleDTOs.Add(scheduleDTO);
-                     }
+                    }
 
-                 return new Response<List<ScheduleDTO>>(true, null, scheduleDTOs);
+                    return new Response<List<ScheduleDTO>>(true, null, scheduleDTOs);
                 }
             }
             catch (Exception e)
