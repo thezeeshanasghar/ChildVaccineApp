@@ -142,10 +142,15 @@ function getbyID(ID) {
 //on brand change
 function checkBrandInventory(brand) {
     brandId = brand.value;
+    var obj = {
+        BrandID: brandId,
+        DoctorID: DoctorId()
+    }
     var html = '';
     $.ajax({
-        url: SERVER + 'schedule/brandinventory-stock/' + brandId,
-        type: 'GET',
+        url: SERVER + 'schedule/brandinventory-stock',
+        type: 'POST',
+        data:JSON.stringify(obj),
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
         success: function (result) {
@@ -172,6 +177,7 @@ function Update() {
         Height: $("#Height").val(),
         Circle: $("#Circumference").val(),
         BrandId: $("#Brand").val(),
+        DoctorID: DoctorId(),
         IsDone: "true",
     }
     $.ajax({
@@ -347,7 +353,8 @@ function UpdateBulkInjection() {
         Height: $("#BulkHeight").val(),
         Circle: $("#BulkCircumference").val(),
         IsDone: "true",
-        ScheduleBrands: scheduleBrands
+        ScheduleBrands: scheduleBrands,
+        DoctorID:DoctorId()
     }
 
     $.ajax({

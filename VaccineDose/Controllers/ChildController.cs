@@ -386,12 +386,24 @@ namespace VaccineDose.Controllers
                 upperTable.LockedWidth = true;
                 upperTable.SetWidths(upperTableWidths);
 
-                //upperTable.AddCell(CreateCell("Clinic", "bold", 1, "left", "description"));
-                //upperTable.AddCell(CreateCell("Patient", "bold", 1, "right", "description"));
-
                 upperTable.AddCell(CreateCell(dbDoctor.DisplayName, "bold", 1, "left", "description"));
-                //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
                 upperTable.AddCell(CreateCell(dbChild.Name, "bold", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
+                if (dbChild.Gender == "Girl")
+                {
+                    upperTable.AddCell(CreateCell("D/O " + dbChild.FatherName, "", 1, "right", "description"));
+                }
+                else
+                {
+                    upperTable.AddCell(CreateCell("S/O " + dbChild.FatherName, "", 1, "right", "description"));
+                }
+
+                upperTable.AddCell(CreateCell(dbChild.Clinic.Address, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell("+" + dbChild.User.CountryCode + "-" + dbChild.User.MobileNumber, "", 1, "right", "description"));
+
+                upperTable.AddCell(CreateCell("Clinic Ph#: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
+                upperTable.AddCell(CreateCell(dbChild.DOB.ToString("MM/dd/yyyy"), "", 1, "right", "description"));
 
                 if (dbDoctor.ShowPhone)
                 {
@@ -402,24 +414,8 @@ namespace VaccineDose.Controllers
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
 
                 }
-                if (dbChild.Gender == "Girl")
-                {
-                    upperTable.AddCell(CreateCell("D/O " + dbChild.FatherName, "", 1, "right", "description"));
-                }
-                else
-                {
-                    upperTable.AddCell(CreateCell("S/O " + dbChild.FatherName, "", 1, "right", "description"));
-                }
-
-                upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
-                //upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
-                upperTable.AddCell(CreateCell("+" + dbChild.User.CountryCode + "-" + dbChild.User.MobileNumber, "", 1, "right", "description"));
-
-                upperTable.AddCell(CreateCell("Clinic Ph#: " + dbChild.Clinic.PhoneNumber, "", 1, "left", "description"));
-                upperTable.AddCell(CreateCell(dbChild.DOB.ToString("MM/dd/yyyy"), "", 1, "right", "description"));
-
                 upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
-                upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+
                 document.Add(upperTable);
                 //
                 document.Add(new Paragraph(""));
@@ -637,9 +633,9 @@ namespace VaccineDose.Controllers
                                 {
                                     table.AddCell(CreateCell(schedule.Brand.Name, "", 1, "center", "invoiceRecords"));
                                 }
-                                var brandAmounts = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId).FirstOrDefault();
-                                amount = amount + Convert.ToInt32(brandAmounts.Amount);
-                                table.AddCell(CreateCell(brandAmounts.Amount.ToString(), "", 1, "right", "invoiceRecords"));
+                                var brandAmount = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId && x.DoctorID== childDTO.DoctorID).FirstOrDefault();
+                                amount = amount + Convert.ToInt32(brandAmount.Amount);
+                                table.AddCell(CreateCell(brandAmount.Amount.ToString(), "", 1, "right", "invoiceRecords"));
                             }
 
                         }

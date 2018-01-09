@@ -62,69 +62,6 @@ function loadData(id) {
     });
 
 }
-function getbyID(ID) {
-    $("#ID").val(ID);
-    $.ajax({
-        url: SERVER + "schedule/" + ID,
-        typr: "GET",
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            }
-            else {
-                $("#Weight").val(result.ResponseData.Weight),
-                $("#Height").val(result.ResponseData.Height),
-                $("#Circumference").val(result.ResponseData.Circle),
-                $("#Brand").val(result.ResponseData.Brand)
-
-                $('#myModal').modal('show');
-                $('#btnUpdate').show();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-    return false;
-}
-function Update() {
-    var obj = {
-        ID: $("#ID").val(),
-        Weight: $("#Weight").val(),
-        Height: $("#Height").val(),
-        Circle: $("#Circumference").val(),
-        Brand: $("#Brand").val(),
-        IsDone: "true",
-    }
-    $.ajax({
-        url: SERVER + "schedule/child-schedule/",
-        data: JSON.stringify(obj),
-        type: "PUT",
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            }
-            else {
-                $("#Weight").val(""),
-                $("#Height").val(""),
-                $("#Circumference").val(""),
-                $("#Brand").val("")
-                $('#myModal').modal('hide');
-                ScrollToTop();
-                var id = parseInt(getParameterByName("id")) || 0;
-                loadData(id);
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-    return false;
-}
 
 function openCalender(scheduleId, date) {
     $(".scheduleDate_" + scheduleId).datepicker({
