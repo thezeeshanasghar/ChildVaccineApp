@@ -76,7 +76,8 @@ function Add() {
         OffDays: result.join(','),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
-        DoctorID: DoctorId()
+        DoctorID: DoctorId(),
+        Address: $('#Address').val()
     };
     $.ajax({
         url: SERVER + "clinic",
@@ -109,6 +110,7 @@ function getbyID(ID) {
             $("#ID").val(result.ResponseData.ID);
             $('#Name').val(result.ResponseData.Name);
             $('#ConsultationFee').val(result.ResponseData.ConsultationFee);
+            $('#Address').val(result.ResponseData.Address);
 
             var OffDays = result.ResponseData.OffDays.split(",");
             if ($.inArray("Monday", OffDays) != -1)
@@ -174,6 +176,7 @@ function Update() {
         Long: myMarker.getPosition().lng(),
         IsOnline: GetOnlineClinicIdFromLocalStorage() == $('#ID').val(),
         DoctorID: DoctorId(),
+        Address: $('#Address').val()
     };
     $.ajax({
         url: SERVER + "clinic/" + $('#ID').val(),
@@ -195,6 +198,8 @@ function Update() {
             $('#StartTime').val("");
             $('#EndTime').val("");
             $('#PhoneNumber').val("");
+            $('#Address').val("");
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

@@ -10,6 +10,7 @@
     [DoctorID]    INT           NOT NULL,
     [PhoneNumber] NVARCHAR (50) NULL,
     [IsOnline]    BIT           CONSTRAINT [DF_Clinic_IsOnline] DEFAULT ((0)) NOT NULL,
+    [Address] NVARCHAR(MAX) NOT NULL, 
     CONSTRAINT [PK_Clinic] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Clinic_Doctor] FOREIGN KEY ([DoctorID]) REFERENCES [dbo].[Doctor] ([ID])
 );

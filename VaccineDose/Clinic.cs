@@ -31,6 +31,7 @@ namespace VaccineDose
         public int DoctorID { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsOnline { get; set; }
+        public string Address { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Child> Children { get; set; }

@@ -67,7 +67,8 @@ function Add() {
             EndTime: $('#EndTime').val(),
             OffDays: result.join(','),
             Lat: myMarker.getPosition().lat(),
-            Long: myMarker.getPosition().lng()
+            Long: myMarker.getPosition().lng(),
+            Address: $('#Address').val()
         }
     };
     $.ajax({

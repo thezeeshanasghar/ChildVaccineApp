@@ -10,6 +10,8 @@ namespace VaccineDose
         public int ID { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+
         public int ConsultationFee { get; set; }
         public string OffDays { get; set; }
         public System.TimeSpan StartTime { get; set; }

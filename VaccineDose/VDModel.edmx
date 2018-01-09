@@ -56,7 +56,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ConsultationFee" Type="int" />
           <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
@@ -65,6 +64,8 @@
           <Property Name="DoctorID" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
+          <Property Name="ConsultationFee" Type="int" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -82,6 +83,7 @@
           <Property Name="ValidUpto" Type="date" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="InvoiceNumber" Type="int" />
+          <Property Name="ConsultationFee" Type="int" />
           <Property Name="ProfileImage" Type="nvarchar(max)" />
           <Property Name="SignatureImage" Type="nvarchar(max)" />
           <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -282,9 +284,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorSchedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
           <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -356,9 +356,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -771,6 +769,7 @@
           <Property Name="IsOnline" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Children" Relationship="VDModel.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -797,6 +796,7 @@
           <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
           <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
+          <Property Name="ConsultationFee" Type="Int32" />
         </EntityType>
         <Association Name="FK_BrandAmount_Doctor">
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
@@ -1064,6 +1064,7 @@
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="VDModel.Clinic">
               <MappingFragment StoreEntitySet="Clinic">
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
@@ -1081,6 +1082,7 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
                 <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />

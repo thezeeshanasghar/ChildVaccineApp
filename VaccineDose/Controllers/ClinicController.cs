@@ -85,6 +85,7 @@ namespace VaccineDose.Controllers
                     dbClinic.OffDays = clinicDTO.OffDays;
                     dbClinic.Lat = clinicDTO.Lat;
                     dbClinic.Long = clinicDTO.Long;
+                    dbClinic.Address = clinicDTO.Address;
 
 
                     entities.SaveChanges();
