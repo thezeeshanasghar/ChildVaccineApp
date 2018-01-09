@@ -27,19 +27,19 @@
                     <strong>loading title!</strong>
                     <p>loading message</p>
                 </div>
-                <div style="margin-bottom:51px;">
-                    <div style="float:left;" class="input-group add-on col-md-4 col-xs-8">
-                        <input class="form-control" placeholder="Search" name="SearchItem" id="SearchItem" type="text">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" onclick="return SearchChild()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Search" name="SearchItem" id="SearchItem" type="text">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" onclick="return loadData()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div style="float:left;">
-                        <button type="button" onclick="return loadData()" class="btn btn-primary">Reset</button>
+                            <!--<button type="button" onclick="return loadData()" class="btn btn-primary">Reset</button>-->
                     </div>
                 </div>
-                 <div id="childrecords">
+
+                 <div id="childrecords" style="margin-top:9px;">
                     <!--<div class="child well" style="border-color:#FF1493;border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px">
 
                         <img id="ImgMaleFemale" src="/img/male.png" class="img-responsive pull-left" alt="male" style="max-width:90px;max-height:90px;" />

@@ -283,7 +283,6 @@ namespace VaccineDose.Controllers
 
         [HttpPut]
         [Route("api/doctor/{id}/validUpto")]
-
         public Response<DoctorDTO> UpdateDate(int id, DoctorDTO doctorDTO)
         {
             try
@@ -404,6 +403,42 @@ namespace VaccineDose.Controllers
             catch (Exception e)
             {
                 return new Response<IEnumerable<DoctorDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+
+        [Route("api/doctor/{id}/childs/")]
+        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id,[FromUri] string searchKeyword="")
+
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var doctor = entities.Doctors.FirstOrDefault(c => c.UserID == id);
+                    if (doctor == null)
+                        return new Response<IEnumerable<ChildDTO>>(false, "Doctor not found", null);
+                    else
+                    {
+                        List<ChildDTO> childDTOs = new List<ChildDTO>();
+                        var doctorClinics = doctor.Clinics;
+                        foreach (var clinic in doctorClinics) { 
+                            if(!String.IsNullOrEmpty(searchKeyword))
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x=>x.Name.ToLower().Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower())).ToList<Child>()));
+                            else
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
+                        }
+                        foreach (var item in childDTOs) { 
+                            var dbChild = entities.Children.Where(x => x.ID == item.ID).FirstOrDefault();
+                            item.MobileNumber = dbChild.User.CountryCode + dbChild.User.MobileNumber;
+                        }
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderBy(x => x.Name).ToList());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
             }
         }
 

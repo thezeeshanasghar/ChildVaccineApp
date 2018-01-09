@@ -115,43 +115,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
-
-        [Route("api/clinic/{id}/childs")]
-        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaClinic(int id)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    var clinic = entities.Clinics.FirstOrDefault(c => c.ID == id);
-                    if (clinic == null)
-                        return new Response<IEnumerable<ChildDTO>>(false, "Clinic not found", null);
-                    else
-                    {
-                        var doctorClinics = entities.Clinics.Where(x => x.DoctorID == clinic.DoctorID).ToList();
-                        List<ChildDTO> childDTOs = new List<ChildDTO>();
-                        List<Child> dbChild = new List<Child>();
-                        foreach (var dc in doctorClinics)
-                        {
-                            var dbChildren = dc.Children.OrderByDescending(x => x.ID).ToList();
-                            dbChild.AddRange(dbChildren);
-                            childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(dbChildren));
-                        }
-
-                        foreach (var item in childDTOs)
-                        {
-                            item.MobileNumber = dbChild.Where(x => x.ID == item.ID).FirstOrDefault().User.MobileNumber;
-                        }
-                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
+        
 
         [HttpPut]
         [Route("api/clinic/editClinic")]

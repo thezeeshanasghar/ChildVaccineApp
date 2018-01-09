@@ -295,12 +295,6 @@ function GetCurrentDate() {
 function getUserAge(ageNum) {
     var day = 'At Birth'
     switch (ageNum) {
-        
-                                    //<option value="7">1 Week</option>
-                                    //<option value="14">2 Weeks</option>
-                                    //<option value="21">3 Weeks</option>
-                                    //<option value="28">4 Weeks</option>
-                                    //<option value="35">5 Weeks</option>
         case null:
             day = '';
             break;
