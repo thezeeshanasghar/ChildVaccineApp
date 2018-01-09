@@ -6,6 +6,7 @@ using System;
 using VaccineDose.App_Code;
 using System.IO;
 using System.Web;
+using System.Globalization;
 
 namespace VaccineDose.Controllers
 {
@@ -94,6 +95,10 @@ namespace VaccineDose.Controllers
         {
             try
             {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                doctorDTO.FirstName = textInfo.ToTitleCase(doctorDTO.FirstName);
+                doctorDTO.LastName = textInfo.ToTitleCase(doctorDTO.LastName);
+                doctorDTO.DisplayName = textInfo.ToTitleCase(doctorDTO.DisplayName);
                 using (VDConnectionString entities = new VDConnectionString())
                 {
 
@@ -130,6 +135,8 @@ namespace VaccineDose.Controllers
                     // 4- check if clinicDto exsist; then save clinic as well
                     if (doctorDTO.ClinicDTO != null && !String.IsNullOrEmpty(doctorDTO.ClinicDTO.Name))
                     {
+                        doctorDTO.ClinicDTO.Name = textInfo.ToTitleCase(doctorDTO.ClinicDTO.Name);
+
                         doctorDTO.ClinicDTO.DoctorID = doctorDB.ID;
 
                         Clinic clinicDB = Mapper.Map<Clinic>(doctorDTO.ClinicDTO);

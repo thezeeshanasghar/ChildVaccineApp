@@ -3,6 +3,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -64,8 +65,13 @@ namespace VaccineDose.Controllers
         {
             try
             {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                childDTO.Name = textInfo.ToTitleCase(childDTO.Name);
+                childDTO.FatherName = textInfo.ToTitleCase(childDTO.FatherName);
+
                 using (VDConnectionString entities = new VDConnectionString())
                 {
+                    
                     Child childDB = Mapper.Map<Child>(childDTO);
                     // check for existing parent 
                     User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber).FirstOrDefault();
@@ -160,6 +166,10 @@ namespace VaccineDose.Controllers
         {
             try
             {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                childDTO.Name = textInfo.ToTitleCase(childDTO.Name);
+                childDTO.FatherName = textInfo.ToTitleCase(childDTO.FatherName);
+
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();

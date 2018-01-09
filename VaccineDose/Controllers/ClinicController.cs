@@ -5,6 +5,7 @@ using AutoMapper;
 using System.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace VaccineDose.Controllers
 {
@@ -50,6 +51,8 @@ namespace VaccineDose.Controllers
         {
             try
             {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                clinicDTO.Name = textInfo.ToTitleCase(clinicDTO.Name);
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     Clinic clinicDb = Mapper.Map<Clinic>(clinicDTO);
@@ -68,6 +71,8 @@ namespace VaccineDose.Controllers
         {
             try
             {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                clinicDTO.Name = textInfo.ToTitleCase(clinicDTO.Name);
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
