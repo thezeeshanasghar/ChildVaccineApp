@@ -95,7 +95,6 @@
                             <input type="text" class="form-control" id="ID" style="display:none" />
                             <input type="text" class="form-control" id="date" style="display:none" />
 
-
                             <div class="form-group">
                                 <input type="number" class="form-control" id="Weight" placeholder="Weight" required />
                             </div>
@@ -107,6 +106,13 @@
                             </div>
                             <div class="form-group">
                                 <div id="ddBrand"></div>
+                            </div>
+                            <div class="form-group">
+                                <div id="GivenDate-container">
+                                    <div class="input-group date">
+                                        <input type="text" id="GivenDate" placeholder="Given Date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    </div>
+                                </div>
                             </div>
                             <!--<div class="form-group">
                                 <label for="Brand">Brand</label>
@@ -171,6 +177,20 @@
     <script src="/server.js"></script>
     <script src="/common.js"></script>
     <script src="schedule.js"></script>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#GivenDate-container .input-group.date').datepicker({
+                format: 'dd-mm-yyyy',
+                todayBtn: true,
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#GivenDate-container .input-group.date').datepicker('update', $("#GivenDate").val());
+            $("#GivenDate-container .input-group.date").datepicker().on('changeDate', function (e) {
+                $("#GivenDate").val(('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear());
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -54,12 +54,23 @@ namespace VaccineDose.Controllers
                         dbSchedule.Height = scheduleDTO.Height;
                         dbSchedule.Circle = scheduleDTO.Circle;
                         dbSchedule.IsDone = scheduleDTO.IsDone;
+                        dbSchedule.GivenDate = scheduleDTO.GivenDate;
                         dbSchedule.BrandId = scheduleDTO.BrandId;
-                        entities.SaveChanges();
+                      
+                        var daysDifference = Convert.ToInt32((scheduleDTO.GivenDate.Date - dbSchedule.Date.Date).TotalDays);
+                        var AllDoses = dbSchedule.Dose.Vaccine.Doses;
+                        AllDoses = AllDoses.Where(x => x.DoseOrder > dbSchedule.Dose.DoseOrder).ToList();
+                        foreach (var d in AllDoses)
+                        {
+                            var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
+                            TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
+                        }
                     }
+                    entities.SaveChanges();
+                    return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
 
-                    ScheduleDTO scheduleDTOs = Mapper.Map<ScheduleDTO>(dbSchedule);
-                    return new Response<ScheduleDTO>(true, null, scheduleDTOs);
+                    //ScheduleDTO scheduleDTOs = Mapper.Map<ScheduleDTO>(dbSchedule);
+                    //return new Response<ScheduleDTO>(true, null, scheduleDTOs);
                 }
             }
             catch (Exception e)

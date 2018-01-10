@@ -421,9 +421,9 @@ namespace VaccineDose.Controllers
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
-                float[] widths = new float[] { 25f, 145f, 80f, 50f, 50f, 75f, 80f };
+                float[] widths = new float[] { 25f, 145f, 70f, 70f, 45f, 45f, 75f, 50f };
 
-                PdfPTable table = new PdfPTable(7);
+                PdfPTable table = new PdfPTable(8);
                 table.HorizontalAlignment = 0;
                 table.TotalWidth = 500f;
                 table.LockedWidth = true;
@@ -432,6 +432,7 @@ namespace VaccineDose.Controllers
                 table.AddCell(CreateCell("S#", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Vaccine", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Due Date", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Given Date", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Weight", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Height", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Circumference", "backgroudLightGray", 1, "center", "scheduleRecords"));
@@ -456,6 +457,7 @@ namespace VaccineDose.Controllers
                         var dbSchedule = dose.Schedules.Where(x => x.DoseId == dose.ID).FirstOrDefault();
 
                         table.AddCell(CreateCell(schedule.Date.Date.ToString("dd-MM-yyyy"), "", 1, "", "scheduleRecords"));
+                        table.AddCell(CreateCell(String.Format("{0:dd-MM-yyyy}", dbSchedule.GivenDate), "", 1, "", "scheduleRecords"));
                         table.AddCell(CreateCell(dbSchedule.Weight.ToString(), "", 1, "", "scheduleRecords"));
                         table.AddCell(CreateCell(dbSchedule.Height.ToString(), "", 1, "", "scheduleRecords"));
                         table.AddCell(CreateCell(dbSchedule.Circle.ToString(), "", 1, "", "scheduleRecords"));

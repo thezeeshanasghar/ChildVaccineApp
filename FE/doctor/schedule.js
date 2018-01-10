@@ -102,6 +102,13 @@ function getbyID(ID) {
                 $("#Weight").val(result.ResponseData.Weight);
                 $("#Height").val(result.ResponseData.Height);
                 $("#Circumference").val(result.ResponseData.Circle);
+                if (result.ResponseData.GivenDate && result.ResponseData.GivenDate!="01-01-0001") {
+                    $("#GivenDate").val(result.ResponseData.GivenDate);
+                } else {
+                    var fullDate = new Date();
+                    $("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+
+                }
 
                 if (result.ResponseData.IsDone) {
                     $("#Weight").prop('readonly', true);
@@ -179,6 +186,7 @@ function Update() {
         BrandId: $("#Brand").val(),
         DoctorID: DoctorId(),
         IsDone: "true",
+        GivenDate:$("#GivenDate").val()
     }
     $.ajax({
         url: SERVER + "schedule/child-schedule/",
