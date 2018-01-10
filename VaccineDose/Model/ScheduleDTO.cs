@@ -27,5 +27,9 @@ namespace VaccineDose
         public List<ScheduleBrandDTO> ScheduleBrands { get; set; }
         public int DoctorID { get; set; }
 
+
+        [JsonConverter(typeof(OnlyDateConverter))]
+        public System.DateTime GivenDate { get; set; }
+
     }
 }

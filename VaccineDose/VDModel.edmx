@@ -56,6 +56,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConsultationFee" Type="int" />
           <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
@@ -64,8 +65,7 @@
           <Property Name="DoctorID" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
-          <Property Name="ConsultationFee" Type="int" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -83,7 +83,6 @@
           <Property Name="ValidUpto" Type="date" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="InvoiceNumber" Type="int" />
-          <Property Name="ConsultationFee" Type="int" />
           <Property Name="ProfileImage" Type="nvarchar(max)" />
           <Property Name="SignatureImage" Type="nvarchar(max)" />
           <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -143,6 +142,7 @@
           <Property Name="BrandId" Type="int" />
           <Property Name="IsDone" Type="bit" Nullable="false" />
           <Property Name="Due2EPI" Type="bit" Nullable="false" />
+          <Property Name="GivenDate" Type="date" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -284,7 +284,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorSchedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -356,7 +358,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -462,7 +466,6 @@
           <EntitySet Name="DoctorSchedules" EntityType="VDModel.DoctorSchedule" />
           <EntitySet Name="FollowUps" EntityType="VDModel.FollowUp" />
           <EntitySet Name="Messages" EntityType="VDModel.Message" />
-          <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
           <EntitySet Name="Users" EntityType="VDModel.User" />
           <EntitySet Name="Vaccines" EntityType="VDModel.Vaccine" />
           <AssociationSet Name="FK_Brand_Vaccine" Association="VDModel.FK_Brand_Vaccine">
@@ -477,10 +480,6 @@
             <End Role="Brand" EntitySet="Brands" />
             <End Role="BrandInventory" EntitySet="BrandInventories" />
           </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Brand" Association="VDModel.FK_Schedule_Brand">
-            <End Role="Brand" EntitySet="Brands" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
           <AssociationSet Name="FK_Child_User" Association="VDModel.FK_Child_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Child" EntitySet="Children" />
@@ -489,11 +488,20 @@
             <End Role="Child" EntitySet="Children" />
             <End Role="FollowUp" EntitySet="FollowUps" />
           </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
-            <End Role="Child" EntitySet="Children" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
           <EntitySet Name="Clinics" EntityType="VDModel.Clinic" />
+          <AssociationSet Name="FK_Child_Clinic" Association="VDModel.FK_Child_Clinic">
+            <End Role="Clinic" EntitySet="Clinics" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <EntitySet Name="Doses" EntityType="VDModel.Dose" />
+          <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
+            <End Role="Dose" EntitySet="Doses" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dose_Vaccine" Association="VDModel.FK_Dose_Vaccine">
+            <End Role="Vaccine" EntitySet="Vaccines" />
+            <End Role="Dose" EntitySet="Doses" />
+          </AssociationSet>
           <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
           <AssociationSet Name="FK_BrandAmount_Doctor" Association="VDModel.FK_BrandAmount_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
@@ -502,10 +510,6 @@
           <AssociationSet Name="FK_BrandInventory_Doctor" Association="VDModel.FK_BrandInventory_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="BrandInventory" EntitySet="BrandInventories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Child_Clinic" Association="VDModel.FK_Child_Clinic">
-            <End Role="Clinic" EntitySet="Clinics" />
-            <End Role="Child" EntitySet="Children" />
           </AssociationSet>
           <AssociationSet Name="FK_Clinic_Doctor" Association="VDModel.FK_Clinic_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
@@ -523,14 +527,14 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="FollowUp" EntitySet="FollowUps" />
           </AssociationSet>
-          <EntitySet Name="Doses" EntityType="VDModel.Dose" />
-          <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
-            <End Role="Dose" EntitySet="Doses" />
-            <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
+          <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
+          <AssociationSet Name="FK_Schedule_Brand" Association="VDModel.FK_Schedule_Brand">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
-          <AssociationSet Name="FK_Dose_Vaccine" Association="VDModel.FK_Dose_Vaccine">
-            <End Role="Vaccine" EntitySet="Vaccines" />
-            <End Role="Dose" EntitySet="Doses" />
+          <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
+            <End Role="Child" EntitySet="Children" />
+            <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_Dose" Association="VDModel.FK_Schedule_Dose">
             <End Role="Dose" EntitySet="Doses" />
@@ -591,8 +595,8 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="VDModel.FK_Child_User" FromRole="Child" ToRole="User" />
           <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Child" FromRole="Child" ToRole="FollowUp" />
-          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
           <NavigationProperty Name="Clinic" Relationship="VDModel.FK_Child_Clinic" FromRole="Child" ToRole="Clinic" />
+          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -602,8 +606,8 @@
           <Property Name="DoseID" Type="Int32" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <Property Name="GapInDays" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="DoctorSchedule" ToRole="Doctor" />
           <NavigationProperty Name="Dose" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="DoctorSchedule" ToRole="Dose" />
+          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="DoctorSchedule" ToRole="Doctor" />
         </EntityType>
         <EntityType Name="FollowUp">
           <Key>
@@ -626,24 +630,6 @@
           <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SMS" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Schedule">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ChildId" Type="Int32" Nullable="false" />
-          <Property Name="DoseId" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Weight" Type="Double" />
-          <Property Name="Height" Type="Double" />
-          <Property Name="Circle" Type="Double" />
-          <Property Name="BrandId" Type="Int32" />
-          <Property Name="IsDone" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Brand" Relationship="VDModel.FK_Schedule_Brand" FromRole="Schedule" ToRole="Brand" />
-          <NavigationProperty Name="Child" Relationship="VDModel.FK_Schedule_Child" FromRole="Schedule" ToRole="Child" />
-          <Property Name="Due2EPI" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Dose" Relationship="VDModel.FK_Schedule_Dose" FromRole="Schedule" ToRole="Dose" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -704,18 +690,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Schedule_Brand">
-          <End Type="VDModel.Brand" Role="Brand" Multiplicity="0..1" />
-          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Brand">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="BrandId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Child_User">
           <End Type="VDModel.User" Role="User" Multiplicity="1" />
           <End Type="VDModel.Child" Role="Child" Multiplicity="*" />
@@ -740,18 +714,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Schedule_Child">
-          <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
-          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Child">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="ChildId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Clinic">
           <Key>
             <PropertyRef Name="ID" />
@@ -768,9 +730,62 @@
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsOnline" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Children" Relationship="VDModel.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Child_Clinic">
+          <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="1" />
+          <End Type="VDModel.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clinic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="ClinicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Dose">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VaccineID" Type="Int32" Nullable="false" />
+          <Property Name="MinAge" Type="Int32" />
+          <Property Name="MaxAge" Type="Int32" />
+          <Property Name="MinGap" Type="Int32" />
+          <Property Name="DoseOrder" Type="Int32" />
+          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="Dose" ToRole="DoctorSchedule" />
+          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Dose" ToRole="Vaccine" />
+          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Dose" FromRole="Dose" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK_DoctorSchedule_Dose">
+          <End Type="VDModel.Dose" Role="Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="VDModel.DoctorSchedule" Role="DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dose">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="DoseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dose_Vaccine">
+          <End Type="VDModel.Vaccine" Role="Vaccine" Multiplicity="1" />
+          <End Type="VDModel.Dose" Role="Dose" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Dose">
+              <PropertyRef Name="VaccineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Doctor">
           <Key>
             <PropertyRef Name="ID" />
@@ -796,7 +811,6 @@
           <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
           <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
-          <Property Name="ConsultationFee" Type="Int32" />
         </EntityType>
         <Association Name="FK_BrandAmount_Doctor">
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
@@ -819,18 +833,6 @@
             </Principal>
             <Dependent Role="BrandInventory">
               <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Child_Clinic">
-          <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="1" />
-          <End Type="VDModel.Child" Role="Child" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clinic">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Child">
-              <PropertyRef Name="ClinicID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -882,44 +884,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Dose">
+        <EntityType Name="Schedule">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VaccineID" Type="Int32" Nullable="false" />
-          <Property Name="MinAge" Type="Int32" />
-          <Property Name="MaxAge" Type="Int32" />
-          <Property Name="MinGap" Type="Int32" />
-          <Property Name="DoseOrder" Type="Int32" />
-          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="Dose" ToRole="DoctorSchedule" />
-          <NavigationProperty Name="Vaccine" Relationship="VDModel.FK_Dose_Vaccine" FromRole="Dose" ToRole="Vaccine" />
-          <NavigationProperty Name="Schedules" Relationship="VDModel.FK_Schedule_Dose" FromRole="Dose" ToRole="Schedule" />
+          <Property Name="ChildId" Type="Int32" Nullable="false" />
+          <Property Name="DoseId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Weight" Type="Double" />
+          <Property Name="Height" Type="Double" />
+          <Property Name="Circle" Type="Double" />
+          <Property Name="BrandId" Type="Int32" />
+          <Property Name="IsDone" Type="Boolean" Nullable="false" />
+          <Property Name="Due2EPI" Type="Boolean" Nullable="false" />
+          <Property Name="GivenDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Brand" Relationship="VDModel.FK_Schedule_Brand" FromRole="Schedule" ToRole="Brand" />
+          <NavigationProperty Name="Child" Relationship="VDModel.FK_Schedule_Child" FromRole="Schedule" ToRole="Child" />
+          <NavigationProperty Name="Dose" Relationship="VDModel.FK_Schedule_Dose" FromRole="Schedule" ToRole="Dose" />
         </EntityType>
-        <Association Name="FK_DoctorSchedule_Dose">
-          <End Type="VDModel.Dose" Role="Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="VDModel.DoctorSchedule" Role="DoctorSchedule" Multiplicity="*" />
+        <Association Name="FK_Schedule_Brand">
+          <End Type="VDModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Dose">
+            <Principal Role="Brand">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="DoctorSchedule">
-              <PropertyRef Name="DoseID" />
+            <Dependent Role="Schedule">
+              <PropertyRef Name="BrandId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Dose_Vaccine">
-          <End Type="VDModel.Vaccine" Role="Vaccine" Multiplicity="1" />
-          <End Type="VDModel.Dose" Role="Dose" Multiplicity="*" />
+        <Association Name="FK_Schedule_Child">
+          <End Type="VDModel.Child" Role="Child" Multiplicity="1" />
+          <End Type="VDModel.Schedule" Role="Schedule" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Vaccine">
+            <Principal Role="Child">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Dose">
-              <PropertyRef Name="VaccineID" />
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ChildId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1024,22 +1028,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Schedules">
-            <EntityTypeMapping TypeName="VDModel.Schedule">
-              <MappingFragment StoreEntitySet="Schedule">
-                <ScalarProperty Name="Due2EPI" ColumnName="Due2EPI" />
-                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
-                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
-                <ScalarProperty Name="Circle" ColumnName="Circle" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="DoseId" ColumnName="DoseId" />
-                <ScalarProperty Name="ChildId" ColumnName="ChildId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="VDModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -1079,10 +1067,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Doses">
+            <EntityTypeMapping TypeName="VDModel.Dose">
+              <MappingFragment StoreEntitySet="Dose">
+                <ScalarProperty Name="DoseOrder" ColumnName="DoseOrder" />
+                <ScalarProperty Name="MinGap" ColumnName="MinGap" />
+                <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
+                <ScalarProperty Name="MinAge" ColumnName="MinAge" />
+                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
-                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
                 <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
@@ -1101,15 +1101,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Doses">
-            <EntityTypeMapping TypeName="VDModel.Dose">
-              <MappingFragment StoreEntitySet="Dose">
-                <ScalarProperty Name="DoseOrder" ColumnName="DoseOrder" />
-                <ScalarProperty Name="MinGap" ColumnName="MinGap" />
-                <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
-                <ScalarProperty Name="MinAge" ColumnName="MinAge" />
-                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="VDModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="GivenDate" ColumnName="GivenDate" />
+                <ScalarProperty Name="Due2EPI" ColumnName="Due2EPI" />
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="Circle" ColumnName="Circle" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DoseId" ColumnName="DoseId" />
+                <ScalarProperty Name="ChildId" ColumnName="ChildId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

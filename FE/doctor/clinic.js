@@ -231,11 +231,13 @@ function Delele(ID) {
 function clearTextBox() {
     $('#ID').val("");
     $('#Name').val("");
+    $('#ConsultationFee').val("");
     $("input:checkbox").prop("checked", false);
     $('#StartTime').val("");
     $('#EndTime').val("");
     $('#PhoneNumber').val("");
     $('#btnUpdate').hide();
+    $('#Address').val("");
     $('#btnAdd').show();
 
 

@@ -261,6 +261,7 @@ function openBulkCalender(scheduleId, date) {
 
     var obj = {};
     obj.ID = scheduleId;
+    
 
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {

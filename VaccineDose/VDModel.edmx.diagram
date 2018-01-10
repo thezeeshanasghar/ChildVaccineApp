@@ -12,28 +12,28 @@
         <EntityTypeShape EntityType="VDModel.DoctorSchedule" Width="1.5" PointX="5.25" PointY="14.625" />
         <EntityTypeShape EntityType="VDModel.FollowUp" Width="1.5" PointX="9.75" PointY="15.25" />
         <EntityTypeShape EntityType="VDModel.Message" Width="1.5" PointX="0.5" PointY="0.75" />
-        <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="12.75" PointY="14.25" />
         <EntityTypeShape EntityType="VDModel.User" Width="1.5" PointX="0.75" PointY="10.375" />
         <EntityTypeShape EntityType="VDModel.Vaccine" Width="1.5" PointX="8.25" PointY="10.125" />
         <AssociationConnector Association="VDModel.FK_Brand_Vaccine" />
         <AssociationConnector Association="VDModel.FK_BrandAmount_Brand" />
         <AssociationConnector Association="VDModel.FK_BrandInventory_Brand" />
-        <AssociationConnector Association="VDModel.FK_Schedule_Brand" />
         <AssociationConnector Association="VDModel.FK_Child_User" />
         <AssociationConnector Association="VDModel.FK_FollowUp_Child" />
-        <AssociationConnector Association="VDModel.FK_Schedule_Child" />
         <EntityTypeShape EntityType="VDModel.Clinic" Width="1.5" PointX="5.25" PointY="5.75" />
-        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="5" />
+        <AssociationConnector Association="VDModel.FK_Child_Clinic" />
+        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="10.5" PointY="5.75" />
+        <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
+        <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
+        <EntityTypeShape EntityType="VDModel.Doctor" Width="1.5" PointX="3" PointY="9" />
         <AssociationConnector Association="VDModel.FK_BrandAmount_Doctor" />
         <AssociationConnector Association="VDModel.FK_BrandInventory_Doctor" />
-        <AssociationConnector Association="VDModel.FK_Child_Clinic" />
         <AssociationConnector Association="VDModel.FK_Clinic_Doctor" />
         <AssociationConnector Association="VDModel.FK_Doctor_User" />
         <AssociationConnector Association="VDModel.FK_DoctorSchedule_Doctor" />
         <AssociationConnector Association="VDModel.FK_FollowUp_Doctor" />
-        <EntityTypeShape EntityType="VDModel.Dose" Width="1.5" PointX="10.5" PointY="5.75" />
-        <AssociationConnector Association="VDModel.FK_DoctorSchedule_Dose" />
-        <AssociationConnector Association="VDModel.FK_Dose_Vaccine" />
+        <EntityTypeShape EntityType="VDModel.Schedule" Width="1.5" PointX="12.75" PointY="10.125" />
+        <AssociationConnector Association="VDModel.FK_Schedule_Brand" />
+        <AssociationConnector Association="VDModel.FK_Schedule_Child" />
         <AssociationConnector Association="VDModel.FK_Schedule_Dose" />
       </Diagram>
     </edmx:Diagrams>
