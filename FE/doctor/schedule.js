@@ -363,7 +363,9 @@ function UpdateBulkInjection() {
         Circle: $("#BulkCircumference").val(),
         IsDone: "true",
         ScheduleBrands: scheduleBrands,
-        DoctorID:DoctorId()
+        DoctorID: DoctorId(),
+        GivenDate: $("#BulkGivenDate").val()
+
     }
 
     $.ajax({

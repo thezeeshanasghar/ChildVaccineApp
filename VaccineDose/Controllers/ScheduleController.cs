@@ -50,27 +50,17 @@ namespace VaccineDose.Controllers
                     if (dbBrandInventory.Count > 0)
                     {
                         dbBrandInventory.Count--;
+                        dbSchedule.BrandId = scheduleDTO.BrandId;
                         dbSchedule.Weight = scheduleDTO.Weight;
                         dbSchedule.Height = scheduleDTO.Height;
                         dbSchedule.Circle = scheduleDTO.Circle;
                         dbSchedule.IsDone = scheduleDTO.IsDone;
                         dbSchedule.GivenDate = scheduleDTO.GivenDate;
-                        dbSchedule.BrandId = scheduleDTO.BrandId;
-                      
-                        var daysDifference = Convert.ToInt32((scheduleDTO.GivenDate.Date - dbSchedule.Date.Date).TotalDays);
-                        var AllDoses = dbSchedule.Dose.Vaccine.Doses;
-                        AllDoses = AllDoses.Where(x => x.DoseOrder > dbSchedule.Dose.DoseOrder).ToList();
-                        foreach (var d in AllDoses)
-                        {
-                            var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
-                            TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
-                        }
-                    }
-                    entities.SaveChanges();
-                    return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
 
-                    //ScheduleDTO scheduleDTOs = Mapper.Map<ScheduleDTO>(dbSchedule);
-                    //return new Response<ScheduleDTO>(true, null, scheduleDTOs);
+                        ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, dbSchedule);
+                 
+                    }
+                    return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
                 }
             }
             catch (Exception e)
@@ -124,7 +114,6 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var OriginalDate = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault().Date;
-                    
 
                     var dbSchedules = entities.Schedules.Where(x => x.Date == OriginalDate).ToList(); 
                     foreach(var dbSchedule in dbSchedules)
@@ -184,6 +173,20 @@ namespace VaccineDose.Controllers
             }
             entities.SaveChanges();
         }
+        private static void ChangeDueDatesOfInjectedSchedule(ScheduleDTO scheduleDTO, VDConnectionString entities, Schedule dbSchedule)
+        {
+            var daysDifference = Convert.ToInt32((scheduleDTO.GivenDate.Date - dbSchedule.Date.Date).TotalDays);
+
+            var AllDoses = dbSchedule.Dose.Vaccine.Doses;
+            AllDoses = AllDoses.Where(x => x.DoseOrder > dbSchedule.Dose.DoseOrder).ToList();
+            foreach (var d in AllDoses)
+            {
+                var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
+                TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
+            }
+            entities.SaveChanges();
+        }
+
 
         [HttpPut]
         [Route("api/schedule/update-bulk-injection")]
@@ -194,33 +197,58 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
-                    ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
+                    var dbChildSchedules = dbSchedule.Child.Schedules.Where(x => x.Date == dbSchedule.Date).ToList();
 
-                    foreach (var schedule in childSchedules)
+                    foreach (var schedule in dbChildSchedules)
                     {
-                        if (schedule.Date.Date == dbSchedule.Date.Date)
-                        {
-                            schedule.Weight = scheduleDTO.Weight;
-                            schedule.Height = scheduleDTO.Height;
-                            schedule.Circle = scheduleDTO.Circle;
-                            schedule.IsDone = scheduleDTO.IsDone;
-                            if (scheduleDTO.ScheduleBrands.Count > 0)
-                            {
-                                var scheduleBrand = scheduleDTO.ScheduleBrands.Find(x => x.ScheduleId == schedule.ID);
-                                if (scheduleBrand != null)
-                                {
-                                    schedule.BrandId = scheduleBrand.BrandId;
-                                    var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
-                                    brandInventory.Count--;
-                                }
-                            }
-                            //entities.Schedules.Attach(schedule);
-                            //entities.Entry(schedule).State = EntityState.Modified;
-                            entities.SaveChanges();
+                        schedule.Weight = scheduleDTO.Weight;
+                        schedule.Height = scheduleDTO.Height;
+                        schedule.Circle = scheduleDTO.Circle;
+                        schedule.IsDone = scheduleDTO.IsDone;
+                        schedule.GivenDate = scheduleDTO.GivenDate;
 
+                        if (scheduleDTO.ScheduleBrands.Count > 0)
+                        {
+                            var scheduleBrand = scheduleDTO.ScheduleBrands.Find(x => x.ScheduleId == schedule.ID);
+                            if (scheduleBrand != null)
+                            {
+                                schedule.BrandId = scheduleBrand.BrandId;
+                                var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
+                                brandInventory.Count--;
+                            }
+                            ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, schedule);
                         }
+
                     }
                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
+                    //var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
+                    //ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
+
+                    //foreach (var schedule in childSchedules)
+                    //{
+                    //    if (schedule.Date.Date == dbSchedule.Date.Date)
+                    //    {
+                    //        schedule.Weight = scheduleDTO.Weight;
+                    //        schedule.Height = scheduleDTO.Height;
+                    //        schedule.Circle = scheduleDTO.Circle;
+                    //        schedule.IsDone = scheduleDTO.IsDone;
+                    //        if (scheduleDTO.ScheduleBrands.Count > 0)
+                    //        {
+                    //            var scheduleBrand = scheduleDTO.ScheduleBrands.Find(x => x.ScheduleId == schedule.ID);
+                    //            if (scheduleBrand != null)
+                    //            {
+                    //                schedule.BrandId = scheduleBrand.BrandId;
+                    //                var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
+                    //                brandInventory.Count--;
+                    //            }
+                    //        }
+                    //        //entities.Schedules.Attach(schedule);
+                    //        //entities.Entry(schedule).State = EntityState.Modified;
+                    //        entities.SaveChanges();
+
+                    //    }
+                    //}
+                    //return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
                 }
             }
             catch (Exception e)
