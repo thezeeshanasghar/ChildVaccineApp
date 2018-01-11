@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var id = parseInt(getParameterByName("id")) || 0;
     loadData(id);
-
+    $('#print').attr('href', SERVER + 'child/' + id + '/Download-Schedule-PDF');
 });
 
 //Load Data function  
