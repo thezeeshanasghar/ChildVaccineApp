@@ -415,9 +415,8 @@ namespace VaccineDose.Controllers
 
                 }
                 upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
-
                 document.Add(upperTable);
-                //
+
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
@@ -477,10 +476,10 @@ namespace VaccineDose.Controllers
                         Image img = Image.GetInstance(imgPath + injectionPath);
                         img.ScaleAbsolute(2f, 2f);
                         PdfPCell imageCell = new PdfPCell(img, true);
-                        imageCell.PaddingBottom = 5;
+                        imageCell.PaddingBottom = 2;
                         imageCell.Colspan = 1; // either 1 if you need to insert one cell
                         //imageCell.Border = 0;
-                        imageCell.FixedHeight = 20f;
+                        imageCell.FixedHeight = 15f;
                         imageCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         table.AddCell(imageCell);
                     }
@@ -739,7 +738,10 @@ namespace VaccineDose.Controllers
             {
                 font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
             }
-
+            if (table != "description")
+            {
+                font.Size = 7;
+            }
             PdfPCell cell = new PdfPCell(new Phrase(value, font));
             if (color == "backgroudLightGray")
             {
@@ -997,11 +999,13 @@ namespace VaccineDose.Controllers
         {
             base.OnEndPage(writer, document);
             string footer = @"This schedule is automatically generated for " + child.Clinic.Name + @" by Vaccs.io Visit http://www.vaccs.io/ for more details
-             _____________________________________________________________________________________
+             ____________________________________________________________________________________________________________________________________________
              Disclaimer: This schedule provides recommended dates for immunizations for your child based on date of birth. Your pediatrician
              may update due dates or add/remove vaccines from this schedule.Vaccs.io or its management or staff holds no responsibility on any loss or damage due to any vaccine given to child at any given timeOfSending.";
             footer = footer.Replace(Environment.NewLine, String.Empty).Replace("  ", String.Empty);
-            Chunk beginning = new Chunk(footer);
+            Font georgia = FontFactory.GetFont("georgia", 7f);
+
+            Chunk beginning = new Chunk(footer, georgia);
 
             PdfPTable tabFot = new PdfPTable(1);
             PdfPCell cell;
@@ -1010,7 +1014,7 @@ namespace VaccineDose.Controllers
             cell = new PdfPCell(new Phrase(beginning));
             cell.Border = 0;
             tabFot.AddCell(cell);
-            tabFot.WriteSelectedRows(0, -1, 10, 100, writer.DirectContent);
+            tabFot.WriteSelectedRows(0, -1, 10, 50, writer.DirectContent);
         }
 
         //write on close of document
