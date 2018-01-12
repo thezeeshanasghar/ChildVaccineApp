@@ -21,6 +21,9 @@ function loadData(id) {
 
             }
             else {
+                if(result.ResponseData[0])
+                    $("#childName").text(result.ResponseData[0].Child.Name);
+
                 var html = '';
                 var dateVsArrayOfScheuleMap = {};
 

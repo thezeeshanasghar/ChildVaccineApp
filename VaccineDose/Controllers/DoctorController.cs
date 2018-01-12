@@ -439,7 +439,7 @@ namespace VaccineDose.Controllers
                             var dbChild = entities.Children.Where(x => x.ID == item.ID).FirstOrDefault();
                             item.MobileNumber = dbChild.User.CountryCode + dbChild.User.MobileNumber;
                         }
-                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderBy(x => x.Name).ToList());
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderByDescending(x => x.ID).ToList());
                     }
                 }
             }
