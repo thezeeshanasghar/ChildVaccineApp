@@ -21,7 +21,7 @@ function loadData(id) {
 
             }
             else {
-                if(result.ResponseData[0])
+                if (result.ResponseData[0])
                     $("#childName").text(result.ResponseData[0].Child.Name);
 
                 var html = '';
@@ -43,22 +43,30 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    html += '<div class="col-xs-8 col-md-7">'
-                    html += '<h3 style="text-align:right">' + date + ' <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span></h3>';
-                    html += '</div>'
-                    html += '<div class="col-md-5">'
-                    html += '<span><a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')">';
-                    html += ' <img src="../img/injectionEmpty.png" style="height: 30px;margin-top: 15px;">'
-                    html += '</a></span>';
+                    //html += '<div class="col-xs-8 col-md-7">'
+                    //html += '    <h3 style="text-align:right">'+ date;
+                    //html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span>';
+                    //html += '    </h3>';
+                    //html += '</div>'
+                    //html += '<div class="col-md-5">'
+                    //html += '<span><a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')">';
+                    //html += ' <img src="../img/injectionEmpty.png" style="height: 30px;margin-top: 15px;">'
+                    //html += '</a></span>';
+                    //html += '</div>';
+
+                    html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
+                    html += '     ' + date;
+                    html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
+                    html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
                     html += '</div>';
 
-                    html += '<div class="well col-md-12" style="background-color:rgb(240, 240, 240); padding-top:9px;padding-bottom:9px">';
+                    html += '<div class="well-sm col-md-12" style="background-color:rgb(240, 240, 240);">';
 
                     var doseArray = dateVsArrayOfScheuleMap[date];
                     for (var index in doseArray) {
 
-                        html += '   <h4>';
-                        html += '       <span class="pull-right" style="font-size:20px">';
+                        html += '   <h5 style="margin-top:5px; margin-bottom:5px">';
+                        html += '       <span class="pull-right" style="">';
 
                         if (!doseArray[index].isDone)
                             html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
@@ -67,13 +75,13 @@ function loadData(id) {
                         html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
 
                         if (doseArray[index].isDone)
-                            html += '       <img src="../img/injectionFilled.png" style="height: 30px;" /></a>'
+                            html += '       <img src="../img/injectionFilled.png" style="height: 18px;" /></a>'
                         else
-                            html += '       <img src="../img/injectionEmpty.png" style="height: 30px;" /></a>'
+                            html += '       <img src="../img/injectionEmpty.png" style="height: 18px;" /></a>'
 
                         html += '       </span> ';
                         html += doseArray[index].doseName;
-                        html += '   </h4>'
+                        html += '   </h5>'
                     }
                     html += '   </div>'
                 }
@@ -105,12 +113,16 @@ function getbyID(ID) {
                 $("#Weight").val(result.ResponseData.Weight);
                 $("#Height").val(result.ResponseData.Height);
                 $("#Circumference").val(result.ResponseData.Circle);
-                if (result.ResponseData.GivenDate && result.ResponseData.GivenDate!="01-01-0001") {
-                    $("#GivenDate").val(result.ResponseData.GivenDate);
+                if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") {
+                    $("#GivenDate").val(result.ResponseData.Due);
+
+
+                    $("#BulkGivenDate").val(result.ResponseData.Due);
                 } else {
                     var fullDate = new Date();
-                    $("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
-
+                    //$("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                    $("#GivenDate").val(result.ResponseData.Date);
+                    $("#BulkGivenDate").val(result.ResponseData.Date);
                 }
 
                 if (result.ResponseData.IsDone) {
@@ -160,7 +172,7 @@ function checkBrandInventory(brand) {
     $.ajax({
         url: SERVER + 'schedule/brandinventory-stock',
         type: 'POST',
-        data:JSON.stringify(obj),
+        data: JSON.stringify(obj),
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
         success: function (result) {
@@ -189,7 +201,7 @@ function Update() {
         BrandId: $("#Brand").val(),
         DoctorID: DoctorId(),
         IsDone: "true",
-        GivenDate:$("#GivenDate").val()
+        GivenDate: $("#GivenDate").val()
     }
     $.ajax({
         url: SERVER + "schedule/child-schedule/",
@@ -272,7 +284,7 @@ function openBulkCalender(scheduleId, date) {
 
     var obj = {};
     obj.ID = scheduleId;
-    
+
 
     $(".scheduleDate_" + date).datepicker()
      .on('changeDate', function (e) {
