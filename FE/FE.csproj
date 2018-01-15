@@ -72,6 +72,7 @@
     <Content Include="child\vaccine-information.html" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\intlTelInput.css" />
+    <Content Include="doctor\alert.js" />
     <Content Include="doctor\brand-amount.html" />
     <Content Include="doctor\brand-amount.js" />
     <Content Include="doctor\brand-inventory.html" />
