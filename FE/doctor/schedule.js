@@ -44,11 +44,22 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-
+                    var schedulesOnSameDate = dateVsArrayOfScheuleMap[date];
+                    var isAllDone = false;
+                    var isDoneSchedulesLength = schedulesOnSameDate.length;
+                    var i = 0;
+                    for (var index in schedulesOnSameDate) {
+                        if(schedulesOnSameDate[index].isDone)
+                            i++;
+                        if (i == isDoneSchedulesLength) 
+                            isAllDone = true;
+                    }
                     html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
                     html += '     ' + date;
                     html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
+                    if(!isAllDone)
                     html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
+
                     html += '</div>';
 
                     html += '<div class="well-sm col-md-12" style="background-color:rgb(240, 240, 240);">';
