@@ -49,16 +49,16 @@ function loadData(id) {
                     var isDoneSchedulesLength = schedulesOnSameDate.length;
                     var i = 0;
                     for (var index in schedulesOnSameDate) {
-                        if(schedulesOnSameDate[index].isDone)
+                        if (schedulesOnSameDate[index].isDone)
                             i++;
-                        if (i == isDoneSchedulesLength) 
+                        if (i == isDoneSchedulesLength)
                             isAllDone = true;
                     }
                     html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
                     html += '     ' + date;
                     html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
-                    if(!isAllDone)
-                    html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
+                    if (!isAllDone)
+                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
 
                     html += '</div>';
 
@@ -163,7 +163,7 @@ function getbyID(ID) {
                 html += '</select>';
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
-               
+
 
             }
         },
@@ -349,13 +349,16 @@ function openVaccineDetails(ID, date) {
                 $("#ID").val(ID);
                 $('#date').val(date);
                 var html = '';
+                var selectedAttribute = ' selected = "selected"';
+
                 $.each(result.ResponseData, function (key, schedule) {
                     html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
                     //show vaccine brands
-                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this);" class="form-control" name="Brand" >';
+                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
                     html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
                     $.each(schedule.Brands, function (key, brand) {
                         html += '<option value=' + brand.ID;
+                        html += (brand.ID == localStorage.getItem("vaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
                         html += '>' + brand.Name + '</option>';
 
                     });
@@ -432,4 +435,10 @@ function UpdateBulkInjection() {
 
 function saveSelectedBrandInLocalStorage(vaccineId) {
     localStorage.setItem('vaccine_' + vaccineId, $("#Brand").val());
+    for (i = 1; i <= 10; i++) {
+        if ($("#ScheduleId_" + i).val() && $("#BrandId_" + i).val()) {
+            localStorage.setItem('vaccine_' + vaccineId, $("#BrandId_" + i).val());
+        }
+    }
+
 }
