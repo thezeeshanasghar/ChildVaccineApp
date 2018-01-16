@@ -35,11 +35,12 @@ function loadData(Id) {
 
                     for (var key in map) {
                         //
+                        var arry = map[key];
                         html += '<div class="row">';
                         html += '<div class="col-md-2">';
                         html += '<img src="/img/'
                         if (arry[0].Gender == "Boy")
-                            html += 'male.png"   class="img-responsive pull-right" alt="female" style="max-width:30px;max-height:30px" />';
+                            html += 'male.png"   class="img-responsive pull-right" alt="male" style="max-width:30px;max-height:30px" />';
                         else
                             html += 'female.png"   class="img-responsive pull-right" alt="female" style="max-width:30px;max-height:30px" />';
 
