@@ -1,39 +1,10 @@
-﻿$('#TimePeriod a').click(function () {
-    $(this).addClass('active').siblings().removeClass('active');
-    loadData();
-
+﻿$(document).ready(function () {
+    loadData(0);
+    HideAlert();
+    enableAccordion();
 });
-$(document).ready(function () {
-    loadData();
 
-
-    $(".toggle-accordion").on("click", function () {
-        var accordionId = $(this).attr("accordion-id"),
-          numPanelOpen = $(accordionId + ' .collapse.in').length;
-
-        $(this).toggleClass("active");
-
-        if (numPanelOpen == 0) {
-            openAllPanels(accordionId);
-        } else {
-            closeAllPanels(accordionId);
-        }
-    })
-
-    openAllPanels = function (aId) {
-        console.log("setAllPanelOpen");
-        $(aId + ' .panel-collapse:not(".in")').collapse('show');
-    }
-    closeAllPanels = function (aId) {
-        console.log("setAllPanelclose");
-        $(aId + ' .panel-collapse.in').collapse('hide');
-    }
-
-
-
-});
-function loadData() {
-    var Id = $('#TimePeriod a.active').attr('data-value');
+function loadData(Id) {
     var OnlineClinic = GetOnlineClinicIdFromLocalStorage();
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
@@ -45,7 +16,7 @@ function loadData() {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
-                var markup,html = '';
+                var html = '';
                 if (result.ResponseData.length != 0) {
                     var map = {};
                     $.each(result.ResponseData, function (key, item) {
@@ -60,27 +31,9 @@ function loadData() {
                             map[item.Child.Name] = [];
                             map[item.Child.Name].push(obj);
                         }
-                  
-
                     });
+
                     for (var key in map) {
-                        markup += '<div class="child well top-buffer">';
-                        markup += '   <h2 class="text-center">' + key + '</h2>';
-                        markup += '   <div style="font-size:20px">';
-                        markup += '       &nbsp;';
-                        markup += '       <span class="pull-right">';
-                        markup += '          <i class="glyphicon glyphicon-earphone"></i>';
-                        markup += '          &nbsp;';
-                        markup += '          <i class="glyphicon glyphicon-envelope"></i>';
-                        markup += '       </span>';
-                        markup += '   </div>';
-                        markup += '   <ul class="list-group">';
-                        var arry = map[key];
-                        for (var index in arry) {
-                            markup += '       <li class="list-group-item">' + arry[index].DoseName + '<span class="badge pull-right">' + arry[index].Date + '</span</li>';
-                        }
-                        markup += '   </ul>';
-                        markup += '</div>';
                         //
                         html += '<div class="row">';
                         html += '<div class="col-md-2">';
@@ -101,10 +54,8 @@ function loadData() {
                           
                     }
                 } else {
-                    markup = '<h3 style="color:red">No alert for today.</h3>';
                     html = '<h4 style="color:red">No alert for today.</h4>';
                 }
-                $(".data").html(markup);
                 $("#childRecords").html(html);
                 HideAlert();
             }
@@ -172,4 +123,29 @@ function loadData() {
             ShowAlert('Error', errormessage.responseText, 'danger');
         }
     });
+}
+
+
+function enableAccordion() {
+    $(".toggle-accordion").on("click", function () {
+        var accordionId = $(this).attr("accordion-id"),
+          numPanelOpen = $(accordionId + ' .collapse.in').length;
+
+        $(this).toggleClass("active");
+
+        if (numPanelOpen == 0) {
+            openAllPanels(accordionId);
+        } else {
+            closeAllPanels(accordionId);
+        }
+    })
+
+    openAllPanels = function (aId) {
+        console.log("setAllPanelOpen");
+        $(aId + ' .panel-collapse:not(".in")').collapse('show');
+    }
+    closeAllPanels = function (aId) {
+        console.log("setAllPanelclose");
+        $(aId + ' .panel-collapse.in').collapse('hide');
+    }
 }
