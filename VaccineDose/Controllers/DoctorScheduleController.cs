@@ -77,5 +77,23 @@ namespace VaccineDose.Controllers
 
 
         #endregion
+
+        [HttpGet]
+        [Route("api/doctorschedule/update-schedule")]
+        public Response<DoctorScheduleDTO> UpdateDoctorSchedule()
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    return new Response<DoctorScheduleDTO>(true, null, null);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<DoctorScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
     }
 }
