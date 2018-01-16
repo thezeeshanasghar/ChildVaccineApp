@@ -32,7 +32,8 @@ function loadData(id) {
                         doseName: item.Dose.Name,
                         scheduleID: item.ID,
                         isDone: item.IsDone,
-                        Due2EPI: item.Due2EPI
+                        Due2EPI: item.Due2EPI,
+                        GivenDate: item.GivenDate
                     };
                     if (item.Date in dateVsArrayOfScheuleMap) {
                         dateVsArrayOfScheuleMap[item.Date].push(vaccineSchedule);
@@ -43,16 +44,6 @@ function loadData(id) {
                 });
 
                 for (var date in dateVsArrayOfScheuleMap) {
-                    //html += '<div class="col-xs-8 col-md-7">'
-                    //html += '    <h3 style="text-align:right">'+ date;
-                    //html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="font-size:smaller"></span>';
-                    //html += '    </h3>';
-                    //html += '</div>'
-                    //html += '<div class="col-md-5">'
-                    //html += '<span><a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')">';
-                    //html += ' <img src="../img/injectionEmpty.png" style="height: 30px;margin-top: 15px;">'
-                    //html += '</a></span>';
-                    //html += '</div>';
 
                     html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
                     html += '     ' + date;
@@ -70,6 +61,9 @@ function loadData(id) {
 
                         if (!doseArray[index].isDone)
                             html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
+                        else
+                            html += '       <span class="">' + doseArray[index].GivenDate + '</span>';
+
                         if (doseArray[index].Due2EPI)
                             html += '<small>EPI</small>';
                         html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
@@ -163,33 +157,33 @@ function getbyID(ID) {
 
 //on brand change
 function checkBrandInventory(brand) {
-    brandId = brand.value;
-    var obj = {
-        BrandID: brandId,
-        DoctorID: DoctorId()
-    }
-    var html = '';
-    $.ajax({
-        url: SERVER + 'schedule/brandinventory-stock',
-        type: 'POST',
-        data: JSON.stringify(obj),
-        contentType: 'application/json;charset=UTF-8',
-        dataType: 'json',
-        success: function (result) {
-            if (!result.IsSuccess) {
-                html = '<span><b style="color:red">' + result.Message + '</b></span>';
-                $("#ddBrand").append(html);
-                $('#btnUpdate').hide();
-            }
-            else {
-                $('#btnUpdate').show();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+    //brandId = brand.value;
+    //var obj = {
+    //    BrandID: brandId,
+    //    DoctorID: DoctorId()
+    //}
+    //var html = '';
+    //$.ajax({
+    //    url: SERVER + 'schedule/brandinventory-stock',
+    //    type: 'POST',
+    //    data: JSON.stringify(obj),
+    //    contentType: 'application/json;charset=UTF-8',
+    //    dataType: 'json',
+    //    success: function (result) {
+    //        if (!result.IsSuccess) {
+    //            html = '<span><b style="color:red">' + result.Message + '</b></span>';
+    //            $("#ddBrand").append(html);
+    //            $('#btnUpdate').hide();
+    //        }
+    //        else {
+    //            $('#btnUpdate').show();
+    //        }
+    //    },
+    //    error: function (errormessage) {
+    //        alert(errormessage.responseText);
 
-        }
-    });
+    //    }
+    //});
 }
 
 function Update() {
@@ -349,6 +343,7 @@ function openVaccineDetails(ID, date) {
                     html += "<br>";
                 });
                 $("#ddBrand_bulk").html(html);
+                $("#BulkGivenDate").val(result.ResponseData[0].Date);
                 $('#bulkModel').modal('show');
                 $("#btnbulkInjection").show();
             }

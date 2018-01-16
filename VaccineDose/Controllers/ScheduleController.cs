@@ -351,6 +351,7 @@ namespace VaccineDose.Controllers
                         scheduleDTO.Dose = Mapper.Map<DoseDTO>(schedule.Dose);
                         scheduleDTO.ID = schedule.ID;
                         scheduleDTO.Brands = brandDTOs;
+                        scheduleDTO.Date = schedule.Date;
                         scheduleDTOs.Add(scheduleDTO);
                     }
 
