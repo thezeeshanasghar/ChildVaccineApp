@@ -119,10 +119,10 @@ function getbyID(ID) {
                 $("#Height").val(result.ResponseData.Height);
                 $("#Circumference").val(result.ResponseData.Circle);
                 if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") {
-                    $("#GivenDate").val(result.ResponseData.Due);
+                    $("#GivenDate").val(result.ResponseData.GivenDate);
 
 
-                    $("#BulkGivenDate").val(result.ResponseData.Due);
+                    $("#BulkGivenDate").val(result.ResponseData.GivenDate);
                 } else {
                     var fullDate = new Date();
                     //$("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
@@ -134,13 +134,18 @@ function getbyID(ID) {
                     $("#Weight").prop('readonly', true);
                     $("#Height").prop('readonly', true);
                     $("#Circumference").prop('readonly', true);
-                    $("#Brand").attr("disabled", true);
+                    $("#Brand").attr("disabled", "disabled");
+                    $("#GivenDate").prop("disabled", true);
+                    $('#btnUpdate').hide();
                 }
                 else {
                     $("#Weight").prop('readonly', false);
                     $("#Height").prop('readonly', false);
                     $("#Circumference").prop('readonly', false);
-                    $("#Brand").attr("disabled", false);
+                    $("#Brand").removeAttr("disabled");
+                    $("#GivenDate").prop("disabled", false);
+                    $('#btnUpdate').show();
+
                 }
                 //show vaccine brands
                 var selectedAttribute = ' selected = "selected"';
@@ -158,7 +163,7 @@ function getbyID(ID) {
                 html += '</select>';
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
-                $('#btnUpdate').show();
+               
 
             }
         },
