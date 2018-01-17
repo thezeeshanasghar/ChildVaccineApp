@@ -2,7 +2,7 @@
     [ID]        INT           IDENTITY (1, 1) NOT NULL,
     [Name]      NVARCHAR (50) NOT NULL,
     [VaccineID] INT           NOT NULL,
-    [MinAge] INT           NULL,
+    [MinAge] INT           NOT NULL,
     [MaxAge] INT           NULL,
     [MinGap] INT           NULL,
     [DoseOrder] INT NULL, 
