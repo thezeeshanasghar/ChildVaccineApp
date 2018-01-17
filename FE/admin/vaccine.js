@@ -196,3 +196,25 @@ function validate() {
     else
         return true;
 }
+
+
+
+function updateDoctorSchedule() {
+    $.ajax({
+        url: SERVER + "doctorschedule/update-schedule",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                ShowAlert('Success', 'New Doses added into all doctor schedules', 'success'); 
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}

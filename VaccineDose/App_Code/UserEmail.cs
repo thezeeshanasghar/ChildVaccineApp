@@ -26,7 +26,7 @@ namespace VaccineDose.App_Code
             if (child.Gender == "Girl")
                 body += "Your Daughter <b>" + child.Name + "</b>";
 
-            body += " has been registered at Clinic ";
+            body += " has been registered at ";
             body += "<b>" + child.Clinic.Name + "</b><br>";
 
 
