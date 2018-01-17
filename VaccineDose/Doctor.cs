@@ -39,6 +39,11 @@ namespace VaccineDose
         public string ProfileImage { get; set; }
         public string SignatureImage { get; set; }
         public string DisplayName { get; set; }
+        public Nullable<int> ConsultationFee { get; set; }
+        public bool ShowInvoice { get; set; }
+        public bool ShowChart { get; set; }
+        public bool ShowFollowUp { get; set; }
+        public bool CheckInventory { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BrandAmount> BrandAmounts { get; set; }
