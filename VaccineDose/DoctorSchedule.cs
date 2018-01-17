@@ -19,7 +19,7 @@ namespace VaccineDose
         public int DoctorID { get; set; }
         public int GapInDays { get; set; }
     
-        public virtual Dose Dose { get; set; }
         public virtual Doctor Doctor { get; set; }
+        public virtual Dose Dose { get; set; }
     }
 }

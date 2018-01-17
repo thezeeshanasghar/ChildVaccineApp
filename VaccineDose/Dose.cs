@@ -24,7 +24,7 @@ namespace VaccineDose
         public int ID { get; set; }
         public string Name { get; set; }
         public int VaccineID { get; set; }
-        public Nullable<int> MinAge { get; set; }
+        public int MinAge { get; set; }
         public Nullable<int> MaxAge { get; set; }
         public Nullable<int> MinGap { get; set; }
         public Nullable<int> DoseOrder { get; set; }

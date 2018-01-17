@@ -9,7 +9,7 @@ namespace VaccineDose
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int? MinAge { get; set; }
+        public int MinAge { get; set; }
         public int? MaxAge { get; set; }
         public int? MinGap { get; set; }
         public int DoseOrder { get; set; }

@@ -84,8 +84,26 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDConnectionString db = new VDConnectionString())
                 {
+                    // 1- get all vaccines
+                    var dbDoses = db.Doses.ToList();
+                    var dbDoctors = db.Doctors.ToList<Doctor>();
+                    foreach(var dbDoctor in dbDoctors)
+                    {
+                        var listOfIds = dbDoctor.DoctorSchedules.Select(x => x.DoseID);
+                        var newDoses = db.Doses.Where(x => !listOfIds.Contains(x.ID)).ToList();
+                        foreach(Dose newDose in newDoses)
+                        {
+                            dbDoctor.DoctorSchedules.Add(new DoctorSchedule()
+                            {
+                                DoctorID = dbDoctor.ID,
+                                DoseID = newDose.ID,
+                                GapInDays = newDose.MinAge
+                            });
+                            db.SaveChanges();
+                        }
+                    }
                     return new Response<DoctorScheduleDTO>(true, null, null);
                 }
             }
