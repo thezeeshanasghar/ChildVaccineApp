@@ -56,7 +56,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ConsultationFee" Type="int" />
           <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
@@ -65,7 +64,8 @@
           <Property Name="DoctorID" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
-          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="ConsultationFee" Type="int" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -83,9 +83,14 @@
           <Property Name="ValidUpto" Type="date" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="InvoiceNumber" Type="int" />
+          <Property Name="ConsultationFee" Type="int" />
           <Property Name="ProfileImage" Type="nvarchar(max)" />
           <Property Name="SignatureImage" Type="nvarchar(max)" />
           <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShowInvoice" Type="bit" Nullable="false" />
+          <Property Name="ShowChart" Type="bit" Nullable="false" />
+          <Property Name="ShowFollowUp" Type="bit" Nullable="false" />
+          <Property Name="CheckInventory" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -284,9 +289,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorSchedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
           <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -358,9 +361,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -730,7 +731,7 @@
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsOnline" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Children" Relationship="VDModel.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
         </EntityType>
         <Association Name="FK_Child_Clinic">
@@ -770,6 +771,11 @@
           <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
           <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
+          <Property Name="ConsultationFee" Type="Int32" />
+          <Property Name="ShowInvoice" Type="Boolean" Nullable="false" />
+          <Property Name="ShowChart" Type="Boolean" Nullable="false" />
+          <Property Name="ShowFollowUp" Type="Boolean" Nullable="false" />
+          <Property Name="CheckInventory" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_BrandAmount_Doctor">
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
@@ -1070,6 +1076,11 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="CheckInventory" ColumnName="CheckInventory" />
+                <ScalarProperty Name="ShowFollowUp" ColumnName="ShowFollowUp" />
+                <ScalarProperty Name="ShowChart" ColumnName="ShowChart" />
+                <ScalarProperty Name="ShowInvoice" ColumnName="ShowInvoice" />
+                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
                 <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />

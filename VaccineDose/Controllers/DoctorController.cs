@@ -448,6 +448,31 @@ namespace VaccineDose.Controllers
                 return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
             }
         }
+        [HttpPut]
+        [Route("api/doctor/{id}/update-permission")]
+        public Response<DoctorDTO> UpdateDoctorPermission(int id, DoctorDTO doctorDTO)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbDoctor = entities.Doctors.Where(c => c.ID == id).FirstOrDefault();
+                    dbDoctor.ShowInvoice = doctorDTO.ShowInvoice;
+                    dbDoctor.ShowFollowUp = doctorDTO.ShowFollowUp;
+                    dbDoctor.ShowChart = doctorDTO.ShowChart;
+                    dbDoctor.CheckInventory = doctorDTO.CheckInventory;
+                   
+                    entities.SaveChanges();
+                    return new Response<DoctorDTO>(true, "Record is successfully updated", doctorDTO);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
+
+            }
+        }
+
 
     }
 }

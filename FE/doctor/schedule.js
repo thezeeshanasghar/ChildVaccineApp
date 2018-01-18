@@ -176,33 +176,55 @@ function getbyID(ID) {
 
 //on brand change
 function checkBrandInventory(brand, vaccineId) {
-    //brandId = brand.value;
-    //var obj = {
-    //    BrandID: brandId,
-    //    DoctorID: DoctorId()
-    //}
-    //var html = '';
-    //$.ajax({
-    //    url: SERVER + 'schedule/brandinventory-stock',
-    //    type: 'POST',
-    //    data: JSON.stringify(obj),
-    //    contentType: 'application/json;charset=UTF-8',
-    //    dataType: 'json',
-    //    success: function (result) {
-    //        if (!result.IsSuccess) {
-    //            html = '<span><b style="color:red">' + result.Message + '</b></span>';
-    //            $("#ddBrand").append(html);
-    //            $('#btnUpdate').hide();
-    //        }
-    //        else {
-    //            $('#btnUpdate').show();
-    //        }
-    //    },
-    //    error: function (errormessage) {
-    //        alert(errormessage.responseText);
 
-    //    }
-    //});
+    $.ajax({
+        url: SERVER + 'doctor/' + DoctorId(),
+        type: 'Get',
+        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Danger', result.Message, 'danger');
+            }
+            else {
+                if (result.ResponseData.CheckInventory) {
+                    brandId = brand.value;
+                    var obj = {
+                        BrandID: brandId,
+                        DoctorID: DoctorId()
+                    }
+                    var html = '';
+                    $.ajax({
+                        url: SERVER + 'schedule/brandinventory-stock',
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        contentType: 'application/json;charset=UTF-8',
+                        dataType: 'json',
+                        success: function (result) {
+                            if (!result.IsSuccess) {
+                                html = '<span><b style="color:red">' + result.Message + '</b></span>';
+                                $("#ddBrand").append(html);
+                                $('#btnUpdate').hide();
+                            }
+                            else {
+                                $('#btnUpdate').show();
+                            }
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage.responseText);
+
+                        }
+                    });
+                }
+
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+
+        }
+    });
+
     saveSelectedBrandInLocalStorage(vaccineId);
 }
 

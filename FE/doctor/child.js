@@ -2,7 +2,7 @@
 $(document).ready(function () {
     if (GetOnlineClinicIdFromLocalStorage() != 0) {
         loadData();
-       // DisableOffDays();
+        // DisableOffDays();
     }
 });
 
@@ -45,8 +45,11 @@ function loadData() {
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
-                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
+                    if (item.Clinic.Doctor.ShowFollowUp)
+                        html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
+                    if (item.Clinic.Doctor.ShowChart)
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
+                    if (item.Clinic.Doctor.ShowInvoice)
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
@@ -289,7 +292,7 @@ function validate() {
     else
         return true;
 }
- 
+
 
 
 
