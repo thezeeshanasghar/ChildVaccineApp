@@ -37,12 +37,6 @@ $(document).ready(function () {
 //capitalize first letter of name throughout the app
 $(".CapitalizeFirstLetter").keyup(function (event) {
     $(".CapitalizeFirstLetter").css('textTransform', 'capitalize');
-    //var textBox = event.target;
-    //var start = textBox.selectionStart;
-    //var end = textBox.selectionEnd;
-    //textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
-    //textBox.setSelectionRange(start, end);
-
 });
 function SetMainNav() {
     var markup = '';
@@ -78,7 +72,6 @@ function SetMainNav() {
         markup += '     <a href="/doctor/alert.html" class="btn btn-primary"><span class="glyphicon glyphicon-alert"></span>&nbsp;</a>';
         markup += '     <a id="addNewChild" href="/doctor/add-new-child.html" class="btn btn-primary"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
         markup += '     <a href="/doctor/child.html?id=' + OnlineClinic + '" class="btn btn-primary"><small><span class="glyphicon glyphicon-th-list"></span></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
-        //markup += '     <a href="/doctor/doctor-edit.html" class="btn btn-primary btn-lg"><small><span class="glyphicon glyphicon-th-list"></small><span>&nbsp;<span class="glyphicon glyphicon-pencil"></span></a>';
         markup += '     <a id="openSideNav" href="#" onclick="openNav()" class="btn btn-primary"><small><span class="glyphicon glyphicon-align-justify"></span></small>&nbsp;</a>';
         markup += '</div>';
         markup += '<div id="mySidenav" class="sidenav">';
@@ -88,8 +81,10 @@ function SetMainNav() {
         markup += '     <a id="navBtnClinic" href="/doctor/clinic.html">Clinics Info</a>';
         markup += '     <a href="/changed-password.html">Change Password</a>';
         markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
-        markup += '     <a href="/doctor/brand-inventory.html">Brand Inventory</a>';
-        markup += '     <a href="/doctor/brand-amount.html">Brand Amount</a>';
+        if (localStorage.getItem('AllowInventory')=="true")
+            markup += '     <a href="/doctor/brand-inventory.html">Brand Inventory</a>';
+        if (localStorage.getItem('AllowInvoice')=="true")
+            markup += '     <a href="/doctor/brand-amount.html">Brand Amount</a>';
         markup += '     <a href="#" onclick="return logout()">Logout</a>';
         markup += '</div>';
     } else if (UserType == 'PARENT') {

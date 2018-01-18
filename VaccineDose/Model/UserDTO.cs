@@ -12,6 +12,8 @@ namespace VaccineDose
         public string Password { get; set; }
         public string UserType { get; set; }
         public int DoctorID { get; set; }
+        public bool AllowInventory { get; set; }
+        public bool AllowInvoice { get; set; }
         public int ChildID { get; set; }
         public string CountryCode { get; set; }
         public string Email { get; set; }

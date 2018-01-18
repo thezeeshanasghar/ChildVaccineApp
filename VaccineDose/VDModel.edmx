@@ -56,6 +56,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConsultationFee" Type="int" />
           <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
@@ -64,8 +65,7 @@
           <Property Name="DoctorID" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
-          <Property Name="ConsultationFee" Type="int" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -83,14 +83,13 @@
           <Property Name="ValidUpto" Type="date" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="InvoiceNumber" Type="int" />
-          <Property Name="ConsultationFee" Type="int" />
           <Property Name="ProfileImage" Type="nvarchar(max)" />
           <Property Name="SignatureImage" Type="nvarchar(max)" />
           <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ShowInvoice" Type="bit" Nullable="false" />
-          <Property Name="ShowChart" Type="bit" Nullable="false" />
-          <Property Name="ShowFollowUp" Type="bit" Nullable="false" />
-          <Property Name="CheckInventory" Type="bit" Nullable="false" />
+          <Property Name="AllowInvoice" Type="bit" Nullable="false" />
+          <Property Name="AllowChart" Type="bit" Nullable="false" />
+          <Property Name="AllowFollowUp" Type="bit" Nullable="false" />
+          <Property Name="AllowInventory" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -289,7 +288,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorSchedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -361,7 +362,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -494,6 +497,28 @@
             <End Role="Clinic" EntitySet="Clinics" />
             <End Role="Child" EntitySet="Children" />
           </AssociationSet>
+          <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
+          <AssociationSet Name="FK_Schedule_Brand" Association="VDModel.FK_Schedule_Brand">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
+            <End Role="Child" EntitySet="Children" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <EntitySet Name="Doses" EntityType="VDModel.Dose" />
+          <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
+            <End Role="Dose" EntitySet="Doses" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dose_Vaccine" Association="VDModel.FK_Dose_Vaccine">
+            <End Role="Vaccine" EntitySet="Vaccines" />
+            <End Role="Dose" EntitySet="Doses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Dose" Association="VDModel.FK_Schedule_Dose">
+            <End Role="Dose" EntitySet="Doses" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
           <EntitySet Name="Doctors" EntityType="VDModel.Doctor" />
           <AssociationSet Name="FK_BrandAmount_Doctor" Association="VDModel.FK_BrandAmount_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
@@ -518,28 +543,6 @@
           <AssociationSet Name="FK_FollowUp_Doctor" Association="VDModel.FK_FollowUp_Doctor">
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="FollowUp" EntitySet="FollowUps" />
-          </AssociationSet>
-          <EntitySet Name="Schedules" EntityType="VDModel.Schedule" />
-          <AssociationSet Name="FK_Schedule_Brand" Association="VDModel.FK_Schedule_Brand">
-            <End Role="Brand" EntitySet="Brands" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Child" Association="VDModel.FK_Schedule_Child">
-            <End Role="Child" EntitySet="Children" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
-          <EntitySet Name="Doses" EntityType="VDModel.Dose" />
-          <AssociationSet Name="FK_DoctorSchedule_Dose" Association="VDModel.FK_DoctorSchedule_Dose">
-            <End Role="Dose" EntitySet="Doses" />
-            <End Role="DoctorSchedule" EntitySet="DoctorSchedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dose_Vaccine" Association="VDModel.FK_Dose_Vaccine">
-            <End Role="Vaccine" EntitySet="Vaccines" />
-            <End Role="Dose" EntitySet="Doses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Dose" Association="VDModel.FK_Schedule_Dose">
-            <End Role="Dose" EntitySet="Doses" />
-            <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Brand">
@@ -607,8 +610,8 @@
           <Property Name="DoseID" Type="Int32" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <Property Name="GapInDays" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="DoctorSchedule" ToRole="Doctor" />
           <NavigationProperty Name="Dose" Relationship="VDModel.FK_DoctorSchedule_Dose" FromRole="DoctorSchedule" ToRole="Dose" />
+          <NavigationProperty Name="Doctor" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="DoctorSchedule" ToRole="Doctor" />
         </EntityType>
         <EntityType Name="FollowUp">
           <Key>
@@ -731,7 +734,7 @@
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsOnline" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Children" Relationship="VDModel.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
         </EntityType>
         <Association Name="FK_Child_Clinic">
@@ -743,109 +746,6 @@
             </Principal>
             <Dependent Role="Child">
               <PropertyRef Name="ClinicID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Doctor">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PMDC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <Property Name="ShowPhone" Type="Boolean" Nullable="false" />
-          <Property Name="ShowMobile" Type="Boolean" Nullable="false" />
-          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ValidUpto" Type="DateTime" Precision="0" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="InvoiceNumber" Type="Int32" />
-          <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SignatureImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
-          <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
-          <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
-          <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
-          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
-          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
-          <Property Name="ConsultationFee" Type="Int32" />
-          <Property Name="ShowInvoice" Type="Boolean" Nullable="false" />
-          <Property Name="ShowChart" Type="Boolean" Nullable="false" />
-          <Property Name="ShowFollowUp" Type="Boolean" Nullable="false" />
-          <Property Name="CheckInventory" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_BrandAmount_Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.BrandAmount" Role="BrandAmount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BrandAmount">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BrandInventory_Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.BrandInventory" Role="BrandInventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BrandInventory">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Clinic_Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Clinic">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Doctor_User">
-          <End Type="VDModel.User" Role="User" Multiplicity="1" />
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Doctor">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DoctorSchedule_Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.DoctorSchedule" Role="DoctorSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DoctorSchedule">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FollowUp_Doctor">
-          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
-          <End Type="VDModel.FollowUp" Role="FollowUp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FollowUp">
-              <PropertyRef Name="DoctorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -944,6 +844,108 @@
             </Principal>
             <Dependent Role="Schedule">
               <PropertyRef Name="DoseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PMDC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="ShowPhone" Type="Boolean" Nullable="false" />
+          <Property Name="ShowMobile" Type="Boolean" Nullable="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ValidUpto" Type="DateTime" Precision="0" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="Int32" />
+          <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AllowInvoice" Type="Boolean" Nullable="false" />
+          <Property Name="AllowChart" Type="Boolean" Nullable="false" />
+          <Property Name="AllowFollowUp" Type="Boolean" Nullable="false" />
+          <Property Name="AllowInventory" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
+          <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
+          <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
+          <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
+          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
+          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
+        </EntityType>
+        <Association Name="FK_BrandAmount_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.BrandAmount" Role="BrandAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandAmount">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInventory_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.BrandInventory" Role="BrandInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BrandInventory">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clinic_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Clinic">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctor_User">
+          <End Type="VDModel.User" Role="User" Multiplicity="1" />
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.DoctorSchedule" Role="DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FollowUp_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.FollowUp" Role="FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="DoctorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1073,32 +1075,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Doctors">
-            <EntityTypeMapping TypeName="VDModel.Doctor">
-              <MappingFragment StoreEntitySet="Doctor">
-                <ScalarProperty Name="CheckInventory" ColumnName="CheckInventory" />
-                <ScalarProperty Name="ShowFollowUp" ColumnName="ShowFollowUp" />
-                <ScalarProperty Name="ShowChart" ColumnName="ShowChart" />
-                <ScalarProperty Name="ShowInvoice" ColumnName="ShowInvoice" />
-                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
-                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-                <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
-                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ValidUpto" ColumnName="ValidUpto" />
-                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="ShowMobile" ColumnName="ShowMobile" />
-                <ScalarProperty Name="ShowPhone" ColumnName="ShowPhone" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="PMDC" ColumnName="PMDC" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Schedules">
             <EntityTypeMapping TypeName="VDModel.Schedule">
               <MappingFragment StoreEntitySet="Schedule">
@@ -1125,6 +1101,31 @@
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />
                 <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="VDModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="AllowInventory" ColumnName="AllowInventory" />
+                <ScalarProperty Name="AllowFollowUp" ColumnName="AllowFollowUp" />
+                <ScalarProperty Name="AllowChart" ColumnName="AllowChart" />
+                <ScalarProperty Name="AllowInvoice" ColumnName="AllowInvoice" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
+                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ValidUpto" ColumnName="ValidUpto" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="ShowMobile" ColumnName="ShowMobile" />
+                <ScalarProperty Name="ShowPhone" ColumnName="ShowPhone" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="PMDC" ColumnName="PMDC" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

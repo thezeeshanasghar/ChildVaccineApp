@@ -457,10 +457,10 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == id).FirstOrDefault();
-                    dbDoctor.ShowInvoice = doctorDTO.ShowInvoice;
-                    dbDoctor.ShowFollowUp = doctorDTO.ShowFollowUp;
-                    dbDoctor.ShowChart = doctorDTO.ShowChart;
-                    dbDoctor.CheckInventory = doctorDTO.CheckInventory;
+                    dbDoctor.AllowInvoice = doctorDTO.AllowInvoice;
+                    dbDoctor.AllowFollowUp = doctorDTO.AllowFollowUp;
+                    dbDoctor.AllowChart = doctorDTO.AllowChart;
+                    dbDoctor.AllowInventory = doctorDTO.AllowInventory;
                    
                     entities.SaveChanges();
                     return new Response<DoctorDTO>(true, "Record is successfully updated", doctorDTO);

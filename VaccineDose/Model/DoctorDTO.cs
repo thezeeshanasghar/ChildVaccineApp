@@ -25,10 +25,10 @@ namespace VaccineDose
 
         [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime ValidUpto { get; set; }
-        public bool ShowInvoice { get; set; }
-        public bool ShowChart { get; set; }
-        public bool ShowFollowUp { get; set; }
-        public bool CheckInventory { get; set; }
+        public bool AllowInvoice { get; set; }
+        public bool AllowChart { get; set; }
+        public bool AllowFollowUp { get; set; }
+        public bool AllowInventory { get; set; }
 
         public ClinicDTO ClinicDTO { get; set; }
         public List<ClinicDTO> Clinics { get; set; }

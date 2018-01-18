@@ -187,7 +187,7 @@ function checkBrandInventory(brand, vaccineId) {
                 ShowAlert('Danger', result.Message, 'danger');
             }
             else {
-                if (result.ResponseData.CheckInventory) {
+                if (result.ResponseData.AllowInventory) {
                     brandId = brand.value;
                     var obj = {
                         BrandID: brandId,

@@ -14,10 +14,10 @@
     [ProfileImage] NVARCHAR(MAX) NULL, 
     [SignatureImage] NVARCHAR(MAX) NULL, 
     [DisplayName] NVARCHAR(50) NOT NULL, 
-    [ShowInvoice] BIT NOT NULL , 
-    [ShowChart] BIT NOT NULL, 
-    [ShowFollowUp] BIT NOT NULL, 
-    [CheckInventory] BIT NOT NULL, 
+    [AllowInvoice] BIT NOT NULL DEFAULT(1) , 
+    [AllowChart] BIT NOT NULL DEFAULT(1), 
+    [AllowFollowUp] BIT NOT NULL DEFAULT(1), 
+    [AllowInventory] BIT NOT NULL DEFAULT(1), 
     CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED ([ID] ASC),
 	CONSTRAINT [FK_Doctor_User] FOREIGN KEY ([UserID]) REFERENCES [dbo].[User] ([ID])
 );
