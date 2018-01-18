@@ -139,6 +139,8 @@ namespace VaccineDose.Controllers
                             return new Response<UserDTO>(false, "You are not approved. Contact admin for approval at 923335196658", null);
 
                         userDTO.DoctorID = doctorDb.ID;
+                        userDTO.AllowInventory = doctorDb.AllowInventory;
+                        userDTO.AllowInvoice = doctorDb.AllowInvoice;
                     }
                     else if (userDTO.UserType.Equals("PARENT"))
                     {

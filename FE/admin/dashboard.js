@@ -30,27 +30,13 @@ function loadDoctors() {
                     html += '   <td>' + item.MobileNumber + '</td>';
                     html += '   <td>' + item.PMDC + '</td>';
                     html += '   <td>' + item.ValidUpto + '</td>';
-                    html += '   <td>'
-                    html += '<label>Allow Invoice</label>&nbsp;<input  type="checkbox"  id="ShowInvoice_' + item.ID + '" ';
-                    if(item.ShowInvoice)
-                        html +='checked="checked"';
-                    html+='  />';
-                    html += '<label>Allow Follow up</label>&nbsp;<input   type="checkbox"  id="ShowFollowUp_' + item.ID + '" '
-                    if (item.ShowFollowUp)
-                        html += 'checked="checked"';
-                    html += '  />';
-                    html += '<label>Allow chart</label>&nbsp;<input  type="checkbox" id="ShowChart_' + item.ID + '" '
-                    if (item.ShowChart)
-                        html += 'checked="checked"';
-                    html += '  />';
-                    html += '<label>Allow inventory</label>&nbsp;<input  type="checkbox" id="CheckInventory_' + item.ID + '" '
-                    if (item.CheckInventory)
-                        html += 'checked="checked"';
-                    html += '  />';
-                    html += '<button class="btn btn-primary" onclick="UpdateDoctor(' + item.ID + ')"  >Done</button>'
-                 
-                    '</td>';
-                  
+                    html += '   <td>';
+                    html += '       <label>Allow Invoice</label>&nbsp;<input  type="checkbox"  id="AllowInvoice_' + item.ID + '" ' + ((item.AllowInvoice) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <label>Allow Follow up</label>&nbsp;<input   type="checkbox"  id="AllowFollowUp_' + item.ID + '" ' + ((item.AllowFollowUp) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <label>Allow chart</label>&nbsp;<input  type="checkbox" id="AllowChart_' + item.ID + '" ' + ((item.AllowChart) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <label>Allow inventory</label>&nbsp;<input  type="checkbox" id="AllowInventory_' + item.ID + '" ' + ((item.AllowInvoice) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <button class="btn btn-primary" onclick="UpdateDoctorPermissions(' + item.ID + ')"  >Update Permission</button>';
+                    html += '   </td>';
                     html += '</tr>';
                 });
                 $('.tbody-doctor').html(html);
@@ -92,12 +78,12 @@ function loadChilds() {
     });
 }
 
-function UpdateDoctor(DoctorId) {
+function UpdateDoctorPermissions(DoctorId) {
     var obj = {
-        ShowInvoice: $("#ShowInvoice_" + DoctorId).is(":checked"),
-        ShowFollowUp: $("#ShowFollowUp_" + DoctorId).is(":checked"),
-        ShowChart: $("#ShowChart_" + DoctorId).is(":checked"),
-        CheckInventory: $("#CheckInventory_" + DoctorId).is(":checked"),
+        AllowInvoice: $("#AllowInvoice_" + DoctorId).is(":checked"),
+        AllowFollowUp: $("#AllowFollowUp_" + DoctorId).is(":checked"),
+        AllowChart: $("#AllowChart_" + DoctorId).is(":checked"),
+        AllowInventory: $("#AllowInventory_" + DoctorId).is(":checked"),
         ID: DoctorId
     }
 

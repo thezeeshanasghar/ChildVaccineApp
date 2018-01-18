@@ -45,11 +45,11 @@ function loadData() {
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
-                    if (item.Clinic.Doctor.ShowFollowUp)
+                    if (item.Clinic.Doctor.AllowFollowUp)
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
-                    if (item.Clinic.Doctor.ShowChart)
+                    if (item.Clinic.Doctor.AllowChart)
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
-                    if (item.Clinic.Doctor.ShowInvoice)
+                    if (item.Clinic.Doctor.AllowInvoice)
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
