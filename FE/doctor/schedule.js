@@ -56,9 +56,13 @@ function loadData(id) {
                     }
                     html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
                     html += '     ' + date;
-                    html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
-                    if (!isAllDone)
+                    if (isAllDone) {
+                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionFilled.png" style="height: 22px;"></a>';
+                     
+                    } else {
                         html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
+                        html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
+                    }
 
                     html += '</div>';
 
@@ -135,16 +139,16 @@ function getbyID(ID) {
                     $("#Height").prop('readonly', true);
                     $("#Circumference").prop('readonly', true);
                     $("#Brand").attr("disabled", "disabled");
-                    $("#GivenDate").prop("disabled", true);
-                    $('#btnUpdate').hide();
+                  //  $("#GivenDate").prop("disabled", true);
+                    //$('#btnUpdate').hide();
                 }
                 else {
                     $("#Weight").prop('readonly', false);
                     $("#Height").prop('readonly', false);
                     $("#Circumference").prop('readonly', false);
                     $("#Brand").removeAttr("disabled");
-                    $("#GivenDate").prop("disabled", false);
-                    $('#btnUpdate').show();
+                   // $("#GivenDate").prop("disabled", false);
+                   
 
                 }
                 //show vaccine brands
@@ -163,6 +167,7 @@ function getbyID(ID) {
                 html += '</select>';
                 $("#ddBrand").html(html);
                 $('#myModal').modal('show');
+                $('#btnUpdate').show();
 
 
             }
@@ -372,8 +377,11 @@ function openVaccineDetails(ID, date) {
                 $('#date').val(date);
                 var html = '';
                 var selectedAttribute = ' selected = "selected"';
-
+                var bulkScheduleLength = result.ResponseData.length;
+                var i = 0;
+                var isAllDone = false;
                 $.each(result.ResponseData, function (key, schedule) {
+                   
                     html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
                     //show vaccine brands
                     html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
@@ -386,7 +394,20 @@ function openVaccineDetails(ID, date) {
                     });
                     html += '</select>';
                     html += "<br>";
+                    if (schedule.IsDone)
+                        i++;
+                    if (i == bulkScheduleLength)
+                        isAllDone = true;
                 });
+                if (isAllDone) {
+                    $("#BulkHeight").prop("readonly", true);
+                    $("#BulkWeight").prop("readonly", true);
+                    $("#BulkCircumference").prop("readonly", true);
+                } else {
+                    $("#BulkHeight").prop("readonly", false);
+                    $("#BulkWeight").prop("readonly", false);
+                    $("#BulkCircumference").prop("readonly", false);
+                }
                 $("#ddBrand_bulk").html(html);
                 $("#BulkGivenDate").val(result.ResponseData[0].Date);
                 $('#bulkModel').modal('show');

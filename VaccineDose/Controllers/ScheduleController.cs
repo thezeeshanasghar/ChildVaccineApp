@@ -51,15 +51,16 @@ namespace VaccineDose.Controllers
                     {
                         dbBrandInventory.Count--;
                         dbSchedule.BrandId = scheduleDTO.BrandId;
-                        dbSchedule.Weight = scheduleDTO.Weight;
-                        dbSchedule.Height = scheduleDTO.Height;
-                        dbSchedule.Circle = scheduleDTO.Circle;
-                        dbSchedule.IsDone = scheduleDTO.IsDone;
-                        dbSchedule.GivenDate = scheduleDTO.GivenDate;
-
-                        ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, dbSchedule);
-                 
                     }
+
+                    dbSchedule.Weight = scheduleDTO.Weight;
+                    dbSchedule.Height = scheduleDTO.Height;
+                    dbSchedule.Circle = scheduleDTO.Circle;
+                    dbSchedule.IsDone = scheduleDTO.IsDone;
+                    dbSchedule.GivenDate = scheduleDTO.GivenDate;
+
+                    ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, dbSchedule);
+                    entities.SaveChanges();
                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
                 }
             }
@@ -115,8 +116,8 @@ namespace VaccineDose.Controllers
                 {
                     var OriginalDate = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault().Date;
 
-                    var dbSchedules = entities.Schedules.Where(x => x.Date == OriginalDate).ToList(); 
-                    foreach(var dbSchedule in dbSchedules)
+                    var dbSchedules = entities.Schedules.Where(x => x.Date == OriginalDate).ToList();
+                    foreach (var dbSchedule in dbSchedules)
                     {
                         ChangeDueDatesOfSchedule(scheduleDTO, entities, dbSchedule);
                     }
@@ -184,7 +185,7 @@ namespace VaccineDose.Controllers
                 var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
                 TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
             }
-            entities.SaveChanges();
+
         }
 
 
@@ -201,9 +202,9 @@ namespace VaccineDose.Controllers
 
                     foreach (var schedule in dbChildSchedules)
                     {
-                        schedule.Weight = scheduleDTO.Weight;
-                        schedule.Height = scheduleDTO.Height;
-                        schedule.Circle = scheduleDTO.Circle;
+                        schedule.Weight = (scheduleDTO.Weight > 0) ? scheduleDTO.Weight : schedule.Weight;
+                        schedule.Height = (scheduleDTO.Height > 0) ? scheduleDTO.Height : schedule.Height;
+                        schedule.Circle = (scheduleDTO.Circle > 0) ? scheduleDTO.Circle : schedule.Circle;
                         schedule.IsDone = scheduleDTO.IsDone;
                         schedule.GivenDate = scheduleDTO.GivenDate;
 
@@ -216,10 +217,10 @@ namespace VaccineDose.Controllers
                                 var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
                                 brandInventory.Count--;
                             }
-                            ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, schedule);
                         }
-
+                        ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, schedule);
                     }
+                    entities.SaveChanges();
                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
                     //var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
                     //ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
@@ -315,7 +316,7 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandInventoryDTo.BrandID
-                    && b.DoctorID==brandInventoryDTo.DoctorID).FirstOrDefault();
+                    && b.DoctorID == brandInventoryDTo.DoctorID).FirstOrDefault();
 
                     BrandInventoryDTO brandInventoryDTO = Mapper.Map<BrandInventoryDTO>(dbBrandInventory);
                     if (brandInventoryDTO.Count > 0)
@@ -352,6 +353,7 @@ namespace VaccineDose.Controllers
                         scheduleDTO.ID = schedule.ID;
                         scheduleDTO.Brands = brandDTOs;
                         scheduleDTO.Date = schedule.Date;
+                        scheduleDTO.IsDone = schedule.IsDone;
                         scheduleDTOs.Add(scheduleDTO);
                     }
 
