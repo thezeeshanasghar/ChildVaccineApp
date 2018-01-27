@@ -58,7 +58,7 @@ function loadData(id) {
                     html += '     ' + date;
                     if (isAllDone) {
                         html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionFilled.png" style="height: 22px;"></a>';
-                     
+
                     } else {
                         html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
                         html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
@@ -104,7 +104,7 @@ function loadData(id) {
     });
 
 }
-
+var click = 0;
 function getbyID(ID) {
     $("#ID").val(ID);
     var html = '';
@@ -118,10 +118,37 @@ function getbyID(ID) {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
+                click++;
+                if (result.ResponseData.Weight > 0) {
+                    if (click <= 1)
+                        $("#Weight").before('<label id="dWeight">Weight</label>');
+                    $("#Weight").val(result.ResponseData.Weight);
+                } else {
+                    $("#Weight").val("");
+                    $("#dWeight").remove();
+                    click=0;
+                }
 
-                $("#Weight").val(result.ResponseData.Weight);
-                $("#Height").val(result.ResponseData.Height);
-                $("#Circumference").val(result.ResponseData.Circle);
+                if (result.ResponseData.Height > 0) {
+                    if (click <= 1)
+                        $("#Height").before('<label id="dHeight">Height</label>');
+                    $("#Height").val(result.ResponseData.Height);
+                } else {
+                    $("#Height").val("");
+                    $("#dHeight").remove();
+                    click = 0;
+                }
+
+                if (result.ResponseData.Circle > 0) {
+                    if (click <= 1)
+                        $("#Circumference").before('<label id="dCircumference">Circumference</label>');
+                    $("#Circumference").val(result.ResponseData.Circle);
+                } else {
+                    $("#Circumference").val("");
+                    $("#dCircumference").remove();
+                    click = 0;
+                }
+
                 if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") {
                     $("#GivenDate").val(result.ResponseData.GivenDate);
 
@@ -139,7 +166,7 @@ function getbyID(ID) {
                     $("#Height").prop('readonly', true);
                     $("#Circumference").prop('readonly', true);
                     $("#Brand").attr("disabled", "disabled");
-                  //  $("#GivenDate").prop("disabled", true);
+                    //  $("#GivenDate").prop("disabled", true);
                     //$('#btnUpdate').hide();
                 }
                 else {
@@ -147,8 +174,8 @@ function getbyID(ID) {
                     $("#Height").prop('readonly', false);
                     $("#Circumference").prop('readonly', false);
                     $("#Brand").removeAttr("disabled");
-                   // $("#GivenDate").prop("disabled", false);
-                   
+                    // $("#GivenDate").prop("disabled", false);
+
 
                 }
                 //show vaccine brands
@@ -381,7 +408,7 @@ function openVaccineDetails(ID, date) {
                 var i = 0;
                 var isAllDone = false;
                 $.each(result.ResponseData, function (key, schedule) {
-                   
+
                     html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
                     //show vaccine brands
                     html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
