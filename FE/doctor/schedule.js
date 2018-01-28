@@ -141,7 +141,7 @@ function getbyID(ID) {
 
                 if (result.ResponseData.Circle > 0) {
                     if (click <= 1)
-                        $("#Circumference").before('<label id="dCircumference">Circumference</label>');
+                        $("#Circumference").before('<label id="dCircumference">OFC</label>');
                     $("#Circumference").val(result.ResponseData.Circle);
                 } else {
                     $("#Circumference").val("");

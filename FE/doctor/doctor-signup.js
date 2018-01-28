@@ -218,7 +218,7 @@ function GenerateScheduleForm() {
                 HideAlert();
             }
         },
-        error: function (errrmessage) {
+        error: function (errormessage) {
             var ob = JSON.parse(errormessage.responseText);
             ShowAlert('Error', ob.Message, 'danger');
         }
