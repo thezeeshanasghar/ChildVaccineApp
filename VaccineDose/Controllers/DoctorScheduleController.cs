@@ -20,8 +20,8 @@ namespace VaccineDose.Controllers
                 {
 
                     List<DoctorSchedule> doctorSchduleDBs = entities.DoctorSchedules.Include("Dose").Include("Doctor").Where(x => x.DoctorID == Id)
-                        .OrderBy(x=>x.Dose.MinAge).ThenBy(x=>x.Dose.Name).ToList();
-                    if(doctorSchduleDBs==null || doctorSchduleDBs.Count()==0)
+                        .OrderBy(x => x.Dose.MinAge).ThenBy(x => x.Dose.Name).ToList();
+                    if (doctorSchduleDBs == null || doctorSchduleDBs.Count() == 0)
                         return new Response<List<DoctorScheduleDTO>>(false, "DoctorSchedule not found", null);
 
                     List<DoctorScheduleDTO> DoctorScheduleDTOs = Mapper.Map<List<DoctorScheduleDTO>>(doctorSchduleDBs);
@@ -89,11 +89,11 @@ namespace VaccineDose.Controllers
                     // 1- get all vaccines
                     var dbDoses = db.Doses.ToList();
                     var dbDoctors = db.Doctors.ToList<Doctor>();
-                    foreach(var dbDoctor in dbDoctors)
+                    foreach (var dbDoctor in dbDoctors)
                     {
                         var listOfIds = dbDoctor.DoctorSchedules.Select(x => x.DoseID);
                         var newDoses = db.Doses.Where(x => !listOfIds.Contains(x.ID)).ToList();
-                        foreach(Dose newDose in newDoses)
+                        foreach (Dose newDose in newDoses)
                         {
                             dbDoctor.DoctorSchedules.Add(new DoctorSchedule()
                             {
@@ -101,6 +101,42 @@ namespace VaccineDose.Controllers
                                 DoseID = newDose.ID,
                                 GapInDays = newDose.MinAge
                             });
+
+                            //////////////////////////////////////////////////
+                            //// Add data in BrandInventory when
+                            //// new Vaccines/Doses/Brands are added by admin
+                            //// and then admin press UpdateDoctorSchedule
+                            var brands = newDose.Vaccine.Brands;
+                            foreach (var brand in brands)
+                            {
+                                BrandInventory existingBrandInventory = dbDoctor.BrandInventories.Where(x => x.BrandID == brand.ID && x.DoctorID == dbDoctor.ID).First<BrandInventory>();
+                                if (existingBrandInventory == null)
+                                {
+                                    dbDoctor.BrandInventories.Add(new BrandInventory()
+                                    {
+                                        Count = 0,
+                                        DoctorID = dbDoctor.ID,
+                                        BrandID = brand.ID
+                                    });
+                                    db.SaveChanges();
+                                }
+
+                                BrandAmount existingBrandAmount = dbDoctor.BrandAmounts.Where(x => x.BrandID == brand.ID && x.DoctorID == dbDoctor.ID).First<BrandAmount>();
+                                if (existingBrandAmount == null)
+                                {
+                                    dbDoctor.BrandAmounts.Add(new BrandAmount()
+                                    {
+                                        Amount = 0,
+                                        DoctorID = dbDoctor.ID,
+                                        BrandID = brand.ID
+                                    });
+                                    db.SaveChanges();
+                                }
+                            }
+                            //////////////////////////////////////////////////
+
+
+
                             db.SaveChanges();
                         }
                     }

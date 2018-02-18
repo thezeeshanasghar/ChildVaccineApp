@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[BrandInventory]
 (
 	[ID]   INT           IDENTITY (1, 1) NOT NULL,
-    [Count] INT NULL, 
+    [Count] INT NOT NULL DEFAULT 0, 
     [BrandID] INT NOT NULL, 
     [DoctorID] INT NOT NULL,
 	CONSTRAINT [PK_BrandInventory] PRIMARY KEY CLUSTERED ([ID] ASC),
