@@ -109,10 +109,10 @@ namespace VaccineDose.Controllers
                             var brands = newDose.Vaccine.Brands;
                             foreach (var brand in brands)
                             {
-                                BrandInventory existingBrandInventory = dbDoctor.BrandInventories.Where(x => x.BrandID == brand.ID && x.DoctorID == dbDoctor.ID).First<BrandInventory>();
+                                BrandInventory existingBrandInventory = db.BrandInventories.Where(x => x.BrandID == brand.ID && x.DoctorID == dbDoctor.ID).FirstOrDefault<BrandInventory>();
                                 if (existingBrandInventory == null)
                                 {
-                                    dbDoctor.BrandInventories.Add(new BrandInventory()
+                                    db.BrandInventories.Add(new BrandInventory()
                                     {
                                         Count = 0,
                                         DoctorID = dbDoctor.ID,
@@ -121,10 +121,10 @@ namespace VaccineDose.Controllers
                                     db.SaveChanges();
                                 }
 
-                                BrandAmount existingBrandAmount = dbDoctor.BrandAmounts.Where(x => x.BrandID == brand.ID && x.DoctorID == dbDoctor.ID).First<BrandAmount>();
+                                BrandAmount existingBrandAmount = db.BrandAmounts.Where(x => x.BrandID == brand.ID && x.DoctorID == dbDoctor.ID).FirstOrDefault<BrandAmount>();
                                 if (existingBrandAmount == null)
                                 {
-                                    dbDoctor.BrandAmounts.Add(new BrandAmount()
+                                    db.BrandAmounts.Add(new BrandAmount()
                                     {
                                         Amount = 0,
                                         DoctorID = dbDoctor.ID,
