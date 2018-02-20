@@ -5,6 +5,7 @@
 });
 
 function loadData(Id) {
+    $("#NumberOfDays").val(Id);
     var OnlineClinic = GetOnlineClinicIdFromLocalStorage();
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
@@ -23,7 +24,7 @@ function loadData(Id) {
                         var obj = {
                             Date: item.Date,
                             DoseName: item.Dose.Name,
-                            Gender:item.Child.Gender
+                            Gender: item.Child.Gender
                         }
                         if (item.Child.Name in map) {
                             map[item.Child.Name].push(obj);
@@ -52,7 +53,7 @@ function loadData(Id) {
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
-                          
+
                     }
                 } else {
                     html = '<h4 style="color:red">No alert for today.</h4>';
@@ -149,4 +150,27 @@ function enableAccordion() {
         console.log("setAllPanelclose");
         $(aId + ' .panel-collapse.in').collapse('hide');
     }
+}
+
+function sendSMS() {
+
+    var OnlineClinic = GetOnlineClinicIdFromLocalStorage();
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + 'schedule/sms-alert/' + $("#NumberOfDays").val() + '/' + OnlineClinic,
+        type: 'GET',
+        contentType: 'application/json;charset=utf-8',
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                ShowAlert('Success', "Alerts has been sent successfully", 'success');
+            }
+        },
+        error: function (errormessage) {
+            ShowAlert('Error', errormessage.responseText, 'danger');
+        }
+    });
+
 }
