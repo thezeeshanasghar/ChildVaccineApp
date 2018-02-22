@@ -166,7 +166,7 @@ namespace VaccineDose.Controllers
                     dbDoctor.FirstName = doctorDTO.FirstName;
                     dbDoctor.LastName = doctorDTO.LastName;
                     dbDoctor.DisplayName = doctorDTO.DisplayName;
-                    doctorDTO.IsApproved = doctorDTO.IsApproved;
+                    dbDoctor.IsApproved = doctorDTO.IsApproved;
                     dbDoctor.Email = doctorDTO.Email;
                     dbDoctor.PMDC = doctorDTO.PMDC;
                     dbDoctor.PhoneNo = doctorDTO.PhoneNo;
