@@ -9,7 +9,7 @@
     [BrandId] INT        NULL,
     [IsDone]  BIT        CONSTRAINT [DF_Schedule_IsDone] DEFAULT ((0)) NOT NULL,
     [Due2EPI] BIT        DEFAULT ((0)) NOT NULL,
-    [GivenDate] DATE NOT NULL, 
+    [GivenDate] DATE NULL, 
     CONSTRAINT [PK_Schedule] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Schedule_Brand] FOREIGN KEY ([BrandId]) REFERENCES [dbo].[Brand] ([ID]),
     CONSTRAINT [FK_Schedule_Child] FOREIGN KEY ([ChildId]) REFERENCES [dbo].[Child] ([ID]),
