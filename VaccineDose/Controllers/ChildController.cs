@@ -420,9 +420,9 @@ namespace VaccineDose.Controllers
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
-                float[] widths = new float[] { 25f, 145f, 70f, 70f, 45f, 45f, 75f, 50f };
+                float[] widths = new float[] { 25f, 145f, 70f, 70f, 45f, 45f, 45f};
 
-                PdfPTable table = new PdfPTable(8);
+                PdfPTable table = new PdfPTable(7);
                 table.HorizontalAlignment = 0;
                 table.TotalWidth = 500f;
                 table.LockedWidth = true;
@@ -434,8 +434,8 @@ namespace VaccineDose.Controllers
                 table.AddCell(CreateCell("Given Date", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Weight", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Height", "backgroudLightGray", 1, "center", "scheduleRecords"));
-                table.AddCell(CreateCell("Circumference", "backgroudLightGray", 1, "center", "scheduleRecords"));
-                table.AddCell(CreateCell("Injected", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("OFC", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                //table.AddCell(CreateCell("Injected", "backgroudLightGray", 1, "center", "scheduleRecords"));
 
                 var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/img");
                 foreach (var schedule in scheduleDoses)
@@ -464,24 +464,24 @@ namespace VaccineDose.Controllers
 
                         ////  add a image
                         //var isDone = dbSchedule.Where(x => x.IsDone).FirstOrDefault();
-                        string injectionPath = "";
-                        if (dbSchedule.IsDone)
-                        {
-                            injectionPath = "\\injectionFilled.png";
-                        }
-                        else
-                        {
-                            injectionPath = "\\injectionEmpty.png";
-                        }
-                        Image img = Image.GetInstance(imgPath + injectionPath);
-                        img.ScaleAbsolute(2f, 2f);
-                        PdfPCell imageCell = new PdfPCell(img, true);
-                        imageCell.PaddingBottom = 2;
-                        imageCell.Colspan = 1; // either 1 if you need to insert one cell
-                        //imageCell.Border = 0;
-                        imageCell.FixedHeight = 15f;
-                        imageCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                        table.AddCell(imageCell);
+                        //string injectionPath = "";
+                        //if (dbSchedule.IsDone)
+                        //{
+                        //    injectionPath = "\\injectionFilled.png";
+                        //}
+                        //else
+                        //{
+                        //    injectionPath = "\\injectionEmpty.png";
+                        //}
+                        //Image img = Image.GetInstance(imgPath + injectionPath);
+                        //img.ScaleAbsolute(2f, 2f);
+                        //PdfPCell imageCell = new PdfPCell(img, true);
+                        //imageCell.PaddingBottom = 2;
+                        //imageCell.Colspan = 1; // either 1 if you need to insert one cell
+                        ////imageCell.Border = 0;
+                        //imageCell.FixedHeight = 15f;
+                        //imageCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        //table.AddCell(imageCell);
                     }
 
 

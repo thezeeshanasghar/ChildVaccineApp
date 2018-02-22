@@ -211,7 +211,7 @@ function GrowthChart(id) {
             labels: dateArray,
             datasets: [
             {
-                label: "cercumfrance",
+                label: "OFC",
                 fill: false,
                 backgroundColor: 'rgb(100, 100,255)',
                 borderColor: 'rgb(100, 100, 255)',
