@@ -24,7 +24,8 @@ function loadData(Id) {
                         var obj = {
                             Date: item.Date,
                             DoseName: item.Dose.Name,
-                            Gender: item.Child.Gender
+                            Gender: item.Child.Gender,
+                            ChildID: item.ChildId
                         }
                         if (item.Child.Name in map) {
                             map[item.Child.Name].push(obj);
@@ -49,7 +50,8 @@ function loadData(Id) {
                         html += ' <div class="col-md-8 col-sm-8 col-xs-8">';
                         html += '<h5 style="border-bottom:solid 1px pink">' + key + '</h5>';
                         html += '  <div class="pull-right">';
-                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i>';
+                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp';
+                        html += '<i onclick="sendSMSToIndividual(' + arry[0].ChildID + ')" class="fa fa-envelope" aria-hidden="true"></i>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
@@ -158,6 +160,28 @@ function sendSMS() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
         url: SERVER + 'schedule/sms-alert/' + $("#NumberOfDays").val() + '/' + OnlineClinic,
+        type: 'GET',
+        contentType: 'application/json;charset=utf-8',
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                ShowAlert('Success', "Alerts has been sent successfully", 'success');
+            }
+        },
+        error: function (errormessage) {
+            ShowAlert('Error', errormessage.responseText, 'danger');
+        }
+    });
+
+}
+
+function sendSMSToIndividual(childId) {
+
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + 'schedule/individual-sms-alert/' + $("#NumberOfDays").val() + '/' + childId,
         type: 'GET',
         contentType: 'application/json;charset=utf-8',
         dataType: "json",
