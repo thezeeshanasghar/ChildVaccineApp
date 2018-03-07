@@ -169,7 +169,8 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    User userDB = entities.Users.Where(x => x.MobileNumber == MobileNumber).FirstOrDefault();
+                    User userDB = entities.Users.Where(x => x.MobileNumber == MobileNumber)
+                        .Where(u =>u.UserType== "DOCTOR").FirstOrDefault();
                     if (userDB == null)
                         return Request.CreateResponse((HttpStatusCode)200);
                     else
@@ -180,7 +181,7 @@ namespace VaccineDose.Controllers
                         //    Request.CreateErrorResponse((HttpStatusCode)422, new HttpError("Mobile number already exists")));
                         int HTTPResponse = 400;
                         var response = Request.CreateResponse((HttpStatusCode)HTTPResponse);
-                        response.ReasonPhrase = "Mobile Number already exists";
+                        response.ReasonPhrase = "Mobile Number already in use";
                         return response;
                     }
                 }
@@ -276,7 +277,7 @@ namespace VaccineDose.Controllers
 
             }
         }
-
+       
     }
 
 }

@@ -7,6 +7,8 @@ using VaccineDose.App_Code;
 using System.IO;
 using System.Web;
 using System.Globalization;
+using System.Net.Http;
+using System.Net;
 
 namespace VaccineDose.Controllers
 {
@@ -470,6 +472,32 @@ namespace VaccineDose.Controllers
             {
                 return new Response<DoctorDTO>(false, GetMessageFromExceptionObject(e), null);
 
+            }
+        }
+
+        [HttpGet]
+        [Route("api/doctor/checkUniqueEmail")]
+        public HttpResponseMessage CheckUniqueEmail(string Email)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    Doctor doctorDB = entities.Doctors.Where(x => x.Email == Email).FirstOrDefault();
+                    if (doctorDB == null)
+                        return Request.CreateResponse((HttpStatusCode)200);
+                    else
+                    {
+                        int HTTPResponse = 400;
+                        var response = Request.CreateResponse((HttpStatusCode)HTTPResponse);
+                        response.ReasonPhrase = "Email already in use";
+                        return response;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
 

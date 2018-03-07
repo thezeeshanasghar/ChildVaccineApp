@@ -3,6 +3,13 @@
     localStorage.clear();
     $("#MobileNumber").intlTelInput({ initialCountry: "PK" });
     $("#ForgotMobileNumber").intlTelInput({ initialCountry: "PK" });
+
+    if (getParameterByName('UserType') == 'PARENT')
+        $("#logHeading").text("Parent Sign In");
+    if (getParameterByName('UserType') == 'DOCTOR')
+        $("#logHeading").text("Doctor Sign In");
+    if (getParameterByName('UserType') == 'SUPERADMIN')
+        $("#logHeading").text("Admin Sign In");
 });
 
 function Login() {
