@@ -244,7 +244,8 @@ namespace VaccineDose.Controllers
                         else
                         {
                             UserEmail.DoctorForgotPassword(doctorDb);
-                            return new Response<UserDTO>(true, "your password has been sent to your email address", null);
+                            UserSMS.DoctorForgotPasswordSMS(doctorDb);
+                            return new Response<UserDTO>(true, "your password has been sent to your mobile number and email address", null);
 
                         }
                     }
@@ -258,7 +259,8 @@ namespace VaccineDose.Controllers
                         else
                         {
                             UserEmail.ParentForgotPassword(childDB);
-                            return new Response<UserDTO>(true, "your password has been sent to your email address", null);
+                            UserSMS.ParentForgotPasswordSMS(childDB);
+                            return new Response<UserDTO>(true, "your password has been sent to your mobile number and email address", null);
                         }
                     }
                     else

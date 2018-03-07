@@ -59,6 +59,22 @@ namespace VaccineDose.App_Code
             return response1;
         }
 
+        public static string DoctorForgotPasswordSMS(Doctor doctor)
+        {
+            string body = "";
+            body += "Hi " + doctor.DisplayName;
+            body += ",Your password is " + doctor.User.Password;
+            var response = SendSMS(doctor.User.CountryCode, doctor.User.MobileNumber, doctor.Email, body);
+            return response;
+        }
+        public static string ParentForgotPasswordSMS(Child child)
+        {
+            string body = "";
+            body += "Hi " + child.FatherName;
+            body += ",Your password is " + child.User.Password;
+            var response = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body);
+            return response;
+        }
         public static string SendSMS(string CountryCode, string MobileNumber, string Email, string text)
         {
             //string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";
