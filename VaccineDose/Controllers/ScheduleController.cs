@@ -428,6 +428,61 @@ namespace VaccineDose.Controllers
             }
 
         }
-    }
 
+
+        [HttpGet]
+        [Route("api/schedule/individual-sms-alert/{GapDays}/{childId}")]
+        public Response<IEnumerable<ScheduleDTO>> SendSMSAlertToOneChild(int GapDays, int childId)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    IEnumerable<Schedule> Schedules = new List<Schedule>();
+                    DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+                    if (GapDays == 0)
+                    {
+                        Schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(sc => sc.ChildId == childId)
+                            .Where(sc => sc.Date == DateTime.Today.Date)
+                            .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
+                    }
+                    if (GapDays > 0)
+                    {
+                        Schedules = entities.Schedules.Include("Child").Include("Dose")
+                            .Where(sc => sc.ChildId == childId)
+                            .Where(sc => sc.Date >= DateTime.Today.Date && sc.Date <= AddedDateTime)
+                            .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
+                    }
+                    if (GapDays < 0)
+                    {
+                        Schedules = entities.Schedules.Include("Child").Include("Dose")
+                           .Where(sc => sc.ChildId == childId)
+                           .Where(sc => sc.Date <= DateTime.Today.Date && sc.Date >= AddedDateTime)
+                           .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
+                    }
+
+                    var doseName = "";
+                    DateTime scheduleDate = new DateTime();
+                    var dbChild = entities.Children.Where(x => x.ID == childId).FirstOrDefault();
+                    foreach (var schedule in Schedules)
+                    {
+                        doseName += schedule.Dose.Name + ", ";
+                        scheduleDate = schedule.Date;
+                    }
+                    UserSMS.ParentSMSAlert(doseName, scheduleDate, dbChild);
+
+                    List<ScheduleDTO> scheduleDtos = Mapper.Map<List<ScheduleDTO>>(Schedules);
+                    return new Response<IEnumerable<ScheduleDTO>>(true, null, scheduleDtos);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new Response<IEnumerable<ScheduleDTO>>(false, GetMessageFromExceptionObject(ex), null);
+            }
+
+        }
+
+    }
 }
