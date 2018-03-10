@@ -115,12 +115,12 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var OriginalDate = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault().Date;
+                    var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
 
-                    var dbSchedules = entities.Schedules.Where(x => x.Date == OriginalDate).ToList();
-                    foreach (var dbSchedule in dbSchedules)
+                    var dbSchedules = entities.Schedules.Where(x => x.Date == dbSchedule.Date && x.ChildId==dbSchedule.ChildId).ToList();
+                    foreach (var schedule in dbSchedules)
                     {
-                        ChangeDueDatesOfSchedule(scheduleDTO, entities, dbSchedule);
+                        ChangeDueDatesOfSchedule(scheduleDTO, entities, schedule);
                     }
 
                     //var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
