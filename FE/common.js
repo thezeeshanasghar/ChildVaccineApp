@@ -68,10 +68,17 @@ function SetMainNav() {
         markup += '</div><!--/.container-fluid -->';
         markup += '</nav>';
     } else if (UserType == 'DOCTOR') {
+        if (localStorage.getItem("ProfileImage") !="null") {
+            markup += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/UserImages/" + localStorage.getItem("ProfileImage") + '" style="height: 42px;float: right;border-radius: 16px; width: 57px;" />';
+
+        } else {
+            markup += '<img src="' + SERVER_IP + ":" + SERVER_PORT + "/Content/img/avatar.png" + '" style="height: 42px;float: right;border-radius: 16px; width: 57px;"/>';
+        }
         markup += '<div class="btn-group btn-group-justified">';
         markup += '     <a href="/doctor/alert.html" class="btn btn-primary"><span class="glyphicon glyphicon-alert"></span>&nbsp;</a>';
         markup += '     <a id="addNewChild" href="/doctor/add-new-child.html" class="btn btn-primary"><small><span class="glyphicon glyphicon-plus"></span></small><span class="glyphicon glyphicon-user"></span></a>';
         markup += '     <a href="/doctor/child.html?id=' + OnlineClinic + '" class="btn btn-primary"><small><span class="glyphicon glyphicon-th-list"></span></small><span>&nbsp;<span class="glyphicon glyphicon-user"></span></a>';
+     
         markup += '     <a id="openSideNav" href="#" onclick="openNav()" class="btn btn-primary"><small><span class="glyphicon glyphicon-align-justify"></span></small>&nbsp;</a>';
         markup += '</div>';
         markup += '<div id="mySidenav" class="sidenav">';

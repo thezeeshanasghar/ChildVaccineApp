@@ -56,6 +56,7 @@ function Login() {
                 localStorage.setItem('DoctorID', result.ResponseData.DoctorID);
                 localStorage.setItem('AllowInvoice', result.ResponseData.AllowInvoice);
                 localStorage.setItem('AllowInventory', result.ResponseData.AllowInventory);
+                localStorage.setItem('ProfileImage', result.ResponseData.ProfileImage);
                 window.location.replace('/doctor/clinic-selection.html');
             }
             else if (result.ResponseData.UserType == "PARENT") {

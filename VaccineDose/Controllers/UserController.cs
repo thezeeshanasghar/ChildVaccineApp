@@ -141,6 +141,8 @@ namespace VaccineDose.Controllers
                         userDTO.DoctorID = doctorDb.ID;
                         userDTO.AllowInventory = doctorDb.AllowInventory;
                         userDTO.AllowInvoice = doctorDb.AllowInvoice;
+                        userDTO.ProfileImage = doctorDb.ProfileImage;
+
                     }
                     else if (userDTO.UserType.Equals("PARENT"))
                     {
