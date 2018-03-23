@@ -59,6 +59,17 @@ namespace VaccineDose.Controllers
                     entities.Clinics.Add(clinicDb);
                     entities.SaveChanges();
                     clinicDTO.ID = clinicDb.ID;
+                    foreach(var clinicTiming in clinicDTO.ClinicTimings)
+                    {
+                        ClinicTiming dbClinicTiming = new ClinicTiming();
+                        dbClinicTiming.ClinicID = clinicDTO.ID;
+                        dbClinicTiming.Day = clinicTiming.Day;
+                        dbClinicTiming.StartTime = clinicTiming.StartTime;
+                        dbClinicTiming.EndTime = clinicTiming.EndTime;
+                        dbClinicTiming.Session = clinicTiming.Session;
+                        dbClinicTiming.IsOpen = clinicTiming.IsOpen;
+                    }
+                    entities.SaveChanges();
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
@@ -79,8 +90,8 @@ namespace VaccineDose.Controllers
                     clinicDTO.IsOnline = false;
                     dbClinic.Name = clinicDTO.Name;
                     dbClinic.ConsultationFee = clinicDTO.ConsultationFee;
-                    dbClinic.StartTime = clinicDTO.StartTime;
-                    dbClinic.EndTime = clinicDTO.EndTime;
+                    //dbClinic.StartTime = clinicDTO.StartTime;
+                    //dbClinic.EndTime = clinicDTO.EndTime;
                     dbClinic.PhoneNumber = clinicDTO.PhoneNumber;
                     dbClinic.OffDays = clinicDTO.OffDays;
                     dbClinic.Lat = clinicDTO.Lat;

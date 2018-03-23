@@ -3,8 +3,6 @@
     [Name]        NVARCHAR (50) NOT NULL,
     [ConsultationFee] INT NULL, 
     [OffDays]     NVARCHAR (56) NOT NULL,
-    [StartTime]   TIME (7)      NOT NULL,
-    [EndTime]     TIME (7)      NOT NULL,
     [Lat]         FLOAT (53)    NOT NULL,
     [Long]        FLOAT (53)    NOT NULL,
     [DoctorID]    INT           NOT NULL,
