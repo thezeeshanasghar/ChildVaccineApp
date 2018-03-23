@@ -12,14 +12,16 @@ namespace VaccineDose
     using System;
     using System.Collections.Generic;
     
-    public partial class BrandAmount
+    public partial class ClinicTiming
     {
         public int ID { get; set; }
-        public Nullable<int> Amount { get; set; }
-        public int BrandID { get; set; }
-        public int DoctorID { get; set; }
+        public string Day { get; set; }
+        public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
+        public int Session { get; set; }
+        public int ClinicID { get; set; }
+        public bool IsOpen { get; set; }
     
-        public virtual Brand Brand { get; set; }
-        public virtual Doctor Doctor { get; set; }
+        public virtual Clinic Clinic { get; set; }
     }
 }

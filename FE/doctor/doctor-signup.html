@@ -217,13 +217,13 @@
                                             <label><input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday">Sunday</label>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!--<div class="form-group">
                                         <div class="input-group bootstrap-timepicker timepicker">
                                             <span class="input-group-addon red" id="basic-addon9">*</span>
                                             <input aria-describedby="basic-addon9" id="StartTime" type="text" class="form-control input-small" placeholder="Start Time of clinic" required />
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="form-group">
                                         <div class="input-group bootstrap-timepicker timepicker">
                                             <span class="input-group-addon red" id="basic-addon10">*</span>
@@ -286,18 +286,18 @@
             $("#Email").attr('data-remote', SERVER + 'doctor/checkUniqueEmail');
 
             $("#MobileNumber").intlTelInput({ initialCountry: "PK" });
-            $('#StartTime').timepicker({
-                minuteStep: 30,
-                showMeridian: false,
-                disableFocus: false,
-                disableMousewheel: false
-            });
-            $('#EndTime').timepicker({
-                minuteStep: 30,
-                showMeridian: false,
-                disableFocus: false,
-                disableMousewheel: false
-            });
+            //$('#StartTime').timepicker({
+            //    minuteStep: 30,
+            //    showMeridian: false,
+            //    disableFocus: false,
+            //    disableMousewheel: false
+            //});
+            //$('#EndTime').timepicker({
+            //    minuteStep: 30,
+            //    showMeridian: false,
+            //    disableFocus: false,
+            //    disableMousewheel: false
+            //});
         });
     </script>
 </body>

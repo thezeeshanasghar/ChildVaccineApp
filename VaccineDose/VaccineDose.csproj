@@ -250,9 +250,13 @@
     <Compile Include="Clinic.cs">
       <DependentUpon>VDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClinicTiming.cs">
+      <DependentUpon>VDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BrandAmountController.cs" />
+    <Compile Include="Controllers\ClinicTimingController.cs" />
     <Compile Include="Controllers\FollowUpController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
@@ -291,6 +295,7 @@
     <Compile Include="Model\BrandAmountDTO.cs" />
     <Compile Include="Model\ChangePasswordRequestDTO.cs" />
     <Compile Include="Model\ChildDTO.cs" />
+    <Compile Include="Model\ClinicTimingDTO.cs" />
     <Compile Include="Model\DoctorScheduleDTO.cs" />
     <Compile Include="Model\FollowUpDTO.cs" />
     <Compile Include="Model\MessageDTO.cs" />

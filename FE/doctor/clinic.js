@@ -33,13 +33,13 @@ function loadData(id) {
                     html += '<td>' + item.Name + '</td>';
                     html += '<td>' + item.ConsultationFee + '</td>';
                     html += '<td>' + item.OffDays + '</td>';
-                    html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
+                    //html += '<td>' + item.StartTime + ' - ' + item.EndTime + '</td>';
                     html += '<td>' +
                         '<a href="child.html?id=' + item.ID + '">Kids/Patients</a> | ' +
                         '<a id="btnEditClinic" href="#" onclick="return getbyID(' + item.ID + ')"><span class="glyphicon glyphicon-pencil"></span></a> | ' +
                         '<a id="btnDeleteClinic" href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td>';
                     html += '</tr>';
-                    
+
                 });
                 $('.tbody').html(html);
                 HideAlert();
@@ -66,22 +66,121 @@ function Add() {
         result.push(this.value);
         console.log(result);
     });
+    var clinicTimings = [
 
+               {
+                   "Day": "Monday",
+                   "StartTime": $("#StartTimeMonday1").val(),
+                   "EndTime": $("#EndTimeMonday1").val(),
+                   "Session": 1,
+                   "IsOpen": $("#IsOpenMonday").is(":checked")
+               },
+               {
+                   "Day": "Monday",
+                   "StartTime": $("#StartTimeMonday2").val(),
+                   "EndTime": $("#EndTimeMonday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenMonday").is(":checked")
+               },
+                 {
+                     "Day": "Tuesday",
+                     "StartTime": $("#StartTimeTuesday1").val(),
+                     "EndTime": $("#EndTimeTuesday1").val(),
+                     "Session": 1,
+                     "IsOpen": $("#IsOpenTuesday").is(":checked")
+                 },
+               {
+                   "Day": "Tuesday",
+                   "StartTime": $("#StartTimeTuesday2").val(),
+                   "EndTime": $("#EndTimeTuesday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenTuesday").is(":checked")
+               },
+                 {
+                     "Day": "Wednesday",
+                     "StartTime": $("#StartTimeWednesday1").val(),
+                     "EndTime": $("#EndTimeWednesday1").val(),
+                     "Session": 1,
+                     "IsOpen": $("#IsOpenWednesday").is(":checked")
+                 },
+               {
+                   "Day": "Wednesday",
+                   "StartTime": $("#StartTimeWednesday2").val(),
+                   "EndTime": $("#StartTimeWednesday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenWednesday").is(":checked")
+               },
+                 {
+                     "Day": "Thursday",
+                     "StartTime": $("#StartTimeThursday1").val(),
+                     "EndTime": $("#EndTimeThursday1").val(),
+                     "Session": 1,
+                     "IsOpen": $("#IsOpenThursday").is(":checked")
+                 },
+               {
+                   "Day": "Thursday",
+                   "StartTime": $("#StartTimeThursday2").val(),
+                   "EndTime": $("#EndTimeThursday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenThursday").is(":checked")
+               },
+                 {
+                     "Day": "Friday",
+                     "StartTime": $("#StartTimeFriday1").val(),
+                     "EndTime": $("#EndTimeFriday1").val(),
+                     "Session": 1,
+                     "IsOpen": $("#IsOpenFriday").is(":checked")
+                 },
+               {
+                   "Day": "Friday",
+                   "StartTime": $("#StartTimeFriday2").val(),
+                   "EndTime": $("#EndTimeFriday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenFriday").is(":checked")
+               },
+                 {
+                     "Day": "Saturday",
+                     "StartTime": $("#StartTimeSaturday1").val(),
+                     "EndTime": $("#EndTimeSaturday1").val(),
+                     "Session": 1,
+                     "IsOpen": $("#IsOpenSaturday").is(":checked")
+                 },
+               {
+                   "Day": "Saturday",
+                   "StartTime": $("#StartTimeSaturday2").val(),
+                   "EndTime": $("#EndTimeSaturday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenSaturday").is(":checked")
+               },
+                 {
+                     "Day": "Sunday",
+                     "StartTime": $("#StartTimeSunday1").val(),
+                     "EndTime": $("#EndTimeSunday1").val(),
+                     "Session": 1,
+                     "IsOpen": $("#IsOpenSunday").is(":checked")
+                 },
+               {
+                   "Day": "Sunday",
+                   "StartTime": $("#StartTimeSunday2").val(),
+                   "EndTime": $("#EndTimeSunday2").val(),
+                   "Session": 2,
+                   "IsOpen": $("#IsOpenSunday").is(":checked")
+               },
+    ];
     var obj = {
         Name: $('#Name').val(),
         ConsultationFee: $('#ConsultationFee').val(),
-        StartTime: $('#StartTime').val(),
-        EndTime: $('#EndTime').val(),
         PhoneNumber: $('#PhoneNumber').val(),
         OffDays: result.join(','),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
         DoctorID: DoctorId(),
-        Address: $('#Address').val()
+        Address: $('#Address').val(),
+        ClinicTimings: clinicTimings
     };
     $.ajax({
         url: SERVER + "clinic",
-        data: JSON.stringify(obj),
+        data: JSON.stringify(JSON.decycle(obj,true)),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -131,8 +230,8 @@ function getbyID(ID) {
             if (result.ResponseData.OffDays != null && result.ResponseData.OffDays.length > 0)
                 $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
 
-            $('#StartTime').val(result.ResponseData.StartTime);
-            $('#EndTime').val(result.ResponseData.EndTime);
+            //$('#StartTime').val(result.ResponseData.StartTime);
+            //$('#EndTime').val(result.ResponseData.EndTime);
 
             $('#PhoneNumber').val(result.ResponseData.PhoneNumber);
 
@@ -169,8 +268,8 @@ function Update() {
         Name: $('#Name').val(),
         ConsultationFee: $('#ConsultationFee').val(),
         OffDays: result.join(','),
-        StartTime: $('#StartTime').val(),
-        EndTime: $('#EndTime').val(),
+        //StartTime: $('#StartTime').val(),
+        //EndTime: $('#EndTime').val(),
         PhoneNumber: $('#PhoneNumber').val(),
         Lat: myMarker.getPosition().lat(),
         Long: myMarker.getPosition().lng(),
@@ -195,8 +294,8 @@ function Update() {
             $('#Name').val("");
             $('#ConsultationFee').val("");
             $("input:checkbox").prop("checked", false);
-            $('#StartTime').val("");
-            $('#EndTime').val("");
+            //$('#StartTime').val("");
+            //$('#EndTime').val("");
             $('#PhoneNumber').val("");
             $('#Address').val("");
 
@@ -233,8 +332,8 @@ function clearTextBox() {
     $('#Name').val("");
     $('#ConsultationFee').val("");
     $("input:checkbox").prop("checked", false);
-    $('#StartTime').val("");
-    $('#EndTime').val("");
+    //$('#StartTime').val("");
+    //$('#EndTime').val("");
     $('#PhoneNumber').val("");
     $('#btnUpdate').hide();
     $('#Address').val("");

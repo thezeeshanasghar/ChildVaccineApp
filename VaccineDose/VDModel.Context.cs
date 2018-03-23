@@ -18,6 +18,8 @@ namespace VaccineDose
         public VDConnectionString()
             : base("name=VDConnectionString")
         {
+            //this.Configuration.LazyLoadingEnabled = false;
+            //this.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -26,17 +28,18 @@ namespace VaccineDose
         }
     
         public virtual DbSet<Brand> Brands { get; set; }
-        public virtual DbSet<Child> Children { get; set; }
-        public virtual DbSet<DoctorSchedule> DoctorSchedules { get; set; }
-        public virtual DbSet<FollowUp> FollowUps { get; set; }
-        public virtual DbSet<Message> Messages { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Vaccine> Vaccines { get; set; }
-        public virtual DbSet<Clinic> Clinics { get; set; }
-        public virtual DbSet<Dose> Doses { get; set; }
-        public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<BrandAmount> BrandAmounts { get; set; }
         public virtual DbSet<BrandInventory> BrandInventories { get; set; }
+        public virtual DbSet<Child> Children { get; set; }
+        public virtual DbSet<Clinic> Clinics { get; set; }
+        public virtual DbSet<ClinicTiming> ClinicTimings { get; set; }
+        public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<DoctorSchedule> DoctorSchedules { get; set; }
+        public virtual DbSet<Dose> Doses { get; set; }
+        public virtual DbSet<FollowUp> FollowUps { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Vaccine> Vaccines { get; set; }
     }
 }

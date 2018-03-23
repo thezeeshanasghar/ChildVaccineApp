@@ -139,6 +139,7 @@
     <Content Include="child\child.js" />
     <Content Include="child\schedule.js" />
     <Content Include="js\Chart.min.js" />
+    <Content Include="js\cycle.js" />
     <Content Include="js\intlTelInput.min.js" />
     <Content Include="js\utils.js" />
     <Content Include="js\wizard.js" />

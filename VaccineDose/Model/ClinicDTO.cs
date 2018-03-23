@@ -14,8 +14,6 @@ namespace VaccineDose
 
         public int ConsultationFee { get; set; }
         public string OffDays { get; set; }
-        public System.TimeSpan StartTime { get; set; }
-        public System.TimeSpan EndTime { get; set; }
         public double Lat { get; set; }
         public double Long { get; set; }
         public int DoctorID { get; set; }
@@ -24,6 +22,8 @@ namespace VaccineDose
         
         //to show child count 
         public int childrenCount { get; set; }
+        public List<ClinicTiming> ClinicTimings { get; set; }
+
 
 
     }
