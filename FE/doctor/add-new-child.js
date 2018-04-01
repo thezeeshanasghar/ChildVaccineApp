@@ -5,7 +5,10 @@ $(document).ready(function () {
     }
     $("#child").show();
     $("#vaccine").hide();
-
+    var searchedName = getParameterByName("searchKeyword");
+    if (searchedName != "") {
+        $("#Name").val(searchedName);
+    }
 });
 
 function DisableOffDays() {

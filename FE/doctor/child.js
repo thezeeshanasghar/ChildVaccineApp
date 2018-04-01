@@ -48,9 +48,9 @@ function loadData() {
                     if (item.Clinic.Doctor.AllowFollowUp)
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
                     if (item.Clinic.Doctor.AllowChart)
-                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
+                        html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
                     if (item.Clinic.Doctor.AllowInvoice)
-                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
+                        html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
 
@@ -60,6 +60,15 @@ function loadData() {
                 });
                 $("#childrecords").html(html);
                 HideAlert();
+                if ($("#SearchItem").val() != "" && result.ResponseData.length <= 0) {
+                    var newHtml = '';
+                    newHtml += '<br /><a href="/doctor/add-new-child.html?searchKeyword=' + $("#SearchItem").val() + '"';
+                    newHtml += ' class="btn btn-primary" >Add New Child</a>';
+                    $("#newchild").html(newHtml);
+                    $("#newchild").show();
+                } else {
+                    $("#newchild").hide();
+                }
             }
         },
         error: function (errormessage, e) {
@@ -369,6 +378,9 @@ function GetFollowUpById(childId) {
                     html += '   <td>' + (key + 1) + '</td>';
                     html += '   <td>' + item.CurrentVisitDate + '</td>';
                     html += '   <td>' + item.Disease + '</td>';
+                    html += '   <td>' + item.Weight + '</td>';
+                    html += '   <td>' + item.Height + '</td>';
+                    html += '   <td>' + item.OFC + '</td>';
                     html += '</tr>'
 
                 });
@@ -393,7 +405,10 @@ function AddFollowUp() {
         CurrentVisitDate: GetCurrentDate(),
         NextVisitDate: $("#Date").val(),
         ChildID: $("#followUpID").val(),
-        DoctorID: DoctorId()
+        DoctorID: DoctorId(),
+        Weight: $("#Weight").val(),
+        Height: $("#Height").val(),
+        OFC: $("#OFC").val()
     }
     $.ajax({
         url: SERVER + 'followup',
@@ -410,6 +425,9 @@ function AddFollowUp() {
                 $("#Disease").val("");
                 $("#Date").val("");
                 $("#followUpID").val("");
+                $("#Weight").val("");
+                $("#Height").val("");
+                $("#OFC").val("");
                 $("#followUpModal").modal("hide");
             }
         },

@@ -25,5 +25,8 @@ namespace VaccineDose.Model
         public ChildDTO Child { get; set; }
 
         public DoctorDTO Doctor { get; set; }
+        public double Weight { get; set; }
+        public double Height { get; set; }
+        public double OFC { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace VaccineDose
     public partial class BrandInventory
     {
         public int ID { get; set; }
-        public int Count { get; set; }
+        public Nullable<int> Count { get; set; }
         public int BrandID { get; set; }
         public int DoctorID { get; set; }
     
