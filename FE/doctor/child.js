@@ -48,9 +48,9 @@ function loadData() {
                     if (item.Clinic.Doctor.AllowFollowUp)
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
                     if (item.Clinic.Doctor.AllowChart)
-                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
+                        html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
                     if (item.Clinic.Doctor.AllowInvoice)
-                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
+                        html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
 
@@ -60,6 +60,15 @@ function loadData() {
                 });
                 $("#childrecords").html(html);
                 HideAlert();
+                if ($("#SearchItem").val() != "" && result.ResponseData.length <= 0) {
+                    var newHtml = '';
+                    newHtml += '<br /><a href="/doctor/add-new-child.html?searchKeyword=' + $("#SearchItem").val() + '"';
+                    newHtml += ' class="btn btn-primary" >Add New Child</a>';
+                    $("#newchild").html(newHtml);
+                    $("#newchild").show();
+                } else {
+                    $("#newchild").hide();
+                }
             }
         },
         error: function (errormessage, e) {
