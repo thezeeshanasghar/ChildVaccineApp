@@ -188,7 +188,7 @@ function getbyID(ID) {
                     if (result.ResponseData.IsDone)
                         html += (result.ResponseData.BrandId == item.ID) ? selectedAttribute : '';
                     else
-                        html += (item.ID == localStorage.getItem("vaccine_" + result.ResponseData.Dose.VaccineID)) ? selectedAttribute : '';
+                        html += (item.ID == localStorage.getItem("Child_" + result.ResponseData.ChildId + "_LastSelectedBrandOfVaccine_" + result.ResponseData.Dose.VaccineID)) ? selectedAttribute : '';
                     html += '>' + item.Name + '</option>';
                 });
                 html += '</select>';
@@ -289,7 +289,7 @@ function Update() {
                 $("#Circumference").val(""),
                 $("#Brand").val("")
                 $('#myModal').modal('hide');
-                ScrollToTop();
+                //ScrollToTop();
                 var id = parseInt(getParameterByName("id")) || 0;
                 loadData(id);
             }
@@ -332,7 +332,7 @@ function openCalender(scheduleId, date) {
                      loadData(id);
 
                      ShowAlert('Success', result.Message, 'success');
-                     ScrollToTop();
+                     //ScrollToTop();
                  }
              },
              error: function (errormessage) {
@@ -375,7 +375,7 @@ function openBulkCalender(scheduleId, date) {
                      loadData(id);
 
                      ShowAlert('Success', result.Message, 'success');
-                     ScrollToTop();
+                     //ScrollToTop();
                  }
              },
              error: function (errormessage) {
@@ -417,7 +417,7 @@ function openVaccineDetails(ID, date) {
                     html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
                     $.each(schedule.Brands, function (key, brand) {
                         html += '<option value=' + brand.ID;
-                        html += (brand.ID == localStorage.getItem("vaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
+                        html += (brand.ID == localStorage.getItem("Child_" + schedule.ChildId + "_LastSelectedBrandOfVaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
                         html += '>' + brand.Name + '</option>';
 
                     });
@@ -439,8 +439,8 @@ function openVaccineDetails(ID, date) {
                 }
                 $("#ddBrand_bulk").html(html);
                 $("#BulkGivenDate").val(result.ResponseData[0].Date);
-                $('#bulkModel').modal('show');
                 $("#btnbulkInjection").show();
+                $('#bulkModel').modal('show');
             }
         },
         error: function (errormessage) {
@@ -496,7 +496,7 @@ function UpdateBulkInjection() {
                 loadData(id);
 
                 ShowAlert('Success', result.Message, 'success');
-                ScrollToTop();
+                //ScrollToTop();
             }
         },
         error: function (errormessage) {
@@ -506,10 +506,11 @@ function UpdateBulkInjection() {
 }
 
 function saveSelectedBrandInLocalStorage(vaccineId) {
-    localStorage.setItem('vaccine_' + vaccineId, $("#Brand").val());
+    var childId = parseInt(getParameterByName("id")) || 0;
+    localStorage.setItem('Child_' + childId + '_LastSelectedBrandOfVaccine_' + vaccineId, $("#Brand").val());
     for (i = 1; i <= 10; i++) {
         if ($("#ScheduleId_" + i).val() && $("#BrandId_" + i).val()) {
-            localStorage.setItem('vaccine_' + vaccineId, $("#BrandId_" + i).val());
+            localStorage.setItem('Child_' + childId + '_LastSelectedBrandOfVaccine_' + vaccineId, $("#BrandId_" + i).val());
         }
     }
 
