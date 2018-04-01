@@ -369,6 +369,9 @@ function GetFollowUpById(childId) {
                     html += '   <td>' + (key + 1) + '</td>';
                     html += '   <td>' + item.CurrentVisitDate + '</td>';
                     html += '   <td>' + item.Disease + '</td>';
+                    html += '   <td>' + item.Weight + '</td>';
+                    html += '   <td>' + item.Height + '</td>';
+                    html += '   <td>' + item.OFC + '</td>';
                     html += '</tr>'
 
                 });
@@ -393,7 +396,10 @@ function AddFollowUp() {
         CurrentVisitDate: GetCurrentDate(),
         NextVisitDate: $("#Date").val(),
         ChildID: $("#followUpID").val(),
-        DoctorID: DoctorId()
+        DoctorID: DoctorId(),
+        Weight: $("#Weight").val(),
+        Height: $("#Height").val(),
+        OFC: $("#OFC").val()
     }
     $.ajax({
         url: SERVER + 'followup',
@@ -410,6 +416,9 @@ function AddFollowUp() {
                 $("#Disease").val("");
                 $("#Date").val("");
                 $("#followUpID").val("");
+                $("#Weight").val("");
+                $("#Height").val("");
+                $("#OFC").val("");
                 $("#followUpModal").modal("hide");
             }
         },

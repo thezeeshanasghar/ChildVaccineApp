@@ -18,7 +18,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" />
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
         </EntityType>
@@ -27,7 +27,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Count" Type="int" Nullable="false" />
+          <Property Name="Count" Type="int" />
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
         </EntityType>
@@ -56,16 +56,16 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ConsultationFee" Type="int" />
           <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
-          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="Lat" Type="float" Nullable="false" />
           <Property Name="Long" Type="float" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ConsultationFee" Type="int" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -122,6 +122,9 @@
           <Property Name="CurrentVisitDate" Type="date" />
           <Property Name="ChildID" Type="int" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
+          <Property Name="Weight" Type="float" />
+          <Property Name="Height" Type="float" />
+          <Property Name="OFC" Type="float" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -251,18 +254,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Clinic_Doctor">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="Clinic" Type="Self.Clinic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Clinic">
-              <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Doctor_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
@@ -288,9 +279,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DoctorSchedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
           <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -362,9 +351,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schedule_Dose">
-          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1" />
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dose">
@@ -416,10 +403,6 @@
           <AssociationSet Name="FK_Child_User" Association="Self.FK_Child_User">
             <End Role="User" EntitySet="User" />
             <End Role="Child" EntitySet="Child" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Clinic_Doctor" Association="Self.FK_Clinic_Doctor">
-            <End Role="Doctor" EntitySet="Doctor" />
-            <End Role="Clinic" EntitySet="Clinic" />
           </AssociationSet>
           <AssociationSet Name="FK_Doctor_User" Association="Self.FK_Doctor_User">
             <End Role="User" EntitySet="User" />
@@ -603,6 +586,9 @@
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Child" Relationship="VDModel.FK_FollowUp_Child" FromRole="FollowUp" ToRole="Child" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="FollowUp" ToRole="Doctor" />
+          <Property Name="Weight" Type="Double" />
+          <Property Name="Height" Type="Double" />
+          <Property Name="OFC" Type="Double" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -688,7 +674,7 @@
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsOnline" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Children" Relationship="VDModel.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
         </EntityType>
         <Association Name="FK_Child_Clinic">
@@ -827,7 +813,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" />
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="VDModel.FK_BrandAmount_Brand" FromRole="BrandAmount" ToRole="Brand" />
@@ -838,7 +824,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Count" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="DoctorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="VDModel.FK_BrandInventory_Brand" FromRole="BrandInventory" ToRole="Brand" />
@@ -997,6 +983,9 @@
           <EntitySetMapping Name="FollowUps">
             <EntityTypeMapping TypeName="VDModel.FollowUp">
               <MappingFragment StoreEntitySet="FollowUp">
+                <ScalarProperty Name="OFC" ColumnName="OFC" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
                 <ScalarProperty Name="ChildID" ColumnName="ChildID" />
                 <ScalarProperty Name="CurrentVisitDate" ColumnName="CurrentVisitDate" />

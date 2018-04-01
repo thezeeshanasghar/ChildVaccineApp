@@ -20,6 +20,9 @@ namespace VaccineDose
         public Nullable<System.DateTime> CurrentVisitDate { get; set; }
         public int ChildID { get; set; }
         public int DoctorID { get; set; }
+        public Nullable<double> Weight { get; set; }
+        public Nullable<double> Height { get; set; }
+        public Nullable<double> OFC { get; set; }
     
         public virtual Child Child { get; set; }
         public virtual Doctor Doctor { get; set; }
