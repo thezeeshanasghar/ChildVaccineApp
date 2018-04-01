@@ -50,7 +50,10 @@ namespace VaccineDose.Controllers
                     var dbSchedule = entities.Schedules.Where(c => c.ID == scheduleDTO.ID).FirstOrDefault();
                     if (dbBrandInventory.Count > 0)
                     {
-                        dbBrandInventory.Count--;
+                        if(scheduleDTO.GivenDate.Date == DateTime.Now.Date)
+                        {
+                            dbBrandInventory.Count--;
+                        }
                         dbSchedule.BrandId = scheduleDTO.BrandId;
                     }
 
@@ -217,8 +220,11 @@ namespace VaccineDose.Controllers
                                 if (scheduleBrand != null)
                                 {
                                     schedule.BrandId = scheduleBrand.BrandId;
-                                    var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
-                                    brandInventory.Count--;
+                                    if(scheduleDTO.GivenDate.Date == DateTime.Now.Date)
+                                    {
+                                        var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
+                                        brandInventory.Count--;
+                                    }
                                 }
                             }
                             ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, schedule);
