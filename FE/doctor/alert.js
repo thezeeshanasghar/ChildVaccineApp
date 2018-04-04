@@ -48,9 +48,9 @@ function loadData(Id) {
 
                         html += ' </div>';
                         html += ' <div class="col-md-8 col-sm-8 col-xs-8">';
-                        html += '<h5 style="border-bottom:solid 1px pink">' + key + '</h5>';
+                        html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
-                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp';
+                        html += '<i class="fa fa-phone" aria-hidden="true" style="margin-right: 30px;"></i>&nbsp;&nbsp;&nbsp';
                         html += '<i onclick="sendSMSToIndividual(' + arry[0].ChildID + ')" class="fa fa-envelope" aria-hidden="true"></i>';
                         html += '</div>';
                         html += '</div>';
@@ -84,7 +84,8 @@ function loadData(Id) {
                     $.each(result.ResponseData, function (key, item) {
                         var obj = {
                             Date: item.NextVisitDate,
-                            Gender: item.Child.Gender
+                            Gender: item.Child.Gender,
+                            ChildID: item.ChildID
                         }
                         if (item.Child.Name in map) {
                             map[item.Child.Name].push(obj);
@@ -108,7 +109,7 @@ function loadData(Id) {
 
                         html += ' </div>';
                         html += ' <div class="col-md-8">';
-                        html += '<h5 style="border-bottom:solid 1px pink">' + key + '</h5>';
+                        html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
                         html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i>';
                         html += '</div>';
@@ -167,7 +168,7 @@ function sendSMS() {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
-                ShowAlert('Success', "Alerts has been sent successfully", 'success');
+                ShowAlert('Success', "All Alerts have been sent successfully", 'success');
             }
         },
         error: function (errormessage) {

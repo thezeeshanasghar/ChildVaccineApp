@@ -36,7 +36,7 @@ function loadData() {
                     html += '           &nbsp;<a href="#" onclick="Delele(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a>';
                     html += '       </span>';
                     html += '       &nbsp;';
-                    html += '       <a href="schedule.html?id=' + item.ID + '">' + item.Name + '</a><br/>';
+                    html += '       <a href="schedule.html?id=' + item.ID + '" id="' + item.ID + '">' + item.Name + '</a><br/>';
                     html += '   </h4>';
                     html += '   <div style="font-size:12px;padding-left:100px">';
                     html += '       <i class="glyphicon glyphicon-user"></i> ' + item.FatherName + '<br/>';
