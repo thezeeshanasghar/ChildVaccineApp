@@ -5,7 +5,9 @@ $(document).ready(function () {
         // DisableOffDays();
     }
 });
-
+function goToByScroll(id) {
+    $('html,body').animate({ scrollTop: $(id).offset().top }, 'slow');
+}
 //Load Data function  
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
@@ -62,12 +64,18 @@ function loadData() {
                 HideAlert();
                 if ($("#SearchItem").val() != "" && result.ResponseData.length <= 0) {
                     var newHtml = '';
-                    newHtml += '<br /><a href="/doctor/add-new-child.html?searchKeyword=' + $("#SearchItem").val() + '"';
+                    newHtml += 'No data found against search result.<br />You can add this child in application: &nbsp;<a href="/doctor/add-new-child.html?searchKeyword=' + $("#SearchItem").val() + '"';
                     newHtml += ' class="btn btn-primary" >Add New Child</a>';
                     $("#newchild").html(newHtml);
                     $("#newchild").show();
                 } else {
                     $("#newchild").hide();
+                }
+
+
+                if (window.location.hash) {
+                    goToByScroll(window.location.hash);
+                    $('a' + window.location.hash).parent().parent().effect("highlight", {}, 5000);
                 }
             }
         },

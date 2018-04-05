@@ -50,7 +50,7 @@ function loadData(Id) {
                         html += ' <div class="col-md-8 col-sm-8 col-xs-8">';
                         html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
-                        html += '<i class="fa fa-phone" aria-hidden="true" style="margin-right: 30px;"></i>&nbsp;&nbsp;&nbsp';
+                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
                         html += '<i onclick="sendSMSToIndividual(' + arry[0].ChildID + ')" class="fa fa-envelope" aria-hidden="true"></i>';
                         html += '</div>';
                         html += '</div>';
