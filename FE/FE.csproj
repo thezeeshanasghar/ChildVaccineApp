@@ -72,6 +72,7 @@
     <Content Include="child\vaccine-information.html" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\intlTelInput.css" />
+    <Content Include="css\selectize.bootstrap3.css" />
     <Content Include="doctor\alert.js" />
     <Content Include="doctor\brand-amount.html" />
     <Content Include="doctor\brand-amount.js" />
@@ -140,6 +141,8 @@
     <Content Include="child\schedule.js" />
     <Content Include="js\Chart.min.js" />
     <Content Include="js\intlTelInput.min.js" />
+    <Content Include="js\jquery-ui.js" />
+    <Content Include="js\selectize.min.js" />
     <Content Include="js\utils.js" />
     <Content Include="js\wizard.js" />
     <Content Include="server.js" />

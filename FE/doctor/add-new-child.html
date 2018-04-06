@@ -13,7 +13,7 @@
     <link rel="icon" href="../img/favicon.ico">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/intlTelInput.css">
-
+    <link href="/css/selectize.bootstrap3.css" rel="stylesheet" />
     <style>
         .intl-tel-input {
             width: 100%;
@@ -444,6 +444,7 @@
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script src="/js/validator.min.js"></script>
     <script src="/js/intlTelInput.min.js"></script>
+    <script src="/js/selectize.min.js"></script>
 
     <script src="/server.js"></script>
     <script src="/common.js"></script>
@@ -459,7 +460,13 @@
                 todayHighlight: true
             });
 
-
+            $('#City').selectize({
+                create: true,
+                sortField: 'text',
+                onOptionAdd: function (value, data) {
+                    //TODO: pending work over here
+                }
+            });
 
         });
     </script>
