@@ -91,13 +91,13 @@ namespace VaccineDose.Controllers
                     else if (GapDays > 0)
                         schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(c => c.Child.ClinicID == OnlineClinicID)
-                            .Where(c => c.Date >= DateTime.Now && c.Date <= AddedDateTime)
+                            .Where(c => c.Date > DateTime.Now && c.Date <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                             .ToList<Schedule>();
                     else if (GapDays < 0)
                         schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(c => c.Child.ClinicID == OnlineClinicID)
-                            .Where(c => c.Date <= DateTime.Now && c.Date >= AddedDateTime)
+                            .Where(c => c.Date < DateTime.Now && c.Date >= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                             .ToList<Schedule>();
                     IEnumerable<ScheduleDTO> scheduleDTO = Mapper.Map<IEnumerable<ScheduleDTO>>(schedules);
