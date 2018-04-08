@@ -23,6 +23,7 @@ namespace VaccineDose
         public DoseDTO Dose { get; set; }
         public virtual ChildDTO Child { get; set; }
         public List<BrandDTO> Brands { get; set; }
+        public BrandDTO Brand { get; set; }
         public int BrandId { get; set; }
         public List<ScheduleBrandDTO> ScheduleBrands { get; set; }
         public int DoctorID { get; set; }

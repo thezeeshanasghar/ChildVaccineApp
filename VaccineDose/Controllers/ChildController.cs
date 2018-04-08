@@ -311,6 +311,7 @@ namespace VaccineDose.Controllers
                         {
                             var dbSchedule = dbSchedules.ElementAt(i);
                             dbSchedule.Dose = entities.Schedules.Include("Dose").Where<Schedule>(x => x.ID == dbSchedule.ID).FirstOrDefault().Dose;
+                            dbSchedule.Brand = entities.Brands.Where<Brand>(x => x.ID == dbSchedule.BrandId).FirstOrDefault();
                         }
 
                         var schedulesDTO = Mapper.Map<List<ScheduleDTO>>(dbSchedules);

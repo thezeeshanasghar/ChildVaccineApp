@@ -33,7 +33,8 @@ function loadData(id) {
                         scheduleID: item.ID,
                         isDone: item.IsDone,
                         Due2EPI: item.Due2EPI,
-                        GivenDate: item.GivenDate
+                        GivenDate: item.GivenDate,
+                        BrandName: item.Brand ? item.Brand.Name : ''
                     };
                     if (item.Date in dateVsArrayOfScheuleMap) {
                         dateVsArrayOfScheuleMap[item.Date].push(vaccineSchedule);
@@ -77,7 +78,7 @@ function loadData(id) {
                         if (!doseArray[index].isDone)
                             html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                         else
-                            html += '       <span class="">' + doseArray[index].GivenDate + '</span>';
+                            html += '       <span class="">' + doseArray[index].BrandName +' &nbsp;&nbsp;'+ doseArray[index].GivenDate + '</span>';
 
                         if (doseArray[index].Due2EPI)
                             html += '<small>EPI</small>';
