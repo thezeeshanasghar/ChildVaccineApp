@@ -144,9 +144,30 @@ function ShowHide(event) {
 
     var validator = $('#form1').data("bs.validator");
     if (!validator.hasErrors()) {
-        $("#child").hide();
-        GetVaccines();
-        $("#vaccine").show();
+        var obj = {
+            Name: $('#Name').val(),
+            CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
+            MobileNumber: $('#MobileNumber').val(),
+        };
+        $.ajax({
+            url: SERVER + "child/validate-nameAndNumber",
+            data: JSON.stringify(obj),
+            type: "Post",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result==null)  {
+                    $("#child").hide();
+                    GetVaccines();
+                    $("#vaccine").show();
+                }
+            },
+            error: function (errormessage, e) {
+                ShowAlert('Error', errormessage.statusText, 'danger');
+                ScrollToTop();
+            }
+        });
+       
     }
 }
 //Valdidation using jquery  

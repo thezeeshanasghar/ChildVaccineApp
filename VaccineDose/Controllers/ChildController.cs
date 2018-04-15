@@ -71,7 +71,7 @@ namespace VaccineDose.Controllers
 
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    
+
                     Child childDB = Mapper.Map<Child>(childDTO);
                     // check for existing parent 
                     User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber).FirstOrDefault();
@@ -421,7 +421,7 @@ namespace VaccineDose.Controllers
                 document.Add(new Paragraph(""));
                 document.Add(new Chunk("\n"));
                 //Schedule Table
-                float[] widths = new float[] { 25f, 145f, 70f, 70f, 45f, 45f, 45f};
+                float[] widths = new float[] { 25f, 145f, 70f, 70f, 45f, 45f, 45f };
 
                 PdfPTable table = new PdfPTable(7);
                 table.HorizontalAlignment = 0;
@@ -635,7 +635,7 @@ namespace VaccineDose.Controllers
                                 {
                                     table.AddCell(CreateCell(schedule.Brand.Name, "", 1, "center", "invoiceRecords"));
                                 }
-                                var brandAmount = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId && x.DoctorID== childDTO.DoctorID).FirstOrDefault();
+                                var brandAmount = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId && x.DoctorID == childDTO.DoctorID).FirstOrDefault();
                                 amount = amount + Convert.ToInt32(brandAmount.Amount);
                                 table.AddCell(CreateCell(brandAmount.Amount.ToString(), "", 1, "right", "invoiceRecords"));
                             }
@@ -966,6 +966,38 @@ namespace VaccineDose.Controllers
             catch (Exception e)
             {
                 return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/child/validate-nameAndNumber")]
+        public HttpResponseMessage checkNameAndNumber([FromBody]ChildDTO obj)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbChild = entities.Children.Where(x => x.Name == obj.Name && x.User.MobileNumber == obj.MobileNumber && x.User.CountryCode == obj.CountryCode).FirstOrDefault();
+                    if (dbChild == null)
+                    {
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK,Mapper.Map<ChildDTO>(dbChild));
+                        return response;
+
+                    }
+                    else
+                    {
+                        int HTTPResponse = 400;
+                        var response = Request.CreateResponse((HttpStatusCode)HTTPResponse);
+                        response.ReasonPhrase = "Child with this name and mobile number already exists!";
+                        return response;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
     }
