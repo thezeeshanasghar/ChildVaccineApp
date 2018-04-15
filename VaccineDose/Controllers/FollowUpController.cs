@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using VaccineDose.App_Code;
 using VaccineDose.Model;
 
 namespace VaccineDose.Controllers
@@ -42,25 +43,38 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
+                    var doctor = entities.Clinics.Where(x => x.ID == OnlineClinicID).First<Clinic>().Doctor;
+                    int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
+
                     IEnumerable<FollowUp> followups = new List<FollowUp>();
                     DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
                     if (GapDays == 0)
                         followups = entities.FollowUps.Include("Child")
-                            .Where(c => c.Child.ClinicID == OnlineClinicID)
+                            //.Where(c => c.Child.ClinicID == OnlineClinicID)
+                            .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                             .Where(c => System.Data.Entity.DbFunctions.TruncateTime(c.NextVisitDate) == System.Data.Entity.DbFunctions.TruncateTime(DateTime.Now))
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate).ToList<FollowUp>();
                     else if (GapDays > 0)
+                    {
+                        AddedDateTime = AddedDateTime.AddDays(1);
                         followups = entities.FollowUps.Include("Child")
-                            .Where(c => c.Child.ClinicID == OnlineClinicID)
-                            .Where(c => c.NextVisitDate >= DateTime.Now && c.NextVisitDate <= AddedDateTime)
+                            //.Where(c => c.Child.ClinicID == OnlineClinicID)
+                            .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                            .Where(c => c.NextVisitDate > DateTime.Now && c.NextVisitDate <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate)
                             .ToList<FollowUp>();
+
+                    }
                     else if (GapDays < 0)
+                    {
                         followups = entities.FollowUps.Include("Child")
-                            .Where(c => c.Child.ClinicID == OnlineClinicID)
-                            .Where(c => c.NextVisitDate <= DateTime.Now && c.NextVisitDate >= AddedDateTime)
+                            //.Where(c => c.Child.ClinicID == OnlineClinicID)
+                            .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                            .Where(c => c.NextVisitDate < DateTime.Now && c.NextVisitDate >= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate)
                             .ToList<FollowUp>();
+                    }
+                        
                     IEnumerable<FollowUpDTO> followUpDTO = Mapper.Map<IEnumerable<FollowUpDTO>>(followups);
                     return new Response<IEnumerable<FollowUpDTO>>(true, null, followUpDTO);
                 }
@@ -70,6 +84,29 @@ namespace VaccineDose.Controllers
                 return new Response<IEnumerable<FollowUpDTO>>(false, GetMessageFromExceptionObject(e), null);
             }
         }
+
+        [HttpGet]
+        [Route("api/followup/sms-alert/{childId}")]
+        public Response<FollowUpDTO> SendSMSAlertToOneChild(int childId)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbChilFollowUp = entities.FollowUps.Where(x => x.ChildID == childId).FirstOrDefault();
+                    UserSMS.ParentFollowUpSMSAlert(dbChilFollowUp);
+                    FollowUpDTO scheduleDtos = Mapper.Map<FollowUpDTO>(dbChilFollowUp);
+                    return new Response<FollowUpDTO>(true, null, scheduleDtos);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new Response<FollowUpDTO>(false, GetMessageFromExceptionObject(ex), null);
+            }
+
+        }
+
 
     }
 }

@@ -75,6 +75,27 @@ namespace VaccineDose.App_Code
             var response = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body);
             return response;
         }
+
+        public static string ParentFollowUpSMSAlert(FollowUp followUp)
+        {
+            string sms1 = "Respected Parents\n";
+            sms1 += "You have to visit on " + followUp.NextVisitDate + " for your ";
+            if (followUp.Child.Gender == "Boy")
+                sms1 += "son " + followUp.Child.Name;
+
+            if (followUp.Child.Gender == "Girl")
+                sms1 += "daughter " + followUp.Child.Name;
+
+            sms1 += " due to " +followUp.Disease;
+            sms1 += " at " + followUp.Child.Clinic.Name + "\n";
+            sms1 += "Kindly confirm your appointment at ";
+            sms1 += followUp.Child.Clinic.Doctor.PhoneNo + " OR " + followUp.Child.Clinic.PhoneNumber;
+
+            var response1 = SendSMS(followUp.Child.User.CountryCode, followUp.Child.User.MobileNumber, followUp.Child.Email, sms1);
+            return response1;
+        }
+
+
         public static string SendSMS(string CountryCode, string MobileNumber, string Email, string text)
         {
             //string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";

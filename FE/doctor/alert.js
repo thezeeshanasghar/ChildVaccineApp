@@ -2,6 +2,7 @@
     loadData(0);
     HideAlert();
     enableAccordion();
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 function loadData(Id) {
@@ -51,7 +52,7 @@ function loadData(Id) {
                         html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
                         html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-                        html += '<i onclick="sendSMSToIndividual(' + arry[0].ChildID + ')" class="fa fa-envelope" aria-hidden="true"></i>';
+                        html += '<i onclick="sendSMSToIndividual(' + arry[0].ChildID + ')" class="fa fa-envelope" aria-hidden="true" style="cursor:pointer;" data-toggle="tooltip" title="Send SMS Alert!"></i>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
@@ -111,7 +112,7 @@ function loadData(Id) {
                         html += ' <div class="col-md-8">';
                         html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
-                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i>';
+                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope" onclick="sendFollowUpSMSAlert(' + arry[0].ChildID + ')" data-toggle="tooltip" title="Send SMS Alert!" style="cursor:pointer;" aria-hidden="true"></i>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
@@ -183,6 +184,28 @@ function sendSMSToIndividual(childId) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
         url: SERVER + 'schedule/individual-sms-alert/' + $("#NumberOfDays").val() + '/' + childId,
+        type: 'GET',
+        contentType: 'application/json;charset=utf-8',
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            } else {
+                ShowAlert('Success', "Alerts has been sent successfully", 'success');
+            }
+        },
+        error: function (errormessage) {
+            ShowAlert('Error', errormessage.responseText, 'danger');
+        }
+    });
+
+}
+
+function sendFollowUpSMSAlert(childId) {
+
+    ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
+    $.ajax({
+        url: SERVER + 'followup/sms-alert/' + childId,
         type: 'GET',
         contentType: 'application/json;charset=utf-8',
         dataType: "json",
