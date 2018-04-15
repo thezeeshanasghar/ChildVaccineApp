@@ -9,6 +9,10 @@ $(document).ready(function () {
     if (searchedName != "") {
         $("#Name").val(searchedName);
     }
+    var selectedCity = localStorage.getItem("DoctorId_" + DoctorId() + "_City");
+    if (selectedCity) {
+        $("#City").val(selectedCity);
+    }
 });
 
 function DisableOffDays() {
@@ -141,7 +145,7 @@ function Add() {
 
 function ShowHide(event) {
     $('#form1').validator('validate');
-
+    localStorage.setItem("DoctorId_" +DoctorId() + "_City", $('#City').find(":selected").text());
     var validator = $('#form1').data("bs.validator");
     if (!validator.hasErrors()) {
         $("#child").hide();
