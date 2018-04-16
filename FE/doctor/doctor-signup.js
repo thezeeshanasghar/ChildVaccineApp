@@ -2,35 +2,51 @@
 $(document).ready(function () {
     HideAlert();
     GenerateScheduleForm();
+    initMap();
 });
 
-var map, myMarker;
+var map, myMarker, myLatLng;
 function initMap() {
-    var myLatLng = { lat: 33.5614494, lng: 73.069301 };
+    //if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            
+            myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
 
-    map = new google.maps.Map(document.getElementById('Location'), {
-        zoom: 14,
-        center: myLatLng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+            map = new google.maps.Map(document.getElementById('Location'), {
+                zoom: 14,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
 
-    myMarker = new google.maps.Marker({
-        position: myLatLng,
-        draggable: true
-    });
+            myMarker = new google.maps.Marker({
+                position: myLatLng,
+                draggable: true
+            });
+            google.maps.event.addListener(myMarker, 'dragend', function (evt) {
+                document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
+            });
 
-    google.maps.event.addListener(myMarker, 'dragend', function (evt) {
-        document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
-    });
+            google.maps.event.addListener(myMarker, 'dragstart', function (evt) {
+                document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
+            });
 
-    google.maps.event.addListener(myMarker, 'dragstart', function (evt) {
-        document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
-    });
+            map.setCenter(myMarker.position);
+            myMarker.setMap(map);
 
-    map.setCenter(myMarker.position);
-    myMarker.setMap(map);
-}
+        }, function (error)
+        {
+            console(error);
+        },
+        {
+            //maximumAge: 60000,
+            timeout: 10000,
+            //enableHighAccuracy: true
+        });
+    //}
+  
 
+
+} 
 
 function Add() {
     var res = validateSchedule();
@@ -171,26 +187,26 @@ function GenerateScheduleForm() {
                     //$("#GapInDays_" + i).prop("disabled", true);
 
                     //if (doses[i - 1].MinAge ) { // commented because Dose must have MinAge; its required field in dose form
-                        $("#GapInDays_" + i + " option").each(function (optionIndex) {
-                            // this check is to skip the very first option like -- select min age --
-                            if (optionIndex != 0) {
-                                if ($(this).val() < doses[i - 1].MinAge)
-                                    $(this).prop('disabled', true);
-                                if ($(this).val() == doses[i - 1].MinAge)
-                                    $(this).attr('selected', 'selected');
+                    $("#GapInDays_" + i + " option").each(function (optionIndex) {
+                        // this check is to skip the very first option like -- select min age --
+                        if (optionIndex != 0) {
+                            if ($(this).val() < doses[i - 1].MinAge)
+                                $(this).prop('disabled', true);
+                            if ($(this).val() == doses[i - 1].MinAge)
+                                $(this).attr('selected', 'selected');
 
-                            }
-                        });
+                        }
+                    });
 
 
 
-                        $("#GapInDays_" + i + " option").each(function (optionIndex) {
-                            // this check is to skip the very first option like -- select max age --
-                            if (optionIndex != 0) {
-                                if ($(this).val() < doses[i - 1].MinAge)
-                                    $(this).prop('disabled', true);
-                            }
-                        });
+                    $("#GapInDays_" + i + " option").each(function (optionIndex) {
+                        // this check is to skip the very first option like -- select max age --
+                        if (optionIndex != 0) {
+                            if ($(this).val() < doses[i - 1].MinAge)
+                                $(this).prop('disabled', true);
+                        }
+                    });
                     //}
 
                     // first to look for MaxAge is defined or not
@@ -231,19 +247,19 @@ function showAlert(id, MinGap) {
         currentDropdownVal = $("#GapInDays_" + id).val();
         currentDoseName = $("#DoseName_" + id).val();
         previousDropdownVal = $("#GapInDays_" + (id - 1)).val();
-        previousDoseName = $("#DoseName_" + (id-1)).val();
+        previousDoseName = $("#DoseName_" + (id - 1)).val();
         difference = MinGap - (currentDropdownVal - previousDropdownVal);
         if (currentDoseName.substr(0, currentDoseName.indexOf('#') + 1) === previousDoseName.substr(0, previousDoseName.indexOf('#') + 1)) {
             //console.log(previousDoseName.substr(0, previousDoseName.indexOf('#')+1));
 
             if (parseInt(previousDropdownVal)) {
                 if (difference > 2) {
-                    alert('Cannot set this value because minimum gap from previous dose is ' + (MinGap/7) + ' weeks');
+                    alert('Cannot set this value because minimum gap from previous dose is ' + (MinGap / 7) + ' weeks');
                     $("#GapInDays_" + id).val('');
                 }
             }
         }
-        console.log('selected value: '+currentDropdownVal + ' Prev: ' + previousDropdownVal + ' Min: ' + MinGap);
+        console.log('selected value: ' + currentDropdownVal + ' Prev: ' + previousDropdownVal + ' Min: ' + MinGap);
     }
 }
 
