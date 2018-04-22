@@ -147,6 +147,7 @@ namespace VaccineDose.Controllers
                             entities.Entry(clinic).State = EntityState.Modified;
                         }
                     entities.SaveChanges();
+                    clinicDTO.Name = dbClinic.Name;
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }

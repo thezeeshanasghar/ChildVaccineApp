@@ -55,6 +55,7 @@ function SelectedClinic(Id) {
         dataType: "json",
         success: function (result) {
             localStorage.setItem('OnlineClinic', Id);
+            localStorage.setItem('OnlineClinicName', result.ResponseData.Name);
             window.location = 'alert.html';
         },
         error: function (errormessage) {

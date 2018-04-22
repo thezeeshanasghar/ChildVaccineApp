@@ -78,18 +78,23 @@ namespace VaccineDose.App_Code
 
         public static string ParentFollowUpSMSAlert(FollowUp followUp)
         {
-            string sms1 = "Respected Parents\n";
-            sms1 += "You have to visit on " + followUp.NextVisitDate + " for your ";
+            string sms1 = "Respected Parent,\n";
+            sms1 += "Followup visit of your ";
             if (followUp.Child.Gender == "Boy")
                 sms1 += "son " + followUp.Child.Name;
 
             if (followUp.Child.Gender == "Girl")
                 sms1 += "daughter " + followUp.Child.Name;
 
-            sms1 += " due to " +followUp.Disease;
-            sms1 += " at " + followUp.Child.Clinic.Name + "\n";
-            sms1 += "Kindly confirm your appointment at ";
-            sms1 += followUp.Child.Clinic.Doctor.PhoneNo + " OR " + followUp.Child.Clinic.PhoneNumber;
+            sms1 += " is due ";
+            if (followUp.NextVisitDate == DateTime.Today.Date)
+                sms1 += "Today";
+            else
+                sms1 += followUp.NextVisitDate;
+
+            sms1 += " at " + followUp.Child.Clinic.Name + ". ";
+            sms1 += "Kindly confirm your appointment.";
+           // sms1 += followUp.Child.Clinic.Doctor.PhoneNo + " OR " + followUp.Child.Clinic.PhoneNumber;
 
             var response1 = SendSMS(followUp.Child.User.CountryCode, followUp.Child.User.MobileNumber, followUp.Child.Email, sms1);
             return response1;
