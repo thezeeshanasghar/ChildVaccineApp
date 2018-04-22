@@ -400,7 +400,7 @@ namespace VaccineDose.Controllers
                 {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
                     var dbChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
- 
+
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
                     foreach (var doctor in doctorDTOs)
                     {
@@ -417,7 +417,7 @@ namespace VaccineDose.Controllers
 
 
         [Route("api/doctor/{id}/childs/")]
-        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id,[FromUri] string searchKeyword="")
+        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id, [FromUri] string searchKeyword = "")
 
         {
             try
@@ -431,13 +431,17 @@ namespace VaccineDose.Controllers
                     {
                         List<ChildDTO> childDTOs = new List<ChildDTO>();
                         var doctorClinics = doctor.Clinics;
-                        foreach (var clinic in doctorClinics) { 
-                            if(!String.IsNullOrEmpty(searchKeyword))
-                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x=>x.Name.ToLower().Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower())).ToList<Child>()));
+                        foreach (var clinic in doctorClinics)
+                        {
+                            if (!String.IsNullOrEmpty(searchKeyword))
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x => x.Name.ToLower()
+                                .Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower()) ||
+                                 x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
                             else
                                 childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
                         }
-                        foreach (var item in childDTOs) { 
+                        foreach (var item in childDTOs)
+                        {
                             var dbChild = entities.Children.Where(x => x.ID == item.ID).FirstOrDefault();
                             item.MobileNumber = dbChild.User.CountryCode + dbChild.User.MobileNumber;
                         }
@@ -463,7 +467,7 @@ namespace VaccineDose.Controllers
                     dbDoctor.AllowFollowUp = doctorDTO.AllowFollowUp;
                     dbDoctor.AllowChart = doctorDTO.AllowChart;
                     dbDoctor.AllowInventory = doctorDTO.AllowInventory;
-                   
+
                     entities.SaveChanges();
                     return new Response<DoctorDTO>(true, "Record is successfully updated", doctorDTO);
                 }

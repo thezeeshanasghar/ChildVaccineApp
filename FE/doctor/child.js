@@ -10,9 +10,16 @@ function goToByScroll(id) {
 }
 //Load Data function  
 function loadData() {
+    var searchParam;
+    if (!isNaN(parseInt($.trim($("#SearchItem").val())))) {
+        searchParam = parseInt($.trim($("#SearchItem").val()), 10);
+    } else {
+        searchParam = $.trim($("#SearchItem").val());
+    }
+
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "doctor/" + GetUserIDFromLocalStorage() + "/childs?searchKeyword=" + $.trim($("#SearchItem").val()),
+        url: SERVER + "doctor/" + GetUserIDFromLocalStorage() + "/childs?searchKeyword=" + searchParam,
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
