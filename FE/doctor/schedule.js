@@ -162,23 +162,23 @@ function getbyID(ID) {
                     $("#BulkGivenDate").val(result.ResponseData.Date);
                 }
 
-                if (result.ResponseData.IsDone) {
-                    $("#Weight").prop('readonly', true);
-                    $("#Height").prop('readonly', true);
-                    $("#Circumference").prop('readonly', true);
-                    $("#Brand").attr("disabled", "disabled");
-                    //  $("#GivenDate").prop("disabled", true);
-                    //$('#btnUpdate').hide();
-                }
-                else {
-                    $("#Weight").prop('readonly', false);
-                    $("#Height").prop('readonly', false);
-                    $("#Circumference").prop('readonly', false);
-                    $("#Brand").removeAttr("disabled");
-                    // $("#GivenDate").prop("disabled", false);
+                //if (result.ResponseData.IsDone) {
+                //    $("#Weight").prop('readonly', true);
+                //    $("#Height").prop('readonly', true);
+                //    $("#Circumference").prop('readonly', true);
+                //    $("#Brand").attr("disabled", "disabled");
+                //    //  $("#GivenDate").prop("disabled", true);
+                //    //$('#btnUpdate').hide();
+                //}
+                //else {
+                //    $("#Weight").prop('readonly', false);
+                //    $("#Height").prop('readonly', false);
+                //    $("#Circumference").prop('readonly', false);
+                //    $("#Brand").removeAttr("disabled");
+                //    // $("#GivenDate").prop("disabled", false);
 
 
-                }
+                //}
                 //show vaccine brands
                 var selectedAttribute = ' selected = "selected"';
                 html = '<select id="Brand" onchange="checkBrandInventory(this,' + result.ResponseData.Dose.VaccineID + ')" class="form-control" name="Brand" >';
@@ -429,6 +429,7 @@ function openVaccineDetails(ID, date) {
                     if (i == bulkScheduleLength)
                         isAllDone = true;
                 });
+
                 if (isAllDone) {
                     $("#BulkHeight").prop("readonly", true);
                     $("#BulkWeight").prop("readonly", true);
