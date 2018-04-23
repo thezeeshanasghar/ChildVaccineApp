@@ -181,7 +181,7 @@ function getbyID(ID) {
                 //}
                 //show vaccine brands
                 var selectedAttribute = ' selected = "selected"';
-                html = '<select id="Brand" onchange="checkBrandInventory(this,' + result.ResponseData.Dose.VaccineID + ')" class="form-control" name="Brand" >';
+                html = '<select id="Brand" onchange="checkBrandInventory(this,' + result.ResponseData.Dose.VaccineID + ')" class="form-control" name="Brand" required>';
                 html += '<option value="" >-- Select Brand --</option>';
                 $.each(result.ResponseData.Brands, function (key, item) {
 
@@ -264,6 +264,11 @@ function checkBrandInventory(brand, vaccineId) {
 }
 
 function Update() {
+
+    var res = validate();
+    if (res == false)
+        return false;
+
     var obj = {
         ID: $("#ID").val(),
         Weight: $("#Weight").val(),
@@ -516,4 +521,13 @@ function saveSelectedBrandInLocalStorage(vaccineId) {
         }
     }
 
+}
+
+function validate() {
+    $('#UpdateSecheduleForm').validator('validate');
+    var validator = $('#UpdateSecheduleForm').data("bs.validator");
+    if (validator.hasErrors())
+        return false;
+    else
+        return true;
 }

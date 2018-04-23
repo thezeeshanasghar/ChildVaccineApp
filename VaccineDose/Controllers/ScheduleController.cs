@@ -77,11 +77,11 @@ namespace VaccineDose.Controllers
         [Route("api/schedule/alert/{GapDays}/{OnlineClinicID}")]
         public Response<IEnumerable<ScheduleDTO>> GetAlert(int GapDays, int OnlineClinicID)
         {
- //select s.ChildId,s.Date,c.Name,c.FatherName,c.DOB,c.ClinicID,cl.Name,cl.DoctorID,cl.IsOnline from Schedule s
- //INNER JOIN Child c on c.ID = s.ChildId
- //INNER JOIN Clinic cl on c.ClinicID = cl.ID
- //and s.Date BETWEEN '2018-04-3' and '2018-04-7'
- //and cl.DoctorID = 1
+            //select s.ChildId,s.Date,c.Name,c.FatherName,c.DOB,c.ClinicID,cl.Name,cl.DoctorID,cl.IsOnline from Schedule s
+            //INNER JOIN Child c on c.ID = s.ChildId
+            //INNER JOIN Clinic cl on c.ClinicID = cl.ID
+            //and s.Date BETWEEN '2018-04-3' and '2018-04-7'
+            //and cl.DoctorID = 1
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
@@ -105,7 +105,8 @@ namespace VaccineDose.Controllers
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                             .ToList<Schedule>();
                     }
-                    else if (GapDays < 0) {
+                    else if (GapDays < 0)
+                    {
                         //AddedDateTime = AddedDateTime.AddDays(-1);
                         //DateTime previousDay = DateTime.Now.AddDays(-1);
                         schedules = entities.Schedules.Include("Child").Include("Dose")
@@ -185,11 +186,33 @@ namespace VaccineDose.Controllers
             var daysDifference = Convert.ToInt32((scheduleDTO.Date.Date - dbSchedule.Date.Date).TotalDays);
 
             var AllDoses = dbSchedule.Dose.Vaccine.Doses;
-            AllDoses = AllDoses.Where(x => x.DoseOrder >= dbSchedule.Dose.DoseOrder).ToList();
-            foreach (var d in AllDoses)
+            if (AllDoses.Count == 1)
             {
-                var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
+                var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == AllDoses.ElementAt(0).ID).FirstOrDefault();
                 TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
+            }
+            else
+            {
+                AllDoses = AllDoses.Where(x => x.DoseOrder >= dbSchedule.Dose.DoseOrder).ToList();
+                DateTime previousDate = DateTime.Now;
+                //foreach (var d in AllDoses)
+                for (int i = 0; i < AllDoses.Count; i++)
+                {
+                    var d = AllDoses.ElementAt(i);
+                    int? MinGap = d.MinGap;
+                    var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
+                    // if MinGap is this dose < MinAge of Previouse Dose; then dont reschedule
+                    // stop updating date of a dose if minimum gap is valid
+                    if (i != 0)
+                    {
+                        var doseDaysDifference = Convert.ToInt32(( TargetSchedule.Date.Date - previousDate.Date).TotalDays);
+                        if (doseDaysDifference <= MinGap)
+                            TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
+                    }
+                    else
+                        TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
+                    previousDate = TargetSchedule.Date;
+                }
             }
             entities.SaveChanges();
         }
@@ -295,35 +318,6 @@ namespace VaccineDose.Controllers
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
                     ChangeDueDatesOfSchedule(scheduleDTO, entities, dbSchedule);
 
-                    //var daysDifference = (scheduleDTO.Date.Date - dbSchedule.Date.Date).TotalDays;
-                    //daysDifference = Convert.ToInt32(daysDifference);
-                    //ICollection<Schedule> childSchedules = dbSchedule.Child.Schedules;
-                    //if (daysDifference > 0)
-                    //{
-                    //    foreach (Schedule schedule in childSchedules)
-                    //    {
-                    //        Dose dose = new Dose();
-                    //        if (schedule.Date.Date == dbSchedule.Date.Date && schedule.ID == dbSchedule.ID)
-                    //        {
-                    //            dose = schedule.Dose;
-
-                    //            IEnumerable<Dose> nextDoses = entities.Doses.Where(o => o.VaccineID == dose.VaccineID).ToList();
-                    //            foreach (Dose nextDose in nextDoses)
-                    //            {
-                    //                var nextSchedule = childSchedules.Where(x => x.DoseId == nextDose.ID).FirstOrDefault();
-                    //                if (nextSchedule.Date.Date >= dbSchedule.Date.Date && nextSchedule.ID != dbSchedule.ID)
-                    //                {
-                    //                    nextSchedule.Date = nextSchedule.Date.AddDays(daysDifference);
-                    //                    entities.Schedules.Attach(nextSchedule);
-                    //                    entities.Entry(nextSchedule).State = EntityState.Modified;
-                    //                    entities.SaveChanges();
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //    dbSchedule.Date = scheduleDTO.Date.Date;
-                    //    entities.SaveChanges();
-                    //}
                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
                 }
             }

@@ -35,7 +35,7 @@ function initMap() {
 
         }, function (error)
         {
-            console(error);
+            console.log(error);
         },
         {
             //maximumAge: 60000,

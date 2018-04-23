@@ -213,7 +213,7 @@ function sendFollowUpSMSAlert(childId) {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
-                ShowAlert('Success', "Alerts has been sent successfully", 'success');
+                ShowAlert('Success', "Alert have been sent successfully.", 'success');
             }
         },
         error: function (errormessage) {
