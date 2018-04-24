@@ -10,16 +10,11 @@ function goToByScroll(id) {
 }
 //Load Data function  
 function loadData() {
-    var searchParam;
-    if (!isNaN(parseInt($.trim($("#SearchItem").val())))) {
-        searchParam = parseInt($.trim($("#SearchItem").val()), 10);
-    } else {
-        searchParam = $.trim($("#SearchItem").val());
-    }
+
 
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "doctor/" + GetUserIDFromLocalStorage() + "/childs?searchKeyword=" + searchParam,
+        url: SERVER + "doctor/" + GetUserIDFromLocalStorage() + "/childs?searchKeyword=" + $.trim($("#SearchItem").val()),
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -140,42 +135,19 @@ function getbyID(ID) {
             $('#FatherName').val(result.ResponseData.FatherName);
 
             $('#Email').val(result.ResponseData.Email);
-            $("#Email").prop("disabled", true);
+            //$("#Email").prop("disabled", true);
 
             $('#DOB').val(result.ResponseData.DOB);
             $('#DOB').attr('disabled', true);
 
             $('#MobileNumber').val(result.ResponseData.MobileNumber);
-            $('#MobileNumber').attr('disabled', true);
+            //$('#MobileNumber').attr('disabled', true);
 
             $("input[name=gender][value=" + result.ResponseData.Gender + "]").prop('checked', true);
             $('#City').val(result.ResponseData.City);
             $('#PreferredDayOfReminder').val(result.ResponseData.PreferredDayOfReminder);
             $('#PreferredSchedule').val(result.ResponseData.PreferredSchedule);
-
-            var PreferredDayOfWeek = [];
-            var PDW = result.ResponseData.PreferredDayOfWeek;
-            if (PDW != null) {
-                if (PDW.indexOf(",") >= 0) {
-                    PreferredDayOfWeek = PDW.split(",");
-                } else {
-                    PreferredDayOfWeek.push(PDW);
-                }
-                if ($.inArray("Monday", PreferredDayOfWeek) != -1)
-                    $("#Monday").prop('checked', true);
-                if ($.inArray("Tuesday", PreferredDayOfWeek) != -1)
-                    $("#Tuesday").prop('checked', true);
-                if ($.inArray("Wednesday", PreferredDayOfWeek) != -1)
-                    $("#Wednesday").prop('checked', true);
-                if ($.inArray("Thursday", PreferredDayOfWeek) != -1)
-                    $("#Thursday").prop('checked', true);
-                if ($.inArray("Friday", PreferredDayOfWeek) != -1)
-                    $("#Friday").prop('checked', true);
-                if ($.inArray("Saturday", PreferredDayOfWeek) != -1)
-                    $("#Saturday").prop('checked', true);
-                if ($.inArray("Sunday", PreferredDayOfWeek) != -1)
-                    $("#Sunday").prop('checked', true);
-            }
+            $('#PreferredDayOfWeek').val(result.ResponseData.PreferredDayOfWeek);
             $("#IsEPIDone").prop("checked", result.ResponseData.IsEPIDone);
             $("#IsVerified").prop("checked", result.ResponseData.IsVerified);
 
@@ -196,26 +168,19 @@ function Update() {
     if (res == false)
         return false;
 
-    var result = [];
-    $('input[name="PreferredDayOfWeek"]:checked').each(function () {
-        result.push(this.value);
-    });
-
-    var preferdayreminder = "0";
-    if (document.getElementById("TogglePreferredDayOfReminder").checked) {
-        preferdayreminder = $('#PreferredDayOfReminder').val()
-    }
 
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
         FatherName: $('#FatherName').val(),
         DOB: $('#DOB').val(),
+        Email: $('#Email').val(),
+        MobileNumber: $('#MobileNumber').val(),
         IsEPIDone: $("#IsEPIDone").is(':checked'),
         IsVerified: $("#IsVerified").is(':checked'),
-        PreferredDayOfWeek: result.join(','),
+        PreferredDayOfWeek: $('#PreferredDayOfWeek').val(),
         PreferredSchedule: $('#PreferredSchedule').find(":selected").val(),
-        PreferredDayOfReminder: preferdayreminder,
+        PreferredDayOfReminder: $('#PreferredDayOfReminder').val(),
         Gender: $("input[name='gender']:checked").val(),
         City: $('#City').find(":selected").val(),
         ClinicID: GetOnlineClinicIdFromLocalStorage()

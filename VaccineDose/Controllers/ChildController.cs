@@ -172,8 +172,10 @@ namespace VaccineDose.Controllers
 
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
+                    var dbChild = entities.Children.FirstOrDefault(c => c.ID == childDTO.ID);
+                    if (dbChild == null) return new Response<ChildDTO>(false, "Child not found", null);
                     dbChild.Name = childDTO.Name;
+                    dbChild.Email = childDTO.Email;
                     dbChild.FatherName = childDTO.FatherName;
                     dbChild.PreferredDayOfWeek = childDTO.PreferredDayOfWeek;
                     dbChild.Gender = childDTO.Gender;
@@ -183,6 +185,8 @@ namespace VaccineDose.Controllers
                     dbChild.IsEPIDone = childDTO.IsEPIDone;
                     dbChild.IsVerified = childDTO.IsVerified;
 
+                    var dbUser = dbChild.User;
+                    dbUser.MobileNumber = childDTO.MobileNumber;
                     entities.SaveChanges();
                     return new Response<ChildDTO>(true, null, childDTO);
                 }

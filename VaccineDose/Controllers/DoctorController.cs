@@ -418,7 +418,6 @@ namespace VaccineDose.Controllers
 
         [Route("api/doctor/{id}/childs/")]
         public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id, [FromUri] string searchKeyword = "")
-
         {
             try
             {
@@ -434,9 +433,15 @@ namespace VaccineDose.Controllers
                         foreach (var clinic in doctorClinics)
                         {
                             if (!String.IsNullOrEmpty(searchKeyword))
+                            {
+                                if (searchKeyword.StartsWith("+")) searchKeyword = searchKeyword.Substring(1);
+                                if (searchKeyword.StartsWith("0")) searchKeyword = searchKeyword.Substring(1);
+                                if (searchKeyword.StartsWith("00")) searchKeyword = searchKeyword.Substring(2);
+                                if (searchKeyword.StartsWith("92")) searchKeyword = searchKeyword.Substring(2);
                                 childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x => x.Name.ToLower()
                                 .Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower()) ||
                                  x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
+                            }
                             else
                                 childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
                         }
