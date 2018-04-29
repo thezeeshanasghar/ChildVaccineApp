@@ -81,7 +81,7 @@ function loadData(id) {
                             html += '       <span style="font-size:12px">' + doseArray[index].BrandName + ' &nbsp;&nbsp;' + doseArray[index].GivenDate + '</span>';
 
                         if (doseArray[index].Due2EPI)
-                            html += '<small>EPI</small>';
+                            html += '<small>&nbsp;&nbsp;EPI</small>';
                         html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
 
                         if (doseArray[index].isDone)
