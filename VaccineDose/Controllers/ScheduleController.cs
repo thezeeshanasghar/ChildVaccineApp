@@ -89,11 +89,17 @@ namespace VaccineDose.Controllers
                     int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
                     IEnumerable<Schedule> schedules = new List<Schedule>();
                     DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
-                    if (GapDays == 0)
+                    if (GapDays == 0) { 
                         schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                             .Where(c => c.Date == DateTime.Today.Date)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
+                        // TODO: Munneb
+                        //schedules.AddAll(entities.Schedules.Include("Child").Include("Dose")
+                        //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                        //    .Where(c => c.Date == DateTime.Today.Date.AddDays(-1))
+                        //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>())
+                    }
                     else if (GapDays > 0)
                     {
                         AddedDateTime = AddedDateTime.AddDays(1);
