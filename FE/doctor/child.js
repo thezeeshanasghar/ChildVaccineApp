@@ -23,6 +23,29 @@ function loadData() {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
+                $.ajax({
+                    url: SERVER + "doctor/" + DoctorId() + "/clinics",
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        var statHtml = '';
+                        if (!result.IsSuccess)
+                            ShowAlert('Error', result.Message, 'danger');
+                        else {
+                            $.each(result.ResponseData, function (key, item) {
+                                statHtml += '<div class="well well-sm" style="cursor:pointer;font-size:22px">';
+                                statHtml += '\n<i class="fa fa-building" aria-hidden="true"></i> ' + item.Name +
+                                 '<span class="badge pull-right" style="font-size:15px">' + item.childrenCount + '</span></li></div>';
+                            });
+                            $('.wells').html(statHtml);
+                            HideAlert();
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
                 $.each(result.ResponseData, function (key, item) {
                     html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
                     if (item.Gender == 'Boy')

@@ -218,6 +218,9 @@ function ScrollToTop() {
 ///////////////////////////////////////////
 ///     ALERT SHOW HIDE UTILITY METHODS
 ///////////////////////////////////////////
+function GetAllowInventoryFromLocalStorage() {
+    return GetFromLocalStorage('AllowInventory');
+}
 function GetUserTypeFromLocalStorage() {
     return GetFromLocalStorage('UserType');
 }

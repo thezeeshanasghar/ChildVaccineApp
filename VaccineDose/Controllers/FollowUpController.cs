@@ -93,7 +93,7 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbChilFollowUp = entities.FollowUps.Where(x => x.ChildID == childId).FirstOrDefault();
+                    var dbChilFollowUp = entities.FollowUps.Where(x => x.ChildID == childId).OrderByDescending(x => x.ID).FirstOrDefault();
                     UserSMS.ParentFollowUpSMSAlert(dbChilFollowUp);
                     FollowUpDTO scheduleDtos = Mapper.Map<FollowUpDTO>(dbChilFollowUp);
                     return new Response<FollowUpDTO>(true, null, scheduleDtos);

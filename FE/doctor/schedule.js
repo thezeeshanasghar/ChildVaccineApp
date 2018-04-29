@@ -264,10 +264,15 @@ function checkBrandInventory(brand, vaccineId) {
 }
 
 function Update() {
+    if (GetAllowInventoryFromLocalStorage() == "true") {
 
-    var res = validate();
-    if (res == false)
-        return false;
+        var brandId = $("#Brand").val();
+        if (brandId == "") {
+            $("#Brand").parent().parent().addClass('has-error has-danger');
+            return false;
+        } else
+            $("#Brand").parent().parent().removeClass('has-error has-danger');
+    }
 
     var obj = {
         ID: $("#ID").val(),
@@ -523,11 +528,4 @@ function saveSelectedBrandInLocalStorage(vaccineId) {
 
 }
 
-function validate() {
-    $('#UpdateSecheduleForm').validator('validate');
-    var validator = $('#UpdateSecheduleForm').data("bs.validator");
-    if (validator.hasErrors())
-        return false;
-    else
-        return true;
-}
+
