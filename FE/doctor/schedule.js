@@ -58,10 +58,10 @@ function loadData(id) {
                     html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
                     html += '     ' + date;
                     if (isAllDone) {
-                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionFilled.png" style="height: 22px;"></a>';
+                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="text-decoration:none"> <img src="../img/injectionFilled.png" style="height: 22px;"></a>';
 
                     } else {
-                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
+                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="text-decoration:none"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
                         html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
                     }
 
@@ -264,10 +264,9 @@ function checkBrandInventory(brand, vaccineId) {
 }
 
 function Update() {
+    // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
     if (GetAllowInventoryFromLocalStorage() == "true") {
-
-        var brandId = $("#Brand").val();
-        if (brandId == "") {
+        if ($("#Brand").val() == "") {
             $("#Brand").parent().parent().addClass('has-error has-danger');
             return false;
         } else
@@ -438,17 +437,11 @@ function openVaccineDetails(ID, date) {
                         i++;
                     if (i == bulkScheduleLength)
                         isAllDone = true;
-                });
 
-                if (isAllDone) {
-                    $("#BulkHeight").prop("readonly", true);
-                    $("#BulkWeight").prop("readonly", true);
-                    $("#BulkCircumference").prop("readonly", true);
-                } else {
-                    $("#BulkHeight").prop("readonly", false);
-                    $("#BulkWeight").prop("readonly", false);
-                    $("#BulkCircumference").prop("readonly", false);
-                }
+                    //$("#BrandId_0").parent().parent().addClass('has-error has-danger');
+                });
+                
+
                 $("#ddBrand_bulk").html(html);
                 $("#BulkGivenDate").val(result.ResponseData[0].Date);
                 $("#btnbulkInjection").show();
@@ -464,6 +457,22 @@ function openVaccineDetails(ID, date) {
 }
 
 function UpdateBulkInjection() {
+    // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
+    if (GetAllowInventoryFromLocalStorage() == "true") {
+        //var brandId = $("#Brand").val();
+        //if (brandId == "") {
+        //    $("#Brand").parent().parent().addClass('has-error has-danger');
+        //    return false;
+        //} else
+        //    $("#Brand").parent().parent().removeClass('has-error has-danger');
+        for (i = 1; i <= 10; i++) {
+            if ($("#BrandId_" + i).val() == "") {
+                $("#BrandId_" + i).parent().addClass('has-error has-danger');
+                return false;
+            }
+        }
+        $("#BrandId_1").parent().removeClass('has-error has-danger');
+    }
 
     var scheduleBrands = [];
     //for time being I'm using loop upto 10 dropdown values

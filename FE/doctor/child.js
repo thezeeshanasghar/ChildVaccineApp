@@ -23,35 +23,17 @@ function loadData() {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
-                $.ajax({
-                    url: SERVER + "doctor/" + DoctorId() + "/clinics",
-                    type: "GET",
-                    contentType: "application/json;charset=utf-8",
-                    dataType: "json",
-                    success: function (result) {
-                        var statHtml = '';
-                        if (!result.IsSuccess)
-                            ShowAlert('Error', result.Message, 'danger');
-                        else {
-                            $.each(result.ResponseData, function (key, item) {
-                                statHtml += '<div class="well well-sm" style="cursor:pointer;font-size:22px">';
-                                statHtml += '\n<i class="fa fa-building" aria-hidden="true"></i> ' + item.Name +
-                                 '<span class="badge pull-right" style="font-size:15px">' + item.childrenCount + '</span></li></div>';
-                            });
-                            $('.wells').html(statHtml);
-                            HideAlert();
-                        }
-                    },
-                    error: function (errormessage) {
-                        alert(errormessage.responseText);
-                    }
-                });
+                var boys = girls = 0;
                 $.each(result.ResponseData, function (key, item) {
                     html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
-                    if (item.Gender == 'Boy')
+                    if (item.Gender == 'Boy') {
                         html += 'blue">';
-                    else
+                        boys++;
+                    }
+                    else {
                         html += '#FF1493">';
+                        girls++;
+                    }
                     html += '       <img id="ImgMaleFemale" src="/img/';
                     if (item.Gender == 'Boy')
                         html += 'male.png" class="img-responsive pull-left" alt="male" style="max-width:90px;max-height:90px" />';
@@ -80,21 +62,21 @@ function loadData() {
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
                     html += '   </div>';
                     html += '</div>';
-
-
-
-
                 });
                 $("#childrecords").html(html);
+                debugger;
+                $("#Boys").html('Boys: ' + boys);
+                $("#Girls").html('Girls: ' + girls);
+                $("#TotalChilds").html('Total: ' + (boys + girls));
                 HideAlert();
                 if ($("#SearchItem").val() != "" && result.ResponseData.length <= 0) {
                     var newHtml = '';
                     newHtml += 'No data found against search result.<br />You can add this child in application: &nbsp;<a href="/doctor/add-new-child.html?searchKeyword=' + $("#SearchItem").val() + '"';
                     newHtml += ' class="btn btn-primary" >Add New Child</a>';
-                    $("#newchild").html(newHtml);
-                    $("#newchild").show();
+                    $("#MessageFromSearch").html(newHtml);
+                    $("#MessageFromSearch").show();
                 } else {
-                    $("#newchild").hide();
+                    $("#MessageFromSearch").hide();
                 }
 
 

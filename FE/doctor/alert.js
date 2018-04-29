@@ -112,7 +112,7 @@ function loadData(Id) {
                         html += ' <div class="col-md-8">';
                         html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
-                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope" onclick="sendFollowUpSMSAlert(' + arry[0].ChildID + ')" data-toggle="tooltip" title="Send SMS Alert!" style="cursor:pointer;" aria-hidden="true"></i>';
+                        html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<i class="fa fa-envelope" onclick="sendFollowUpSMSAlert(' + arry[0].ChildID + ')" data-toggle="tooltip" title="Send SMS Alert!" style="cursor:pointer;" aria-hidden="true"></i>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';

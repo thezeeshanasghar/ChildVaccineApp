@@ -241,8 +241,8 @@ namespace VaccineDose.Controllers
 
                     foreach (var schedule in dbChildSchedules)
                     {
-                        if (!schedule.IsDone)
-                        {
+                        //if (!schedule.IsDone)
+                        //{
                             schedule.Weight = (scheduleDTO.Weight > 0) ? scheduleDTO.Weight : schedule.Weight;
                             schedule.Height = (scheduleDTO.Height > 0) ? scheduleDTO.Height : schedule.Height;
                             schedule.Circle = (scheduleDTO.Circle > 0) ? scheduleDTO.Circle : schedule.Circle;
@@ -263,8 +263,7 @@ namespace VaccineDose.Controllers
                                 }
                             }
                             ChangeDueDatesOfInjectedSchedule(scheduleDTO, entities, schedule);
-
-                        }
+                        //}
                     }
                     entities.SaveChanges();
                     return new Response<ScheduleDTO>(true, "schedule updated successfully.", null);
