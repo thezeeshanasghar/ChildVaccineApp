@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -87,7 +88,7 @@ namespace VaccineDose.Controllers
                 {
                     var doctor = entities.Clinics.Where(x => x.ID == OnlineClinicID).First<Clinic>().Doctor;
                     int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
-                    IEnumerable<Schedule> schedules = new List<Schedule>();
+                    List<Schedule> schedules = new List<Schedule>();
                     DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
                     if (GapDays == 0) { 
                         schedules = entities.Schedules.Include("Child").Include("Dose")
@@ -95,10 +96,10 @@ namespace VaccineDose.Controllers
                             .Where(c => c.Date == DateTime.Today.Date)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
                         // TODO: Munneb
-                        //schedules.AddAll(entities.Schedules.Include("Child").Include("Dose")
-                        //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                        //    .Where(c => c.Date == DateTime.Today.Date.AddDays(-1))
-                        //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>())
+                        schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                            .Where(c => c.Date == DbFunctions.AddDays(DateTime.Today.Date, c.Child.PreferredDayOfReminder))
+                            .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
                     }
                     else if (GapDays > 0)
                     {
@@ -109,6 +110,11 @@ namespace VaccineDose.Controllers
                             .Where(c => c.Date > DateTime.Now && c.Date <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                             .ToList<Schedule>();
+
+                        schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
+                            .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                            .Where(c => c.Date == DbFunctions.AddDays(AddedDateTime.Date.Date, c.Child.PreferredDayOfReminder))
+                            .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
                     }
                     else if (GapDays < 0)
                     {

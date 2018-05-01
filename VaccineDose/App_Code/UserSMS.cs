@@ -28,6 +28,7 @@ namespace VaccineDose.App_Code
 
             sms1 += " has been registered at ";
             sms1 += child.Clinic.Name.Replace("&", "and") + "\n";
+            sms1 += "with dr "+ child.Clinic.Doctor.FirstName+" "+child.Clinic.Doctor.LastName;
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
 
             string sms2 = "ID: " + child.User.MobileNumber + "\nPassword: " + child.User.Password
