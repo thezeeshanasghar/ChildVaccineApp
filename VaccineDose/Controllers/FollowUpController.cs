@@ -93,16 +93,64 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbChilFollowUp = entities.FollowUps.Where(x => x.ChildID == childId).OrderByDescending(x => x.ID).FirstOrDefault();
-                    UserSMS.ParentFollowUpSMSAlert(dbChilFollowUp);
-                    FollowUpDTO scheduleDtos = Mapper.Map<FollowUpDTO>(dbChilFollowUp);
-                    return new Response<FollowUpDTO>(true, null, scheduleDtos);
+                    var dbChildFollowup = entities.FollowUps.Where(x => x.ChildID == childId).OrderByDescending(x => x.ID).FirstOrDefault();
+                    UserSMS.ParentFollowUpSMSAlert(dbChildFollowup);
+                    FollowUpDTO followupDTO = Mapper.Map<FollowUpDTO>(dbChildFollowup);
+                    return new Response<FollowUpDTO>(true, null, followupDTO);
                 }
 
             }
             catch (Exception ex)
             {
                 return new Response<FollowUpDTO>(false, GetMessageFromExceptionObject(ex), null);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("api/followup/bulk-sms-alert/{GapDays}/{doctorId}")]
+        public Response<List<FollowUpDTO>> SendSMSAlertToAllChildren(int GapDays, int doctorId)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+                    List<FollowUp> dbFollowUps = new List<FollowUp>();
+                    if (GapDays == 0)
+                    {
+                        dbFollowUps = entities.FollowUps.Where(x => x.DoctorID == doctorId &&
+                             x.NextVisitDate == DateTime.Today.Date)
+                            .OrderByDescending(x => x.ID).ToList();
+
+                    }
+                    if (GapDays > 0)
+                    {
+                        dbFollowUps = entities.FollowUps.Where(x => x.DoctorID == doctorId &&
+                             x.NextVisitDate >= DateTime.Today.Date && x.NextVisitDate <= AddedDateTime)
+                            .OrderByDescending(x => x.ID).ToList();
+
+                    }
+                    if (GapDays < 0)
+                    {
+                        dbFollowUps = entities.FollowUps.Where(x => x.DoctorID == doctorId &&
+                             x.NextVisitDate <= DateTime.Today.Date && x.NextVisitDate >= AddedDateTime)
+                            .OrderByDescending(x => x.ID).ToList();
+
+                    }
+
+                    foreach (FollowUp followup in dbFollowUps)
+                    {
+                        UserSMS.ParentFollowUpSMSAlert(followup);
+                    }
+                    List<FollowUpDTO> dbFollowDTOs = Mapper.Map<List<FollowUpDTO>>(dbFollowUps);
+                    return new Response<List<FollowUpDTO>>(true, null, dbFollowDTOs);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<FollowUpDTO>>(false, GetMessageFromExceptionObject(ex), null);
             }
 
         }
