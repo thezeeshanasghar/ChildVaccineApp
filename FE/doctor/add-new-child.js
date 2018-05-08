@@ -123,15 +123,14 @@ function Add() {
         dataType: "json",
         success: function (result) {
 
-            $("#btnAdd").prop('disabled', false);
-            $("#btnAdd").button('reset');
-
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
                 ScrollToTop();
             }
             else {
                 window.location = 'child.html?id=' + GetOnlineClinicIdFromLocalStorage();
+                //$("#btnAdd").prop('disabled', false);
+                //$("#btnAdd").button('reset');
             }
         },
         error: function (errormessage, e) {
