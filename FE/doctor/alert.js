@@ -160,23 +160,37 @@ function sendSMS() {
 
     var OnlineClinic = GetOnlineClinicIdFromLocalStorage();
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
-    $.ajax({
-        url: SERVER + 'schedule/sms-alert/' + $("#NumberOfDays").val() + '/' + OnlineClinic,
-        type: 'GET',
-        contentType: 'application/json;charset=utf-8',
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            } else {
-                ShowAlert('Success', "All Alerts have been sent successfully", 'success');
+
+    $.when(
+        $.ajax({
+            url: SERVER + 'schedule/sms-alert/' + $("#NumberOfDays").val() + '/' + OnlineClinic,
+            type: 'GET',
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+            success: function (result) {
+            },
+            error: function (errormessage) {
+                ShowAlert('Error', errormessage.responseText, 'danger');
             }
-        },
-        error: function (errormessage) {
-            ShowAlert('Error', errormessage.responseText, 'danger');
+        }), $.ajax({
+            url: SERVER + 'followup/bulk-sms-alert/' + $("#NumberOfDays").val() + '/' + DoctorId(),
+            type: 'GET',
+            contentType: 'application/json;charset=utf-8',
+            dataType: "json",
+            success: function (result) {
+            },
+            error: function (errormessage) {
+                ShowAlert('Error', errormessage.responseText, 'danger');
+            }
+        })
+    ).then(function (vaccineAlertResponse, followupAlertsResponse) {
+        if (!vaccineAlertResponse[0].IsSuccess && !followupAlertsResponse[0].IsSuccess) {
+            ShowAlert('Error', vaccineAlertResponse[0].Message, 'danger');
+        } else {
+            ShowAlert('Success', "All Alerts have been sent successfully", 'success');
         }
     });
-
+   
 }
 
 function sendSMSToIndividual(childId) {

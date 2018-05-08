@@ -56,7 +56,7 @@ namespace VaccineDose.App_Code
             sms1 += " at " + child.Clinic.Name + "\n";
             sms1 += "Kindly confirm your appointment at ";
             sms1 += child.Clinic.Doctor.PhoneNo + " OR " + child.Clinic.PhoneNumber;
-            sms1 += " with doctor " + child.Clinic.Doctor.FirstName +" "+ child.Clinic.Doctor.LastName;
+            sms1 += " with dr " + child.Clinic.Doctor.FirstName +" "+ child.Clinic.Doctor.LastName;
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
             return response1;
         }
@@ -93,7 +93,7 @@ namespace VaccineDose.App_Code
             else
                 sms1 += followUp.NextVisitDate;
 
-            sms1 += " (with dr " + followUp.Doctor.FirstName + " " + followUp.Doctor.LastName+ " at " + followUp.Child.Clinic.Name + ". ";
+            sms1 += " with dr " + followUp.Doctor.FirstName + " " + followUp.Doctor.LastName+ " at " + followUp.Child.Clinic.Name + ". ";
             sms1 += "Kindly confirm your appointment at " + followUp.Doctor.PhoneNo;
 
             var response1 = SendSMS(followUp.Child.User.CountryCode, followUp.Child.User.MobileNumber, followUp.Child.Email, sms1);
