@@ -88,5 +88,6 @@
     <None Include="Scripts\Server-data-backup-16-Jan-2018.sql" />
     <None Include="Scripts\Server-data-backup-05-Apr-2018.sql" />
     <None Include="Scripts\Server-data-backup-28-Apr-2018.sql" />
+    <None Include="Scripts\Server-data-backup-09-May-2018.sql" />
   </ItemGroup>
 </Project>

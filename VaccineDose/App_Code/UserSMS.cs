@@ -1,14 +1,15 @@
 ﻿using System;
-
+using System.Globalization;
 using System.Web;
 
 namespace VaccineDose.App_Code
 {
     public class UserSMS
     {
+        static TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
         public static string DoctorSMS(DoctorDTO doctor)
         {
-            string body = "Hi Dr. " + doctor.FirstName + " " + doctor.LastName + " \n"
+            string body = "Hi Dr. " + textInfo.ToTitleCase(doctor.FirstName) + " " + textInfo.ToTitleCase(doctor.LastName) + " \n"
                 + "You are registered at Vaccs.io\n\n"
                 + "Your account credentials are: \n"
                 + "ID/Mobile Number: " + doctor.MobileNumber + "\n"
@@ -21,14 +22,14 @@ namespace VaccineDose.App_Code
         {
             string sms1 = "Dear Parents\n";
             if (child.Gender == "Boy")
-                sms1 += "Your Son " + child.Name;
+                sms1 += "Your Son " + textInfo.ToTitleCase(child.Name);
 
             if (child.Gender == "Girl")
-                sms1 += "Your Daughter " + child.Name;
+                sms1 += "Your Daughter " + textInfo.ToTitleCase(child.Name);
 
-            sms1 += " has been registered at ";
-            sms1 += child.Clinic.Name.Replace("&", "and") + "\n";
-            sms1 += "with dr "+ child.Clinic.Doctor.FirstName+" "+child.Clinic.Doctor.LastName;
+            sms1 += " has been registered with Dr. " + textInfo.ToTitleCase(child.Clinic.Doctor.FirstName) + " " + textInfo.ToTitleCase(child.Clinic.Doctor.LastName);
+            sms1 += " at " +child.Clinic.Name.Replace("&", "and") + "\n";
+            
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
 
             string sms2 = "ID: " + child.User.MobileNumber + "\nPassword: " + child.User.Password
@@ -39,24 +40,24 @@ namespace VaccineDose.App_Code
         }
         public static string ParentSMSAlert(string doseName, DateTime scheduleDate, Child child)
         {
+            
             string sms1 = "Respected Parents\n";
-            sms1 += doseName + " Vaccine is due for ";
+            sms1 += doseName + " Vaccine for ";
             if (child.Gender == "Boy")
-                sms1 += "your son " + child.Name;
+                sms1 += "your son " + textInfo.ToTitleCase(child.Name);
 
             if (child.Gender == "Girl")
-                sms1 += "your daughter " + child.Name;
+                sms1 += "your daughter " + textInfo.ToTitleCase(child.Name);
 
-            sms1 += " A ";
+            sms1 += " is due ";
             if (scheduleDate.Date == DateTime.Today.Date)
                 sms1 += "Today ";
             else
                 sms1 += scheduleDate.Date.ToString("MM-dd-yyyy");
 
-            sms1 += " at " + child.Clinic.Name + "\n";
-            sms1 += "Kindly confirm your appointment at ";
-            sms1 += child.Clinic.Doctor.PhoneNo + " OR " + child.Clinic.PhoneNumber;
-            sms1 += " with dr " + child.Clinic.Doctor.FirstName +" "+ child.Clinic.Doctor.LastName;
+            sms1 += " at " + textInfo.ToTitleCase(child.Clinic.Name) + "\n";
+            sms1 += "Plz confirm your appointment with Dr. " + textInfo.ToTitleCase(child.Clinic.Doctor.FirstName) + " " + textInfo.ToTitleCase(child.Clinic.Doctor.LastName);
+            sms1 += " @ " + child.Clinic.Doctor.PhoneNo + " OR " + child.Clinic.PhoneNumber;
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
             return response1;
         }
@@ -64,7 +65,7 @@ namespace VaccineDose.App_Code
         public static string DoctorForgotPasswordSMS(Doctor doctor)
         {
             string body = "";
-            body += "Hi " + doctor.DisplayName;
+            body += "Hi " + textInfo.ToTitleCase(doctor.DisplayName);
             body += ",Your password is " + doctor.User.Password;
             var response = SendSMS(doctor.User.CountryCode, doctor.User.MobileNumber, doctor.Email, body);
             return response;
@@ -72,7 +73,7 @@ namespace VaccineDose.App_Code
         public static string ParentForgotPasswordSMS(Child child)
         {
             string body = "";
-            body += "Hi " + child.FatherName;
+            body += "Hi " + textInfo.ToTitleCase(child.FatherName);
             body += ",Your password is " + child.User.Password;
             var response = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body);
             return response;
@@ -82,10 +83,10 @@ namespace VaccineDose.App_Code
         {
             string sms1 = "Followup visit of ";
             if (followUp.Child.Gender == "Boy")
-                sms1 += "son " + followUp.Child.Name;
+                sms1 += "son " + textInfo.ToTitleCase(followUp.Child.Name);
 
             if (followUp.Child.Gender == "Girl")
-                sms1 += "daughter " + followUp.Child.Name;
+                sms1 += "daughter " + textInfo.ToTitleCase(followUp.Child.Name);
 
             sms1 += " is due ";
             if (followUp.NextVisitDate == DateTime.Today.Date)
@@ -93,7 +94,7 @@ namespace VaccineDose.App_Code
             else
                 sms1 += followUp.NextVisitDate;
 
-            sms1 += " with dr " + followUp.Doctor.FirstName + " " + followUp.Doctor.LastName+ " at " + followUp.Child.Clinic.Name + ". ";
+            sms1 += " with Dr. " + textInfo.ToTitleCase(followUp.Doctor.FirstName) + " " + textInfo.ToTitleCase(followUp.Doctor.LastName) + " at " + textInfo.ToTitleCase(followUp.Child.Clinic.Name) + ". ";
             sms1 += "Kindly confirm your appointment at " + followUp.Doctor.PhoneNo;
 
             var response1 = SendSMS(followUp.Child.User.CountryCode, followUp.Child.User.MobileNumber, followUp.Child.Email, sms1);
