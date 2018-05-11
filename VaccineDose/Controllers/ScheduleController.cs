@@ -206,13 +206,20 @@ namespace VaccineDose.Controllers
                     }
                 }
                 else
-                {   // throw new Exception("Backward scheduling is not allowed.");
+                {   
+                    // find that dose and its previous dose
                     AllDoses = AllDoses.Where(x => x.DoseOrder <= dbSchedule.Dose.DoseOrder).OrderBy(x=>x.DoseOrder).ToList();
                     if (AllDoses.Count == 1)
                     {
                         Dose d = AllDoses.ElementAt<Dose>(0);
                         var FirstDoseSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
-                        FirstDoseSchedule.Date = FirstDoseSchedule.Date.AddDays(daysDifference);
+
+                        int diff = Convert.ToInt32((scheduleDTO.Date.Date - FirstDoseSchedule.Child.DOB).TotalDays);
+                        if(diff < d.MinAge)
+                            throw new Exception("Cannot reschedule to your selected date: " +
+                                Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because Minimum Gap from date of birth of this vaccine should be " + d.MinGap + " days.");
+                        else
+                            FirstDoseSchedule.Date = FirstDoseSchedule.Date.AddDays(daysDifference);
                     }
                     else
                     {
@@ -226,7 +233,7 @@ namespace VaccineDose.Controllers
                         if (doseDaysDifference > lastDose.MinGap)
                             TargetSchedule.Date = TargetSchedule.Date.AddDays(daysDifference);
                         else
-                            throw new Exception("Cannot reschedule to your selected date: " + 
+                            throw new Exception("Cannot reschedule to your selected date: " +
                                 Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because Minimum Gap from previous dose of this vaccine should be " + lastDose.MinGap);
                     }
                 }
