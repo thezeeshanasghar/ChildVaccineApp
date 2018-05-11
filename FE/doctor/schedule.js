@@ -152,14 +152,12 @@ function getbyID(ID) {
 
                 if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") {
                     $("#GivenDate").val(result.ResponseData.GivenDate);
-
-
-                    $("#BulkGivenDate").val(result.ResponseData.GivenDate);
+                    //$("#BulkGivenDate").val(result.ResponseData.GivenDate);
                 } else {
                     var fullDate = new Date();
-                    //$("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
-                    $("#GivenDate").val(result.ResponseData.Date);
-                    $("#BulkGivenDate").val(result.ResponseData.Date);
+                    $("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                    //$("#GivenDate").val(result.ResponseData.Date);
+                   // $("#BulkGivenDate").val(result.ResponseData.Date);
                 }
 
                 //if (result.ResponseData.IsDone) {
@@ -448,7 +446,13 @@ function openVaccineDetails(ID, date) {
                 
 
                 $("#ddBrand_bulk").html(html);
-                $("#BulkGivenDate").val(result.ResponseData[0].Date);
+                if (isAllDone) {
+                    $("#BulkGivenDate").val(result.ResponseData[0].Date);
+                } else {
+                    var fullDate = new Date();
+                    $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                }
+                
                 $("#btnbulkInjection").show();
                 $('#bulkModel').modal('show');
             }
