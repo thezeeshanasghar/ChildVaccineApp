@@ -265,7 +265,12 @@ function checkBrandInventory(brand, vaccineId) {
 
 function Update() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
-    if (GetAllowInventoryFromLocalStorage() == "true") {
+    var GivenDate =  $("#GivenDate").val() ;
+    var Today = new Date();
+    var TodayStr = ('0' + Today.getDate()).slice(-2) + '-' + ('0' + (Today.getMonth()+1)).slice(-2) + '-' + Today.getFullYear();
+    var isGivenDateIsCurrentDate = GivenDate == TodayStr;
+    debugger;
+    if (!isGivenDateIsCurrentDate && GetAllowInventoryFromLocalStorage() == "true") {
         if ($("#Brand").val() == "") {
             $("#Brand").parent().parent().addClass('has-error has-danger');
             return false;
@@ -458,13 +463,12 @@ function openVaccineDetails(ID, date) {
 
 function UpdateBulkInjection() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
-    if (GetAllowInventoryFromLocalStorage() == "true") {
-        //var brandId = $("#Brand").val();
-        //if (brandId == "") {
-        //    $("#Brand").parent().parent().addClass('has-error has-danger');
-        //    return false;
-        //} else
-        //    $("#Brand").parent().parent().removeClass('has-error has-danger');
+    var GivenDate = $("#BulkGivenDate").val();
+    var Today = new Date();
+    var TodayStr = ('0' + Today.getDate()).slice(-2) + '-' + ('0' + (Today.getMonth()+1)).slice(-2) + '-' + Today.getFullYear();
+    var isGivenDateIsCurrentDate = GivenDate == TodayStr;
+    debugger;
+    if (!isGivenDateIsCurrentDate && GetAllowInventoryFromLocalStorage() == "true") {
         for (i = 1; i <= 10; i++) {
             if ($("#BrandId_" + i).val() == "") {
                 $("#BrandId_" + i).parent().addClass('has-error has-danger');
