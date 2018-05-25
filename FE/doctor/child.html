@@ -705,7 +705,8 @@
                 format: 'dd-mm-yyyy',
                 todayBtn: true,
                 autoclose: true,
-                todayHighlight: true
+                todayHighlight: true,
+                startDate: new Date()
             });
             $('#followUpDate-container .input-group.date').datepicker('update', $("#Date").val());
         });
