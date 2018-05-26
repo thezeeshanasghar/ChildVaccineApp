@@ -170,13 +170,7 @@ namespace VaccineDose.Controllers
                     }
 
                     // generate SMS and save it to the db
-                    string sms = UserSMS.ParentSMS(c);
-                    Message m = new Message();
-                    m.MobileNumber = c.User.MobileNumber;
-                    m.SMS = sms;
-                    m.Status = "PENDING";
-                    entities.Messages.Add(m);
-                    entities.SaveChanges();
+                      UserSMS.ParentSMS(c);
 
                     return new Response<ChildDTO>(true, null, childDTO);
                 }

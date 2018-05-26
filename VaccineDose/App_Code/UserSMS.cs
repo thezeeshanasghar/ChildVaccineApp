@@ -16,6 +16,7 @@ namespace VaccineDose.App_Code
                 + "Password: " + doctor.Password + "\n"
                 + "http://vaccs.io/";
             var response = SendSMS(doctor.CountryCode, doctor.MobileNumber, doctor.Email, body);
+            addMessageToDB(doctor.MobileNumber, response, body, 1);
             return response;
         }
         public static string ParentSMS(Child child)
@@ -28,19 +29,22 @@ namespace VaccineDose.App_Code
                 sms1 += "Your Daughter " + textInfo.ToTitleCase(child.Name);
 
             sms1 += " has been registered with Dr. " + textInfo.ToTitleCase(child.Clinic.Doctor.FirstName) + " " + textInfo.ToTitleCase(child.Clinic.Doctor.LastName);
-            sms1 += " at " +child.Clinic.Name.Replace("&", "and") + "\n";
-            
+            sms1 += " at " + child.Clinic.Name.Replace("&", "and") + "\n";
+
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
 
             string sms2 = "ID: " + child.User.MobileNumber + "\nPassword: " + child.User.Password
                   + "\nClinic: " + child.Clinic.PhoneNumber + "\nhttp://vaccs.io/";
 
             var response2 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms2);
+            addMessageToDB(child.User.MobileNumber, response1, sms1, child.Clinic.Doctor.User.ID);
+            addMessageToDB(child.User.MobileNumber, response2, sms2, child.Clinic.Doctor.User.ID);
             return response1 + response2;
+
         }
         public static string ParentSMSAlert(string doseName, DateTime scheduleDate, Child child)
         {
-            
+
             string sms1 = "Respected Parents\n";
             sms1 += doseName + " Vaccine for ";
             if (child.Gender == "Boy")
@@ -59,6 +63,7 @@ namespace VaccineDose.App_Code
             sms1 += "Plz confirm your appointment with Dr. " + textInfo.ToTitleCase(child.Clinic.Doctor.FirstName) + " " + textInfo.ToTitleCase(child.Clinic.Doctor.LastName);
             sms1 += " @ " + child.Clinic.Doctor.PhoneNo + " OR " + child.Clinic.PhoneNumber;
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
+            addMessageToDB(child.User.MobileNumber, response1, sms1, child.Clinic.Doctor.User.ID);
             return response1;
         }
 
@@ -68,6 +73,7 @@ namespace VaccineDose.App_Code
             body += "Hi " + textInfo.ToTitleCase(doctor.DisplayName);
             body += ",Your password is " + doctor.User.Password;
             var response = SendSMS(doctor.User.CountryCode, doctor.User.MobileNumber, doctor.Email, body);
+            addMessageToDB(doctor.User.MobileNumber, response, body, 1);
             return response;
         }
         public static string ParentForgotPasswordSMS(Child child)
@@ -76,6 +82,7 @@ namespace VaccineDose.App_Code
             body += "Hi " + textInfo.ToTitleCase(child.FatherName);
             body += ",Your password is " + child.User.Password;
             var response = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, body);
+            addMessageToDB(child.User.MobileNumber, response, body, 1);
             return response;
         }
 
@@ -98,10 +105,23 @@ namespace VaccineDose.App_Code
             sms1 += "Kindly confirm your appointment at " + followUp.Doctor.PhoneNo;
 
             var response1 = SendSMS(followUp.Child.User.CountryCode, followUp.Child.User.MobileNumber, followUp.Child.Email, sms1);
+            addMessageToDB(followUp.Child.User.MobileNumber, response1, sms1, followUp.Child.Clinic.Doctor.User.ID);
             return response1;
         }
 
-
+        public static void addMessageToDB(string mobileNumber, string apiResponse, string sms, int userId)
+        {
+            using (VDConnectionString entities = new VDConnectionString())
+            {
+                Message m = new Message();
+                m.MobileNumber = mobileNumber;
+                m.ApiResponse = apiResponse;
+                m.SMS = sms;
+                m.UserID = userId;
+                entities.Messages.Add(m);
+                entities.SaveChanges();
+            }
+        }
         public static string SendSMS(string CountryCode, string MobileNumber, string Email, string text)
         {
             //string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";

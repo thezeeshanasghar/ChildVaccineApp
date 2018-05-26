@@ -19,6 +19,7 @@ namespace VaccineDose
         {
             this.Children = new HashSet<Child>();
             this.Doctors = new HashSet<Doctor>();
+            this.Messages = new HashSet<Message>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace VaccineDose
         public virtual ICollection<Child> Children { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Doctor> Doctors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }
