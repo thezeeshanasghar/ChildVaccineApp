@@ -43,6 +43,7 @@ namespace VaccineDose
         public bool AllowChart { get; set; }
         public bool AllowFollowUp { get; set; }
         public bool AllowInventory { get; set; }
+        public int SMSLimit { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clinic> Clinics { get; set; }

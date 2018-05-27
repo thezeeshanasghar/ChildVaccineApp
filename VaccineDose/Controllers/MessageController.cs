@@ -13,13 +13,51 @@ namespace VaccineDose.Controllers
     [RoutePrefix("api/Message")]
     public class MessageController : BaseController
     {
-        public Response<List<MessageDTO>> Get()
+        public Response<List<MessageDTO>> Get([FromUri] string mobileNumber, [FromUri] string fromDate, [FromUri] string toDate)
         {
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbMessages = entities.Messages.ToList();
+                    List<Message> dbMessages = new List<Message>();
+
+                    if (!string.IsNullOrEmpty(mobileNumber) || !string.IsNullOrEmpty(fromDate) || !string.IsNullOrEmpty(toDate))
+                    {
+                        var dbUser = entities.Users.Where(x => x.MobileNumber == mobileNumber && x.UserType == "DOCTOR").FirstOrDefault();
+                        if (dbUser == null)
+                            return new Response<List<MessageDTO>>(false, "No records found", null);
+                        if(fromDate !=null && toDate == null)
+                        {
+                            DateTime FromDate = DateTime.ParseExact(fromDate, "dd-MM-yyyy", null);
+                            dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID && m.Created >= FromDate).ToList();
+                        }
+                        if (toDate != null && fromDate == null)
+                        {
+                            DateTime ToDate = DateTime.ParseExact(toDate, "dd-MM-yyyy", null);
+                            dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID &&
+                                            m.Created <= ToDate).ToList();
+                        }
+                        if (toDate != null && fromDate != null)
+                        {
+                            DateTime FromDate = DateTime.ParseExact(fromDate, "dd-MM-yyyy", null);
+                            DateTime ToDate = DateTime.ParseExact(toDate, "dd-MM-yyyy", null);
+
+                            dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID && m.Created >= FromDate &&
+                                            m.Created <= ToDate).ToList();
+
+                        }
+                        if (toDate == null && fromDate == null)
+                        {
+                            dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID).ToList();
+                        }
+
+                    }
+                    else
+                    {
+                        dbMessages = entities.Messages.ToList();
+                    }
+
+
                     var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);
                     return new Response<List<MessageDTO>>(true, null, messageDTOs);
                 }
@@ -67,7 +105,7 @@ namespace VaccineDose.Controllers
                 return new Response<List<MessageDTO>>(false, GetMessageFromExceptionObject(ex), null);
 
             }
-          
+
 
         }
     }

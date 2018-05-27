@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Web;
 
 namespace VaccineDose.App_Code
@@ -39,6 +40,8 @@ namespace VaccineDose.App_Code
             var response2 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms2);
             addMessageToDB(child.User.MobileNumber, response1, sms1, child.Clinic.Doctor.User.ID);
             addMessageToDB(child.User.MobileNumber, response2, sms2, child.Clinic.Doctor.User.ID);
+            minusDoctorSMSCount(child.Clinic.Doctor);
+            minusDoctorSMSCount(child.Clinic.Doctor);
             return response1 + response2;
 
         }
@@ -64,6 +67,7 @@ namespace VaccineDose.App_Code
             sms1 += " @ " + child.Clinic.Doctor.PhoneNo + " OR " + child.Clinic.PhoneNumber;
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
             addMessageToDB(child.User.MobileNumber, response1, sms1, child.Clinic.Doctor.User.ID);
+            minusDoctorSMSCount(child.Clinic.Doctor);
             return response1;
         }
 
@@ -106,6 +110,8 @@ namespace VaccineDose.App_Code
 
             var response1 = SendSMS(followUp.Child.User.CountryCode, followUp.Child.User.MobileNumber, followUp.Child.Email, sms1);
             addMessageToDB(followUp.Child.User.MobileNumber, response1, sms1, followUp.Child.Clinic.Doctor.User.ID);
+            minusDoctorSMSCount(followUp.Child.Clinic.Doctor);
+
             return response1;
         }
 
@@ -119,6 +125,15 @@ namespace VaccineDose.App_Code
                 m.SMS = sms;
                 m.UserID = userId;
                 entities.Messages.Add(m);
+                entities.SaveChanges();
+            }
+        }
+        public static void minusDoctorSMSCount(Doctor doctor)
+        {
+            using (VDConnectionString entities = new VDConnectionString())
+            {
+                Doctor dbDoctor = entities.Doctors.Where(x=>x.ID == doctor.ID).FirstOrDefault();
+                dbDoctor.SMSLimit--; 
                 entities.SaveChanges();
             }
         }

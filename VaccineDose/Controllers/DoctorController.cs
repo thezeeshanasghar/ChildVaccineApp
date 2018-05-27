@@ -465,6 +465,7 @@ namespace VaccineDose.Controllers
                     dbDoctor.AllowFollowUp = doctorDTO.AllowFollowUp;
                     dbDoctor.AllowChart = doctorDTO.AllowChart;
                     dbDoctor.AllowInventory = doctorDTO.AllowInventory;
+                    dbDoctor.SMSLimit = doctorDTO.SMSLimit;
 
                     entities.SaveChanges();
                     return new Response<DoctorDTO>(true, "Record is successfully updated", doctorDTO);

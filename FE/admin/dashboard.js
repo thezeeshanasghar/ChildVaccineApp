@@ -35,6 +35,7 @@ function loadDoctors() {
                     html += '       <label>Allow Follow up</label>&nbsp;<input   type="checkbox"  id="AllowFollowUp_' + item.ID + '" ' + ((item.AllowFollowUp) ? 'checked="checked"' : '') + ' /><br />';
                     html += '       <label>Allow chart</label>&nbsp;<input  type="checkbox" id="AllowChart_' + item.ID + '" ' + ((item.AllowChart) ? 'checked="checked"' : '') + ' /><br />';
                     html += '       <label>Allow inventory</label>&nbsp;<input  type="checkbox" id="AllowInventory_' + item.ID + '" ' + ((item.AllowInventory) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <label>SMS Limit</label>&nbsp;<input  type="number" min="0" id="SMSLimit_'+ item.ID + '" value="'+item.SMSLimit+'" /><br />';
                     html += '       <button class="btn btn-primary" onclick="UpdateDoctorPermissions(' + item.ID + ')"  >Update Permission</button>';
                     html += '   </td>';
                     html += '</tr>';
@@ -84,6 +85,7 @@ function UpdateDoctorPermissions(DoctorId) {
         AllowFollowUp: $("#AllowFollowUp_" + DoctorId).is(":checked"),
         AllowChart: $("#AllowChart_" + DoctorId).is(":checked"),
         AllowInventory: $("#AllowInventory_" + DoctorId).is(":checked"),
+        SMSLimit: $("#SMSLimit_"+DoctorId).val(),
         ID: DoctorId
     }
 

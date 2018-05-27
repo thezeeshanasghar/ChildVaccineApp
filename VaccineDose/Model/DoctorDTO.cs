@@ -29,6 +29,7 @@ namespace VaccineDose
         public bool AllowChart { get; set; }
         public bool AllowFollowUp { get; set; }
         public bool AllowInventory { get; set; }
+        public int SMSLimit { get; set; }
 
         public ClinicDTO ClinicDTO { get; set; }
         public List<ClinicDTO> Clinics { get; set; }

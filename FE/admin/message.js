@@ -7,13 +7,16 @@ $(document).ready(function () {
 function loadData() {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "message",
+        url: SERVER + "message/?mobileNumber=" + $.trim($("#MobileNumber").val()) + "&fromDate="
+            + $("#FromDate").val() + "&toDate=" + $("#ToDate").val(),
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            if (!result.IsSuccess) {
+             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
+                $('.tbody').html('');
+                $('#TotalSMS').html('')
             }
             else {
                 var html = '';
@@ -37,4 +40,11 @@ function loadData() {
             alert(errormessage.responseText);
         }
     });
+}
+
+function reset() {
+    $("#MobileNumber").val(""); 
+    $("#FromDate").val(""); 
+    $("#ToDate").val("");
+    loadData();
 }

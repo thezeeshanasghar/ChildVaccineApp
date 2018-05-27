@@ -90,6 +90,7 @@
           <Property Name="AllowChart" Type="bit" Nullable="false" />
           <Property Name="AllowFollowUp" Type="bit" Nullable="false" />
           <Property Name="AllowInventory" Type="bit" Nullable="false" />
+          <Property Name="SMSLimit" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -717,6 +718,7 @@
           <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
           <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
           <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
+          <Property Name="SMSLimit" Type="Int32" Nullable="false" />
           </EntityType>
         <Association Name="FK_Clinic_Doctor">
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
@@ -1032,6 +1034,7 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="SMSLimit" ColumnName="SMSLimit" />
                 <ScalarProperty Name="AllowInventory" ColumnName="AllowInventory" />
                 <ScalarProperty Name="AllowFollowUp" ColumnName="AllowFollowUp" />
                 <ScalarProperty Name="AllowChart" ColumnName="AllowChart" />

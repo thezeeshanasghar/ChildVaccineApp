@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link href="/css/style.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <link rel="icon" href="/img/favicon.ico">
 
 </head>
@@ -19,12 +20,43 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Messages</h2>
-                
+
                 <div id="alert_message" class="alert alert-dismissible alert-warning">
                     <button type="button" class="close" data-dismiss="alert">&nbsp;&times;&nbsp;</button>
                     <strong>loading title!</strong>
                     <p>loading message</p>
                 </div>
+                <p>&nbsp;</p>
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="tel" id="MobileNumber" class="input form-control" name="MobileNumber" placeholder="Enter Mobile Number" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div id="fromDate-container">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" id="FromDate" placeholder="From Date" />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div id="toDate-container">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" id="ToDate" placeholder="To Date" />
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button onclick="return reset()" class="btn btn-default pull-right" style="vertical-align:bottom;margin-left: 5px;" >Reset</button>
+                        <button onclick="return loadData()" class="btn btn-primary pull-right" style="vertical-align:bottom">Search</button>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
                 <br />
                 <div style="text-align:center;" id="TotalSMS"></div>
                 <table id="vaccineTable" class="table table-bordered table-hover vaccineTable">
@@ -39,19 +71,19 @@
                             <th>
                                 Receiver
                             </th>
-                            
+
                             <th>
                                 SMS
-                            </th> 
+                            </th>
                             <th>
                                 Date
-                            </th> 
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="tbody"></tbody>
                 </table>
             </div>
-        </div> 
+        </div>
         <div id="footer"></div>
 
 
@@ -60,10 +92,40 @@
 
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-datepicker.min.js"></script>
     <script src="../js/validator.min.js"></script>
 
     <script src="/server.js"></script>
     <script src="/common.js"></script>
     <script src="message.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#fromDate-container .input-group.date').datepicker({
+                format: 'dd-mm-yyyy',
+                todayBtn: true,
+                endDate: '0d',
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#fromDate-container .input-group.date').datepicker('update', $("#FromDate").val());
+            $("#fromDate-container .input-group.date").datepicker().on('changeDate', function (e) {
+                $("#FromDate").val(('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear());
+            });
+
+            $('#toDate-container .input-group.date').datepicker({
+                format: 'dd-mm-yyyy',
+                todayBtn: true,
+                endDate: '0d',
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#toDate-container .input-group.date').datepicker('update', $("#ToDate").val());
+            $("#toDate-container .input-group.date").datepicker().on('changeDate', function (e) {
+                $("#ToDate").val(('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear());
+            });
+        });
+
+
+    </script>
 </body>
 </html>
