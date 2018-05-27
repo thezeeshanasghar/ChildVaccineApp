@@ -60,6 +60,7 @@ function SetMainNav() {
         markup += '        <ul class="nav navbar-nav navbar-right">';
         markup += '            <li><a href="/admin/dashboard.html">Home</a></li>';
         markup += '            <li id="menu-vaccine"><a href="/admin/vaccine.html">Vaccine</a></li>';
+        markup += '            <li id="menu-message"><a href="/admin/message.html">Message</a></li>';
         markup += '            <li id="menu-doctor"><a href="/admin/doctor.html">Doctor</a></li>';
         markup += '            <li id="menu-login"><a href="/login.html">Login</a></li>';
         markup += '            <li id="menu-logout"><a href="#" onclick="return logout()">Logout</a></li>';
@@ -84,6 +85,7 @@ function SetMainNav() {
         markup += '</div>';
         markup += '<div id="mySidenav" class="sidenav">';
         markup += '     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>';
+        markup += '     <a href="/doctor/message.html" >Messages</a>';
         markup += '     <a href="/doctor/doctor-edit.html">Edit Profile</a>';
         markup += '     <a href="/doctor/clinic-selection.html">Change Online Clinic</a>';
         markup += '     <a id="navBtnClinic" href="/doctor/clinic.html">Clinics Info</a>';

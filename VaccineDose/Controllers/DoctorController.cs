@@ -104,19 +104,10 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
 
-                    // 3- send email to doctor
+                    // 1- send email to doctor
                     UserEmail.DoctorEmail(doctorDTO);
 
-                    //generate SMS and save it to the db
-                    string sms = UserSMS.DoctorSMS(doctorDTO);
-                    Message m = new Message();
-                    m.MobileNumber = doctorDTO.MobileNumber;
-                    m.SMS = sms;
-                    m.Status = "PENDING";
-                    entities.Messages.Add(m);
-                    entities.SaveChanges();
-
-                    // 1- save User first
+                    // 2- save User first
                     User userDB = new User();
                     userDB.MobileNumber = doctorDTO.MobileNumber;
                     userDB.Password = doctorDTO.Password;
@@ -125,14 +116,16 @@ namespace VaccineDose.Controllers
                     entities.Users.Add(userDB);
                     entities.SaveChanges();
 
-                    // 1- save Doctor 
+                    // 2- save Doctor 
                     Doctor doctorDB = Mapper.Map<Doctor>(doctorDTO);
                     doctorDB.ValidUpto = null;
                     doctorDB.UserID = userDB.ID;
                     entities.Doctors.Add(doctorDB);
                     entities.SaveChanges();
-
                     doctorDTO.ID = doctorDB.ID;
+
+                    //generate SMS and save it to the db
+                    UserSMS.DoctorSMS(doctorDTO);
 
                     // 4- check if clinicDto exsist; then save clinic as well
                     if (doctorDTO.ClinicDTO != null && !String.IsNullOrEmpty(doctorDTO.ClinicDTO.Name))
