@@ -18,6 +18,7 @@
     [AllowChart] BIT NOT NULL DEFAULT(1), 
     [AllowFollowUp] BIT NOT NULL DEFAULT(1), 
     [AllowInventory] BIT NOT NULL DEFAULT(1), 
+    [SMSLimit] INT NOT NULL DEFAULT 0, 
     CONSTRAINT [PK_Doctor] PRIMARY KEY CLUSTERED ([ID] ASC),
 	CONSTRAINT [FK_Doctor_User] FOREIGN KEY ([UserID]) REFERENCES [dbo].[User] ([ID])
 );
