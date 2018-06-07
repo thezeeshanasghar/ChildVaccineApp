@@ -74,7 +74,7 @@ namespace VaccineDose.Controllers
 
                     Child childDB = Mapper.Map<Child>(childDTO);
                     // check for existing parent 
-                    User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber).FirstOrDefault();
+                    User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber && x.UserType=="PARENT").FirstOrDefault();
 
                     if (user == null)
                     {
