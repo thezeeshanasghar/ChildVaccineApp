@@ -64,7 +64,6 @@ function loadData() {
                     html += '</div>';
                 });
                 $("#childrecords").html(html);
-                debugger;
                 $("#Boys").html('Boys: ' + boys);
                 $("#Girls").html('Girls: ' + girls);
                 $("#TotalChilds").html('Total: ' + (boys + girls));

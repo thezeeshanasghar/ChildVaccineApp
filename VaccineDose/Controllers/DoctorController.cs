@@ -503,7 +503,5 @@ namespace VaccineDose.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
-
-
     }
 }

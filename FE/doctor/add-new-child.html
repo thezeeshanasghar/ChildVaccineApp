@@ -468,6 +468,18 @@
                 //}
             });
 
+            $("#IsEPIDone").change(function (e) {
+                if (this.checked) {
+                    var date1 = $('#dob-container .input-group.date').datepicker('getDate');
+                    var date2 = new Date();
+                    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    if (diffDays < 270) {
+                        alert('Difference from selected date of birth and today is not 9 month.');
+                        this.checked = false;
+                    }
+                }
+            });
         });
     </script>
 </body>

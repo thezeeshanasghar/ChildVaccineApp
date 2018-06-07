@@ -68,6 +68,8 @@ function Add() {
                 
             }
             else {
+                $("#btnAdd").button('reset');
+                $("#btnAdd").prop('disabled', false);
                 loadData();
                 $('#myModal').modal('hide');
             }
