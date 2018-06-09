@@ -158,7 +158,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="84"';
     markup += doctorSchdule.GapInDays == 84 ? selectedAttribute : '';
-    markup += '>12 Weeks</option>';
+    markup += '>3 Months</option>';
 
     markup += '<option value="91"';
     markup += doctorSchdule.GapInDays == 91 ? selectedAttribute : '';
@@ -206,7 +206,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="168"';
     markup += doctorSchdule.GapInDays == 168 ? selectedAttribute : '';
-    markup += '>24 Weeks</option>';
+    markup += '>6 Months</option>';
 
     markup += '<option value="212"';
     markup += doctorSchdule.GapInDays == 212 ? selectedAttribute : '';
@@ -230,7 +230,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="365"';
     markup += doctorSchdule.GapInDays == 365 ? selectedAttribute : '';
-    markup += '>12 Months</option>';
+    markup += '>1 Year</option>';
 
     markup += '<option value="395"';
     markup += doctorSchdule.GapInDays == 395 ? selectedAttribute : '';
@@ -278,7 +278,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="730" ';
     markup += doctorSchdule.GapInDays == 730 ? selectedAttribute : '';
-    markup += '>24 Months</option>';
+    markup += '>2 Years</option>';
 
     markup += '<option value="760" ';
     markup += doctorSchdule.GapInDays == 760 ? selectedAttribute : '';
@@ -326,7 +326,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="1095" ';
     markup += doctorSchdule.GapInDays == 1095 ? selectedAttribute : '';
-    markup += '>36 Months</option>';
+    markup += '>3 Years</option>';
 
     markup += '<option value="1125" ';
     markup += doctorSchdule.GapInDays == 1125 ? selectedAttribute : '';
@@ -374,7 +374,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="1460" ';
     markup += doctorSchdule.GapInDays == 1460 ? selectedAttribute : '';
-    markup += '>48 Months</option>';
+    markup += '>4 Years</option>';
 
     markup += '<option value="1490" ';
     markup += doctorSchdule.GapInDays == 1490 ? selectedAttribute : '';
@@ -422,7 +422,7 @@ function getClinicFormForEditView(form_id, doctorSchdule) {
 
     markup += '<option value="1825" ';
     markup += doctorSchdule.GapInDays == 1825 ? selectedAttribute : '';
-    markup += '>60 Months</option>';
+    markup += '>5 Years</option>';
 
     markup += '<option value="2190" ';
     markup += doctorSchdule.GapInDays == 2190 ? selectedAttribute : '';

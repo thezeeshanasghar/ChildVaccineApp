@@ -343,7 +343,7 @@ function getUserAge(ageNum) {
             day = '11 Weeks';
             break;
         case 84:
-            day = '12 Weeks';
+            day = '3 Months';
             break;
         case 91:
             day = '13 Weeks';
@@ -379,7 +379,7 @@ function getUserAge(ageNum) {
             day = '23 Weeks';
             break;
         case 168:
-            day = '24 Weeks';
+            day = '6 Months';
             break;
         case 212:
             day = '7 Months';
@@ -397,7 +397,7 @@ function getUserAge(ageNum) {
             day = '11 Months';
             break;
         case 365:
-            day = '12 Months';
+            day = '1 Year';
             break;
         case 395:
             day = '13 Months';
@@ -433,7 +433,7 @@ function getUserAge(ageNum) {
             day = '23 Months';
             break;
         case 730:
-            day = '24 Months';
+            day = '2 Years';
             break;
         case 760:
             day = '25 Months';
@@ -469,7 +469,7 @@ function getUserAge(ageNum) {
             day = '35 Months';
             break;
         case 1095:
-            day = '36 Months';
+            day = '3 Years';
             break;
         case 1125:
             day = '37 Months';
@@ -505,7 +505,7 @@ function getUserAge(ageNum) {
             day = '47 Months';
             break;
         case 1460:
-            day = '48 Months';
+            day = '4 Years';
             break;
         case 1490:
             day = '49 Months';
@@ -541,7 +541,7 @@ function getUserAge(ageNum) {
             day = '59 Months';
             break;
         case 1825:
-            day = '60 Months';
+            day = '5 Years';
             break;
         case 2190:
             day = '6 Years';

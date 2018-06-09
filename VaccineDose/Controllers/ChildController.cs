@@ -74,7 +74,7 @@ namespace VaccineDose.Controllers
 
                     Child childDB = Mapper.Map<Child>(childDTO);
                     // check for existing parent 
-                    User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber && x.UserType=="PARENT").FirstOrDefault();
+                    User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber && x.UserType == "PARENT").FirstOrDefault();
 
                     if (user == null)
                     {
@@ -112,65 +112,69 @@ namespace VaccineDose.Controllers
                             cvd.DoseId = ds.DoseID;
                             if (childDTO.IsEPIDone)
                             {
-                                if (ds.Dose.Name.StartsWith("BCG") 
+                                if (ds.Dose.Name.StartsWith("BCG")
                                     || ds.Dose.Name.StartsWith("HBV")
                                     || ds.Dose.Name.Equals("OPV # 1"))
                                 {
                                     cvd.IsDone = true;
                                     cvd.Due2EPI = true;
                                     cvd.GivenDate = childDB.DOB;
-                                } else if (
-                                    ds.Dose.Name.Equals("OPV/IPV+HBV+DPT+Hib # 1", StringComparison.OrdinalIgnoreCase)
-                                    || ds.Dose.Name.Equals("Pneumococcal # 1", StringComparison.OrdinalIgnoreCase)
-                                    || ds.Dose.Name.Equals("Rota Virus GE # 1", StringComparison.OrdinalIgnoreCase)
-                                    )
-                                {
-                                    cvd.IsDone = true;
-                                    cvd.Due2EPI = true;
-                                    DateTime d = childDB.DOB;
-                                    cvd.GivenDate = d.AddDays(42);
-                                } else if (
-                                  ds.Dose.Name.Equals("OPV/IPV+HBV+DPT+Hib # 2", StringComparison.OrdinalIgnoreCase)
-                                  || ds.Dose.Name.Equals("Pneumococcal # 2", StringComparison.OrdinalIgnoreCase)
-                                  || ds.Dose.Name.Equals("Rota Virus GE # 2", StringComparison.OrdinalIgnoreCase)
-                                    )
-                                {
-                                    cvd.IsDone = true;
-                                    cvd.Due2EPI = true;
-                                    DateTime d = childDB.DOB;
-                                    cvd.GivenDate = d.AddDays(70);
-                                } else if (
-                                  ds.Dose.Name.Equals("OPV/IPV+HBV+DPT+Hib # 3", StringComparison.OrdinalIgnoreCase)
-                                  || ds.Dose.Name.Equals("Pneumococcal # 3", StringComparison.OrdinalIgnoreCase)
+                                }
+                                else if (
+                                  ds.Dose.Name.Equals("OPV/IPV+HBV+DPT+Hib # 1", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("Pneumococcal # 1", StringComparison.OrdinalIgnoreCase)
+                                  || ds.Dose.Name.Equals("Rota Virus GE # 1", StringComparison.OrdinalIgnoreCase)
                                   )
                                 {
                                     cvd.IsDone = true;
                                     cvd.Due2EPI = true;
                                     DateTime d = childDB.DOB;
-                                    cvd.GivenDate = d.AddDays(98);
-                                } else if (
-                                 ds.Dose.Name.Equals("Measles # 1", StringComparison.OrdinalIgnoreCase)
-                                 )
+                                    cvd.GivenDate = d.AddDays(42);
+                                }
+                                else if (
+                                ds.Dose.Name.Equals("OPV/IPV+HBV+DPT+Hib # 2", StringComparison.OrdinalIgnoreCase)
+                                || ds.Dose.Name.Equals("Pneumococcal # 2", StringComparison.OrdinalIgnoreCase)
+                                || ds.Dose.Name.Equals("Rota Virus GE # 2", StringComparison.OrdinalIgnoreCase)
+                                  )
                                 {
                                     cvd.IsDone = true;
                                     cvd.Due2EPI = true;
                                     DateTime d = childDB.DOB;
-                                    cvd.GivenDate = d.AddDays(274);
+                                    cvd.GivenDate = d.AddDays(70);
+                                }
+                                else if (
+                                ds.Dose.Name.Equals("OPV/IPV+HBV+DPT+Hib # 3", StringComparison.OrdinalIgnoreCase)
+                                || ds.Dose.Name.Equals("Pneumococcal # 3", StringComparison.OrdinalIgnoreCase)
+                                )
+                                {
+                                    cvd.IsDone = true;
+                                    cvd.Due2EPI = true;
+                                    DateTime d = childDB.DOB;
+                                    cvd.GivenDate = d.AddDays(98);
+                                }
+                                else if (
+                               ds.Dose.Name.Equals("Measles # 1", StringComparison.OrdinalIgnoreCase)
+                               )
+                                {
+                                    cvd.IsDone = true;
+                                    cvd.Due2EPI = true;
+                                    DateTime d = childDB.DOB;
+                                    cvd.GivenDate = d.AddMonths(9);
                                 }
                             }
-                            cvd.Date = childDTO.DOB.AddDays(ds.GapInDays);
+
+                            cvd.Date = calculateDate(childDTO.DOB, ds.GapInDays);
+
                             entities.Schedules.Add(cvd);
                             entities.SaveChanges();
                         }
                     }
                     Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
                     if (c.Email != "")
-                    {
                         UserEmail.ParentEmail(c);
-                    }
 
                     // generate SMS and save it to the db
-                      UserSMS.ParentSMS(c);
+                    UserSMS.ParentSMS(c);
 
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
@@ -179,6 +183,35 @@ namespace VaccineDose.Controllers
             {
                 return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
             }
+        }
+        private DateTime calculateDate(DateTime date, int GapInDays)
+        {
+            // For 3 months
+            if (GapInDays == 84)
+                return date.AddMonths(3);
+            // For 9 Year 1 month
+            else if (GapInDays == 3315)
+                return date.AddYears(9).AddMonths(1);
+            // For 10 Year 6 month
+            else if (GapInDays == 3833)
+                return date.AddYears(10).AddMonths(6);
+            // For 1 to 15 years
+            else if (GapInDays == 365 || GapInDays == 730 || GapInDays == 1095 ||
+                GapInDays == 1460 || GapInDays == 1825 || GapInDays == 2190 || GapInDays == 2555 ||
+                GapInDays == 2920 || GapInDays == 3285 || GapInDays == 3650 || GapInDays == 4015 ||
+                GapInDays == 4380 || GapInDays == 4745 || GapInDays == 5110 || GapInDays == 5475)
+                return date.AddYears((int)(GapInDays / 365));
+            // From 6 months to 11 months
+            else if (GapInDays >= 168 || GapInDays <= 334)
+                return date.AddMonths((int)(GapInDays / 28));
+            // From 13 months to 20 months
+            else if (GapInDays >= 395 || GapInDays <= 608)
+                return date.AddMonths((int)(GapInDays / 29));
+            // From 21 months to 11 months
+            else if (GapInDays >= 639 || GapInDays <= 1795)
+                return date.AddMonths((int)(GapInDays / 30));
+            else
+                return date.AddDays(GapInDays);
         }
 
         public Response<ChildDTO> Put([FromBody] ChildDTO childDTO)
@@ -988,7 +1021,7 @@ namespace VaccineDose.Controllers
                     var dbChild = entities.Children.Where(x => x.Name == obj.Name && x.User.MobileNumber == obj.MobileNumber && x.User.CountryCode == obj.CountryCode).FirstOrDefault();
                     if (dbChild == null)
                     {
-                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK,Mapper.Map<ChildDTO>(dbChild));
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, Mapper.Map<ChildDTO>(dbChild));
                         return response;
 
                     }

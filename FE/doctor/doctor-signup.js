@@ -283,7 +283,7 @@ function GenerateScheduleRow(form_id, dose) {
     markup += '<option value="63">9 Weeks</option>';
     markup += '<option value="70">10 Weeks</option>';
     markup += '<option value="77">11 Weeks</option>';
-    markup += '<option value="84">12 Weeks</option>';
+    markup += '<option value="84">3 Months</option>';
     markup += '<option value="91">13 Weeks</option>';
     markup += '<option value="98">14 Weeks</option>';
     markup += '<option value="105">15 Weeks</option>';
@@ -295,13 +295,13 @@ function GenerateScheduleRow(form_id, dose) {
     markup += '<option value="147">21 Weeks</option>';
     markup += '<option value="154">22 Weeks</option>';
     markup += '<option value="161">23 Weeks</option>';
-    markup += '<option value="168">24 Weeks</option>';
+    markup += '<option value="168">6 Months</option>';
     markup += '<option value="212">7 Months</option>';
     markup += '<option value="243">8 Months</option>';
     markup += '<option value="274">9 Months</option>';
     markup += '<option value="304">10 Months</option>';
     markup += '<option value="334">11 Months</option>';
-    markup += '<option value="365">12 Months</option>';
+    markup += '<option value="365">1 Year</option>';
     markup += '<option value="395">13 Months</option>';
     markup += '<option value="426">14 Months</option>';
     markup += '<option value="456">15 Months</option>';
@@ -313,7 +313,7 @@ function GenerateScheduleRow(form_id, dose) {
     markup += '<option value="639">21 Months</option>';
     markup += '<option value="669">22 Months</option>';
     markup += '<option value="699">23 Months</option>';
-    markup += '<option value="730">24 Months</option>';
+    markup += '<option value="730">2 Years</option>';
     markup += '<option value="760">25 Months</option>';
     markup += '<option value="791">26 Months</option>';
     markup += '<option value="821">27 Months</option>';
@@ -325,7 +325,7 @@ function GenerateScheduleRow(form_id, dose) {
     markup += '<option value="1004">33 Months</option>';
     markup += '<option value="1034">34 Months</option>';
     markup += '<option value="1064">35 Months</option>';
-    markup += '<option value="1095">36 Months</option>';
+    markup += '<option value="1095">3 Years</option>';
     markup += '<option value="1125">37 Months</option>';
     markup += '<option value="1156">38 Months</option>';
     markup += '<option value="1186">39 Months</option>';
@@ -337,7 +337,7 @@ function GenerateScheduleRow(form_id, dose) {
     markup += '<option value="1369">45 Months</option>';
     markup += '<option value="1399">46 Months</option>';
     markup += '<option value="1429">47 Months</option>';
-    markup += '<option value="1460">48 Months</option>';
+    markup += '<option value="1460">4 Years</option>';
     markup += '<option value="1490">49 Months</option>';
     markup += '<option value="1521">50 Months</option>';
     markup += '<option value="1551">51 Months</option>';
@@ -349,7 +349,7 @@ function GenerateScheduleRow(form_id, dose) {
     markup += '<option value="1734">57 Months</option>';
     markup += '<option value="1764">58 Months</option>';
     markup += '<option value="1795">59 Months</option>';
-    markup += '<option value="1825">60 Months</option>';
+    markup += '<option value="1825">5 Years</option>';
     markup += '<option value="2190">6 Years</option>';
     markup += '<option value="2555">7 Years</option>';
     markup += '<option value="2920">8 Years</option>  ';
