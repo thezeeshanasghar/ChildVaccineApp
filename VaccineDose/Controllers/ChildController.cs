@@ -222,26 +222,10 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbSchedules = entities.Schedules.Where(s => s.ChildId == Id).ToList();
-                    var dbFollowUps = entities.FollowUps.Where(f => f.ChildID == Id).ToList();
                     var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
-                    var children = entities.Children.Where(c => c.UserID == dbChild.UserID).ToList();
-                    //delete child schedules
-                    foreach (var schedule in dbSchedules)
-                    {
-                        entities.Schedules.Remove(schedule);
-                    }
-                    //delete child followup history
-                    foreach (var followup in dbFollowUps)
-                    {
-                        entities.FollowUps.Remove(followup);
-                    }
-                    //delete user also, iff child its self a parent
-                    if (children.Count == 1)
-                    {
-                        entities.Users.Remove(dbChild.User);
-                    }
-                    //delete child now
+                    entities.Schedules.RemoveRange(dbChild.Schedules);
+                    entities.FollowUps.RemoveRange(dbChild.FollowUps);
+                    entities.Users.Remove(dbChild.User);
                     entities.Children.Remove(dbChild);
                     entities.SaveChanges();
                     return new Response<string>(true, "Child is deleted successfully", null);

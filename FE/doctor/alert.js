@@ -101,7 +101,7 @@ function loadData(Id) {
                         var arry = map[key];
                         //
                         html += '<div class="row">';
-                        html += '<div class="col-md-2">';
+                        html += '<div class="col-md-2 col-sm-2 col-xs-2">';
                         html += '<img src="/img/'
                         if (arry[0].Gender == "Boy")
                             html += 'male.png"   class="img-responsive pull-right" alt="female" style="max-width:30px;max-height:30px" />';
@@ -109,7 +109,7 @@ function loadData(Id) {
                             html += 'female.png"   class="img-responsive pull-right" alt="female" style="max-width:30px;max-height:30px" />';
 
                         html += ' </div>';
-                        html += ' <div class="col-md-8">';
+                        html += ' <div class="col-md-8 col-sm-8 col-xs-8">';
                         html += '<h5 style="border-bottom:solid 1px pink">' + '<a href="child.html#' + arry[0].ChildID + '" >' + key + '</a></h5>';
                         html += '  <div class="pull-right">';
                         html += '<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<i class="fa fa-envelope" onclick="sendFollowUpSMSAlert(' + arry[0].ChildID + ')" data-toggle="tooltip" title="Send SMS Alert!" style="cursor:pointer;" aria-hidden="true"></i>';
