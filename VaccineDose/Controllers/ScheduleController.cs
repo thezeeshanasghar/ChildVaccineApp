@@ -77,11 +77,6 @@ namespace VaccineDose.Controllers
         [Route("api/schedule/alert/{GapDays}/{OnlineClinicID}")]
         public Response<IEnumerable<ScheduleDTO>> GetAlert(int GapDays, int OnlineClinicID)
         {
-            //select s.ChildId,s.Date,c.Name,c.FatherName,c.DOB,c.ClinicID,cl.Name,cl.DoctorID,cl.IsOnline from Schedule s
-            //INNER JOIN Child c on c.ID = s.ChildId
-            //INNER JOIN Clinic cl on c.ClinicID = cl.ID
-            //and s.Date BETWEEN '2018-04-3' and '2018-04-7'
-            //and cl.DoctorID = 1
             try
             {
                 using (VDConnectionString entities = new VDConnectionString())
@@ -108,6 +103,7 @@ namespace VaccineDose.Controllers
                 schedules = entities.Schedules.Include("Child").Include("Dose")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date == DateTime.Today.Date)
+                    .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
                 // TODO: Munneb
                 //schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
@@ -122,6 +118,7 @@ namespace VaccineDose.Controllers
                     //.Where(c => c.Child.ClinicID == OnlineClinicID)
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date > DateTime.Now && c.Date <= AddedDateTime)
+                    .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                     .ToList<Schedule>();
 
@@ -138,6 +135,7 @@ namespace VaccineDose.Controllers
                     //.Where(c => c.Child.ClinicID == OnlineClinicID)
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date < DateTime.Now && c.Date >= AddedDateTime)
+                    .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                     .ToList<Schedule>();
             }

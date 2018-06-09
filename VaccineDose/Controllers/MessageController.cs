@@ -26,7 +26,7 @@ namespace VaccineDose.Controllers
                         var dbUser = entities.Users.Where(x => x.MobileNumber == mobileNumber && x.UserType == "DOCTOR").FirstOrDefault();
                         if (dbUser == null)
                             return new Response<List<MessageDTO>>(false, "No records found", null);
-                        if(fromDate !=null && toDate == null)
+                        if (fromDate != null && toDate == null)
                         {
                             DateTime FromDate = DateTime.ParseExact(fromDate, "dd-MM-yyyy", null);
                             dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID && m.Created >= FromDate).ToList();
@@ -58,34 +58,14 @@ namespace VaccineDose.Controllers
                     }
 
 
-                    var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);
+                    var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages.OrderByDescending(x => x.Created));
                     return new Response<List<MessageDTO>>(true, null, messageDTOs);
                 }
             }
             catch (Exception ex)
             {
                 return new Response<List<MessageDTO>>(false, GetMessageFromExceptionObject(ex), null);
-
             }
-            //var response = new HttpResponseMessage(HttpStatusCode.OK);
-
-            //using (VDConnectionString entities = new VDConnectionString())
-            //{
-            //    var dbMessages = entities.Messages.ToList();
-            //    var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);
-            //    return Request.CreateResponse(HttpStatusCode.OK, messageDTOs);
-            //    var dbSMS = entities.Messages.Where(x => x.Status == "PENDING").ToList();
-            //    if (dbSMS.Count > 0)
-            //    {
-            //        string SMS = "";
-            //        foreach (var sms in dbSMS)
-            //            SMS += sms.MobileNumber + "," + sms.SMS + "@";
-            //        response.Content = new StringContent(SMS);
-            //    }
-            //}
-            //response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-            //return response;
-
         }
 
         [Route("{id}/doctor")]
@@ -95,7 +75,7 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var dbMessages = entities.Messages.Where(x => x.UserID == id).ToList();
+                    var dbMessages = entities.Messages.Where(x => x.UserID == id).OrderByDescending(x => x.Created).ToList();
                     var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);
                     return new Response<List<MessageDTO>>(true, null, messageDTOs);
                 }
