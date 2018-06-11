@@ -10,7 +10,7 @@ namespace VaccineDose.Controllers
 {
     public class BaseController : ApiController
     {
-        public string GetMessageFromExceptionObject(Exception ex)
+        public static string GetMessageFromExceptionObject(Exception ex)
         {
             String message = ex.Message;
             if(ex is DbEntityValidationException)
@@ -41,13 +41,13 @@ namespace VaccineDose.Controllers
                 GapInDays == 4380 || GapInDays == 4745 || GapInDays == 5110 || GapInDays == 5475)
                 return date.AddYears((int)(GapInDays / 365));
             // From 6 months to 11 months
-            else if (GapInDays >= 168 || GapInDays <= 334)
+            else if (GapInDays >= 168 && GapInDays <= 334)
                 return date.AddMonths((int)(GapInDays / 28));
             // From 13 months to 20 months
-            else if (GapInDays >= 395 || GapInDays <= 608)
+            else if (GapInDays >= 395 && GapInDays <= 608)
                 return date.AddMonths((int)(GapInDays / 29));
             // From 21 months to 11 months
-            else if (GapInDays >= 639 || GapInDays <= 1795)
+            else if (GapInDays >= 639 && GapInDays <= 1795)
                 return date.AddMonths((int)(GapInDays / 30));
             else
                 return date.AddDays(GapInDays);

@@ -38,6 +38,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
+
         [HttpPut]
         [Route("api/schedule/child-schedule")]
         public Response<ScheduleDTO> Update(ScheduleDTO scheduleDTO)
@@ -73,76 +74,7 @@ namespace VaccineDose.Controllers
                 return new Response<ScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
-        [HttpGet]
-        [Route("api/schedule/alert/{GapDays}/{OnlineClinicID}")]
-        public Response<IEnumerable<ScheduleDTO>> GetAlert(int GapDays, int OnlineClinicID)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    List<Schedule> schedules = GetAlertData(GapDays, OnlineClinicID, entities);
-                    IEnumerable<ScheduleDTO> scheduleDTO = Mapper.Map<IEnumerable<ScheduleDTO>>(schedules);
-                    return new Response<IEnumerable<ScheduleDTO>>(true, null, scheduleDTO);
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<IEnumerable<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
-        private static List<Schedule> GetAlertData(int GapDays, int OnlineClinicID, VDConnectionString entities)
-        {
-            List<Schedule> schedules = new List<Schedule>();
-            var doctor = entities.Clinics.Where(x => x.ID == OnlineClinicID).First<Clinic>().Doctor;
-            int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
-            DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
-            if (GapDays == 0)
-            {
-                schedules = entities.Schedules.Include("Child").Include("Dose")
-                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                    .Where(c => c.Date == DateTime.Today.Date)
-                    .Where(c => c.IsDone == false)
-                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
-                // TODO: Munneb
-                //schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
-                //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                //    .Where(c => c.Date == DbFunctions.AddDays(DateTime.Today.Date, c.Child.PreferredDayOfReminder))
-                //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
-            }
-            else if (GapDays > 0)
-            {
-                AddedDateTime = AddedDateTime.AddDays(1);
-                schedules = entities.Schedules.Include("Child").Include("Dose")
-                    //.Where(c => c.Child.ClinicID == OnlineClinicID)
-                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                    .Where(c => c.Date > DateTime.Now && c.Date <= AddedDateTime)
-                    .Where(c => c.IsDone == false)
-                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
-                    .ToList<Schedule>();
-
-                //schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
-                //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                //    .Where(c => c.Date == DbFunctions.AddDays(AddedDateTime.Date.Date, c.Child.PreferredDayOfReminder))
-                //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
-            }
-            else if (GapDays < 0)
-            {
-                //AddedDateTime = AddedDateTime.AddDays(-1);
-                //DateTime previousDay = DateTime.Now.AddDays(-1);
-                schedules = entities.Schedules.Include("Child").Include("Dose")
-                    //.Where(c => c.Child.ClinicID == OnlineClinicID)
-                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                    .Where(c => c.Date < DateTime.Now && c.Date >= AddedDateTime)
-                    .Where(c => c.IsDone == false)
-                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
-                    .ToList<Schedule>();
-            }
-
-            return schedules;
-        }
-
+        
         [HttpPut]
         [Route("api/schedule/update-bulk-schedule")]
         public Response<ScheduleDTO> UpdateBulkSchedule(ScheduleDTO scheduleDTO)
@@ -174,6 +106,10 @@ namespace VaccineDose.Controllers
             var AllDoses = dbSchedule.Dose.Vaccine.Doses;
             if (AllDoses.Count == 1)
             {
+                // check for reschedule backward from DateOfBirth
+                if (scheduleDTO.Date < dbSchedule.Child.DOB)
+                    throw new Exception("Cannot reschedule to your selected date: " +
+                                Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because it is less than date of birth of child.");
                 Dose d = AllDoses.ElementAt<Dose>(0);
                 var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
                 TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference);// TargetSchedule.Date.AddDays(daysDifference);
@@ -298,7 +234,7 @@ namespace VaccineDose.Controllers
                 return new Response<ScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
-         
+
         [HttpPut]
         [Route("api/schedule/update-schedule")]
         public Response<ScheduleDTO> UpdateSchedule(ScheduleDTO scheduleDTO)
@@ -346,7 +282,6 @@ namespace VaccineDose.Controllers
 
         [HttpPost]
         [Route("api/schedule/bulk-brand")]
-
         public Response<List<ScheduleDTO>> GetVaccineBrands(ScheduleDTO scheduleDto)
         {
             try
@@ -378,6 +313,77 @@ namespace VaccineDose.Controllers
             }
         }
 
+        #region ALERT PAGE CALL
+
+        [HttpGet]
+        [Route("api/schedule/alert/{GapDays}/{OnlineClinicID}")]
+        public Response<IEnumerable<ScheduleDTO>> GetAlert(int GapDays, int OnlineClinicID)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    List<Schedule> schedules = GetAlertData(GapDays, OnlineClinicID, entities);
+                    IEnumerable<ScheduleDTO> scheduleDTO = Mapper.Map<IEnumerable<ScheduleDTO>>(schedules);
+                    return new Response<IEnumerable<ScheduleDTO>>(true, null, scheduleDTO);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+        private static List<Schedule> GetAlertData(int GapDays, int OnlineClinicID, VDConnectionString entities)
+        {
+            List<Schedule> schedules = new List<Schedule>();
+            var doctor = entities.Clinics.Where(x => x.ID == OnlineClinicID).First<Clinic>().Doctor;
+            int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
+            DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+            if (GapDays == 0)
+            {
+                schedules = entities.Schedules.Include("Child").Include("Dose")
+                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                    .Where(c => c.Date == DateTime.Today.Date)
+                    .Where(c => c.IsDone == false)
+                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
+                // TODO: Munneb
+                //schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
+                //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                //    .Where(c => c.Date == DbFunctions.AddDays(DateTime.Today.Date, c.Child.PreferredDayOfReminder))
+                //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
+            }
+            else if (GapDays > 0)
+            {
+                AddedDateTime = AddedDateTime.AddDays(1);
+                schedules = entities.Schedules.Include("Child").Include("Dose")
+                    //.Where(c => c.Child.ClinicID == OnlineClinicID)
+                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                    .Where(c => c.Date > DateTime.Now && c.Date <= AddedDateTime)
+                    .Where(c => c.IsDone == false)
+                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
+                    .ToList<Schedule>();
+
+                //schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
+                //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                //    .Where(c => c.Date == DbFunctions.AddDays(AddedDateTime.Date.Date, c.Child.PreferredDayOfReminder))
+                //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
+            }
+            else if (GapDays < 0)
+            {
+                //AddedDateTime = AddedDateTime.AddDays(-1);
+                //DateTime previousDay = DateTime.Now.AddDays(-1);
+                schedules = entities.Schedules.Include("Child").Include("Dose")
+                    //.Where(c => c.Child.ClinicID == OnlineClinicID)
+                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                    .Where(c => c.Date < DateTime.Now && c.Date >= AddedDateTime)
+                    .Where(c => c.IsDone == false)
+                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
+                    .ToList<Schedule>();
+            }
+
+            return schedules;
+        }
 
         [HttpGet]
         [Route("api/schedule/sms-alert/{GapDays}/{OnlineClinicId}")]
@@ -471,6 +477,7 @@ namespace VaccineDose.Controllers
             }
 
         }
-
+        
+        #endregion
     }
 }
