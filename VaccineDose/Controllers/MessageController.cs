@@ -7,6 +7,8 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using VaccineDose.Model;
 using System.Linq;
+using System.Xml;
+using System.Web;
 
 namespace VaccineDose.Controllers
 {
@@ -67,7 +69,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        [Route("{id}/doctor")]
+        [Route("~/api/message/{id}/doctor")]
         public Response<List<MessageDTO>> Get(int id)
         {
             try
@@ -76,6 +78,21 @@ namespace VaccineDose.Controllers
                 {
                     var dbMessages = entities.Messages.Where(x => x.UserID == id).OrderByDescending(x => x.Created).ToList();
                     var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);
+                    foreach(var msg in messageDTOs)
+                    {
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.LoadXml(msg.ApiResponse);
+
+                        string xpath = "Response";
+                        var parentNode = xmlDoc.SelectNodes(xpath);
+
+                        foreach (XmlNode childrenNode in parentNode)
+                        {
+                            //HttpContext.Current.Response.Write(childrenNode.SelectSingleNode("//Message").Value);
+                            msg.ApiResponse = childrenNode.FirstChild.InnerText;
+                        }
+                    }
+                   
                     return new Response<List<MessageDTO>>(true, null, messageDTOs);
                 }
             }

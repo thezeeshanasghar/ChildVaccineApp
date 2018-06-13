@@ -9,7 +9,7 @@ namespace VaccineDose.Model
         public int ID { get; set; }
         public string MobileNumber { get; set; }
         public string SMS { get; set; }
-        [JsonIgnore]
+        // [JsonIgnore]
         public string ApiResponse { get; set; }
         [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime Created { get; set; }

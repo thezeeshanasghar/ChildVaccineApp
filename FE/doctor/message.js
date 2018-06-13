@@ -25,6 +25,7 @@ function loadData() {
                     html += '<td style="width:6%;">' + (key + 1) + '</td>';
                     html += '<td style="width:15%;">' + item.MobileNumber + '</td>';
                     html += '<td>' + item.SMS + '</td>';
+                    html += '<td>' + item.ApiResponse + '</td>';
                     html += '<td style="width:15%;">' + item.Created + '</td>';
 
                     html += '</tr>';
