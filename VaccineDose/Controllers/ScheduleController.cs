@@ -104,6 +104,7 @@ namespace VaccineDose.Controllers
             var daysDifference = Convert.ToInt32((scheduleDTO.Date.Date - dbSchedule.Date.Date).TotalDays);
 
             var AllDoses = dbSchedule.Dose.Vaccine.Doses;
+            // FOR BCG Only or those vaccines who have only 1 dose 
             if (AllDoses.Count == 1)
             {
                 // check for reschedule backward from DateOfBirth
@@ -116,6 +117,7 @@ namespace VaccineDose.Controllers
             }
             else
             {
+                // forward rescheduling
                 if (daysDifference > 0)
                 {
                     AllDoses = AllDoses.Where(x => x.DoseOrder >= dbSchedule.Dose.DoseOrder).ToList();
@@ -139,22 +141,28 @@ namespace VaccineDose.Controllers
                         previousDate = TargetSchedule.Date;
                     }
                 }
+                // backward rescheduling
                 else
                 {
                     // find that dose and its previous dose
                     AllDoses = AllDoses.Where(x => x.DoseOrder <= dbSchedule.Dose.DoseOrder).OrderBy(x => x.DoseOrder).ToList();
+                    // if we rescdule the first dose of any vaccine
                     if (AllDoses.Count == 1)
                     {
                         Dose d = AllDoses.ElementAt<Dose>(0);
                         var FirstDoseSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
 
                         int diff = Convert.ToInt32((scheduleDTO.Date.Date - FirstDoseSchedule.Child.DOB).TotalDays);
-                        if (diff < d.MinAge)
+                        if(diff < 0)
                             throw new Exception("Cannot reschedule to your selected date: " +
-                                Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because Minimum Gap from date of birth of this vaccine should be " + d.MinGap + " days.");
+                                Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because it is less than date of birth of child.");
+                        else if (diff < d.MinAge)
+                            throw new Exception("Cannot reschedule to your selected date: " +
+                                Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because Minimum Age of this vaccine from date of birth should be " + d.MinAge + " days.");
                         else
                             FirstDoseSchedule.Date = calculateDate(FirstDoseSchedule.Date, daysDifference); //FirstDoseSchedule.Date.AddDays(daysDifference);
                     }
+                    // if we rescdule other than first dose of any vaccine
                     else
                     {
                         var lastDose = AllDoses.Last<Dose>();
@@ -163,7 +171,12 @@ namespace VaccineDose.Controllers
                         var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == lastDose.ID).FirstOrDefault();
                         var TargetSchedulePrevious = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == secondLastDose.ID).FirstOrDefault();
 
-                        var doseDaysDifference = Convert.ToInt32((scheduleDTO.Date.Date - TargetSchedulePrevious.Date).TotalDays);
+                        long doseDaysDifference = 0;
+                        if (TargetSchedulePrevious.IsDone && TargetSchedulePrevious.GivenDate.HasValue) {
+                            doseDaysDifference = Convert.ToInt32((scheduleDTO.Date.Date - TargetSchedulePrevious.GivenDate.Value).TotalDays);
+                        }
+                        else
+                            doseDaysDifference = Convert.ToInt32((scheduleDTO.Date.Date - TargetSchedulePrevious.Date).TotalDays);
                         if (doseDaysDifference > lastDose.MinGap)
                             TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference); //TargetSchedule.Date.AddDays(daysDifference);
                         else
