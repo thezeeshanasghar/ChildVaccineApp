@@ -77,6 +77,7 @@
     <Build Include="dbo\Tables\FollowUp.sql" />
     <None Include="Scripts\DB-Changes.sql" />
     <None Include="Scripts\Server-data-backup-18-Feb-2018.sql" />
+    <None Include="Scripts\Server-data-backup-13-Jun-2018.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script_1.PostDeployment1.sql" />

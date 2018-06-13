@@ -10,10 +10,9 @@ using System.Linq;
 
 namespace VaccineDose.Controllers
 {
-    [RoutePrefix("api/Message")]
     public class MessageController : BaseController
     {
-        public Response<List<MessageDTO>> Get([FromUri] string mobileNumber, [FromUri] string fromDate, [FromUri] string toDate)
+        public Response<List<MessageDTO>> Get([FromUri] string mobileNumber="", [FromUri] string fromDate = "", [FromUri] string toDate = "")
         {
             try
             {
