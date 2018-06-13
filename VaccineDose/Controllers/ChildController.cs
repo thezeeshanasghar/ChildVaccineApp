@@ -92,6 +92,9 @@ namespace VaccineDose.Controllers
                     }
                     else
                     {
+                        Child existingChild = entities.Children.FirstOrDefault(x => x.Name.Equals(childDTO.Name) && x.UserID == user.ID);
+                        if (existingChild != null)
+                            throw new Exception("Children with same name & number already exists. Parent should login and start change doctor process.");
                         childDB.UserID = user.ID;
                         entities.Children.Add(childDB);
                         entities.SaveChanges();
