@@ -138,7 +138,7 @@ function getbyID(ID) {
 
             g_lat = result.ResponseData.Lat;
             g_lng = result.ResponseData.Long;
-            initMap();
+            MapOnEdit();
 
             $('#myModal').modal('show');
             $('#btnUpdate').show();
@@ -239,10 +239,6 @@ function clearTextBox() {
     $('#btnUpdate').hide();
     $('#Address').val("");
     $('#btnAdd').show();
-
-
-    g_lat = 33.5614494;
-    g_lng = 73.069301;
     initMap();
 }
 
