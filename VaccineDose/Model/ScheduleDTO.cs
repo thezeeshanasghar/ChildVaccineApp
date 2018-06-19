@@ -32,5 +32,14 @@ namespace VaccineDose
         [JsonConverter(typeof(OnlyDateConverter))]
         public System.DateTime GivenDate { get; set; }
 
+        //Vacations
+        [JsonConverter(typeof(OnlyDateConverter))]
+        public DateTime FromDate { get; set; }
+
+        [JsonConverter(typeof(OnlyDateConverter))]
+        public DateTime ToDate { get; set; }
+
+        public List<ClinicDTO> Clinics { get; set; }
+
     }
 }
