@@ -160,23 +160,6 @@ function getbyID(ID) {
                    // $("#BulkGivenDate").val(result.ResponseData.Date);
                 }
 
-                //if (result.ResponseData.IsDone) {
-                //    $("#Weight").prop('readonly', true);
-                //    $("#Height").prop('readonly', true);
-                //    $("#Circumference").prop('readonly', true);
-                //    $("#Brand").attr("disabled", "disabled");
-                //    //  $("#GivenDate").prop("disabled", true);
-                //    //$('#btnUpdate').hide();
-                //}
-                //else {
-                //    $("#Weight").prop('readonly', false);
-                //    $("#Height").prop('readonly', false);
-                //    $("#Circumference").prop('readonly', false);
-                //    $("#Brand").removeAttr("disabled");
-                //    // $("#GivenDate").prop("disabled", false);
-
-
-                //}
                 //show vaccine brands
                 var selectedAttribute = ' selected = "selected"';
                 html = '<select id="Brand" onchange="checkBrandInventory(this,' + result.ResponseData.Dose.VaccineID + ')" class="form-control" name="Brand" required>';
@@ -205,62 +188,10 @@ function getbyID(ID) {
     return false;
 }
 
-//on brand change
-function checkBrandInventory(brand, vaccineId) {
-    if (brand.value!="") {
-        $.ajax({
-            url: SERVER + 'doctor/' + DoctorId(),
-            type: 'Get',
-            contentType: 'application/json;charset=UTF-8',
-            dataType: 'json',
-            success: function (result) {
-                if (!result.IsSuccess) {
-                    ShowAlert('Danger', result.Message, 'danger');
-                }
-                else {
-                    if (result.ResponseData.AllowInventory) {
-                        brandId = brand.value;
-                        var obj = {
-                            BrandID: brandId,
-                            DoctorID: DoctorId()
-                        }
-                        var html = '';
-                        $.ajax({
-                            url: SERVER + 'schedule/brandinventory-stock',
-                            type: 'POST',
-                            data: JSON.stringify(obj),
-                            contentType: 'application/json;charset=UTF-8',
-                            dataType: 'json',
-                            success: function (result) {
-                                if (!result.IsSuccess) {
-                                    html = '<span><b style="color:red">' + result.Message + '</b></span>';
-                                    $("#ddBrand").append(html);
-                                    $('#btnUpdate').hide();
-                                }
-                                else {
-                                    $('#btnUpdate').show();
-                                }
-                            },
-                            error: function (errormessage) {
-                                alert(errormessage.responseText);
 
-                            }
-                        });
-                    }
-
-                }
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-
-            }
-        });
-    }
-
-
-    saveSelectedBrandInLocalStorage(vaccineId);
-}
-
+/*
+    Injection
+*/
 function Update() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
     var GivenDate =  $("#GivenDate").val() ;
@@ -313,162 +244,11 @@ function Update() {
     return false;
 }
 
-function openCalender(scheduleId, date) {
-    $(".scheduleDate_" + scheduleId).datepicker({
-        format: 'dd-mm-yyyy hh:ii',
-        todayBtn: true,
-        autoclose: true,
-        todayHighlight: true,
-    });
-    $('.scheduleDate_' + scheduleId).datepicker('update', date);
-    $(".scheduleDate_" + scheduleId).datepicker('show');
-
-    var obj = {};
-    obj.ID = scheduleId;
-
-    $(".scheduleDate_" + scheduleId).datepicker()
-     .on('changeDate', function (e) {
-         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
-         $.ajax({
-             url: SERVER + "schedule/update-schedule/",
-             data: JSON.stringify(obj),
-             type: "PUT",
-             contentType: "application/json;charset=UTF-8",
-             dataType: "json",
-             success: function (result) {
-                 if (!result.IsSuccess) {
-                     ShowAlert('Error', result.Message, 'danger');
-                 }
-                 else {
-                     var id = parseInt(getParameterByName("id")) || 0;
-                     loadData(id);
-
-                     ShowAlert('Success', result.Message, 'success');
-                     //ScrollToTop();
-                 }
-             },
-             error: function (errormessage) {
-                 alert(errormessage.responseText);
-             }
-         });
-     });
-}
-
-function openBulkCalender(scheduleId, date) {
-    $(".scheduleDate_" + date).datepicker({
-        format: 'dd-mm-yyyy hh:ii',
-        todayBtn: true,
-        autoclose: true,
-        todayHighlight: true,
-    });
-    $('.scheduleDate_' + date).datepicker('update', date);
-    $(".scheduleDate_" + date).datepicker('show');
-
-    var obj = {};
-    obj.ID = scheduleId;
-
-
-    $(".scheduleDate_" + date).datepicker()
-     .on('changeDate', function (e) {
-         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
-
-         $.ajax({
-             url: SERVER + "schedule/update-bulk-schedule/",
-             data: JSON.stringify(obj),
-             type: "PUT",
-             contentType: "application/json;charset=UTF-8",
-             dataType: "json",
-             success: function (result) {
-                 if (!result.IsSuccess) {
-                     ShowAlert('Error', result.Message, 'danger');
-                 }
-                 else {
-                     var id = parseInt(getParameterByName("id")) || 0;
-                     loadData(id);
-
-                     ShowAlert('Success', result.Message, 'success');
-                     //ScrollToTop();
-                 }
-             },
-             error: function (errormessage) {
-                 alert(errormessage.responseText);
-             }
-         });
-     });
-}
-
-function openVaccineDetails(ID, date) {
-
-    var obj = {
-        ChildId: parseInt(getParameterByName("id")),
-        Date: date
-    }
-    $.ajax({
-        url: SERVER + "schedule/bulk-brand/",
-        data: JSON.stringify(obj),
-        type: "POST",
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            }
-            else {
-                $("#ID").val(ID);
-                $('#date').val(date);
-                var html = '';
-                var selectedAttribute = ' selected = "selected"';
-                var bulkScheduleLength = result.ResponseData.length;
-                var i = 0;
-                var isAllDone = false;
-                $.each(result.ResponseData, function (key, schedule) {
-
-                    html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
-                    //show vaccine brands
-                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
-                    html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
-                    $.each(schedule.Brands, function (key, brand) {
-                        html += '<option value=' + brand.ID;
-                        html += (brand.ID == localStorage.getItem("Child_" + schedule.ChildId + "_LastSelectedBrandOfVaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
-                        html += '>' + brand.Name + '</option>';
-
-                    });
-                    html += '</select>';
-                    html += "<br>";
-                    if (schedule.IsDone)
-                        i++;
-                    if (i == bulkScheduleLength)
-                        isAllDone = true;
-
-                    //$("#BrandId_0").parent().parent().addClass('has-error has-danger');
-                });
-                
-
-                $("#ddBrand_bulk").html(html);
-                if (isAllDone) {
-                    $("#BulkGivenDate").val(result.ResponseData[0].Date);
-                } else {
-                    var fullDate = new Date();
-                    $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
-                }
-                
-                $("#btnbulkInjection").show();
-                $('#bulkModel').modal('show');
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-
-}
-
 function UpdateBulkInjection() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
     var GivenDate = $("#BulkGivenDate").val();
     var Today = new Date();
-    var TodayStr = ('0' + Today.getDate()).slice(-2) + '-' + ('0' + (Today.getMonth()+1)).slice(-2) + '-' + Today.getFullYear();
+    var TodayStr = ('0' + Today.getDate()).slice(-2) + '-' + ('0' + (Today.getMonth() + 1)).slice(-2) + '-' + Today.getFullYear();
     var isGivenDateIsCurrentDate = GivenDate == TodayStr;
     if (isGivenDateIsCurrentDate && GetAllowInventoryFromLocalStorage() == "true") {
         for (i = 1; i <= 10; i++) {
@@ -532,6 +312,128 @@ function UpdateBulkInjection() {
     });
 }
 
+function openVaccineDetails(ID, date) {
+    var obj = {
+        ChildId: parseInt(getParameterByName("id")),
+        Date: date
+    }
+    $.ajax({
+        url: SERVER + "schedule/bulk-brand/",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $("#ID").val(ID);
+                $('#date').val(date);
+                var html = '';
+                var selectedAttribute = ' selected = "selected"';
+                var bulkScheduleLength = result.ResponseData.length;
+                var i = 0;
+                var isAllDone = false;
+                $.each(result.ResponseData, function (key, schedule) {
+
+                    html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
+                    //show vaccine brands
+                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
+                    html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
+                    $.each(schedule.Brands, function (key, brand) {
+                        html += '<option value=' + brand.ID;
+                        html += (brand.ID == localStorage.getItem("Child_" + schedule.ChildId + "_LastSelectedBrandOfVaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
+                        html += '>' + brand.Name + '</option>';
+
+                    });
+                    html += '</select>';
+                    html += "<br>";
+                    if (schedule.IsDone)
+                        i++;
+                    if (i == bulkScheduleLength)
+                        isAllDone = true;
+
+                    //$("#BrandId_0").parent().parent().addClass('has-error has-danger');
+                });
+
+
+                $("#ddBrand_bulk").html(html);
+                if (isAllDone) {
+                    $("#BulkGivenDate").val(result.ResponseData[0].Date);
+                } else {
+                    var fullDate = new Date();
+                    $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                }
+
+                $("#btnbulkInjection").show();
+                $('#bulkModel').modal('show');
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
+//on brand change
+function checkBrandInventory(brand, vaccineId) {
+    if (brand.value != "") {
+        $.ajax({
+            url: SERVER + 'doctor/' + DoctorId(),
+            type: 'Get',
+            contentType: 'application/json;charset=UTF-8',
+            dataType: 'json',
+            success: function (result) {
+                if (!result.IsSuccess) {
+                    ShowAlert('Danger', result.Message, 'danger');
+                }
+                else {
+                    if (result.ResponseData.AllowInventory) {
+                        brandId = brand.value;
+                        var obj = {
+                            BrandID: brandId,
+                            DoctorID: DoctorId()
+                        }
+                        var html = '';
+                        $.ajax({
+                            url: SERVER + 'schedule/brandinventory-stock',
+                            type: 'POST',
+                            data: JSON.stringify(obj),
+                            contentType: 'application/json;charset=UTF-8',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (!result.IsSuccess) {
+                                    html = '<span><b style="color:red">' + result.Message + '</b></span>';
+                                    $("#ddBrand").append(html);
+                                    $('#btnUpdate').hide();
+                                }
+                                else {
+                                    $('#btnUpdate').show();
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+
+                            }
+                        });
+                    }
+
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+
+            }
+        });
+    }
+
+
+    saveSelectedBrandInLocalStorage(vaccineId);
+}
+
 function saveSelectedBrandInLocalStorage(vaccineId) {
     var childId = parseInt(getParameterByName("id")) || 0;
     localStorage.setItem('Child_' + childId + '_LastSelectedBrandOfVaccine_' + vaccineId, $("#Brand").val());
@@ -543,4 +445,91 @@ function saveSelectedBrandInLocalStorage(vaccineId) {
 
 }
 
+/*
+    Rescheduling
+*/
+function openCalender(scheduleId, date) {
+    $(".scheduleDate_" + scheduleId).datepicker({
+        format: 'dd-mm-yyyy hh:ii',
+        todayBtn: true,
+        autoclose: true,
+        todayHighlight: true,
+    });
+    $('.scheduleDate_' + scheduleId).datepicker('update', date);
+    $(".scheduleDate_" + scheduleId).datepicker('show');
 
+    var obj = {};
+    obj.ID = scheduleId;
+
+    $(".scheduleDate_" + scheduleId).datepicker()
+     .on('changeDate', function (e) {
+         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+         $.ajax({
+             url: SERVER + "schedule/Reschedule/",
+             data: JSON.stringify(obj),
+             type: "PUT",
+             contentType: "application/json;charset=UTF-8",
+             dataType: "json",
+             success: function (result) {
+                 if (!result.IsSuccess) {
+                     ShowAlert('Error', result.Message, 'danger');
+                 }
+                 else {
+                     var id = parseInt(getParameterByName("id")) || 0;
+                     loadData(id);
+
+                     ShowAlert('Success', result.Message, 'success');
+                     //ScrollToTop();
+                 }
+             },
+             error: function (errormessage) {
+                 alert(errormessage.responseText);
+             }
+         });
+     });
+}
+
+function openBulkCalender(scheduleId, date) {
+    $(".scheduleDate_" + date).datepicker({
+        format: 'dd-mm-yyyy hh:ii',
+        todayBtn: true,
+        autoclose: true,
+        todayHighlight: true,
+    });
+    $('.scheduleDate_' + date).datepicker('update', date);
+    $(".scheduleDate_" + date).datepicker('show');
+
+    var obj = {};
+    obj.ID = scheduleId;
+
+
+    $(".scheduleDate_" + date).datepicker()
+     .on('changeDate', function (e) {
+         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+         BulkReschedule(obj);
+     });
+}
+function BulkReschedule( obj, ignoreMaxAgeRule=false) {
+    $.ajax({
+        url: SERVER + "schedule/BulkReschedule?ignoreMaxAgeRule="+ignoreMaxAgeRule,
+        data: JSON.stringify(obj),
+        type: "PUT",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
+
+                ShowAlert('Success', result.Message, 'success');
+                //ScrollToTop();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}

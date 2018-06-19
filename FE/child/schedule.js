@@ -80,7 +80,7 @@ function openCalender(scheduleId, date) {
      .on('changeDate', function (e) {
          obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
          $.ajax({
-             url: SERVER + "schedule/update-schedule/",
+             url: SERVER + "schedule/Reschedule/",
              data: JSON.stringify(obj),
              type: "PUT",
              contentType: "application/json;charset=UTF-8",
@@ -120,7 +120,7 @@ function openBulkCalender(scheduleId, date) {
      .on('changeDate', function (e) {
          obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
          $.ajax({
-             url: SERVER + "schedule/update-bulk-schedule/",
+             url: SERVER + "schedule/BulkReschedule/",
              data: JSON.stringify(obj),
              type: "PUT",
              contentType: "application/json;charset=UTF-8",
