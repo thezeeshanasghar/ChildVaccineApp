@@ -89,7 +89,7 @@ function SetMainNav() {
         markup += '     <a href="/doctor/doctor-edit.html">Edit Profile</a>';
         markup += '     <a href="/doctor/clinic-selection.html">Change Online Clinic</a>';
         markup += '     <a id="navBtnClinic" href="/doctor/clinic.html">Clinics Info</a>';
-        markup += '     <a href="/doctor/add-vacation.html">Add Vacations</a>';
+        markup += '     <a href="/doctor/add-vacation.html">Vacations</a>';
         markup += '     <a href="/changed-password.html">Change Password</a>';
         markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
         if (localStorage.getItem('AllowInventory')=="true")

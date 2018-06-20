@@ -289,64 +289,6 @@ namespace VaccineDose.Controllers
 
         #endregion
 
-        [HttpPost]
-        [Route("api/schedule/brandinventory-stock")]
-        public Response<BrandInventoryDTO> checkBrandInventoryStock(BrandInventoryDTO brandInventoryDTo)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandInventoryDTo.BrandID
-                    && b.DoctorID == brandInventoryDTo.DoctorID).FirstOrDefault();
-
-                    BrandInventoryDTO brandInventoryDTO = Mapper.Map<BrandInventoryDTO>(dbBrandInventory);
-                    if (brandInventoryDTO.Count > 0)
-                        return new Response<BrandInventoryDTO>(true, null, brandInventoryDTO);
-
-                    return new Response<BrandInventoryDTO>(false, "Sorry this brand is out of stock", null);
-
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<BrandInventoryDTO>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
-        [HttpPost]
-        [Route("api/schedule/bulk-brand")]
-        public Response<List<ScheduleDTO>> GetVaccineBrands(ScheduleDTO scheduleDto)
-        {
-            try
-            {
-                using (VDConnectionString entities = new VDConnectionString())
-                {
-                    var dbSchedule = entities.Schedules.Where(x => x.Date == scheduleDto.Date && x.ChildId == scheduleDto.ChildId).ToList();
-
-                    List<ScheduleDTO> scheduleDTOs = new List<ScheduleDTO>();
-                    foreach (var schedule in dbSchedule)
-                    {
-                        ScheduleDTO scheduleDTO = new ScheduleDTO();
-                        var dbBrands = schedule.Dose.Vaccine.Brands.ToList();
-                        List<BrandDTO> brandDTOs = Mapper.Map<List<BrandDTO>>(dbBrands);
-                        scheduleDTO.Dose = Mapper.Map<DoseDTO>(schedule.Dose);
-                        scheduleDTO.ID = schedule.ID;
-                        scheduleDTO.Brands = brandDTOs;
-                        scheduleDTO.Date = schedule.Date;
-                        scheduleDTO.IsDone = schedule.IsDone;
-                        scheduleDTOs.Add(scheduleDTO);
-                    }
-
-                    return new Response<List<ScheduleDTO>>(true, null, scheduleDTOs);
-                }
-            }
-            catch (Exception e)
-            {
-                return new Response<List<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
-            }
-        }
-
         #region ALERT PAGE CALL
 
         [HttpGet]
@@ -523,20 +465,20 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    var daysDifference = Convert.ToInt32((obj.ToDate - obj.FromDate).TotalDays);
-                    foreach(var clinic in obj.Clinics)
+                    foreach (var clinic in obj.Clinics)
                     {
                         var dbSchedules = entities.Schedules.Where(x => x.Child.ClinicID == clinic.ID
                         && x.Date >= obj.FromDate && x.Date <= obj.ToDate).ToList();
-                        
-                        foreach(Schedule schedule in dbSchedules)
+
+                        foreach (Schedule schedule in dbSchedules)
                         {
-                            schedule.Date = calculateDate(schedule.Date, daysDifference);
+                            schedule.Date = obj.ToDate.AddDays(1);
                             entities.SaveChanges();
                         }
                     }
 
-                    return new Response<ScheduleDTO>(true, "Vacations have been added successfully", null);
+                    return new Response<ScheduleDTO>(true, "Vacations are considered and appointments are moved to " +
+                        obj.ToDate.AddDays(1).ToString("dd-MM-yyy") + " date.", null);
 
                 }
             }
@@ -546,5 +488,64 @@ namespace VaccineDose.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        [Route("api/schedule/brandinventory-stock")]
+        public Response<BrandInventoryDTO> checkBrandInventoryStock(BrandInventoryDTO brandInventoryDTo)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandInventoryDTo.BrandID
+                    && b.DoctorID == brandInventoryDTo.DoctorID).FirstOrDefault();
+
+                    BrandInventoryDTO brandInventoryDTO = Mapper.Map<BrandInventoryDTO>(dbBrandInventory);
+                    if (brandInventoryDTO.Count > 0)
+                        return new Response<BrandInventoryDTO>(true, null, brandInventoryDTO);
+
+                    return new Response<BrandInventoryDTO>(false, "Sorry this brand is out of stock", null);
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<BrandInventoryDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/schedule/bulk-brand")]
+        public Response<List<ScheduleDTO>> GetVaccineBrands(ScheduleDTO scheduleDto)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var dbSchedule = entities.Schedules.Where(x => x.Date == scheduleDto.Date && x.ChildId == scheduleDto.ChildId).ToList();
+
+                    List<ScheduleDTO> scheduleDTOs = new List<ScheduleDTO>();
+                    foreach (var schedule in dbSchedule)
+                    {
+                        ScheduleDTO scheduleDTO = new ScheduleDTO();
+                        var dbBrands = schedule.Dose.Vaccine.Brands.ToList();
+                        List<BrandDTO> brandDTOs = Mapper.Map<List<BrandDTO>>(dbBrands);
+                        scheduleDTO.Dose = Mapper.Map<DoseDTO>(schedule.Dose);
+                        scheduleDTO.ID = schedule.ID;
+                        scheduleDTO.Brands = brandDTOs;
+                        scheduleDTO.Date = schedule.Date;
+                        scheduleDTO.IsDone = schedule.IsDone;
+                        scheduleDTOs.Add(scheduleDTO);
+                    }
+
+                    return new Response<List<ScheduleDTO>>(true, null, scheduleDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<List<ScheduleDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
     }
 }
