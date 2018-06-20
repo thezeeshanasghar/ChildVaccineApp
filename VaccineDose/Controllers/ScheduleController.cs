@@ -513,5 +513,38 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
+
+        #region Vacation
+        [HttpPost]
+        [Route("api/schedule/add-vacation")]
+        public Response<ScheduleDTO> AddVacations(ScheduleDTO obj)
+        {
+            try
+            {
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+                    var daysDifference = Convert.ToInt32((obj.ToDate - obj.FromDate).TotalDays);
+                    foreach(var clinic in obj.Clinics)
+                    {
+                        var dbSchedules = entities.Schedules.Where(x => x.Child.ClinicID == clinic.ID
+                        && x.Date >= obj.FromDate && x.Date <= obj.ToDate).ToList();
+                        
+                        foreach(Schedule schedule in dbSchedules)
+                        {
+                            schedule.Date = calculateDate(schedule.Date, daysDifference);
+                            entities.SaveChanges();
+                        }
+                    }
+
+                    return new Response<ScheduleDTO>(true, "Vacations have been added successfully", null);
+
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<ScheduleDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+        #endregion
     }
 }

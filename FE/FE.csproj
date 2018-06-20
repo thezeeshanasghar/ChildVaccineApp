@@ -75,6 +75,8 @@
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\intlTelInput.css" />
     <Content Include="css\selectize.bootstrap3.css" />
+    <Content Include="doctor\add-vacation.html" />
+    <Content Include="doctor\add-vacation.js" />
     <Content Include="doctor\alert.js" />
     <Content Include="doctor\brand-amount.html" />
     <Content Include="doctor\brand-amount.js" />
