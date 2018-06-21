@@ -3,7 +3,7 @@
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
 
     loadDoctors();
-    loadChilds();
+    //loadChilds();
 
     HideAlert();
 
