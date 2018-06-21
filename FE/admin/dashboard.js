@@ -33,8 +33,8 @@ function loadDoctors() {
                     html += '   <td>';
                     html += '       <label>Allow Invoice</label>&nbsp;<input  type="checkbox"  id="AllowInvoice_' + item.ID + '" ' + ((item.AllowInvoice) ? 'checked="checked"' : '') + ' /><br />';
                     html += '       <label>Allow Follow up</label>&nbsp;<input   type="checkbox"  id="AllowFollowUp_' + item.ID + '" ' + ((item.AllowFollowUp) ? 'checked="checked"' : '') + ' /><br />';
-                    html += '       <label>Allow chart</label>&nbsp;<input  type="checkbox" id="AllowChart_' + item.ID + '" ' + ((item.AllowChart) ? 'checked="checked"' : '') + ' /><br />';
-                    html += '       <label>Allow inventory</label>&nbsp;<input  type="checkbox" id="AllowInventory_' + item.ID + '" ' + ((item.AllowInventory) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <label>Allow Charts</label>&nbsp;<input  type="checkbox" id="AllowChart_' + item.ID + '" ' + ((item.AllowChart) ? 'checked="checked"' : '') + ' /><br />';
+                    html += '       <label>Allow Inventory</label>&nbsp;<input  type="checkbox" id="AllowInventory_' + item.ID + '" ' + ((item.AllowInventory) ? 'checked="checked"' : '') + ' /><br />';
                     html += '       <label>SMS Limit</label>&nbsp;<input  type="number" min="0" id="SMSLimit_'+ item.ID + '" value="'+item.SMSLimit+'" /><br />';
                     html += '       <button class="btn btn-primary" onclick="UpdateDoctorPermissions(' + item.ID + ')"  >Update Permission</button>';
                     html += '   </td>';

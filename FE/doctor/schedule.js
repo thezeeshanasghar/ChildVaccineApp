@@ -59,9 +59,11 @@ function loadData(id) {
                     html += '     ' + date;
                     if (isAllDone) {
                         html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="text-decoration:none"> <img src="../img/injectionFilled.png" style="height: 22px;"></a>';
-
                     } else {
-                        html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="text-decoration:none"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
+                        var today = new Date();
+                        var vaccineDate = toDate(date);
+                        if(vaccineDate <= today)
+                            html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="text-decoration:none"> <img src="../img/injectionEmpty.png" style="height: 22px;"></a>';
                         html += '     <span class="glyphicon glyphicon-calendar scheduleDate_' + date + '" onclick="return openBulkCalender(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')"></span>';
                     }
 
@@ -85,11 +87,16 @@ function loadData(id) {
                         html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
 
                         if (doseArray[index].isDone)
-                            html += '       <img src="../img/injectionFilled.png" style="height: 18px;" /></a>'
-                        else
-                            html += '       <img src="../img/injectionEmpty.png" style="height: 18px;" /></a>'
+                            html += '       <img src="../img/injectionFilled.png" style="height: 18px;" />'
+                        else {
+                            var today = new Date();
+                            var vaccineDate = toDate(date);
+                            if(vaccineDate <= today)
+                                html += '       <img src="../img/injectionEmpty.png" style="height: 18px;" />'
+                        }
+                            
 
-                        html += '       </span> ';
+                        html += '</a>       </span> ';
                         html += doseArray[index].doseName;
                         html += '   </h5>'
                     }
@@ -105,7 +112,7 @@ function loadData(id) {
     });
 
 }
-var click = 0;
+// open single injection click popup
 function getbyID(ID) {
     $("#ID").val(ID);
     var html = '';
@@ -119,45 +126,22 @@ function getbyID(ID) {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                click++;
-                if (result.ResponseData.Weight > 0) {
-                    if (click <= 1)
-                        $("#Weight").before('<label id="dWeight">Weight</label>');
-                    $("#Weight").val(result.ResponseData.Weight);
-                } else {
-                    $("#Weight").val("");
-                    $("#dWeight").remove();
-                    click = 0;
-                }
-
-                if (result.ResponseData.Height > 0) {
-                    if (click <= 1)
-                        $("#Height").before('<label id="dHeight">Height</label>');
-                    $("#Height").val(result.ResponseData.Height);
-                } else {
-                    $("#Height").val("");
-                    $("#dHeight").remove();
-                    click = 0;
-                }
-
-                if (result.ResponseData.Circle > 0) {
-                    if (click <= 1)
-                        $("#Circumference").before('<label id="dCircumference">OFC</label>');
-                    $("#Circumference").val(result.ResponseData.Circle);
-                } else {
-                    $("#Circumference").val("");
-                    $("#dCircumference").remove();
-                    click = 0;
-                }
+                $("#Weight").val((result.ResponseData.Weight ? result.ResponseData.Weight : ""));
+                $("#Height").val((result.ResponseData.Height ? result.ResponseData.Height : ""));
+                $("#Circumference").val((result.ResponseData.Circle ? result.ResponseData.Circle : ""));
 
                 if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") {
                     $("#GivenDate").val(result.ResponseData.GivenDate);
-                    //$("#BulkGivenDate").val(result.ResponseData.GivenDate);
+                    $("#BulkGivenDate").val(result.ResponseData.GivenDate);
                 } else {
                     var fullDate = new Date();
-                    $("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
-                    //$("#GivenDate").val(result.ResponseData.Date);
-                   // $("#BulkGivenDate").val(result.ResponseData.Date);
+                    var date = toDate(result.ResponseData.Date);
+                    if(date > fullDate)
+                        $("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                    else {
+                        $("#GivenDate").val(result.ResponseData.Date);
+                        $("#BulkGivenDate").val(result.ResponseData.Date);
+                    }
                 }
 
                 //show vaccine brands
@@ -188,7 +172,7 @@ function getbyID(ID) {
     return false;
 }
 
-
+//#region AutoComplete JS
 /*
     Injection
 */
@@ -243,7 +227,7 @@ function Update() {
     });
     return false;
 }
-
+//#endregion AutoComplete JS
 function UpdateBulkInjection() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
     var GivenDate = $("#BulkGivenDate").val();
@@ -407,7 +391,7 @@ function checkBrandInventory(brand, vaccineId) {
                             success: function (result) {
                                 if (!result.IsSuccess) {
                                     html = '<span><b style="color:red">' + result.Message + '</b></span>';
-                                    $("#ddBrand").append(html);
+                                    $("#ddBrandMessage").html(html);
                                     $('#btnUpdate').hide();
                                 }
                                 else {

@@ -97,16 +97,21 @@
                             <input type="hidden" class="form-control" id="date" />
 
                             <div class="form-group">
-                                <input type="number" class="form-control" id="Weight" placeholder="Weight" />
+                                <label>Weight</label>
+                                <input type="number" min="0" class="form-control" id="Weight" placeholder="Weight" />
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" id="Height" placeholder="Height" />
+                                <label>Height</label>
+                                <input type="number" min="0" class="form-control" id="Height" placeholder="Height" />
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" id="Circumference" placeholder="OFC"  />
+                                <label>OFC</label>
+                                <input type="number" min="0" class="form-control" id="Circumference" placeholder="OFC"  />
                             </div>
                             <div class="form-group">
+                                <label>Brand</label>
                                 <div id="ddBrand"></div>
+                                <div id="ddBrandMessage"></div>
                             </div>
                             <div class="form-group">
                                 <div id="GivenDate-container">

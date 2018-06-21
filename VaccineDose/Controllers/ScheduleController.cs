@@ -112,7 +112,7 @@ namespace VaccineDose.Controllers
                             // check for MaxAge of any Dose
                             if (daysDifference > d.MaxAge && !ignoreMaxAgeRule)
                                 throw new Exception("Cannot reschedule to your selected date: " +
-                                   Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because is is greater than the Max Age of dose. "+
+                                   Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because is is greater than the Max Age of dose. " +
                                    "<button onclick=BulkReschedule({ID:" + scheduleDTO.ID + ",Date:'" + scheduleDTO.Date.ToString("dd-MM-yyyy") + "'},true)> Ignore Rule</a>");
                             TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference); //TargetSchedule.Date.AddDays(daysDifference);
                         }
@@ -159,7 +159,7 @@ namespace VaccineDose.Controllers
                         if (doseDaysDifference < lastDose.MinGap)
                             throw new Exception("Cannot reschedule to your selected date: " +
                                 Convert.ToDateTime(scheduleDTO.Date.Date).ToString("dd-MM-yyyy") + " because Minimum Gap from previous dose of this vaccine should be " + lastDose.MinGap);
-                        TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference); 
+                        TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference);
                     }
                 }
             }
@@ -248,13 +248,9 @@ namespace VaccineDose.Controllers
                     var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleDTO.BrandId
                                             && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
                     if (dbBrandInventory != null && dbBrandInventory.Count > 0)
-                    {
                         if (scheduleDTO.GivenDate.Date == DateTime.Now.Date)
                             dbBrandInventory.Count--;
-
-                        dbSchedule.BrandId = scheduleDTO.BrandId;
-                    }
-
+                    dbSchedule.BrandId = scheduleDTO.BrandId;
                     dbSchedule.Weight = scheduleDTO.Weight;
                     dbSchedule.Height = scheduleDTO.Height;
                     dbSchedule.Circle = scheduleDTO.Circle;
