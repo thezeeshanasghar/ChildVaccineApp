@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('#print').attr('href', SERVER + 'child/' + id + '/Download-Schedule-PDF');
 
 });
-
+//#region LoadData
 //Load Data function  
 function loadData(id) {
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
@@ -112,6 +112,9 @@ function loadData(id) {
     });
 
 }
+//#endregion LoadData
+
+//#region OpenInjectionPopup
 // open single injection click popup
 function getbyID(ID) {
     $("#ID").val(ID);
@@ -171,11 +174,75 @@ function getbyID(ID) {
     });
     return false;
 }
+function openVaccineDetails(ID, date) {
+    var obj = {
+        ChildId: parseInt(getParameterByName("id")),
+        Date: date
+    }
+    $.ajax({
+        url: SERVER + "schedule/bulk-brand/",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                $("#ID").val(ID);
+                $('#date').val(date);
+                var html = '';
+                var selectedAttribute = ' selected = "selected"';
+                var bulkScheduleLength = result.ResponseData.length;
+                var i = 0;
+                var isAllDone = false;
+                $.each(result.ResponseData, function (key, schedule) {
 
-//#region AutoComplete JS
-/*
-    Injection
-*/
+                    html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
+                    //show vaccine brands
+                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
+                    html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
+                    $.each(schedule.Brands, function (key, brand) {
+                        html += '<option value=' + brand.ID;
+                        html += (brand.ID == localStorage.getItem("Child_" + schedule.ChildId + "_LastSelectedBrandOfVaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
+                        html += '>' + brand.Name + '</option>';
+
+                    });
+                    html += '</select>';
+                    html += "<br>";
+                    if (schedule.IsDone)
+                        i++;
+                    if (i == bulkScheduleLength)
+                        isAllDone = true;
+
+                    //$("#BrandId_0").parent().parent().addClass('has-error has-danger');
+                });
+
+
+                $("#ddBrand_bulk").html(html);
+                if (isAllDone) {
+                    $("#BulkGivenDate").val(result.ResponseData[0].Date);
+                } else {
+                    var fullDate = new Date();
+                    $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                }
+
+                $("#btnbulkInjection").show();
+                $('#bulkModel').modal('show');
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
+//#endregion OpenInjectionPopup
+
+//#region SingleInjection
 function Update() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
     var GivenDate =  $("#GivenDate").val() ;
@@ -227,7 +294,9 @@ function Update() {
     });
     return false;
 }
-//#endregion AutoComplete JS
+//#endregion SingleInjection
+
+//#region BulkInjection
 function UpdateBulkInjection() {
     // make brand selection in single vaccination popup mandatory, if Inventory is ON by admin for that doctor
     var GivenDate = $("#BulkGivenDate").val();
@@ -295,72 +364,9 @@ function UpdateBulkInjection() {
         }
     });
 }
-
-function openVaccineDetails(ID, date) {
-    var obj = {
-        ChildId: parseInt(getParameterByName("id")),
-        Date: date
-    }
-    $.ajax({
-        url: SERVER + "schedule/bulk-brand/",
-        data: JSON.stringify(obj),
-        type: "POST",
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
-            }
-            else {
-                $("#ID").val(ID);
-                $('#date').val(date);
-                var html = '';
-                var selectedAttribute = ' selected = "selected"';
-                var bulkScheduleLength = result.ResponseData.length;
-                var i = 0;
-                var isAllDone = false;
-                $.each(result.ResponseData, function (key, schedule) {
-
-                    html += '<input type="hidden" value="' + schedule.ID + '" id="ScheduleId_' + (key + 1) + '"  />'
-                    //show vaccine brands
-                    html += '<select id="BrandId_' + (key + 1) + '" onchange="checkBrandInventory(this,' + schedule.Dose.VaccineID + ')";" class="form-control" name="Brand" >';
-                    html += '<option value="">-- Select ' + schedule.Dose.Name + ' Brand --</option>';
-                    $.each(schedule.Brands, function (key, brand) {
-                        html += '<option value=' + brand.ID;
-                        html += (brand.ID == localStorage.getItem("Child_" + schedule.ChildId + "_LastSelectedBrandOfVaccine_" + schedule.Dose.VaccineID)) ? selectedAttribute : '';
-                        html += '>' + brand.Name + '</option>';
-
-                    });
-                    html += '</select>';
-                    html += "<br>";
-                    if (schedule.IsDone)
-                        i++;
-                    if (i == bulkScheduleLength)
-                        isAllDone = true;
-
-                    //$("#BrandId_0").parent().parent().addClass('has-error has-danger');
-                });
+//#endregion BulkInjection
 
 
-                $("#ddBrand_bulk").html(html);
-                if (isAllDone) {
-                    $("#BulkGivenDate").val(result.ResponseData[0].Date);
-                } else {
-                    var fullDate = new Date();
-                    $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
-                }
-
-                $("#btnbulkInjection").show();
-                $('#bulkModel').modal('show');
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-
-}
 
 //on brand change
 function checkBrandInventory(brand, vaccineId) {
@@ -429,9 +435,7 @@ function saveSelectedBrandInLocalStorage(vaccineId) {
 
 }
 
-/*
-    Rescheduling
-*/
+// #region Rescheduling
 function openCalender(scheduleId, date) {
     $(".scheduleDate_" + scheduleId).datepicker({
         format: 'dd-mm-yyyy hh:ii',
@@ -519,3 +523,5 @@ function BulkReschedule( obj, ignoreMaxAgeRule=false, ignoreMinAgeFromDOB = fals
         }
     });
 }
+
+// #endregion Rescheduling
