@@ -448,31 +448,33 @@ function openCalender(scheduleId, date) {
     $(".scheduleDate_" + scheduleId).datepicker()
      .on('changeDate', function (e) {
          obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
-         $.ajax({
-             url: SERVER + "schedule/Reschedule/",
-             data: JSON.stringify(obj),
-             type: "PUT",
-             contentType: "application/json;charset=UTF-8",
-             dataType: "json",
-             success: function (result) {
-                 if (!result.IsSuccess) {
-                     ShowAlert('Error', result.Message, 'danger');
-                 }
-                 else {
-                     var id = parseInt(getParameterByName("id")) || 0;
-                     loadData(id);
-
-                     ShowAlert('Success', result.Message, 'success');
-                     //ScrollToTop();
-                 }
-             },
-             error: function (errormessage) {
-                 alert(errormessage.responseText);
-             }
-         });
+         Reschedule(obj);
      });
 }
+function Reschedule(obj, ignoreMaxAgeRule = false, ignoreMinAgeFromDOB = false, ignoreMinGapFromPreviousDose = false){
+    $.ajax({
+        url: SERVER + "schedule/Reschedule?ignoreMaxAgeRule="+ignoreMaxAgeRule + "&ignoreMinAgeFromDOB=" + ignoreMinAgeFromDOB + "&ignoreMinGapFromPreviousDose=" + ignoreMinGapFromPreviousDose,
+        data: JSON.stringify(obj),
+        type: "PUT",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+            }
+            else {
+                var id = parseInt(getParameterByName("id")) || 0;
+                loadData(id);
 
+                ShowAlert('Success', result.Message, 'success');
+                //ScrollToTop();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 function openBulkCalender(scheduleId, date) {
     $(".scheduleDate_" + date).datepicker({
         format: 'dd-mm-yyyy hh:ii',
@@ -493,9 +495,9 @@ function openBulkCalender(scheduleId, date) {
          BulkReschedule(obj);
      });
 }
-function BulkReschedule( obj, ignoreMaxAgeRule=false) {
+function BulkReschedule( obj, ignoreMaxAgeRule=false, ignoreMinAgeFromDOB = false, ignoreMinGapFromPreviousDose = false) {
     $.ajax({
-        url: SERVER + "schedule/BulkReschedule?ignoreMaxAgeRule="+ignoreMaxAgeRule,
+        url: SERVER + "schedule/BulkReschedule?ignoreMaxAgeRule="+ignoreMaxAgeRule + "&ignoreMinAgeFromDOB=" + ignoreMinAgeFromDOB + "&ignoreMinGapFromPreviousDose=" + ignoreMinGapFromPreviousDose,
         data: JSON.stringify(obj),
         type: "PUT",
         contentType: "application/json;charset=UTF-8",
