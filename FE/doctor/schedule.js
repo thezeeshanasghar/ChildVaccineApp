@@ -133,18 +133,15 @@ function getbyID(ID) {
                 $("#Height").val((result.ResponseData.Height ? result.ResponseData.Height : ""));
                 $("#Circumference").val((result.ResponseData.Circle ? result.ResponseData.Circle : ""));
 
-                if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") {
+                if (result.ResponseData.GivenDate && result.ResponseData.GivenDate != "01-01-0001") 
                     $("#GivenDate").val(result.ResponseData.GivenDate);
-                    $("#BulkGivenDate").val(result.ResponseData.GivenDate);
-                } else {
+                else {
                     var fullDate = new Date();
                     var date = toDate(result.ResponseData.Date);
                     if(date > fullDate)
                         $("#GivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
-                    else {
+                    else 
                         $("#GivenDate").val(result.ResponseData.Date);
-                        $("#BulkGivenDate").val(result.ResponseData.Date);
-                    }
                 }
 
                 //show vaccine brands
@@ -225,7 +222,11 @@ function openVaccineDetails(ID, date) {
                     $("#BulkGivenDate").val(result.ResponseData[0].Date);
                 } else {
                     var fullDate = new Date();
-                    $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                    var date = toDate(result.ResponseData[0].Date);
+                    if(date > fullDate)
+                        $("#BulkGivenDate").val(('0' + fullDate.getDate()).slice(-2) + '-' + ('0' + (fullDate.getMonth() + 1)).slice(-2) + '-' + fullDate.getFullYear());
+                    else 
+                        $("#BulkGivenDate").val(result.ResponseData[0].Date);
                 }
 
                 $("#btnbulkInjection").show();
