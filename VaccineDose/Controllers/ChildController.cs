@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using VaccineDose.App_Code;
 using VaccineDose.Model;
+using WebApi.OutputCache.V2;
 
 namespace VaccineDose.Controllers
 {
@@ -181,6 +182,8 @@ namespace VaccineDose.Controllers
 
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
+                var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0,null)));
             }
             catch (Exception e)
             {

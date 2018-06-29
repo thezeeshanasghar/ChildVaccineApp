@@ -9,9 +9,11 @@ using System.Web;
 using System.Globalization;
 using System.Net.Http;
 using System.Net;
+using WebApi.OutputCache.V2;
 
 namespace VaccineDose.Controllers
 {
+    [AutoInvalidateCacheOutput]
     public class DoctorController : BaseController
     {
         #region C R U D
@@ -410,6 +412,7 @@ namespace VaccineDose.Controllers
 
 
         [Route("api/doctor/{id}/childs/")]
+        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
         public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id, [FromUri] string searchKeyword = "")
         {
             try
