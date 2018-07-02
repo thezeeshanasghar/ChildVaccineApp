@@ -341,11 +341,11 @@ namespace VaccineDose.Controllers
                     .Where(c => c.Date == DateTime.Today.Date)
                     .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
-                // TODO: Munneb
-                //schedules.AddRange(entities.Schedules.Include("Child").Include("Dose")
-                //    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                //    .Where(c => c.Date == DbFunctions.AddDays(DateTime.Today.Date, c.Child.PreferredDayOfReminder))
-                //    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>());
+                var sc = entities.Schedules.Include("Child").Include("Dose")
+                    .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                    .Where(c => c.Date == DbFunctions.AddDays(DateTime.Today.Date, c.Child.PreferredDayOfReminder))
+                    .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
+                schedules.AddRange(sc);
             }
             else if (GapDays > 0)
             {
