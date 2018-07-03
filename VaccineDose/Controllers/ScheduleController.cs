@@ -51,7 +51,10 @@ namespace VaccineDose.Controllers
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
 
-                    var dbSchedules = entities.Schedules.Where(x => x.Date == dbSchedule.Date && x.ChildId == dbSchedule.ChildId).ToList();
+                    var dbSchedules = entities.Schedules.Where(x => x.Date == dbSchedule.Date 
+                                                                && x.ChildId == dbSchedule.ChildId
+                                                                && x.IsDone==false
+                                                                ).ToList();
 
                     foreach (var schedule in dbSchedules)
                         ChangeDueDatesOfSchedule(scheduleDTO, entities, schedule, "bulk", ignoreMaxAgeRule, ignoreMinAgeFromDOB, ignoreMinGapFromPreviousDose);
