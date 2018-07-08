@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Web.Http;
 using VaccineDose.Model;
 using System.Linq;
 using System.Xml;
-using System.Web;
+using Newtonsoft.Json.Linq;
 
 namespace VaccineDose.Controllers
 {
     public class MessageController : BaseController
     {
-        public Response<List<MessageDTO>> Get([FromUri] string mobileNumber="", [FromUri] string fromDate = "", [FromUri] string toDate = "")
+        public Response<List<MessageDTO>> Get([FromUri] string mobileNumber = "", [FromUri] string fromDate = "", [FromUri] string toDate = "")
         {
             try
             {
@@ -78,21 +75,25 @@ namespace VaccineDose.Controllers
                 {
                     var dbMessages = entities.Messages.Where(x => x.UserID == id).OrderByDescending(x => x.Created).ToList();
                     var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);
-                    foreach(var msg in messageDTOs)
+                    foreach (var msg in messageDTOs)
                     {
-                        XmlDocument xmlDoc = new XmlDocument();
-                        xmlDoc.LoadXml(msg.ApiResponse);
-
-                        string xpath = "Response";
-                        var parentNode = xmlDoc.SelectNodes(xpath);
-
-                        foreach (XmlNode childrenNode in parentNode)
+                        if (IsJson(msg.ApiResponse))
                         {
-                            //HttpContext.Current.Response.Write(childrenNode.SelectSingleNode("//Message").Value);
-                            msg.ApiResponse = childrenNode.FirstChild.InnerText;
+                            JObject json = JObject.Parse(msg.ApiResponse);
+                            msg.ApiResponse = (string)json["returnString"];
+                        } else
+                        {
+                            XmlDocument xmlDoc = new XmlDocument();
+                            xmlDoc.LoadXml(msg.ApiResponse);
+
+                            string xpath = "Response";
+                            var parentNode = xmlDoc.SelectNodes(xpath);
+
+                            foreach (XmlNode childrenNode in parentNode)
+                                msg.ApiResponse = childrenNode.FirstChild.InnerText;
                         }
                     }
-                   
+
                     return new Response<List<MessageDTO>>(true, null, messageDTOs);
                 }
             }
@@ -104,5 +105,6 @@ namespace VaccineDose.Controllers
 
 
         }
+        
     }
 }

@@ -52,6 +52,13 @@ namespace VaccineDose.Controllers
             else
                 return date.AddDays(GapInDays);
         }
+
+        protected bool IsJson(string input)
+        {
+            input = input.Trim();
+            return input.StartsWith("{") && input.EndsWith("}")
+                   || input.StartsWith("[") && input.EndsWith("]");
+        }
     }
 }
 
