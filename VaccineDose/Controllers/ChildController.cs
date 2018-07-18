@@ -183,14 +183,14 @@ namespace VaccineDose.Controllers
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
                 var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
-                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0,null)));
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, null)));
             }
             catch (Exception e)
             {
                 return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
             }
         }
-        
+
 
         public Response<ChildDTO> Put([FromBody] ChildDTO childDTO)
         {
@@ -447,7 +447,7 @@ namespace VaccineDose.Controllers
                 table.LockedWidth = true;
                 table.SetWidths(widths);
 
-                table.AddCell(CreateCell("S#", "backgroudLightGray", 1, "center", "scheduleRecords"));
+                table.AddCell(CreateCell("Age", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Vaccine", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Due Date", "backgroudLightGray", 1, "center", "scheduleRecords"));
                 table.AddCell(CreateCell("Given Date", "backgroudLightGray", 1, "center", "scheduleRecords"));
@@ -460,29 +460,60 @@ namespace VaccineDose.Controllers
                 foreach (var schedule in scheduleDoses)
                 {
                     int doseCount = 0;
+                    Paragraph p = new Paragraph();
                     foreach (var dose in schedule.Doses)
                     {
                         count++;
                         doseCount++;
-                        table.AddCell(CreateCell(count.ToString(), "", 1, "center", "scheduleRecords"));
-                        table.AddCell(CreateCell(dose.Name, "", 1, "", "scheduleRecords"));
-
+                        Font font = FontFactory.GetFont(FontFactory.HELVETICA, 10);
                         // select only injected dose schedule
                         var dbSchedule = dose.Schedules.Where(x => x.DoseId == dose.ID).FirstOrDefault();
-                        if(doseCount == 1)
+
+                        // table.AddCell(CreateCell(count.ToString(), "", 1, "center", "scheduleRecords"));
+                        //table.AddCell(CreateCell(dose.Name, "", 1, "", "scheduleRecords"));
+
+
+                        if (doseCount == 1)
                         {
-                            Font font = FontFactory.GetFont(FontFactory.HELVETICA, 10);
-                            PdfPCell sameDueDateCell = new PdfPCell(new Phrase(schedule.Date.Date.ToString("dd-MM-yyyy"), font));
-                            sameDueDateCell.VerticalAlignment = Element.ALIGN_CENTER;
+                            PdfPCell ageCell = new PdfPCell(new Phrase(count.ToString(), font));
+                            ageCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                            ageCell.Rowspan = schedule.Doses.Count();
+                            table.AddCell(ageCell);
+                            foreach (var d in schedule.Doses)
+                            {
+                                p.Add(d.Name + "\n");
+                            }
+                            PdfPCell dosenameCell = new PdfPCell(p);
+                            dosenameCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                            dosenameCell.Rowspan = schedule.Doses.Count();
+                            table.AddCell(dosenameCell);
+
+                            PdfPCell sameDueDateCell = new PdfPCell(new Phrase(schedule.Date.Date.ToString("dd/MM/yyyy"), font));
+                            sameDueDateCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                            sameDueDateCell.PaddingBottom = schedule.Doses.Count();
                             sameDueDateCell.Rowspan = schedule.Doses.Count();
                             table.AddCell(sameDueDateCell);
                         }
-                        
-                      //  table.AddCell(CreateCell(schedule.Date.Date.ToString("dd-MM-yyyy"), "", 1, "", "scheduleRecords"));
-                        table.AddCell(CreateCell(String.Format("{0:dd-MM-yyyy}", dbSchedule.GivenDate), "", 1, "", "scheduleRecords"));
-                        table.AddCell(CreateCell(dbSchedule.Weight.ToString(), "", 1, "", "scheduleRecords"));
-                        table.AddCell(CreateCell(dbSchedule.Height.ToString(), "", 1, "", "scheduleRecords"));
-                        table.AddCell(CreateCell(dbSchedule.Circle.ToString(), "", 1, "", "scheduleRecords"));
+
+                        PdfPCell dateCell = new PdfPCell(new Phrase(String.Format("{0:dd/MM/yyyy}", dbSchedule.GivenDate), font));
+                        dateCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.AddCell(dateCell);
+
+                        PdfPCell weightCell = new PdfPCell(new Phrase(dbSchedule.Weight.ToString(), font));
+                        weightCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.AddCell(weightCell);
+
+                        PdfPCell heightCell = new PdfPCell(new Phrase(dbSchedule.Height.ToString(), font));
+                        heightCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.AddCell(heightCell);
+
+                        PdfPCell circleCell = new PdfPCell(new Phrase(dbSchedule.Circle.ToString(), font));
+                        circleCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.AddCell(circleCell);
+                        //table.AddCell(CreateCell(String.Format("{0:dd/MM/yyyy}", dbSchedule.GivenDate), "", 1, "", "scheduleRecords"));
+                        //table.AddCell(CreateCell(dbSchedule.Weight.ToString(), "", 1, "", "scheduleRecords"));
+                        //table.AddCell(CreateCell(dbSchedule.Height.ToString(), "", 1, "", "scheduleRecords"));
+                        //table.AddCell(CreateCell(dbSchedule.Circle.ToString(), "", 1, "", "scheduleRecords"));
 
 
                         ////  add a image
