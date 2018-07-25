@@ -57,7 +57,7 @@ namespace VaccineDose.App_Code
                 sms1 += "your daughter " + textInfo.ToTitleCase(child.Name);
 
             sms1 += " is due ";
-            if (scheduleDate.Date == DateTime.Today.Date)
+            if (scheduleDate.Date == DateTime.UtcNow.AddHours(5).Date)
                 sms1 += "Today ";
             else
                 sms1 += scheduleDate.Date.ToString("MM-dd-yyyy");
@@ -100,7 +100,7 @@ namespace VaccineDose.App_Code
                 sms1 += "daughter " + textInfo.ToTitleCase(followUp.Child.Name);
 
             sms1 += " is due ";
-            if (followUp.NextVisitDate == DateTime.Today.Date)
+            if (followUp.NextVisitDate == DateTime.UtcNow.AddHours(5).Date)
                 sms1 += "Today";
             else
                 sms1 += followUp.NextVisitDate;

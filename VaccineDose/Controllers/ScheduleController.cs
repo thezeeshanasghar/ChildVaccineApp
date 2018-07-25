@@ -100,7 +100,7 @@ namespace VaccineDose.Controllers
                 if (daysDifference > 0)
                 {
                     AllDoses = AllDoses.Where(x => x.DoseOrder >= dbSchedule.Dose.DoseOrder).ToList();
-                    DateTime previousDate = DateTime.Now;
+                    DateTime previousDate = DateTime.UtcNow.AddHours(5);
                     //foreach (var d in AllDoses)
                     for (int i = 0; i < AllDoses.Count; i++)
                     {
@@ -242,7 +242,7 @@ namespace VaccineDose.Controllers
                             if (scheduleBrand != null)
                             {
                                 schedule.BrandId = scheduleBrand.BrandId;
-                                if (scheduleDTO.GivenDate.Date == DateTime.Now.Date)
+                                if (scheduleDTO.GivenDate.Date == DateTime.UtcNow.AddHours(5).Date)
                                 {
                                     var brandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleBrand.BrandId && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
                                     brandInventory.Count--;
@@ -273,7 +273,7 @@ namespace VaccineDose.Controllers
                     var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleDTO.BrandId
                                             && b.DoctorID == scheduleDTO.DoctorID).FirstOrDefault();
                     if (dbBrandInventory != null && dbBrandInventory.Count > 0)
-                        if (scheduleDTO.GivenDate.Date == DateTime.Now.Date)
+                        if (scheduleDTO.GivenDate.Date == DateTime.UtcNow.AddHours(5).Date)
                             dbBrandInventory.Count--;
                     dbSchedule.BrandId = scheduleDTO.BrandId;
                     dbSchedule.Weight = scheduleDTO.Weight;
@@ -420,12 +420,12 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     IEnumerable<Schedule> Schedules = new List<Schedule>();
-                    DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+                    DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
                     if (GapDays == 0)
                     {
                         Schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(sc => sc.ChildId == childId)
-                            .Where(sc => sc.Date == DateTime.Today.Date)
+                            .Where(sc => sc.Date == DateTime.UtcNow.AddHours(5).Date)
                             .Where(sc => sc.IsDone == false)
                             .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
                     }
@@ -434,7 +434,7 @@ namespace VaccineDose.Controllers
                         Schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(sc => sc.ChildId == childId)
                             .Where(sc => sc.IsDone == false)
-                            .Where(sc => sc.Date >= DateTime.Today.Date && sc.Date <= AddedDateTime)
+                            .Where(sc => sc.Date >= DateTime.UtcNow.AddHours(5).Date && sc.Date <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
                     }
                     if (GapDays < 0)
@@ -442,7 +442,7 @@ namespace VaccineDose.Controllers
                         Schedules = entities.Schedules.Include("Child").Include("Dose")
                            .Where(sc => sc.ChildId == childId)
                            .Where(sc => sc.IsDone == false)
-                           .Where(sc => sc.Date <= DateTime.Today.Date && sc.Date >= AddedDateTime)
+                           .Where(sc => sc.Date <= DateTime.UtcNow.AddHours(5).Date && sc.Date >= AddedDateTime)
                            .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
                     }
 

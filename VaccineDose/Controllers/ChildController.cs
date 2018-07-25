@@ -364,7 +364,7 @@ namespace VaccineDose.Controllers
                     Headers = {
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment") {
-                                    FileName =dbScheduleChild.Name.Replace(" ","")+"_Schedule_" +DateTime.Now.ToString("MMMM-dd-yyyy")+ ".pdf"
+                                    FileName =dbScheduleChild.Name.Replace(" ","")+"_Schedule_" +DateTime.UtcNow.AddHours(5).ToString("MMMM-dd-yyyy")+ ".pdf"
                                 }
                             }
                 },
@@ -608,7 +608,7 @@ namespace VaccineDose.Controllers
 
                     //upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "noColor", 1, "left", "description"));
 
-                    upperTable.AddCell(CreateCell("Date: " + DateTime.Now, "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Date: " + DateTime.UtcNow.AddHours(5), "bold", 1, "right", "description"));
 
 
                     if (childDTO.IsConsultationFee)
@@ -758,7 +758,7 @@ namespace VaccineDose.Controllers
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment")
                                 {
-                                    FileName = childName.Replace(" ","") +"_FollowUp"+"_"+DateTime.Now.Date.ToString("MMMM-dd-yyyy")+".pdf"
+                                    FileName = childName.Replace(" ","") +"_FollowUp"+"_"+DateTime.UtcNow.AddHours(5).Date.ToString("MMMM-dd-yyyy")+".pdf"
                                 }
                             }
                     },

@@ -47,12 +47,12 @@ namespace VaccineDose.Controllers
                     int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
 
                     IEnumerable<FollowUp> followups = new List<FollowUp>();
-                    DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+                    DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
                     if (GapDays == 0)
                         followups = entities.FollowUps.Include("Child")
                             //.Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                            .Where(c => System.Data.Entity.DbFunctions.TruncateTime(c.NextVisitDate) == System.Data.Entity.DbFunctions.TruncateTime(DateTime.Now))
+                            .Where(c => System.Data.Entity.DbFunctions.TruncateTime(c.NextVisitDate) == System.Data.Entity.DbFunctions.TruncateTime(DateTime.UtcNow.AddHours(5)))
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate).ToList<FollowUp>();
                     else if (GapDays > 0)
                     {
@@ -60,7 +60,7 @@ namespace VaccineDose.Controllers
                         followups = entities.FollowUps.Include("Child")
                             //.Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                            .Where(c => c.NextVisitDate > DateTime.Now && c.NextVisitDate <= AddedDateTime)
+                            .Where(c => c.NextVisitDate > DateTime.UtcNow.AddHours(5) && c.NextVisitDate <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate)
                             .ToList<FollowUp>();
 
@@ -70,7 +70,7 @@ namespace VaccineDose.Controllers
                         followups = entities.FollowUps.Include("Child")
                             //.Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                            .Where(c => c.NextVisitDate < DateTime.Now && c.NextVisitDate >= AddedDateTime)
+                            .Where(c => c.NextVisitDate < DateTime.UtcNow.AddHours(5) && c.NextVisitDate >= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate)
                             .ToList<FollowUp>();
                     }
@@ -115,26 +115,26 @@ namespace VaccineDose.Controllers
             {
                 using (VDConnectionString entities = new VDConnectionString())
                 {
-                    DateTime AddedDateTime = DateTime.Now.AddDays(GapDays);
+                    DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
                     List<FollowUp> dbFollowUps = new List<FollowUp>();
                     if (GapDays == 0)
                     {
                         dbFollowUps = entities.FollowUps.Where(x => x.DoctorID == doctorId &&
-                             x.NextVisitDate == DateTime.Today.Date)
+                             x.NextVisitDate == DateTime.UtcNow.AddHours(5).Date)
                             .OrderByDescending(x => x.ID).ToList();
 
                     }
                     if (GapDays > 0)
                     {
                         dbFollowUps = entities.FollowUps.Where(x => x.DoctorID == doctorId &&
-                             x.NextVisitDate >= DateTime.Today.Date && x.NextVisitDate <= AddedDateTime)
+                             x.NextVisitDate >= DateTime.UtcNow.AddHours(5).Date && x.NextVisitDate <= AddedDateTime)
                             .OrderByDescending(x => x.ID).ToList();
 
                     }
                     if (GapDays < 0)
                     {
                         dbFollowUps = entities.FollowUps.Where(x => x.DoctorID == doctorId &&
-                             x.NextVisitDate <= DateTime.Today.Date && x.NextVisitDate >= AddedDateTime)
+                             x.NextVisitDate <= DateTime.UtcNow.AddHours(5).Date && x.NextVisitDate >= AddedDateTime)
                             .OrderByDescending(x => x.ID).ToList();
 
                     }
