@@ -22,7 +22,8 @@ namespace VaccineDose.App_Code
         }
         public static string ParentSMS(Child child)
         {
-            string sms1 = "Dear Parents\n";
+
+            string sms1 = "Mr. " + child.FatherName + "\n";
             if (child.Gender == "Boy")
                 sms1 += "Your Son " + textInfo.ToTitleCase(child.Name);
 
@@ -48,7 +49,7 @@ namespace VaccineDose.App_Code
         public static string ParentSMSAlert(string doseName, DateTime scheduleDate, Child child)
         {
 
-            string sms1 = "Respected Parents\n";
+            string sms1 = "Mr. " + child.FatherName + "\n";
             sms1 += doseName + " Vaccine for ";
             if (child.Gender == "Boy")
                 sms1 += "your son " + textInfo.ToTitleCase(child.Name);

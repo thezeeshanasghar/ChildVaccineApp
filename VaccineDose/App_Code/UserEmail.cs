@@ -19,7 +19,7 @@ namespace VaccineDose.App_Code
 
         public static void ParentEmail(Child child)
         {
-            string body = "Respected Parent,<br>";
+            string body = "Mr. " + child.FatherName + ",<br>";
             if (child.Gender == "Boy")
                 body += "Your Son <b>" + child.Name + "</b>";
 
