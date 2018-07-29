@@ -56,7 +56,17 @@ function loadData(id) {
                             isAllDone = true;
                     }
                     html += '<div class="col-md-12 text-center" style="margin-top: 10px;">';
-                    html += '     ' + date;
+                    var cur = new Date();
+                    var after30days = new Date(cur.setDate(cur.getDate() + 30));
+                    var sameDate = toDate(date);
+
+                    if(sameDate >= after30days)
+                        html += '     <span style="background-color:yellow;">' + date+'</span>';
+                    else if(isAllDone)
+                        html += '     <span style="color:green;">' + date+'</span>';   
+                    else  
+                        html += '     ' + date;
+
                     if (isAllDone) {
                         html += '     &nbsp;<a href="#" onclick="return openVaccineDetails(' + dateVsArrayOfScheuleMap[date][0].scheduleID + ', \'' + date + '\')" style="text-decoration:none"> <img src="../img/injectionFilled.png" style="height: 22px;"></a>';
                     } else {
@@ -80,7 +90,7 @@ function loadData(id) {
                         if (!doseArray[index].isDone)
                             html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                         else
-                            html += '       <span style="font-size:12px">' + doseArray[index].BrandName + ' &nbsp;&nbsp;' + doseArray[index].GivenDate + '</span>';
+                            html += '       <span style="font-size:12px">' + doseArray[index].BrandName + ' &nbsp;&nbsp;<span style="color:green;">' + doseArray[index].GivenDate + '</span></span>';
 
                         if (doseArray[index].Due2EPI)
                             html += '<small>&nbsp;&nbsp;EPI</small>';
@@ -480,49 +490,49 @@ function Reschedule(obj, ignoreMaxAgeRule = false, ignoreMinAgeFromDOB = false, 
         }
     });
 }
-function openBulkCalender(scheduleId, date) {
-    $(".scheduleDate_" + date).datepicker({
-        format: 'dd-mm-yyyy hh:ii',
-        todayBtn: true,
-        autoclose: true,
-        todayHighlight: true,
-    });
-    $('.scheduleDate_' + date).datepicker('update', date);
-    $(".scheduleDate_" + date).datepicker('show');
+    function openBulkCalender(scheduleId, date) {
+        $(".scheduleDate_" + date).datepicker({
+            format: 'dd-mm-yyyy hh:ii',
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: true,
+        });
+        $('.scheduleDate_' + date).datepicker('update', date);
+        $(".scheduleDate_" + date).datepicker('show');
 
-    var obj = {};
-    obj.ID = scheduleId;
+        var obj = {};
+        obj.ID = scheduleId;
 
 
-    $(".scheduleDate_" + date).datepicker()
-     .on('changeDate', function (e) {
-         obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
-         BulkReschedule(obj);
-     });
-}
-function BulkReschedule( obj, ignoreMaxAgeRule=false, ignoreMinAgeFromDOB = false, ignoreMinGapFromPreviousDose = false) {
-    $.ajax({
-        url: SERVER + "schedule/BulkReschedule?ignoreMaxAgeRule="+ignoreMaxAgeRule + "&ignoreMinAgeFromDOB=" + ignoreMinAgeFromDOB + "&ignoreMinGapFromPreviousDose=" + ignoreMinGapFromPreviousDose,
-        data: JSON.stringify(obj),
-        type: "PUT",
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        success: function (result) {
-            if (!result.IsSuccess) {
-                ShowAlert('Error', result.Message, 'danger');
+        $(".scheduleDate_" + date).datepicker()
+         .on('changeDate', function (e) {
+             obj.Date = ('0' + e.date.getDate()).slice(-2) + '-' + ('0' + (e.date.getMonth() + 1)).slice(-2) + '-' + e.date.getFullYear();
+             BulkReschedule(obj);
+         });
+    }
+    function BulkReschedule( obj, ignoreMaxAgeRule=false, ignoreMinAgeFromDOB = false, ignoreMinGapFromPreviousDose = false) {
+        $.ajax({
+            url: SERVER + "schedule/BulkReschedule?ignoreMaxAgeRule="+ignoreMaxAgeRule + "&ignoreMinAgeFromDOB=" + ignoreMinAgeFromDOB + "&ignoreMinGapFromPreviousDose=" + ignoreMinGapFromPreviousDose,
+            data: JSON.stringify(obj),
+            type: "PUT",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                if (!result.IsSuccess) {
+                    ShowAlert('Error', result.Message, 'danger');
+                }
+                else {
+                    var id = parseInt(getParameterByName("id")) || 0;
+                    loadData(id);
+
+                    ShowAlert('Success', result.Message, 'success');
+                    //ScrollToTop();
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
             }
-            else {
-                var id = parseInt(getParameterByName("id")) || 0;
-                loadData(id);
+        });
+    }
 
-                ShowAlert('Success', result.Message, 'success');
-                //ScrollToTop();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-}
-
-// #endregion Rescheduling
+        // #endregion Rescheduling
