@@ -490,6 +490,7 @@ namespace VaccineDose.Controllers
 
                             PdfPCell sameDueDateCell = new PdfPCell(new Phrase(schedule.Date.Date.ToString("dd/MM/yyyy"), font));
                             sameDueDateCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                            sameDueDateCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                             sameDueDateCell.PaddingBottom = schedule.Doses.Count();
                             sameDueDateCell.Rowspan = schedule.Doses.Count();
                             table.AddCell(sameDueDateCell);
@@ -499,15 +500,15 @@ namespace VaccineDose.Controllers
                         dateCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         table.AddCell(dateCell);
 
-                        PdfPCell weightCell = new PdfPCell(new Phrase(dbSchedule.Weight.ToString(), font));
+                        PdfPCell weightCell = new PdfPCell(new Phrase(dbSchedule.Weight > 0 ? dbSchedule.Weight.ToString() : "", font));
                         weightCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         table.AddCell(weightCell);
 
-                        PdfPCell heightCell = new PdfPCell(new Phrase(dbSchedule.Height.ToString(), font));
+                        PdfPCell heightCell = new PdfPCell(new Phrase(dbSchedule.Height > 0 ? dbSchedule.Height.ToString() : "", font));
                         heightCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         table.AddCell(heightCell);
 
-                        PdfPCell circleCell = new PdfPCell(new Phrase(dbSchedule.Circle.ToString(), font));
+                        PdfPCell circleCell = new PdfPCell(new Phrase(dbSchedule.Circle > 0 ? dbSchedule.Circle.ToString() : "", font));
                         circleCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         table.AddCell(circleCell);
                         //table.AddCell(CreateCell(String.Format("{0:dd/MM/yyyy}", dbSchedule.GivenDate), "", 1, "", "scheduleRecords"));
