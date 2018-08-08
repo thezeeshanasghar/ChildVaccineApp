@@ -30,10 +30,11 @@ namespace VaccineDose
         public bool AllowFollowUp { get; set; }
         public bool AllowInventory { get; set; }
         public int SMSLimit { get; set; }
+        public string DoctorType { get; set; }
 
         public ClinicDTO ClinicDTO { get; set; }
         public List<ClinicDTO> Clinics { get; set; }
-        
+
         //to show child info on change doctor page
         public ChildDTO ChildDTO { get; set; }
 

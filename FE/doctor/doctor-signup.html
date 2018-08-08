@@ -77,6 +77,20 @@
                                 <div id="doctor" class="col-sm-6 col-sm-offset-3">
                                     <input type="text" class="form-control" id="ID" style="display:none" />
                                     <div class="form-group required">
+                                        <div class="radio-inline col-md-4">
+                                            <label>
+                                                <input type="radio" name="DoctorType" checked value="CS" required />
+                                                Child Specialist
+                                            </label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <label>
+                                                <input type="radio"  name="DoctorType" value="D" required />
+                                                Doctor
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
                                         <div class="input-group">
                                             <span class="input-group-addon red" id="basic-addon1">*</span>
                                             <input type="text" class="form-control CapitalizeFirstLetter" id="FirstName" aria-describedby="basic-addon1"
@@ -102,7 +116,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon red" id="basic-addon4">&ast;</span>
                                             <input aria-describedby="basic-addon4" type="email" class="form-control" id="Email" name="Email" placeholder="Email" required />
-                                            
+
                                         </div>
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -237,7 +251,7 @@
                                         <div id="current">Select marker and drag it to your location...</div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="return clinicNext();">Next</button>
+                                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="return clinicNext();" id="btnCinicNext" >Next</button>
                                     </div>
                                 </div>
                             </form>

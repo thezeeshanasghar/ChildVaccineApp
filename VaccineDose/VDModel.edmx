@@ -91,6 +91,7 @@
           <Property Name="AllowFollowUp" Type="bit" Nullable="false" />
           <Property Name="AllowInventory" Type="bit" Nullable="false" />
           <Property Name="SMSLimit" Type="int" Nullable="false" />
+          <Property Name="DoctorType" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -249,18 +250,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Doctor_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Doctor">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DoctorSchedule_Doctor">
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
           <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
@@ -374,10 +363,6 @@
           <AssociationSet Name="FK_Clinic_Doctor" Association="Self.FK_Clinic_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Clinic" EntitySet="Clinic" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Doctor_User" Association="Self.FK_Doctor_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Doctor" EntitySet="Doctor" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorSchedule_Doctor" Association="Self.FK_DoctorSchedule_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
@@ -719,6 +704,7 @@
           <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
           <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
           <Property Name="SMSLimit" Type="Int32" Nullable="false" />
+          <Property Name="DoctorType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_Clinic_Doctor">
           <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
@@ -1034,6 +1020,7 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="DoctorType" ColumnName="DoctorType" />
                 <ScalarProperty Name="SMSLimit" ColumnName="SMSLimit" />
                 <ScalarProperty Name="AllowInventory" ColumnName="AllowInventory" />
                 <ScalarProperty Name="AllowFollowUp" ColumnName="AllowFollowUp" />
