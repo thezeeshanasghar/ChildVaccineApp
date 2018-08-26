@@ -17,9 +17,9 @@ namespace VaccineDose
         public int ID { get; set; }
         public string MobileNumber { get; set; }
         public string SMS { get; set; }
-        public Nullable<int> UserID { get; set; }
         public string ApiResponse { get; set; }
         public System.DateTime Created { get; set; }
+        public Nullable<int> UserID { get; set; }
     
         public virtual User User { get; set; }
     }
