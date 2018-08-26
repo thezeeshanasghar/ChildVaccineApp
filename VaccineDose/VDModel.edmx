@@ -127,6 +127,8 @@
           <Property Name="Weight" Type="float" />
           <Property Name="Height" Type="float" />
           <Property Name="OFC" Type="float" />
+          <Property Name="BloodPressure" Type="float" />
+          <Property Name="BloodSugar" Type="float" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -541,6 +543,8 @@
           <Property Name="Weight" Type="Double" />
           <Property Name="Height" Type="Double" />
           <Property Name="OFC" Type="Double" />
+          <Property Name="BloodPressure" Type="Double" />
+          <Property Name="BloodSugar" Type="Double" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -953,6 +957,8 @@
           <EntitySetMapping Name="FollowUps">
             <EntityTypeMapping TypeName="VDModel.FollowUp">
               <MappingFragment StoreEntitySet="FollowUp">
+                <ScalarProperty Name="BloodSugar" ColumnName="BloodSugar" />
+                <ScalarProperty Name="BloodPressure" ColumnName="BloodPressure" />
                 <ScalarProperty Name="OFC" ColumnName="OFC" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />

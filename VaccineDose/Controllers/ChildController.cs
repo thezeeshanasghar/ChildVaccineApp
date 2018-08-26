@@ -1054,7 +1054,70 @@ namespace VaccineDose.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
+
+
+        [HttpPost]
+        [Route("api/child/simpledoctor-child")]
+        public Response<ChildDTO> AddSimpleDoctorPatient(ChildDTO childDTO)
+        {
+            try
+            {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                childDTO.Name = textInfo.ToTitleCase(childDTO.Name);
+                childDTO.FatherName = textInfo.ToTitleCase(childDTO.FatherName);
+
+                using (VDConnectionString entities = new VDConnectionString())
+                {
+
+                    Child childDB = Mapper.Map<Child>(childDTO);
+                    // check for existing parent 
+                    User user = entities.Users.Where(x => x.MobileNumber == childDTO.MobileNumber && x.UserType == "PARENT").FirstOrDefault();
+
+                    if (user == null)
+                    {
+                        User userDB = new User();
+                        userDB.MobileNumber = childDTO.MobileNumber;
+                        userDB.Password = childDTO.Password;
+                        userDB.CountryCode = childDTO.CountryCode;
+                        userDB.UserType = "PARENT";
+                        entities.Users.Add(userDB);
+                        entities.SaveChanges();
+
+                        childDB.UserID = userDB.ID;
+                        entities.Children.Add(childDB);
+                        entities.SaveChanges();
+                    }
+                    else
+                    {
+                        Child existingChild = entities.Children.FirstOrDefault(x => x.Name.Equals(childDTO.Name) && x.UserID == user.ID);
+                        if (existingChild != null)
+                            throw new Exception("Children with same name & number already exists. Parent should login and start change doctor process.");
+                        childDB.UserID = user.ID;
+                        entities.Children.Add(childDB);
+                        entities.SaveChanges();
+                    }
+                    childDTO.ID = childDB.ID;
+
+                    Child c = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
+                    if (c.Email != "")
+                        UserEmail.ParentEmail(c);
+
+                    // generate SMS and save it to the db
+                    UserSMS.ParentSMS(c);
+
+                    return new Response<ChildDTO>(true, null, childDTO);
+                }
+                var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, null)));
+            }
+            catch (Exception e)
+            {
+                return new Response<ChildDTO>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
+
     }
+
     public class PDFFooter : PdfPageEventHelper
     {
         Child child = new Child();
