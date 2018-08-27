@@ -340,12 +340,12 @@ namespace VaccineDose.Controllers
             DateTime AddedDateTime = CurrentPakDateTime.AddDays(GapDays);
             if (GapDays == 0)
             {
-                schedules = entities.Schedules.Include("Child").Include("Dose")
+                schedules = entities.Schedules.Include("Dose").Include("Child").Include("Child.User")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date == CurrentPakDateTime.Date)
                     .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
-                var sc = entities.Schedules.Include("Child").Include("Dose")
+                var sc = entities.Schedules.Include("Dose").Include("Child").Include("Child.User")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date == DbFunctions.AddDays(CurrentPakDateTime.Date, c.Child.PreferredDayOfReminder))
                     .Where(c => c.IsDone == false)
