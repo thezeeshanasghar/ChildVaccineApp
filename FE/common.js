@@ -91,11 +91,13 @@ function SetMainNav() {
         markup += '     <a id="navBtnClinic" href="/doctor/clinic.html">Clinics Info</a>';
         markup += '     <a href="/doctor/add-vacation.html">Vacations</a>';
         markup += '     <a href="/changed-password.html">Change Password</a>';
-        markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
-        if (localStorage.getItem('AllowInventory')=="true")
-            markup += '     <a href="/doctor/brand-inventory.html">Brand Inventory</a>';
-        if (localStorage.getItem('AllowInvoice')=="true")
-            markup += '     <a href="/doctor/brand-amount.html">Brand Amount</a>';
+        if (localStorage.getItem('DoctorType') != "D") {
+            markup += '     <a href="/doctor/doctor-schedule.html">Custom Schedule</a>';
+            if (localStorage.getItem('AllowInventory') == "true")
+                markup += '     <a href="/doctor/brand-inventory.html">Brand Inventory</a>';
+            if (localStorage.getItem('AllowInvoice') == "true")
+                markup += '     <a href="/doctor/brand-amount.html">Brand Amount</a>';
+        }
         markup += '     <a href="#" onclick="return logout()">Logout</a>';
         markup += '</div>';
     } else if (UserType == 'PARENT') {

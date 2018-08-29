@@ -23,6 +23,8 @@ namespace VaccineDose
         public Nullable<double> Weight { get; set; }
         public Nullable<double> Height { get; set; }
         public Nullable<double> OFC { get; set; }
+        public Nullable<double> BloodPressure { get; set; }
+        public Nullable<double> BloodSugar { get; set; }
     
         public virtual Child Child { get; set; }
         public virtual Doctor Doctor { get; set; }

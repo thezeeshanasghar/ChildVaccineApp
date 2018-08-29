@@ -74,6 +74,7 @@ function Add() {
         ShowPhone: $("#ShowPhone").is(":checked"),
         ShowMobile: $("#ShowMobile").is(":checked"),
         DisplayName: $('#DisplayName').val(),
+        DoctorType: $("input[name='DoctorType']:checked").val(),
 
         ClinicDTO: {
             Name: $('#Name').val(),
@@ -413,6 +414,65 @@ function AddSchedule() {
     });
 }
 
+// simple doctor signup
+function simpleDoctorSignup() {
+
+    var result = [];
+    $('input[name="OffDays"]:checked').each(function () {
+        result.push(this.value);
+    });
+    $("#btnCinicNext").button('loading');
+    $("#btnCinicNext").prop('disabled', true);
+    var obj = {
+        FirstName: $('#FirstName').val(),
+        LastName: $('#LastName').val(),
+        Email: $('#Email').val(),
+        Password: PasswordGenerator(),
+        CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
+        MobileNumber: $('#MobileNumber').val(),
+        PMDC: $('#PMDC').val(),
+        PhoneNo: $("#PhoneNo").val(),
+        ShowPhone: $("#ShowPhone").is(":checked"),
+        ShowMobile: $("#ShowMobile").is(":checked"),
+        DisplayName: $('#DisplayName').val(),
+        DoctorType: $("input[name='DoctorType']:checked").val(),
+
+        ClinicDTO: {
+            Name: $('#Name').val(),
+            PhoneNumber: $('#PhoneNumber').val(),
+            ConsultationFee: $('#ConsultationFee').val(),
+            StartTime: $('#StartTime').val(),
+            EndTime: $('#EndTime').val(),
+            OffDays: result.join(','),
+            Lat: myMarker.getPosition().lat(),
+            Long: myMarker.getPosition().lng(),
+            Address: $('#Address').val()
+        }
+    };
+    $.ajax({
+        url: SERVER + "doctor",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger'); 
+                return;
+            } else {
+                next();
+                next();
+                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Your username and password have been send to your email address.<br/>After admin approval you can <a href="/login.html?UserType=DOCTOR">login</a> to <b>http://vaccs.io</b>', 'success');
+                ScrollToTop();
+                $("#btnCinicNext").prop('disabled', false);
+                $("#btnCinicNext").button('reset');
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 function doctorNext() {
     var res = validateDoctor();
     if (res == false) {
@@ -426,7 +486,14 @@ function clinicNext() {
     if (res == false) {
         return false;
     }
-    next();
+    var doctorType = $("input[name='DoctorType']:checked").val();
+    if (doctorType == "D") {
+        $("#step3").hide(); 
+        simpleDoctorSignup();
+    } else {
+        next();
+    }
+   
 }
 function next() {
     var $active = $('.wizard .nav-tabs li.active');

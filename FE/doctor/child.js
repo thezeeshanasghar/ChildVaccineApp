@@ -4,6 +4,12 @@ $(document).ready(function () {
         loadData();
         // DisableOffDays();
     }
+
+    if (localStorage.getItem('DoctorType') == "D") {
+        $(".childDiv").hide();
+    } else {
+        $(".patientDiv").hide();
+    }
 });
 function goToByScroll(id) {
     $('html,body').animate({ scrollTop: $(id).offset().top }, 'slow');
@@ -53,10 +59,11 @@ function loadData() {
                     html += '       <i class="glyphicon glyphicon-earphone"></i> ' + item.MobileNumber;
                     html += '   </div>';
                     html += '   <div style="padding-left:100px">';
+                    if (localStorage.getItem('DoctorType') != "D")
                     html += '       <a style="margin: 2px" class="btn btn-success btn-sm" href="schedule.html?id=' + item.ID + '">Vaccines</a>';
                     if (item.Clinic.Doctor.AllowFollowUp)
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onclick="GetFollowUpById(' + item.ID + ')"  >Follow Up</a>';
-                    if (item.Clinic.Doctor.AllowChart)
+                    if (item.Clinic.Doctor.AllowChart && localStorage.getItem('DoctorType') != "D")
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
                     if (item.Clinic.Doctor.AllowInvoice)
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
@@ -363,8 +370,15 @@ function GetFollowUpById(childId) {
                     html += '   <td>' + item.CurrentVisitDate + '</td>';
                     html += '   <td>' + item.Disease + '</td>';
                     html += '   <td>' + item.Weight + '</td>';
-                    html += '   <td>' + item.Height + '</td>';
-                    html += '   <td>' + item.OFC + '</td>';
+
+                    if (localStorage.getItem('DoctorType') == "D") {
+                        html += '   <td>' + item.BloodPressure + '</td>';
+                        html += '   <td>' + item.BloodSugar + '</td>';
+                    } else {
+                        html += '   <td>' + item.Height + '</td>';
+                        html += '   <td>' + item.OFC + '</td>';
+                    }
+                   
                     html += '</tr>'
 
                 });
@@ -392,7 +406,9 @@ function AddFollowUp() {
         DoctorID: DoctorId(),
         Weight: $("#Weight").val(),
         Height: $("#Height").val(),
-        OFC: $("#OFC").val()
+        OFC: $("#OFC").val(),
+        BloodPressure: $("#BloodPressure").val(),
+        BloodSugar: $("#BloodSugar").val()
     }
     $.ajax({
         url: SERVER + 'followup',

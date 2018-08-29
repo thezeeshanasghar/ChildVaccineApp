@@ -91,6 +91,7 @@
           <Property Name="AllowFollowUp" Type="bit" Nullable="false" />
           <Property Name="AllowInventory" Type="bit" Nullable="false" />
           <Property Name="SMSLimit" Type="int" Nullable="false" />
+          <Property Name="DoctorType" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -126,6 +127,8 @@
           <Property Name="Weight" Type="float" />
           <Property Name="Height" Type="float" />
           <Property Name="OFC" Type="float" />
+          <Property Name="BloodPressure" Type="float" />
+          <Property Name="BloodSugar" Type="float" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -266,18 +269,6 @@
             </Principal>
             <Dependent Role="Clinic">
               <PropertyRef Name="DoctorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Doctor_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Doctor">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -442,10 +433,6 @@
           <AssociationSet Name="FK_Clinic_Doctor" Association="Self.FK_Clinic_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Clinic" EntitySet="Clinic" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Doctor_User" Association="Self.FK_Doctor_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Doctor" EntitySet="Doctor" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorSchedule_Doctor" Association="Self.FK_DoctorSchedule_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
@@ -721,8 +708,13 @@
           <Property Name="Weight" Type="Double" />
           <Property Name="Height" Type="Double" />
           <Property Name="OFC" Type="Double" />
+
+          <Property Name="BloodPressure" Type="Double" />
+          <Property Name="BloodSugar" Type="Double" />
+
           <NavigationProperty Name="Child" Relationship="VDModel.FK_FollowUp_Child" FromRole="FollowUp" ToRole="Child" />
           <NavigationProperty Name="Doctor" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="FollowUp" ToRole="Doctor" />
+
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -851,9 +843,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PMDC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="ShowPhone" Type="Boolean" Nullable="false" />
+          <Property Name="ShowMobile" Type="Boolean" Nullable="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ValidUpto" Type="DateTime" Precision="0" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="Int32" />
+          <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AllowInvoice" Type="Boolean" Nullable="false" />
+          <Property Name="AllowChart" Type="Boolean" Nullable="false" />
+          <Property Name="AllowFollowUp" Type="Boolean" Nullable="false" />
+          <Property Name="AllowInventory" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Clinics" Relationship="VDModel.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
+          <NavigationProperty Name="User" Relationship="VDModel.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
+          <NavigationProperty Name="DoctorSchedules" Relationship="VDModel.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
+          <NavigationProperty Name="FollowUps" Relationship="VDModel.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
+          <NavigationProperty Name="BrandAmounts" Relationship="VDModel.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
+          <NavigationProperty Name="BrandInventories" Relationship="VDModel.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
+          <Property Name="SMSLimit" Type="Int32" Nullable="false" />
+          <Property Name="DoctorType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          </EntityType>
+        <Association Name="FK_Clinic_Doctor">
+          <End Type="VDModel.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="*" />
+
         <Association Name="FK_Child_Clinic">
           <End Type="VDModel.Clinic" Role="Clinic" Multiplicity="1" />
           <End Type="VDModel.Child" Role="Child" Multiplicity="*" />
+
           <ReferentialConstraint>
             <Principal Role="Clinic">
               <PropertyRef Name="ID" />
@@ -1058,6 +1088,57 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+
+          <EntitySetMapping Name="DoctorSchedules">
+            <EntityTypeMapping TypeName="VDModel.DoctorSchedule">
+              <MappingFragment StoreEntitySet="DoctorSchedule">
+                <ScalarProperty Name="GapInDays" ColumnName="GapInDays" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="DoseID" ColumnName="DoseID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FollowUps">
+            <EntityTypeMapping TypeName="VDModel.FollowUp">
+              <MappingFragment StoreEntitySet="FollowUp">
+                <ScalarProperty Name="BloodSugar" ColumnName="BloodSugar" />
+                <ScalarProperty Name="BloodPressure" ColumnName="BloodPressure" />
+                <ScalarProperty Name="OFC" ColumnName="OFC" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="ChildID" ColumnName="ChildID" />
+                <ScalarProperty Name="CurrentVisitDate" ColumnName="CurrentVisitDate" />
+                <ScalarProperty Name="NextVisitDate" ColumnName="NextVisitDate" />
+                <ScalarProperty Name="Disease" ColumnName="Disease" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="VDModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccines">
+            <EntityTypeMapping TypeName="VDModel.Vaccine">
+              <MappingFragment StoreEntitySet="Vaccine">
+                <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
+                <ScalarProperty Name="MinAge" ColumnName="MinAge" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+
+
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="VDModel.Clinic">
               <MappingFragment StoreEntitySet="Clinic">
@@ -1079,6 +1160,7 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="DoctorType" ColumnName="DoctorType" />
                 <ScalarProperty Name="SMSLimit" ColumnName="SMSLimit" />
                 <ScalarProperty Name="AllowInventory" ColumnName="AllowInventory" />
                 <ScalarProperty Name="AllowFollowUp" ColumnName="AllowFollowUp" />

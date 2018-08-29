@@ -13,6 +13,9 @@ $(document).ready(function () {
     if (selectedCity) {
         $("#City").val(selectedCity);
     }
+    if (localStorage.getItem('DoctorType') == "D") {
+        $("#childDiv").hide();
+    }
 });
 
 function DisableOffDays() {
@@ -141,38 +144,94 @@ function Add() {
     });
 }
 
+function addSimpleDoctorPatient() {
+    var res = validate();
+    if (res == false) {
+        return false;
+    }
 
-function ShowHide(event) {
-    $('#form1').validator('validate');
-    localStorage.setItem("DoctorId_" +DoctorId() + "_City", $('#City').find(":selected").text());
-    var validator = $('#form1').data("bs.validator");
-    if (!validator.hasErrors()) {
-        var obj = {
-            Name: $('#Name').val(),
-            CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
-            MobileNumber: $('#MobileNumber').val(),
-        };
-        $.ajax({
-            url: SERVER + "child/validate-nameAndNumber",
-            data: JSON.stringify(obj),
-            type: "Post",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                if (result==null)  {
-                    $("#child").hide();
-                    GetVaccines();
-                    $("#vaccine").show();
-                }
-            },
-            error: function (errormessage, e) {
-                ShowAlert('Error', errormessage.statusText, 'danger');
+    $("#btnAdd").button('loading');
+    $("#btnAdd").prop('disabled', true);
+
+    var obj = {
+        Name: $('#Name').val(),
+        FatherName: $('#FatherName').val(),
+        Email: $('#Email').val(),
+        DOB: $('#DOB').val(),
+        CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
+        MobileNumber: $('#MobileNumber').val(),
+        PreferredDayOfWeek: $('#PreferredDayOfWeek').find(":selected").val(),
+        Gender: $("input[name='gender']:checked").val(),
+        City: $('#City').find(":selected").text(),
+        PreferredDayOfReminder: $('#PreferredDayOfReminder').find(":selected").val(),
+        PreferredSchedule: $('#PreferredVacccineSchedule').find(":selected").val(),
+        IsEPIDone: $("#IsEPIDone").is(':checked'),
+        IsVerified: $("#IsVerified").is(':checked'),
+        Password: PasswordGenerator(),
+        ClinicID: GetOnlineClinicIdFromLocalStorage()
+    };
+    $.ajax({
+        url: SERVER + "child/simpledoctor-child",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
                 ScrollToTop();
             }
-        });
-       
+            else {
+                window.location = 'child.html?id=' + GetOnlineClinicIdFromLocalStorage();
+            }
+        },
+        error: function (errormessage, e) {
+            $("#btnAdd").prop('disabled', false);
+            $("#btnAdd").button('reset');
+            displayErrors(errormessage, e);
+        }
+    });
+}
+
+
+function ShowHide() {
+    $('#form1').validator('validate');
+    localStorage.setItem("DoctorId_" + DoctorId() + "_City", $('#City').find(":selected").text());
+    var validator = $('#form1').data("bs.validator");
+    if (localStorage.getItem('DoctorType') != "D") {
+        if (!validator.hasErrors()) {
+            var obj = {
+                Name: $('#Name').val(),
+                CountryCode: $("#MobileNumber").intlTelInput("getSelectedCountryData").dialCode,
+                MobileNumber: $('#MobileNumber').val(),
+            };
+            $.ajax({
+                url: SERVER + "child/validate-nameAndNumber",
+                data: JSON.stringify(obj),
+                type: "Post",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result == null) {
+                        $("#child").hide();
+                        GetVaccines();
+                        $("#vaccine").show();
+                    }
+                },
+                error: function (errormessage, e) {
+                    ShowAlert('Error', errormessage.statusText, 'danger');
+                    ScrollToTop();
+                }
+            });
+
+        }
+    } else {
+        //add child by simple doctor
+        addSimpleDoctorPatient();
     }
 }
+
 //Valdidation using jquery  
 function validate() {
     $('#form2').validator('validate');

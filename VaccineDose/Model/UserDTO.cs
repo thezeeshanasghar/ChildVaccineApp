@@ -18,7 +18,7 @@ namespace VaccineDose
         public string CountryCode { get; set; }
         public string Email { get; set; }
         public string ProfileImage { get; set; }
-
+        public string DoctorType { get; set; }
 
     }
 }
