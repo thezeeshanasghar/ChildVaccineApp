@@ -48,11 +48,12 @@ namespace VaccineDose.Controllers
 
                     IEnumerable<FollowUp> followups = new List<FollowUp>();
                     DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
+                    DateTime pakistanTime = DateTime.UtcNow.AddHours(5);
                     if (GapDays == 0)
                         followups = entities.FollowUps.Include("Child")
                             //.Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                            .Where(c => System.Data.Entity.DbFunctions.TruncateTime(c.NextVisitDate) == System.Data.Entity.DbFunctions.TruncateTime(DateTime.UtcNow.AddHours(5)))
+                            .Where(c => System.Data.Entity.DbFunctions.TruncateTime(c.NextVisitDate) == System.Data.Entity.DbFunctions.TruncateTime(pakistanTime))
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate).ToList<FollowUp>();
                     else if (GapDays > 0)
                     {
@@ -60,7 +61,7 @@ namespace VaccineDose.Controllers
                         followups = entities.FollowUps.Include("Child")
                             //.Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                            .Where(c => c.NextVisitDate > DateTime.UtcNow.AddHours(5) && c.NextVisitDate <= AddedDateTime)
+                            .Where(c => c.NextVisitDate > pakistanTime && c.NextVisitDate <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate)
                             .ToList<FollowUp>();
 
@@ -70,7 +71,7 @@ namespace VaccineDose.Controllers
                         followups = entities.FollowUps.Include("Child")
                             //.Where(c => c.Child.ClinicID == OnlineClinicID)
                             .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
-                            .Where(c => c.NextVisitDate < DateTime.UtcNow.AddHours(5) && c.NextVisitDate >= AddedDateTime)
+                            .Where(c => c.NextVisitDate < pakistanTime && c.NextVisitDate >= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(x => x.NextVisitDate)
                             .ToList<FollowUp>();
                     }

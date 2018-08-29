@@ -16,7 +16,7 @@ namespace VaccineDose
     public partial class VDEntities : DbContext
     {
         public VDEntities()
-            : base("name=VDEntities")
+            : base("name=VDConnectionString")
         {
         }
     
