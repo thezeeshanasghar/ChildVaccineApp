@@ -421,11 +421,12 @@ namespace VaccineDose.Controllers
                 {
                     IEnumerable<Schedule> Schedules = new List<Schedule>();
                     DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
+                    DateTime pakistanDate = DateTime.UtcNow.AddHours(5).Date;
                     if (GapDays == 0)
                     {
                         Schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(sc => sc.ChildId == childId)
-                            .Where(sc => sc.Date == DateTime.UtcNow.AddHours(5).Date)
+                            .Where(sc => sc.Date == pakistanDate)
                             .Where(sc => sc.IsDone == false)
                             .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
                     }
@@ -434,7 +435,7 @@ namespace VaccineDose.Controllers
                         Schedules = entities.Schedules.Include("Child").Include("Dose")
                             .Where(sc => sc.ChildId == childId)
                             .Where(sc => sc.IsDone == false)
-                            .Where(sc => sc.Date >= DateTime.UtcNow.AddHours(5).Date && sc.Date <= AddedDateTime)
+                            .Where(sc => sc.Date >= pakistanDate && sc.Date <= AddedDateTime)
                             .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
                     }
                     if (GapDays < 0)
@@ -442,7 +443,7 @@ namespace VaccineDose.Controllers
                         Schedules = entities.Schedules.Include("Child").Include("Dose")
                            .Where(sc => sc.ChildId == childId)
                            .Where(sc => sc.IsDone == false)
-                           .Where(sc => sc.Date <= DateTime.UtcNow.AddHours(5).Date && sc.Date >= AddedDateTime)
+                           .Where(sc => sc.Date <= pakistanDate && sc.Date >= AddedDateTime)
                            .OrderBy(x => x.Child.ID).ThenBy(y => y.Date).ToList<Schedule>();
                     }
 

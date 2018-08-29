@@ -128,7 +128,7 @@ namespace VaccineDose.Controllers
         {
             System.Net.Http.HttpClient c = new System.Net.Http.HttpClient();
             var content = c.GetStringAsync(url).Result;
-            return content.ToString();
+            return "";// content.ToString();
         }
 
         [Route("api/vaccine/{id}/dosses")]
