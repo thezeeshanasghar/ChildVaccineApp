@@ -41,5 +41,7 @@ namespace VaccineDose
 
         public ClinicDTO Clinic { get; set; }
 
+        public UserDTO User { get; set; }
+
     }
 }

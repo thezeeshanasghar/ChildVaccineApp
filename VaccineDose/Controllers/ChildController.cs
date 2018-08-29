@@ -234,9 +234,10 @@ namespace VaccineDose.Controllers
                 using (VDConnectionString entities = new VDConnectionString())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
-                    entities.Schedules.RemoveRange(dbChild.Schedules);
-                    entities.FollowUps.RemoveRange(dbChild.FollowUps);
-                    entities.Users.Remove(dbChild.User);
+                    //entities.Schedules.RemoveRange(dbChild.Schedules);
+                    //entities.FollowUps.RemoveRange(dbChild.FollowUps);
+                    if(dbChild.User.Children.Count == 1)
+                        entities.Users.Remove(dbChild.User);
                     entities.Children.Remove(dbChild);
                     entities.SaveChanges();
                     return new Response<string>(true, "Child is deleted successfully", null);
