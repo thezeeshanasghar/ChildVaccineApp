@@ -23,7 +23,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChilds = entities.Children.ToList();
                     List<ChildDTO> childDTOs = new List<ChildDTO>();
@@ -47,7 +47,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
                     ChildDTO childDTO = Mapper.Map<ChildDTO>(dbChild);
@@ -70,7 +70,7 @@ namespace VaccineDose.Controllers
                 childDTO.Name = textInfo.ToTitleCase(childDTO.Name);
                 childDTO.FatherName = textInfo.ToTitleCase(childDTO.FatherName);
 
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
 
                     Child childDB = Mapper.Map<Child>(childDTO);
@@ -200,7 +200,7 @@ namespace VaccineDose.Controllers
                 childDTO.Name = textInfo.ToTitleCase(childDTO.Name);
                 childDTO.FatherName = textInfo.ToTitleCase(childDTO.FatherName);
 
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChild = entities.Children.FirstOrDefault(c => c.ID == childDTO.ID);
                     if (dbChild == null) return new Response<ChildDTO>(false, "Child not found", null);
@@ -231,7 +231,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
                     //entities.Schedules.RemoveRange(dbChild.Schedules);
@@ -262,7 +262,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     User user = entities.Users.Where(x => x.MobileNumber == id).FirstOrDefault();
                     if (user != null)
@@ -289,7 +289,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var clinic = entities.Clinics.Where(c => c.ID == id).FirstOrDefault();
                     var doctorSchedule = clinic.Doctor.DoctorSchedules.FirstOrDefault();
@@ -318,7 +318,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var child = entities.Children.FirstOrDefault(c => c.ID == id);
                     if (child == null)
@@ -352,7 +352,7 @@ namespace VaccineDose.Controllers
         public HttpResponseMessage DownloadSchedulePDF(int id)
         {
             Child dbScheduleChild;
-            using (VDConnectionString entities = new VDConnectionString())
+            using (VDEntities entities = new VDEntities())
             {
                 dbScheduleChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
             }
@@ -376,7 +376,7 @@ namespace VaccineDose.Controllers
         private Stream CreateSchedulePdf(int childId)
         {
             //Access db data
-            VDConnectionString entities = new VDConnectionString();
+            VDEntities entities = new VDEntities();
             var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childId).FirstOrDefault();
             var dbDoctor = dbChild.Clinic.Doctor;
             var child = entities.Children.FirstOrDefault(c => c.ID == childId);
@@ -584,7 +584,7 @@ namespace VaccineDose.Controllers
                     GetPDFHeading(document, "INVOICE");
 
                     //Access db data
-                    VDConnectionString entities = new VDConnectionString();
+                    VDEntities entities = new VDEntities();
                     var dbDoctor = entities.Doctors.Where(x => x.ID == childDTO.DoctorID).FirstOrDefault();
                     dbDoctor.InvoiceNumber = (dbDoctor.InvoiceNumber > 0) ? dbDoctor.InvoiceNumber + 1 : 1;
                     var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
@@ -835,7 +835,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     //when followup call from parent side
                     if (followUpDto.DoctorID < 1)
@@ -862,7 +862,7 @@ namespace VaccineDose.Controllers
         [Route("~/api/child/Download-FollowUp-PDF")]
         public HttpResponseMessage DownloadFollowUpPDF(FollowUpDTO followUpDto)
         {
-            VDConnectionString entities = new VDConnectionString();
+            VDEntities entities = new VDEntities();
             Child child = entities.Children.Where(x => x.ID == followUpDto.ChildID).FirstOrDefault();
             var stream = CreateFollowUpPdf(child);
 
@@ -970,7 +970,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChild = entities.Children.Where(c => c.ID == childDTO.ID).FirstOrDefault();
                     //give notification to old doctor
@@ -1000,7 +1000,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
 
                     List<Child> dbChildrenResults = new List<Child>();
@@ -1031,7 +1031,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChild = entities.Children.Where(x => x.Name == obj.Name && x.User.MobileNumber == obj.MobileNumber && x.User.CountryCode == obj.CountryCode).FirstOrDefault();
                     if (dbChild == null)
@@ -1067,7 +1067,7 @@ namespace VaccineDose.Controllers
                 childDTO.Name = textInfo.ToTitleCase(childDTO.Name);
                 childDTO.FatherName = textInfo.ToTitleCase(childDTO.FatherName);
 
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
 
                     Child childDB = Mapper.Map<Child>(childDTO);

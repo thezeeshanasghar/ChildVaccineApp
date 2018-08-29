@@ -15,7 +15,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
 
                     List<BrandInventory> vaccineInventoryDBs = entities.BrandInventories.Include("Brand").Include("Doctor").Where(x => x.DoctorID == Id).ToList();
@@ -38,7 +38,7 @@ namespace VaccineDose.Controllers
             try
             {
 
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     foreach (var vaccineInventoryDTO in vaccineInventoryDTOs)
                     {
@@ -62,7 +62,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     foreach (var vaccineInventoryDTO in vaccineInventoryDTOs)
                     {
@@ -85,7 +85,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccineInventory = entities.BrandInventories.Where(c => c.ID == Id).FirstOrDefault();
                     entities.BrandInventories.Remove(dbVaccineInventory);

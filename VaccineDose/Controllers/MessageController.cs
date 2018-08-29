@@ -15,7 +15,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     List<Message> dbMessages = new List<Message>();
 
@@ -71,7 +71,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbMessages = entities.Messages.Where(x => x.UserID == id).OrderByDescending(x => x.Created).ToList();
                     var messageDTOs = Mapper.Map<List<MessageDTO>>(dbMessages);

@@ -20,7 +20,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbSchedule = entities.Schedules.Where(c => c.ID == Id).FirstOrDefault();
                     ScheduleDTO scheduleDTOs = Mapper.Map<ScheduleDTO>(dbSchedule);
@@ -47,7 +47,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
 
@@ -68,7 +68,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        private void ChangeDueDatesOfSchedule(ScheduleDTO scheduleDTO, VDConnectionString entities, Schedule dbSchedule, string mode, bool ignoreMaxAgeRule, bool ignoreMinAgeFromDOB, bool ignoreMinGapFromPreviousDose)
+        private void ChangeDueDatesOfSchedule(ScheduleDTO scheduleDTO, VDEntities entities, Schedule dbSchedule, string mode, bool ignoreMaxAgeRule, bool ignoreMinAgeFromDOB, bool ignoreMinGapFromPreviousDose)
         {
             var daysDifference = Convert.ToInt32((scheduleDTO.Date.Date - dbSchedule.Date.Date).TotalDays);
 
@@ -197,7 +197,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
                     ChangeDueDatesOfSchedule(scheduleDTO, entities, dbSchedule, "single", ignoreMaxAgeRule, ignoreMinAgeFromDOB, ignoreMinGapFromPreviousDose);
@@ -221,7 +221,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.ID == scheduleDTO.ID).FirstOrDefault();
                     var dbChildSchedules = dbSchedule.Child.Schedules.Where(x => x.Date == dbSchedule.Date).ToList();
@@ -267,7 +267,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbSchedule = entities.Schedules.Where(c => c.ID == scheduleDTO.ID).FirstOrDefault();
                     var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == scheduleDTO.BrandId
@@ -293,7 +293,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        private void ChangeDueDatesOfInjectedSchedule(ScheduleDTO scheduleDTO, VDConnectionString entities, Schedule dbSchedule)
+        private void ChangeDueDatesOfInjectedSchedule(ScheduleDTO scheduleDTO, VDEntities entities, Schedule dbSchedule)
         {
             var daysDifference = Convert.ToInt32((scheduleDTO.GivenDate.Date - dbSchedule.Date.Date).TotalDays);
 
@@ -318,7 +318,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     List<Schedule> schedules = GetAlertData(GapDays, OnlineClinicID, entities);
                     IEnumerable<ScheduleDTO> scheduleDTO = Mapper.Map<IEnumerable<ScheduleDTO>>(schedules);
@@ -331,7 +331,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        private static List<Schedule> GetAlertData(int GapDays, int OnlineClinicID, VDConnectionString entities)
+        private static List<Schedule> GetAlertData(int GapDays, int OnlineClinicID, VDEntities entities)
         {
             List<Schedule> schedules = new List<Schedule>();
             var doctor = entities.Clinics.Where(x => x.ID == OnlineClinicID).First<Clinic>().Doctor;
@@ -381,7 +381,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     List<Schedule> Schedules = GetAlertData(GapDays, OnlineClinicId, entities);
                     var dbChildren = Schedules.Select(x => x.Child).Distinct().ToList();
@@ -417,7 +417,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     IEnumerable<Schedule> Schedules = new List<Schedule>();
                     DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
@@ -478,7 +478,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     foreach (var clinic in obj.Clinics)
                     {
@@ -510,7 +510,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbBrandInventory = entities.BrandInventories.Where(b => b.BrandID == brandInventoryDTo.BrandID
                     && b.DoctorID == brandInventoryDTo.DoctorID).FirstOrDefault();
@@ -535,7 +535,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbSchedule = entities.Schedules.Where(x => x.Date == scheduleDto.Date && x.ChildId == scheduleDto.ChildId).ToList();
 

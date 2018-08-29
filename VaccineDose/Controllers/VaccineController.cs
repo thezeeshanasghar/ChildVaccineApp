@@ -19,7 +19,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccines = entities.Vaccines.OrderBy(x=>x.MinAge).ToList();
                     IEnumerable<VaccineDTO> vaccineDTOs = Mapper.Map<IEnumerable<VaccineDTO>>(dbVaccines);
@@ -37,7 +37,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
                     VaccineDTO vaccineDTO = Mapper.Map<VaccineDTO>(dbVaccine);
@@ -57,7 +57,7 @@ namespace VaccineDose.Controllers
             try
             {
 
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     Vaccine vaccinedb = Mapper.Map<Vaccine>(vaccineDTO);
                     entities.Vaccines.Add(vaccinedb);
@@ -84,7 +84,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
                     dbVaccine = Mapper.Map<VaccineDTO, Vaccine>(vaccineDTO, dbVaccine);
@@ -103,7 +103,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccine = entities.Vaccines.Where(c => c.ID == Id).FirstOrDefault();
                     if (dbVaccine.Brands.Count > 0)
@@ -128,7 +128,7 @@ namespace VaccineDose.Controllers
         {
             System.Net.Http.HttpClient c = new System.Net.Http.HttpClient();
             var content = c.GetStringAsync(url).Result;
-            return "";// content.ToString();
+            return content.ToString();
         }
 
         [Route("api/vaccine/{id}/dosses")]
@@ -136,7 +136,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
                     if (vaccine == null)
@@ -161,7 +161,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var vaccine = entities.Vaccines.FirstOrDefault(c => c.ID == id);
                     if (vaccine == null)
@@ -188,7 +188,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccines = entities.Vaccines.Include("Brands").ToList();
                     IEnumerable<VaccineDTO> vaccineDTOs = Mapper.Map<IEnumerable<VaccineDTO>>(dbVaccines);

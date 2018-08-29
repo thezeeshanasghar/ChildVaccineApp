@@ -14,7 +14,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoses = entities.Doses.OrderBy(x=> x.MinAge).ThenBy(x=>x.Name).ToList();
                     IEnumerable<DoseDTO> doseDTOs = Mapper.Map<IEnumerable<DoseDTO>>(dbDoses);
@@ -32,7 +32,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
                     DoseDTO doseDTO = Mapper.Map<DoseDTO>(dbDose);
@@ -50,7 +50,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     Dose doseDb = Mapper.Map<Dose>(doseDTO);
                     entities.Doses.Add(doseDb);
@@ -69,7 +69,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
                     dbDose.Name = doseDTO.Name;
@@ -91,7 +91,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDose = entities.Doses.Where(c => c.ID == Id).FirstOrDefault();
                     entities.Doses.Remove(dbDose);

@@ -13,10 +13,10 @@ namespace VaccineDose
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class VDConnectionString : DbContext
+    public partial class VDEntities : DbContext
     {
-        public VDConnectionString()
-            : base("name=VDConnectionString")
+        public VDEntities()
+            : base("name=VDEntities")
         {
         }
     

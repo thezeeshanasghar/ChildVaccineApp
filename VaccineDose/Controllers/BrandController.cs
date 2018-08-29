@@ -14,7 +14,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccineBrands = entities.Brands.ToList();
                     IEnumerable<BrandDTO> vaccineBrandDTOs = Mapper.Map<IEnumerable<BrandDTO>>(dbVaccineBrands);
@@ -31,7 +31,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
                     BrandDTO vaccineBrandDTO = Mapper.Map<BrandDTO>(dbVaccineBrand);
@@ -51,7 +51,7 @@ namespace VaccineDose.Controllers
             try
             {
 
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     Brand dbVaccineBrand = Mapper.Map<Brand>(vaccineBrandDTO);
                     entities.Brands.Add(dbVaccineBrand);
@@ -71,7 +71,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
                     dbVaccineBrand.Name = vaccineBrandDTO.Name;
@@ -90,7 +90,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbVaccineBrand = entities.Brands.Where(c => c.ID == Id).FirstOrDefault();
                     entities.Brands.Remove(dbVaccineBrand);

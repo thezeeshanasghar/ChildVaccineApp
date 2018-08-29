@@ -118,7 +118,7 @@ namespace VaccineDose.App_Code
 
         public static void addMessageToDB(string mobileNumber, string apiResponse, string sms, int userId)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            using (VDEntities entities = new VDEntities())
             {
                 Message m = new Message();
                 m.MobileNumber = mobileNumber;
@@ -131,7 +131,7 @@ namespace VaccineDose.App_Code
         }
         public static void minusDoctorSMSCount(Doctor doctor)
         {
-            using (VDConnectionString entities = new VDConnectionString())
+            using (VDEntities entities = new VDEntities())
             {
                 Doctor dbDoctor = entities.Doctors.Where(x=>x.ID == doctor.ID).FirstOrDefault();
                 dbDoctor.SMSLimit--; 

@@ -16,7 +16,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var clinics = entities.Clinics.Include("Doctor").ToList();
                     IEnumerable<ClinicDTO> clinicDTOs = Mapper.Map<IEnumerable<ClinicDTO>>(clinics);
@@ -33,7 +33,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
                     ClinicDTO ClinicDTO = Mapper.Map<ClinicDTO>(dbClinic);
@@ -53,7 +53,7 @@ namespace VaccineDose.Controllers
             {
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                 clinicDTO.Name = textInfo.ToTitleCase(clinicDTO.Name);
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     Clinic clinicDb = Mapper.Map<Clinic>(clinicDTO);
                     entities.Clinics.Add(clinicDb);
@@ -73,7 +73,7 @@ namespace VaccineDose.Controllers
             {
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                 clinicDTO.Name = textInfo.ToTitleCase(clinicDTO.Name);
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
                     clinicDTO.IsOnline = false;
@@ -103,7 +103,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
                     entities.Clinics.Remove(dbClinic);
@@ -129,7 +129,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbClinic = entities.Clinics.Where(c => c.ID == clinicDTO.ID).FirstOrDefault();
                     if (clinicDTO.IsOnline)

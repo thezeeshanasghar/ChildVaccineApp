@@ -16,7 +16,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
 
                     List<DoctorSchedule> doctorSchduleDBs = entities.DoctorSchedules.Include("Dose").Include("Doctor").Where(x => x.DoctorID == Id)
@@ -37,7 +37,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     foreach (var DoctorSchedueDTO in dsDTOS)
                     {
@@ -58,7 +58,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     foreach (var DoctorSchedueDTO in dsDTOS)
                     {
@@ -84,7 +84,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString db = new VDConnectionString())
+                using (VDEntities db = new VDEntities())
                 {
                     // 1- get all vaccines
                     var dbDoses = db.Doses.ToList();

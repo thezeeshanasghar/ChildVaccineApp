@@ -18,7 +18,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbUsers = entities.Users.ToList();
                     IEnumerable<UserDTO> userDTOs = Mapper.Map<IEnumerable<UserDTO>>(dbUsers);
@@ -36,7 +36,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbUser = entities.Users.Where(c => c.ID == Id).FirstOrDefault();
                     UserDTO UserDTO = Mapper.Map<UserDTO>(dbUser);
@@ -54,7 +54,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     User dbUser = Mapper.Map<User>(UserDTO);
                     entities.Users.Add(dbUser);
@@ -74,7 +74,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbUser = entities.Users.Where(c => c.ID == UserDTO.ID).FirstOrDefault();
                     dbUser = Mapper.Map<UserDTO, User>(UserDTO, dbUser);
@@ -93,7 +93,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbUser = entities.Users.Where(c => c.ID == Id).FirstOrDefault();
                     entities.Users.Remove(dbUser);
@@ -115,7 +115,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbUser = entities.Users.FirstOrDefault(x => 
                                                                 x.MobileNumber == userDTO.MobileNumber && 
@@ -170,7 +170,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     User userDB = entities.Users.Where(x => x.MobileNumber == MobileNumber)
                         .Where(u =>u.UserType== "DOCTOR").FirstOrDefault();
@@ -201,7 +201,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     User userDB = entities.Users.Where(x => x.ID == user.UserID).FirstOrDefault();
                     if (userDB == null)
@@ -228,7 +228,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbUser = entities.Users.Where(x => x.MobileNumber == userDTO.MobileNumber)
                         .Where(x => x.CountryCode == userDTO.CountryCode)

@@ -437,6 +437,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <EntityDeploy Include="VDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>VDModel.Designer.cs</LastGenOutput>
@@ -444,8 +446,6 @@
     <Content Include="VDModel.edmx.diagram">
       <DependentUpon>VDModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\UserImages\" />

@@ -19,7 +19,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     FollowUp dbFollowUp = Mapper.Map<FollowUp>(FollowUpDto);
                     entities.FollowUps.Add(dbFollowUp);
@@ -41,7 +41,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var doctor = entities.Clinics.Where(x => x.ID == OnlineClinicID).First<Clinic>().Doctor;
                     int[] ClinicIDs = doctor.Clinics.Select(x => x.ID).ToArray<int>();
@@ -91,7 +91,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbChildFollowup = entities.FollowUps.Where(x => x.ChildID == childId).OrderByDescending(x => x.ID).FirstOrDefault();
                     UserSMS.ParentFollowUpSMSAlert(dbChildFollowup);
@@ -113,7 +113,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     DateTime AddedDateTime = DateTime.UtcNow.AddHours(5).AddDays(GapDays);
                     List<FollowUp> dbFollowUps = new List<FollowUp>();

@@ -21,7 +21,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.ToList();
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
@@ -40,7 +40,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
@@ -60,7 +60,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == false).ToList();
                     IEnumerable<DoctorDTO> doctorDTOs = Mapper.Map<IEnumerable<DoctorDTO>>(dbDoctor);
@@ -80,7 +80,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     DoctorDTO doctorDTO = Mapper.Map<DoctorDTO>(dbDoctor);
@@ -103,7 +103,7 @@ namespace VaccineDose.Controllers
                 doctorDTO.FirstName = textInfo.ToTitleCase(doctorDTO.FirstName);
                 doctorDTO.LastName = textInfo.ToTitleCase(doctorDTO.LastName);
                 doctorDTO.DisplayName = textInfo.ToTitleCase(doctorDTO.DisplayName);
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
 
                     // 1- send email to doctor
@@ -157,7 +157,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     dbDoctor.FirstName = doctorDTO.FirstName;
@@ -187,7 +187,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     entities.Doctors.Remove(dbDoctor);
@@ -214,7 +214,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == Id).FirstOrDefault();
                     dbDoctor.IsApproved = true;
@@ -258,7 +258,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var doctor = entities.Doctors.FirstOrDefault(c => c.ID == id);
                     if (doctor == null)
@@ -291,7 +291,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entties = new VDConnectionString())
+                using (VDEntities entties = new VDEntities())
                 {
                     var dbDoctor = entties.Doctors.Where(x => x.ID == id).FirstOrDefault();
                     dbDoctor.ValidUpto = doctorDTO.ValidUpto;
@@ -312,7 +312,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                VDConnectionString entities = new VDConnectionString();
+                VDEntities entities = new VDEntities();
                 var dbDoctor = entities.Doctors.Where(d => d.ID == id).FirstOrDefault();
                 if (HttpContext.Current.Request.Files.AllKeys.Any())
                 {
@@ -349,7 +349,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                VDConnectionString entities = new VDConnectionString();
+                VDEntities entities = new VDEntities();
                 var dbDoctors = entities.Doctors.ToList();
                 var doctor = dbDoctors[dbDoctors.Count - 1];
                 if (HttpContext.Current.Request.Files.AllKeys.Any())
@@ -391,7 +391,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(x => x.IsApproved == true).ToList();
                     var dbChild = entities.Children.Where(x => x.ID == id).FirstOrDefault();
@@ -417,7 +417,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var doctor = entities.Doctors.FirstOrDefault(c => c.UserID == id);
                     if (doctor == null)
@@ -461,7 +461,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     var dbDoctor = entities.Doctors.Where(c => c.ID == id).FirstOrDefault();
                     dbDoctor.AllowInvoice = doctorDTO.AllowInvoice;
@@ -487,7 +487,7 @@ namespace VaccineDose.Controllers
         {
             try
             {
-                using (VDConnectionString entities = new VDConnectionString())
+                using (VDEntities entities = new VDEntities())
                 {
                     Doctor doctorDB = entities.Doctors.Where(x => x.Email == Email).FirstOrDefault();
                     if (doctorDB == null)
