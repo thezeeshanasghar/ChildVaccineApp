@@ -403,7 +403,7 @@ function AddSchedule() {
                 ShowAlert('Error', result.Message, 'danger');
             else {
                 next();
-                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Your username and password have been send to your email address.<br/>After admin approval you can <a href="/login.html?UserType=DOCTOR">login</a> to <b>http://vaccs.io</b>', 'success');
+                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Your username and password have been send to your email address.<br/>After admin approval you can <a href="/login.html?UserType=DOCTOR">login</a> to <b>https://vaccs.io</b>', 'success');
                 ScrollToTop();
             }
         },
@@ -462,7 +462,7 @@ function simpleDoctorSignup() {
             } else {
                 next();
                 next();
-                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Your username and password have been send to your email address.<br/>After admin approval you can <a href="/login.html?UserType=DOCTOR">login</a> to <b>http://vaccs.io</b>', 'success');
+                ShowAlert('Registration', 'Your are successfully singup for <b>Vaccs.io</b><br/>Your username and password have been send to your email address.<br/>After admin approval you can <a href="/login.html?UserType=DOCTOR">login</a> to <b>https://vaccs.io</b>', 'success');
                 ScrollToTop();
                 $("#btnCinicNext").prop('disabled', false);
                 $("#btnCinicNext").button('reset');

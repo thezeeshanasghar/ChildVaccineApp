@@ -15,7 +15,7 @@ namespace VaccineDose.App_Code
                 + "Your account credentials are: \n"
                 + "ID/Mobile Number: " + doctor.MobileNumber + "\n"
                 + "Password: " + doctor.Password + "\n"
-                + "http://vaccs.io/";
+                + "https://vaccs.io/";
             var response = SendSMS(doctor.CountryCode, doctor.MobileNumber, doctor.Email, body);
             addMessageToDB(doctor.MobileNumber, response, body, 1);
             return response;
@@ -36,7 +36,7 @@ namespace VaccineDose.App_Code
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
 
             string sms2 = "ID: " + child.User.MobileNumber + "\nPassword: " + child.User.Password
-                  + "\nClinic: " + child.Clinic.PhoneNumber + "\nhttp://vaccs.io/";
+                  + "\nClinic: " + child.Clinic.PhoneNumber + "\nhttps://vaccs.io/";
 
             var response2 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms2);
             addMessageToDB(child.User.MobileNumber, response1, sms1, child.Clinic.Doctor.User.ID);

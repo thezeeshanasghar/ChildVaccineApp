@@ -1149,7 +1149,7 @@ namespace VaccineDose.Controllers
         public override void OnEndPage(PdfWriter writer, Document document)
         {
             base.OnEndPage(writer, document);
-            string footer = @"This schedule is automatically generated for " + child.Clinic.Name + @" by Vaccs.io Visit http://www.vaccs.io/ for more details
+            string footer = @"This schedule is automatically generated for " + child.Clinic.Name + @" by Vaccs.io Visit https://www.vaccs.io/ for more details
              ____________________________________________________________________________________________________________________________________________
              Disclaimer: This schedule provides recommended dates for immunizations for your child based on date of birth. Your pediatrician
              may update due dates or add/remove vaccines from this schedule.Vaccs.io or its management or staff holds no responsibility on any loss or damage due to any vaccine given to child at any given timeOfSending.";
