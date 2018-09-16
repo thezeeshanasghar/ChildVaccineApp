@@ -61,9 +61,9 @@ function loadData(id) {
                     var sameDate = toDate(date);
 
                     if(sameDate >= after30days)
-                        html += '     <span style="background-color:yellow;">' + date+'</span>';
+                        html += '     <span style="background-color:yellow;" class="schedule_date">' + date+'</span>';
                     else if(isAllDone)
-                        html += '     <span style="color:green;">' + date+'</span>';   
+                        html += '     <span style="background-color:#30b730;color:white" class="schedule_date">' + date+'</span>';   
                     else  
                         html += '     ' + date;
 
@@ -90,10 +90,10 @@ function loadData(id) {
                         if (!doseArray[index].isDone)
                             html += '       <span class="glyphicon glyphicon-calendar scheduleDate_' + +doseArray[index].scheduleID + '"  onclick=" return openCalender(' + doseArray[index].scheduleID + ', \'' + date + '\' )"></span>'
                         else
-                            html += '       <span style="font-size:12px">' + doseArray[index].BrandName + ' &nbsp;&nbsp;<span style="color:green;">' + doseArray[index].GivenDate + '</span></span>';
+                            html += '       <span style="font-size:12px">' + doseArray[index].BrandName + ' &nbsp;&nbsp;<span style="background-color:#30b730;color:white" class="schedule_date">' + doseArray[index].GivenDate + '</span></span>';
 
                         if (doseArray[index].Due2EPI)
-                            html += '<small>&nbsp;&nbsp;EPI</small>';
+                            html += '<span style="margin-left:4px;color:black;" class="glyphicon glyphicon-eye-open"></span><small style="color:black;">&nbsp;&nbsp;<b>EPI</b></small>';
                         html += '       <a href="#" onclick="return getbyID(' + doseArray[index].scheduleID + ')">';
 
                         if (doseArray[index].isDone)

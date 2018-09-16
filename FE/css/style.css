@@ -224,3 +224,7 @@ span.round-tab:hover {
     color:red;
     font-weight:bold;
 }
+.schedule_date {
+    border-radius: 4px;
+    padding: 2px;
+}
