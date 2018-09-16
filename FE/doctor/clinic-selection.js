@@ -28,9 +28,14 @@ function loadData(id) {
                 ShowAlert('Error', result.Message, 'danger');
             else {
                 $.each(result.ResponseData, function (key, item) {
-                    html += '<div class="well well-sm" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:22px">'+
+                    
+                    html += '<div class="well well-sm" onclick="SelectedClinic(' + item.ID + ')" style="cursor:pointer;font-size:22px;';
+                    if((item.ID == parseInt(GetFromLocalStorage("OnlineClinic")))){
+                        html += "background-color:#49ad49;color:white";
+                    }
+                    html +='">' +
                     '\n<i class="fa fa-building" aria-hidden="true"></i> ' + item.Name +
-                    '<span class="badge pull-right" style="font-size:15px">' + item.childrenCount + '</span></li></div>';
+                    '<span class="badge pull-right" style="font-size:15px">' + item.childrenCount + '</span></li></div></div>';
                 });
                 $('.wells').html(html);
                 HideAlert();
