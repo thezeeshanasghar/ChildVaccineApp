@@ -14,6 +14,6 @@ namespace VaccineDose.Model
         [JsonConverter(typeof(OnlyDateConverter))]
         public DateTime Created { get; set; }
         public int UserID { get; set; }
-        public UserDTO User { get; set; }
+        public UserDTO User { get; set; } 
     }
 }

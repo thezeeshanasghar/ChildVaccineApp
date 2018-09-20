@@ -6,6 +6,7 @@ using VaccineDose.Model;
 using System.Linq;
 using System.Xml;
 using Newtonsoft.Json.Linq;
+using VaccineDose.App_Code;
 
 namespace VaccineDose.Controllers
 {
@@ -81,7 +82,8 @@ namespace VaccineDose.Controllers
                         {
                             JObject json = JObject.Parse(msg.ApiResponse);
                             msg.ApiResponse = (string)json["returnString"];
-                        } else
+                        }
+                        else
                         {
                             XmlDocument xmlDoc = new XmlDocument();
                             xmlDoc.LoadXml(msg.ApiResponse);
@@ -105,6 +107,39 @@ namespace VaccineDose.Controllers
 
 
         }
-        
+
+        public Response<MessageDTO> Post([FromBody] MessageDTO msg)
+        {
+            try
+            {
+                using (VDEntities entities = new VDEntities())
+                {
+                    if (!string.IsNullOrEmpty(msg.SMS) && !string.IsNullOrEmpty(msg.MobileNumber))
+                    {
+                        var dbReceiver = entities.Users.Where(x => x.MobileNumber == msg.MobileNumber).FirstOrDefault();
+                        if (dbReceiver != null)
+                        {
+                            var response = UserSMS.SendSMS(dbReceiver.CountryCode, dbReceiver.MobileNumber, "", msg.SMS);
+                            UserSMS.addMessageToDB(dbReceiver.MobileNumber, response, msg.SMS, dbReceiver.ID);
+                            return new Response<MessageDTO>(true, null, null);
+                        }
+                        else
+                        {
+                            return new Response<MessageDTO>(false, "The number " + msg.MobileNumber + " does not exist in our records", null);
+                        }
+                    }
+                    else
+                    {
+                        return new Response<MessageDTO>(false, "Please fill sms and mobile number text fields", null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<MessageDTO>(false, GetMessageFromExceptionObject(ex), null);
+            }
+
+        }
+
     }
 }

@@ -13,7 +13,7 @@ function loadData() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-             if (!result.IsSuccess) {
+            if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
                 $('.tbody').html('');
                 $('#TotalSMS').html('')
@@ -42,9 +42,55 @@ function loadData() {
     });
 }
 
+function sendSMS() {
+    var res = validate();
+    if (res == false) {
+        return false;
+    }
+    var obj = {
+        MobileNumber: $("#ReceiverMobileNumber").val(),
+        SMS: $("#Message").val()
+    };
+
+    $.ajax({
+        url: SERVER + "message",
+        data: JSON.stringify(obj),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (!result.IsSuccess) {
+                ShowAlert('Error', result.Message, 'danger');
+                ScrollToTop();
+            }
+            else {
+                loadData();
+                setTimeout(function () {
+                    ShowAlert('Success', "Your SMS has been sent successfully", 'success');
+                }, 1000);
+                
+            }
+        },
+        error: function (errormessage, e) {
+            displayErrors(errormessage, e);
+        }
+    });
+}
+
 function reset() {
-    $("#MobileNumber").val(""); 
-    $("#FromDate").val(""); 
+    $("#MobileNumber").val("");
+    $("#FromDate").val("");
     $("#ToDate").val("");
     loadData();
+}
+  
+//Valdidation using jquery  
+function validate() {
+    $('#sendSMSForm').validator('validate');
+    var validator = $('#sendSMSForm').data("bs.validator");
+    if (validator.hasErrors())
+        return false;
+    else
+        return true;
 }

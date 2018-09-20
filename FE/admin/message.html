@@ -28,6 +28,25 @@
                 </div>
                 <p>&nbsp;</p>
                 <div class="row">
+                    <form id="sendSMSForm" role="form" data-toggle="validator">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="tel" id="ReceiverMobileNumber" class="input form-control" name="ReceiverMobileNumber" placeholder="Enter Mobile Number" required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" cols="10" id="Message"
+                                          placeholder="Enter your message here" required></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-md-3">
+                        <button onclick="sendSMS()" class="btn btn-primary btn-block" style="vertical-align:bottom">Send SMS</button>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+                <div class="row">
                     <div class="col-md-3">
                         <input type="tel" id="MobileNumber" class="input form-control" name="MobileNumber" placeholder="Enter Mobile Number" />
                     </div>
@@ -52,7 +71,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button onclick="return reset()" class="btn btn-default pull-right" style="vertical-align:bottom;margin-left: 5px;" >Reset</button>
+                        <button onclick="return reset()" class="btn btn-default pull-right" style="vertical-align:bottom;margin-left: 5px;">Reset</button>
                         <button onclick="return loadData()" class="btn btn-primary pull-right" style="vertical-align:bottom">Search</button>
                     </div>
                 </div>
