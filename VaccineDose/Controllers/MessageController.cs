@@ -19,7 +19,7 @@ namespace VaccineDose.Controllers
                 using (VDEntities entities = new VDEntities())
                 {
                     List<Message> dbMessages = new List<Message>();
-
+                    var prevDays = DateTime.Now.AddDays(-10);
                     if (!string.IsNullOrEmpty(mobileNumber) || !string.IsNullOrEmpty(fromDate) || !string.IsNullOrEmpty(toDate))
                     {
                         var dbUser = entities.Users.Where(x => x.MobileNumber == mobileNumber && x.UserType == "DOCTOR").FirstOrDefault();
@@ -47,13 +47,14 @@ namespace VaccineDose.Controllers
                         }
                         if (toDate == null && fromDate == null)
                         {
-                            dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID).ToList();
+                            dbMessages = entities.Messages.Where(m => m.UserID == dbUser.ID && m.Created > prevDays).ToList();
                         }
 
                     }
                     else
                     {
-                        dbMessages = entities.Messages.ToList();
+                       
+                        dbMessages = entities.Messages.Where(m => m.Created > prevDays).ToList();
                     }
 
 
