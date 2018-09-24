@@ -308,7 +308,7 @@ namespace VaccineDose.Controllers
 
         [HttpPost()]
         [Route("api/doctor/{id}/update-images")]
-        public void UpdateUploadedImages(int id)
+        public Response<DoctorDTO> UpdateUploadedImages(int id)
         {
             try
             {
@@ -333,11 +333,13 @@ namespace VaccineDose.Controllers
                         dbDoctor.SignatureImage = httpPostedSignatureImage.FileName;
                     }
                     entities.SaveChanges();
+                    return new Response<DoctorDTO>(true, null, null);
                 }
+                return new Response<DoctorDTO>(false, "invalid files in request", null);
             }
             catch (Exception e)
             {
-
+                return new Response<DoctorDTO>(false, "Image not uploaded. \n" + GetMessageFromExceptionObject(e), null);
             }
 
 
