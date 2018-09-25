@@ -1,7 +1,9 @@
-﻿//Load Data in Table when documents is ready  
+﻿var pageSize = 20;
+var currentPage = 0;
+//Load Data in Table when documents is ready  
 $(document).ready(function () {
     if (GetOnlineClinicIdFromLocalStorage() != 0) {
-        loadData();
+        loadData(pageSize, currentPage);
         // DisableOffDays();
     }
 
@@ -10,17 +12,29 @@ $(document).ready(function () {
     } else {
         $(".patientDiv").hide();
     }
+   
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
+            currentPage = currentPage + 1;
+            $(".showLoading").show();
+            loadData(pageSize, currentPage);
+        }
+    });
 });
+function searchChild() {
+    $("#childrecords").html("");
+    loadData(pageSize, currentPage);
+}
 function goToByScroll(id) {
     $('html,body').animate({ scrollTop: $(id).offset().top }, 'slow');
 }
 //Load Data function  
-function loadData() {
-
+function loadData(pageSize, currentPage) {
+    
 
     ShowAlert('Loading data', 'Please wait, fetching data from server', 'info');
     $.ajax({
-        url: SERVER + "doctor/" + GetUserIDFromLocalStorage() + "/childs?searchKeyword=" + $.trim($("#SearchItem").val()),
+        url: SERVER + "doctor/" + GetUserIDFromLocalStorage() + "/"+pageSize+"/"+currentPage+"/childs?searchKeyword=" + $.trim($("#SearchItem").val()),
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -29,7 +43,7 @@ function loadData() {
             if (!result.IsSuccess) {
                 ShowAlert('Error', result.Message, 'danger');
             } else {
-                var boys = girls = 0;
+                var boys = girls = 0;               
                 $.each(result.ResponseData, function (key, item) {
                     html += '<div class="child well" style="border-width:2px;background-color:white;padding-top:9px; padding-bottom:9px;margin-bottom:9px;border-color:';
                     if (item.Gender == 'Boy') {
@@ -70,7 +84,7 @@ function loadData() {
                     html += '   </div>';
                     html += '</div>';
                 });
-                $("#childrecords").html(html);
+                $("#childrecords").append(html);
                 $("#Boys").html('Boys: ' + boys);
                 $("#Girls").html('Girls: ' + girls);
                 $("#TotalChilds").html('Total: ' + (boys + girls));
@@ -91,8 +105,10 @@ function loadData() {
                     $('a' + window.location.hash).parent().parent().effect("highlight", {}, 5000);
                 }
             }
+            $(".showLoading").hide();
         },
         error: function (errormessage, e) {
+            $(".showLoading").hide();
             displayErrors(errormessage, e);
         }
     });
@@ -207,7 +223,7 @@ function Update() {
                 ShowAlert('Error', result.Message, 'danger');
             }
             else {
-                loadData();
+                loadData(pageSize, currentPage);
 
                 $('#myModal').modal('hide');
                 $('#ID').val("");
@@ -240,7 +256,7 @@ function Delele(ID) {
             success: function (result) {
                 if (result.IsSuccess) {
                     ShowAlert('Success', result.Message, 'success');
-                    loadData();
+                    loadData(pageSize, currentPage);
                 }
                 else {
                     ShowAlert('Rquest Failed', result.Message, 'error');

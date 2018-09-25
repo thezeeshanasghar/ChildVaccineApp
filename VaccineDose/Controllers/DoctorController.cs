@@ -413,9 +413,9 @@ namespace VaccineDose.Controllers
         }
 
 
-        [Route("api/doctor/{id}/childs/")]
+        [Route("api/doctor/{id}/{pageSize}/{currentPage}/childs/")]
         [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
-        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id, [FromUri] string searchKeyword = "")
+        public Response<IEnumerable<ChildDTO>> GetAllChildsOfaDoctor(int id,int pageSize,int currentPage, [FromUri] string searchKeyword = "")
         {
             try
             {
@@ -441,7 +441,7 @@ namespace VaccineDose.Controllers
                                  x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
                             }
                             else
-                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>().Skip(pageSize*currentPage).Take(pageSize)));
                         }
                         foreach (var item in childDTOs)
                         {

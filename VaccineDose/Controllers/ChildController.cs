@@ -183,7 +183,7 @@ namespace VaccineDose.Controllers
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
                 var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
-                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, null)));
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, 0,20,"")));
             }
             catch (Exception e)
             {
@@ -1109,7 +1109,7 @@ namespace VaccineDose.Controllers
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
                 var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
-                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, null)));
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, 0,20,"")));
             }
             catch (Exception e)
             {

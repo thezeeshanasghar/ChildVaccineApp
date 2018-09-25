@@ -228,3 +228,14 @@ span.round-tab:hover {
     border-radius: 4px;
     padding: 2px;
 }
+.showLoading {
+    position: fixed;
+    z-index: 999;
+    top: 209px;
+    left: 627px;
+    max-width: 600px;
+    margin: auto;
+    background-color: #2fa4e7;
+    color: white;
+    padding: 12px;
+}
