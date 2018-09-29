@@ -2,6 +2,7 @@
 var currentPage = 0;
 //Load Data in Table when documents is ready  
 $(document).ready(function () {
+    $(".showLoading").hide();
     if (GetOnlineClinicIdFromLocalStorage() != 0) {
         loadData(pageSize, currentPage);
         // DisableOffDays();
