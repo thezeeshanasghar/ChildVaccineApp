@@ -117,17 +117,10 @@ namespace VaccineDose.Controllers
                 {
                     if (!string.IsNullOrEmpty(msg.SMS) && !string.IsNullOrEmpty(msg.MobileNumber))
                     {
-                        var dbReceiver = entities.Users.Where(x => x.MobileNumber == msg.MobileNumber).FirstOrDefault();
-                        if (dbReceiver != null)
-                        {
-                            var response = UserSMS.SendSMS(dbReceiver.CountryCode, dbReceiver.MobileNumber, "", msg.SMS);
-                            UserSMS.addMessageToDB(dbReceiver.MobileNumber, response, msg.SMS, dbReceiver.ID);
+                        
+                            var response = UserSMS.SendSMS("92", msg.MobileNumber, "", msg.SMS);
+                            UserSMS.addMessageToDB(msg.MobileNumber, response, msg.SMS, 1);
                             return new Response<MessageDTO>(true, null, null);
-                        }
-                        else
-                        {
-                            return new Response<MessageDTO>(false, "The number " + msg.MobileNumber + " does not exist in our records", null);
-                        }
                     }
                     else
                     {
