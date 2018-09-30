@@ -66,7 +66,8 @@ function Add() {
         result.push(this.value);
         console.log(result);
     });
-    var clinicTimings = [
+    var clinicTimings = [];
+    var clinicTimingArray = [
                {
                    "Day": "Monday",
                    "StartTime": $("#StartTimeMonday1").val(),
@@ -166,6 +167,11 @@ function Add() {
                   "IsOpen": $("#IsOpenSunday").is(":checked")
               },
     ];
+    for (var i = 0; i <= clinicTimingArray.length - 1; i++) {
+        if (clinicTimingArray[i].IsOpen) {
+            clinicTimings.push(clinicTimingArray[i]);
+        }
+    }
     var obj = {
         Name: $('#Name').val(),
         ConsultationFee: $('#ConsultationFee').val(),
