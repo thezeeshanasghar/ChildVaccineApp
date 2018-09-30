@@ -441,14 +441,14 @@ namespace VaccineDose.Controllers
                                  x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
                             }
                             else
-                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>().Skip(pageSize*currentPage).Take(pageSize)));
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
                         }
                         foreach (var item in childDTOs)
                         {
                             var dbChild = entities.Children.Where(x => x.ID == item.ID).FirstOrDefault();
                             item.MobileNumber = dbChild.User.CountryCode + dbChild.User.MobileNumber;
                         }
-                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderByDescending(x => x.ID).ToList());
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderByDescending(x => x.ID).ToList().Skip(pageSize * currentPage).Take(pageSize));
                     }
                 }
             }

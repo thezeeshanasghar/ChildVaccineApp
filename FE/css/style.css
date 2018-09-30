@@ -288,3 +288,7 @@ span.round-tab:hover {
  .slider.round:before {
   border-radius: 50%;
 } 
+.time_spam {
+   background-color:#f7f7f7;
+   border-bottom: 10px solid #ffffff;
+}
