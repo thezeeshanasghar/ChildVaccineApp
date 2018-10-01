@@ -439,6 +439,7 @@ namespace VaccineDose.Controllers
                                 childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x => x.Name.ToLower()
                                 .Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower()) ||
                                  x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
+                                currentPage = 0;
                             }
                             else
                                 childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
