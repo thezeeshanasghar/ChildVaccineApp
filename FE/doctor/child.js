@@ -1,9 +1,11 @@
 ﻿var pageSize = 20;
 var currentPage = 0;
+var isActive = false;
 //Load Data in Table when documents is ready  
 $(document).ready(function () {
     $(".showLoading").hide();
     if (GetOnlineClinicIdFromLocalStorage() != 0) {
+        isActive = true;
         loadData(pageSize, currentPage);
         // DisableOffDays();
     }
@@ -15,9 +17,10 @@ $(document).ready(function () {
     }
    
     $(window).scroll(function () {
-        if ($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
+        if (!isActive && $(window).scrollTop() + $(window).height() > $(document).height() - 300) {
             currentPage = currentPage + 1;
             $(".showLoading").show();
+            isActive = true;
             loadData(pageSize, currentPage);
         }
     });
@@ -107,6 +110,7 @@ function loadData(pageSize, currentPage) {
                 }
             }
             $(".showLoading").hide();
+            isActive = false;
         },
         error: function (errormessage, e) {
             $(".showLoading").hide();
