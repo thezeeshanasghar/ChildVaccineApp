@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
     var id = DoctorId();
+
     loadData(id);
 });
-
 function DoctorId() {
     var id = parseInt(getParameterByName("id")) || 0;
     if (id != 0)
@@ -238,6 +238,105 @@ function getbyID(ID) {
             if (result.ResponseData.OffDays != null && result.ResponseData.OffDays.length > 0)
                 $("input[type=checkbox][value=" + result.ResponseData.OffDays.split(",")[0] + "]").prop('checked', true);
 
+            if (result.ResponseData.ClinicTimings.length > 0) {
+                for (var i = 0; i < result.ResponseData.ClinicTimings.length; i++) {
+
+                    if (result.ResponseData.ClinicTimings[i].Day == "Monday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeMonday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeMonday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#MondaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeMonday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeMonday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#MondaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        $('#IsOpenMonday').attr('checked', true);
+                    }
+                    if (result.ResponseData.ClinicTimings[i].Day == "Tuesday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeTuesday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeTuesday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#TuesdaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeTuesday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeTuesday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#TuesdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        $('#IsOpenTuesday').attr('checked', true);
+                    }
+                    if (result.ResponseData.ClinicTimings[i].Day == "Wednesday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeWednesday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeWednesday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#WednesdaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeWednesday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeWednesday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#WednesdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        $('#IsOpenWednesday').attr('checked', true);
+                    }
+                    if (result.ResponseData.ClinicTimings[i].Day == "Thursday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeThursday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeThursday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#ThursdaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeThursday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeThursday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#ThursdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        $('#IsOpenThursday').attr('checked', true);
+                    }
+                    if (result.ResponseData.ClinicTimings[i].Day == "Friday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeFriday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeFriday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#FridaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeFriday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeFriday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#FridaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        $('#IsOpenFriday').attr('checked', true);
+                    }
+                    if (result.ResponseData.ClinicTimings[i].Day == "Saturday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeSaturday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeSaturday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#SaturdaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeSaturday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeSaturday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#SaturdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+
+                        $('#IsOpenSaturday').attr('checked', true);
+                    }
+                    if (result.ResponseData.ClinicTimings[i].Day == "Sunday") {
+                        if (result.ResponseData.ClinicTimings[i].Session == "1") {
+                            $("#StartTimeSunday1").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeSunday1").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#SundaySession1ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        else {
+                            $("#StartTimeSunday2").val(result.ResponseData.ClinicTimings[i].StartTime);
+                            $("#EndTimeSunday2").val(result.ResponseData.ClinicTimings[i].EndTime);
+                            $("#SundaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
+                        }
+                        $('#IsOpenSunday').attr('checked', true);
+                    }
+
+                }
+            }
+
             $('#StartTime').val(result.ResponseData.StartTime);
             $('#EndTime').val(result.ResponseData.EndTime);
 
@@ -270,7 +369,120 @@ function Update() {
     $('input[name="OffDays"]:checked').each(function () {
         result.push(this.value);
     });
-
+    var clinicTimings = [
+               {
+                   "ID": $("#MondaySession1ID").val(),
+                   "Day": "Monday",
+                   "StartTime": $("#StartTimeMonday1").val(),
+                   "EndTime": $("#EndTimeMonday1").val(),
+                   "Session": 1,
+                   "IsOpen": $("#IsOpenMonday").is(":checked")
+               },
+              {
+                  "ID": $("#MondaySession2ID").val(),
+                  "Day": "Monday",
+                  "StartTime": $("#StartTimeMonday2").val(),
+                  "EndTime": $("#EndTimeMonday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenMonday").is(":checked")
+              },
+                {
+                    "ID": $("#TuesdaySession1ID").val(),
+                    "Day": "Tuesday",
+                    "StartTime": $("#StartTimeTuesday1").val(),
+                    "EndTime": $("#EndTimeTuesday1").val(),
+                    "Session": 1,
+                    "IsOpen": $("#IsOpenTuesday").is(":checked")
+                },
+              {
+                  "ID": $("#TuesdaySession2ID").val(),
+                  "Day": "Tuesday",
+                  "StartTime": $("#StartTimeTuesday2").val(),
+                  "EndTime": $("#EndTimeTuesday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenTuesday").is(":checked")
+              },
+                {
+                    "ID": $("#WednesdaySession1ID").val(),
+                    "Day": "Wednesday",
+                    "StartTime": $("#StartTimeWednesday1").val(),
+                    "EndTime": $("#EndTimeWednesday1").val(),
+                    "Session": 1,
+                    "IsOpen": $("#IsOpenWednesday").is(":checked")
+                },
+              {
+                  "ID": $("#WednesdaySession2ID").val(),
+                  "Day": "Wednesday",
+                  "StartTime": $("#StartTimeWednesday2").val(),
+                  "EndTime": $("#StartTimeWednesday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenWednesday").is(":checked")
+              },
+                {
+                    "ID": $("#ThursdaySession1ID").val(),
+                    "Day": "Thursday",
+                    "StartTime": $("#StartTimeThursday1").val(),
+                    "EndTime": $("#EndTimeThursday1").val(),
+                    "Session": 1,
+                    "IsOpen": $("#IsOpenThursday").is(":checked")
+                },
+              {
+                  "ID": $("#ThursdaySession2ID").val(),
+                  "Day": "Thursday",
+                  "StartTime": $("#StartTimeThursday2").val(),
+                  "EndTime": $("#EndTimeThursday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenThursday").is(":checked")
+              },
+                {
+                    "ID": $("#FridaySession1ID").val(),
+                    "Day": "Friday",
+                    "StartTime": $("#StartTimeFriday1").val(),
+                    "EndTime": $("#EndTimeFriday1").val(),
+                    "Session": 1,
+                    "IsOpen": $("#IsOpenFriday").is(":checked")
+                },
+              {
+                  "ID": $("#FridaySession2ID").val(),
+                  "Day": "Friday",
+                  "StartTime": $("#StartTimeFriday2").val(),
+                  "EndTime": $("#EndTimeFriday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenFriday").is(":checked")
+              },
+                {
+                    "ID": $("#SaturdaySession1ID").val(),
+                    "Day": "Saturday",
+                    "StartTime": $("#StartTimeSaturday1").val(),
+                    "EndTime": $("#EndTimeSaturday1").val(),
+                    "Session": 1,
+                    "IsOpen": $("#IsOpenSaturday").is(":checked")
+                },
+              {
+                  "ID": $("#SaturdaySession2ID").val(),
+                  "Day": "Saturday",
+                  "StartTime": $("#StartTimeSaturday2").val(),
+                  "EndTime": $("#EndTimeSaturday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenSaturday").is(":checked")
+              },
+                {
+                    "ID": $("#SundaySession1ID").val(),
+                    "Day": "Sunday",
+                    "StartTime": $("#StartTimeSunday1").val(),
+                    "EndTime": $("#EndTimeSunday1").val(),
+                    "Session": 1,
+                    "IsOpen": $("#IsOpenSunday").is(":checked")
+                },
+              {
+                  "ID": $("#SundaySession2ID").val(),
+                  "Day": "Sunday",
+                  "StartTime": $("#StartTimeSunday2").val(),
+                  "EndTime": $("#EndTimeSunday2").val(),
+                  "Session": 2,
+                  "IsOpen": $("#IsOpenSunday").is(":checked")
+              },
+    ];
     var obj = {
         ID: $('#ID').val(),
         Name: $('#Name').val(),
@@ -283,7 +495,8 @@ function Update() {
         Long: myMarker.getPosition().lng(),
         IsOnline: GetOnlineClinicIdFromLocalStorage() == $('#ID').val(),
         DoctorID: DoctorId(),
-        Address: $('#Address').val()
+        Address: $('#Address').val(),
+        ClinicTimings: clinicTimings
     };
     $.ajax({
         url: SERVER + "clinic/" + $('#ID').val(),
