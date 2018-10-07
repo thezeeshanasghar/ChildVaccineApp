@@ -252,7 +252,7 @@ function getbyID(ID) {
                             $("#EndTimeMonday2").val(result.ResponseData.ClinicTimings[i].EndTime);
                             $("#MondaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
-                        $('#IsOpenMonday').attr('checked', true);
+                        $('#IsOpenMonday').prop('checked', true);
                     }
                     if (result.ResponseData.ClinicTimings[i].Day == "Tuesday") {
                         if (result.ResponseData.ClinicTimings[i].Session == "1") {
@@ -265,7 +265,7 @@ function getbyID(ID) {
                             $("#EndTimeTuesday2").val(result.ResponseData.ClinicTimings[i].EndTime);
                             $("#TuesdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
-                        $('#IsOpenTuesday').attr('checked', true);
+                        $('#IsOpenTuesday').prop('checked', true);
                     }
                     if (result.ResponseData.ClinicTimings[i].Day == "Wednesday") {
                         if (result.ResponseData.ClinicTimings[i].Session == "1") {
@@ -278,7 +278,7 @@ function getbyID(ID) {
                             $("#EndTimeWednesday2").val(result.ResponseData.ClinicTimings[i].EndTime);
                             $("#WednesdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
-                        $('#IsOpenWednesday').attr('checked', true);
+                        $('#IsOpenWednesday').prop('checked', true);
                     }
                     if (result.ResponseData.ClinicTimings[i].Day == "Thursday") {
                         if (result.ResponseData.ClinicTimings[i].Session == "1") {
@@ -291,7 +291,7 @@ function getbyID(ID) {
                             $("#EndTimeThursday2").val(result.ResponseData.ClinicTimings[i].EndTime);
                             $("#ThursdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
-                        $('#IsOpenThursday').attr('checked', true);
+                        $('#IsOpenThursday').prop('checked', true);
                     }
                     if (result.ResponseData.ClinicTimings[i].Day == "Friday") {
                         if (result.ResponseData.ClinicTimings[i].Session == "1") {
@@ -304,7 +304,7 @@ function getbyID(ID) {
                             $("#EndTimeFriday2").val(result.ResponseData.ClinicTimings[i].EndTime);
                             $("#FridaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
-                        $('#IsOpenFriday').attr('checked', true);
+                        $('#IsOpenFriday').prop('checked', true);
                     }
                     if (result.ResponseData.ClinicTimings[i].Day == "Saturday") {
                         if (result.ResponseData.ClinicTimings[i].Session == "1") {
@@ -318,7 +318,7 @@ function getbyID(ID) {
                             $("#SaturdaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
 
-                        $('#IsOpenSaturday').attr('checked', true);
+                        $('#IsOpenSaturday').prop('checked', true);
                     }
                     if (result.ResponseData.ClinicTimings[i].Day == "Sunday") {
                         if (result.ResponseData.ClinicTimings[i].Session == "1") {
@@ -331,7 +331,7 @@ function getbyID(ID) {
                             $("#EndTimeSunday2").val(result.ResponseData.ClinicTimings[i].EndTime);
                             $("#SundaySession2ID").val(result.ResponseData.ClinicTimings[i].ID);
                         }
-                        $('#IsOpenSunday').attr('checked', true);
+                        $('#IsOpenSunday').prop('checked', true);
                     }
 
                 }
@@ -510,15 +510,7 @@ function Update() {
             $("#btnUpdate").prop('disabled', false);
 
             $('#myModal').modal('hide');
-
-            $('#ID').val("");
-            $('#Name').val("");
-            $('#ConsultationFee').val("");
-            $("input:checkbox").prop("checked", false);
-            $('#StartTime').val("");
-            $('#EndTime').val("");
-            $('#PhoneNumber').val("");
-            $('#Address').val("");
+            clearTextBox();
 
         },
         error: function (errormessage) {
@@ -546,10 +538,27 @@ function Delele(ID) {
         });
     }
 }
+$('#myModal').on('hidden.bs.modal', function () {
+    clearTextBox();
+})
 
 //Function for clearing the textboxes  
 function clearTextBox() {
     $('#ID').val("");
+    $('#MondaySession1ID').val("");
+    $('#MondaySession2ID').val("");
+    $('#TuesdaySession1ID').val("");
+    $('#TuesdaySession2ID').val("");
+    $('#WednesdaySession1ID').val("");
+    $('#WednesdaySession2ID').val("");
+    $('#ThursdaySession1ID').val("");
+    $('#ThursdaySession2ID').val("");
+    $('#FridaySession1ID').val("");
+    $('#FridaySession2ID').val("");
+    $('#SaturdaySession1ID').val("");
+    $('#SaturdaySession2ID').val("");
+    $('#SundaySession1ID').val("");
+    $('#SundaySession2ID').val("");
     $('#Name').val("");
     $('#ConsultationFee').val("");
     $("input:checkbox").prop("checked", false);
