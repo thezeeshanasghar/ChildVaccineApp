@@ -3,6 +3,12 @@ $(document).ready(function () {
     HideAlert();
     GenerateScheduleForm();
     initMap();
+    //$('select[multiple]').multiselect();
+    $('#langOpt').multiselect({
+        columns: 1,
+        placeholder: 'Select Other Speciality',
+        search: true
+    });
 });
 
 var map, myMarker, myLatLng;

@@ -12,6 +12,7 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/intlTelInput.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/jquery.multiselect.css" rel="stylesheet" />
 
     <link rel="icon" href="../img/favicon.ico">
     <style>
@@ -102,6 +103,27 @@
                                         <div class="input-group">
                                             <textarea type="text" cols="90" rows="2" class="form-control" id="AdditionalInfo" placeholder="Additional Information"></textarea>
                                         </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <select name="langOpt[]" multiple id="langOpt" class="form-control">
+                                            <option value="Medical Specialist,">Medical Specialist</option>
+                                            <option value="Cardialogist">Cardialogist</option>
+                                            <option value="Pulmonologist">Pulmonologist</option>
+                                            <option value="Gastroenterologist">Gastroenterologist</option>
+                                            <option value="Rheumatologist">Rheumatologist</option>
+                                            <option value="Nephrologist">Nephrologist</option>
+                                            <option value="Sexologist">Sexologist</option>
+                                            <option value="General Surgeon">General Surgeon</option>
+                                            <option value="Plastic Surgeon">Plastic Surgeon</option>
+                                            <option value="Dermatologist">Dermatologist</option>
+                                            <option value="Dental Surgeon">Dental Surgeon</option>
+                                            <option value="Orthodontist">Orthodontist</option>
+                                            <option value="Diabetologist">Diabetologist</option>
+                                            <option value="Neurologist">Neurologist</option>
+                                            <option value="Neuro Surgeon">Neuro Surgeon</option>
+                                            <option value="Urologist">Urologist</option>
+                                            <option value="Infectious Disease Specialist">Infectious Disease Specialist</option>
+                                        </select>
                                     </div>
                                     <div class="form-group required">
                                         <div class="input-group">
@@ -302,6 +324,7 @@
     <script src="/js/validator.min.js"></script>
     <script src="/js/intlTelInput.min.js"></script>
     <script src="/js/wizard.js"></script>
+    <script src="/js/jquery.multiselect.js"></script>
 
     <script src="/server.js"></script>
     <script src="/common.js"></script>
