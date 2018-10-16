@@ -75,7 +75,8 @@ function Add() {
         ShowMobile: $("#ShowMobile").is(":checked"),
         DisplayName: $('#DisplayName').val(),
         DoctorType: $("input[name='DoctorType']:checked").val(),
-
+        Qualification: $('#Qualification').val(),
+        AdditionalInfo: $('#AdditionalInfo').val(),
         ClinicDTO: {
             Name: $('#Name').val(),
             PhoneNumber: $('#PhoneNumber').val(),
@@ -436,7 +437,8 @@ function simpleDoctorSignup() {
         ShowMobile: $("#ShowMobile").is(":checked"),
         DisplayName: $('#DisplayName').val(),
         DoctorType: $("input[name='DoctorType']:checked").val(),
-
+        Qualification: $('#Qualification').val(),
+        AdditionalInfo: $('#AdditionalInfo').val(),
         ClinicDTO: {
             Name: $('#Name').val(),
             PhoneNumber: $('#PhoneNumber').val(),
