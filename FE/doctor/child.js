@@ -85,6 +85,7 @@ function loadData(pageSize, currentPage) {
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm"  onclick="GrowthChart(' + item.ID + ')">Growth Chart</a>';
                     if (item.Clinic.Doctor.AllowInvoice)
                         html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="OpenGenerateInvoiceModel(' + item.ID + ')" >Invoice</a>';
+                    html += '       <a style="margin: 2px" class="btn btn-success btn-sm" onClick="printPrescreption(' + item.ID + ')" >Print Prescription</a>';
                     html += '   </div>';
                     html += '</div>';
                 });
@@ -313,14 +314,6 @@ function validate() {
     else
         return true;
 }
-
-
-
-
-
-
-
-
 
 //Generate invoice
 function OpenGenerateInvoiceModel(childId) {
@@ -583,4 +576,13 @@ function GrowthChart(id) {
 
     //$("#chartModal").modal('show');
 
+}
+
+//Prescription
+function printPrescreption(id) {
+    var obj = {
+        ID: id,
+        DoctorID: DoctorId()
+    }
+    $.download(SERVER + 'child/print-prescription', obj, "POST");
 }

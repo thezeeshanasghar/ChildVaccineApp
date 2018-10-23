@@ -964,6 +964,120 @@ namespace VaccineDose.Controllers
 
         #endregion
 
+        #region Prescription PDF
+        [HttpPost]
+        [Route("api/child/print-prescription")]
+        public HttpResponseMessage printPrescription(ChildDTO childDTO)
+        {
+            try
+            {
+                Stream stream;
+                string childName = "";
+                using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
+                {
+                    var output = new MemoryStream();
+
+                    var writer = PdfWriter.GetInstance(document, output);
+                    writer.CloseStream = false;
+
+                    document.Open();
+                    //Page Heading
+                    GetPDFHeading(document, "Prescription");
+
+                    //Access db data
+                    VDEntities entities = new VDEntities();
+                    var dbDoctor = entities.Doctors.Where(x => x.ID == childDTO.DoctorID).FirstOrDefault();
+                    var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
+                    childName = dbChild.Name;
+                    //
+                    //Table 1 for description above amounts table
+                    PdfPTable upperTable = new PdfPTable(2);
+                    float[] upperTableWidths = new float[] { 250f, 250f };
+                    upperTable.HorizontalAlignment = 0;
+                    upperTable.TotalWidth = 500f;
+                    upperTable.LockedWidth = true;
+                    // upperTable.DefaultCell.PaddingLeft = 4;
+                    upperTable.SetWidths(upperTableWidths);
+
+                    upperTable.AddCell(CreateCell("Dr " + dbDoctor.FirstName + " "+ dbDoctor.LastName, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Qualification: " + dbDoctor.Qualification, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Additional Info: " + dbDoctor.AdditionalInfo, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Date: " + DateTime.UtcNow.AddHours(5), "noColor", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Bill To: " + dbChild.Name, "bold", 1, "right", "description"));
+                   
+                    upperTable.AddCell(CreateCell("P: " + dbDoctor.PhoneNo, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("M: " + dbDoctor.User.MobileNumber, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+
+                    document.Add(upperTable);
+                    document.Add(new Paragraph("")); 
+
+                    document.Add(new Chunk("\n"));
+                    //Table 3 for description above amounts table
+                    PdfPTable bottomTable = new PdfPTable(2);
+                    float[] bottomTableWidths = new float[] { 200f, 200f };
+                    bottomTable.HorizontalAlignment = 0;
+                    bottomTable.TotalWidth = 400f;
+                    bottomTable.LockedWidth = true;
+                    bottomTable.SetWidths(bottomTableWidths);
+
+                    var imgcellLeft = CreateCell("", "", 1, "left", "description");
+                    imgcellLeft.PaddingTop = 5;
+                    bottomTable.AddCell(imgcellLeft);
+
+                    var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/UserImages");
+                    var signatureImage = dbDoctor.SignatureImage;
+                    if (signatureImage == null)
+                    {
+                        signatureImage = "avatar.png";
+                    }
+                    Image img = Image.GetInstance(imgPath + "\\" + signatureImage);
+
+                    img.ScaleAbsolute(2f, 2f);
+                    PdfPCell imageCell = new PdfPCell(img, true);
+                    imageCell.PaddingTop = 5;
+                    imageCell.Colspan = 1; // either 1 if you need to insert one cell
+                    imageCell.Border = 0;
+                    imageCell.FixedHeight = 40f;
+                    imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    bottomTable.AddCell(imageCell);
+
+                    document.Add(bottomTable);
+                    document.Close();
+                    output.Seek(0, SeekOrigin.Begin);
+                    stream = output;
+
+                }
+                return new HttpResponseMessage
+                {
+                    Content = new StreamContent(stream)
+                    {
+                        Headers =
+                            {
+                                ContentType = new MediaTypeHeaderValue("application/pdf"),
+                                ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                                {
+                                    FileName = childName.Replace(" ","") +"_FollowUp"+"_"+DateTime.UtcNow.AddHours(5).Date.ToString("MMMM-dd-yyyy")+".pdf"
+                                }
+                            }
+                    },
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message);
+            }
+
+        }
+
+        #endregion
         [HttpPost]
         [Route("api/child/change-doctor")]
         public Response<ChildDTO> ChangeDoctor(ChildDTO childDTO)
