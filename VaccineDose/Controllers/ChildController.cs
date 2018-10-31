@@ -1020,8 +1020,6 @@ namespace VaccineDose.Controllers
                     upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "noColor", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("Consultation Fee: Rs " + dbChild.Clinic.ConsultationFee.ToString() + "/-", "noColor", 1, "right", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Remaining is acceptable....", "noColor", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("" + DateTime.UtcNow.AddHours(5), "noColor", 1, "right", "description"));
 
 
