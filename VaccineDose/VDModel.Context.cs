@@ -16,7 +16,7 @@ namespace VaccineDose
     public partial class VDEntities : DbContext
     {
         public VDEntities()
-            : base("name=VDConnectionString")
+            : base("name=VDEntities")
         {
         }
     
@@ -38,5 +38,6 @@ namespace VaccineDose
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vaccine> Vaccines { get; set; }
+        public virtual DbSet<ClinicTiming> ClinicTimings { get; set; }
     }
 }

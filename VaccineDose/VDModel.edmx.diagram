@@ -36,6 +36,8 @@
         <AssociationConnector Association="VDConnectionString.FK_Dose_Vaccine" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_Schedule_Dose" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_Message_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="VDConnectionString.ClinicTiming" Width="1.5" PointX="7.5" PointY="22.5" />
+        <AssociationConnector Association="VDConnectionString.FK_ClinicTiming_Clinic" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

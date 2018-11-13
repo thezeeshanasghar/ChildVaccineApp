@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VDConnectionString.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VDConnectionString.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="ID" />
@@ -67,6 +67,18 @@
           <Property Name="IsOnline" Type="bit" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="ClinicTiming">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Day" Type="nvarchar" MaxLength="50" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="Session" Type="int" Nullable="false" />
+          <Property Name="IsOpen" Type="bit" Nullable="false" />
+          <Property Name="ClinicID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Doctor">
           <Key>
             <PropertyRef Name="ID" />
@@ -92,6 +104,8 @@
           <Property Name="AllowInventory" Type="bit" Nullable="false" />
           <Property Name="SMSLimit" Type="int" Nullable="false" />
           <Property Name="DoctorType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Qualification" Type="nvarchar" MaxLength="50" />
+          <Property Name="AdditionalInfo" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -272,6 +286,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ClinicTiming_Clinic">
+          <End Role="Clinic" Type="Self.Clinic" Multiplicity="1" />
+          <End Role="ClinicTiming" Type="Self.ClinicTiming" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clinic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClinicTiming">
+              <PropertyRef Name="ClinicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Doctor_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
@@ -402,6 +428,7 @@
           <EntitySet Name="BrandInventory" EntityType="Self.BrandInventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Child" EntityType="Self.Child" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clinic" EntityType="Self.Clinic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClinicTiming" EntityType="Self.ClinicTiming" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorSchedule" EntityType="Self.DoctorSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dose" EntityType="Self.Dose" Schema="dbo" store:Type="Tables" />
@@ -441,6 +468,10 @@
           <AssociationSet Name="FK_Clinic_Doctor" Association="Self.FK_Clinic_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Clinic" EntitySet="Clinic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClinicTiming_Clinic" Association="Self.FK_ClinicTiming_Clinic">
+            <End Role="Clinic" EntitySet="Clinic" />
+            <End Role="ClinicTiming" EntitySet="ClinicTiming" />
           </AssociationSet>
           <AssociationSet Name="FK_Doctor_User" Association="Self.FK_Doctor_User">
             <End Role="User" EntitySet="User" />
@@ -483,8 +514,7 @@
             <End Role="Schedule" EntitySet="Schedule" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VDConnectionString" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -563,6 +593,7 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Children" Relationship="Self.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
+          <NavigationProperty Name="ClinicTimings" Relationship="VDConnectionString.FK_ClinicTiming_Clinic" FromRole="Clinic" ToRole="ClinicTiming" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -595,6 +626,8 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="Self.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
           <NavigationProperty Name="FollowUps" Relationship="Self.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
+          <Property Name="Qualification" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -1001,7 +1034,37 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
+          <EntitySet Name="ClinicTimings" EntityType="VDConnectionString.ClinicTiming" />
+          <AssociationSet Name="FK_ClinicTiming_Clinic" Association="VDConnectionString.FK_ClinicTiming_Clinic">
+            <End Role="Clinic" EntitySet="Clinics" />
+            <End Role="ClinicTiming" EntitySet="ClinicTimings" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ClinicTiming">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="Session" Type="Int32" Nullable="false" />
+          <Property Name="IsOpen" Type="Boolean" Nullable="false" />
+          <Property Name="ClinicID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Clinic" Relationship="VDConnectionString.FK_ClinicTiming_Clinic" FromRole="ClinicTiming" ToRole="Clinic" />
+        </EntityType>
+        <Association Name="FK_ClinicTiming_Clinic">
+          <End Type="VDConnectionString.Clinic" Role="Clinic" Multiplicity="1" />
+          <End Type="VDConnectionString.ClinicTiming" Role="ClinicTiming" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clinic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClinicTiming">
+              <PropertyRef Name="ClinicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1078,6 +1141,8 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="VDConnectionString.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="AdditionalInfo" ColumnName="AdditionalInfo" />
+                <ScalarProperty Name="Qualification" ColumnName="Qualification" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -1189,6 +1254,19 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />
                 <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClinicTimings">
+            <EntityTypeMapping TypeName="VDConnectionString.ClinicTiming">
+              <MappingFragment StoreEntitySet="ClinicTiming">
+                <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
+                <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
+                <ScalarProperty Name="Session" ColumnName="Session" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

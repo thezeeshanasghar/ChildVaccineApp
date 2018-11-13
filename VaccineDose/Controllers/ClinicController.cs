@@ -35,7 +35,7 @@ namespace VaccineDose.Controllers
             {
                 using (VDEntities entities = new VDEntities())
                 {
-                    var dbClinic = entities.Clinics.Where(c => c.ID == Id).FirstOrDefault();
+                    var dbClinic = entities.Clinics.Include("ClinicTimings").Where(c => c.ID == Id).FirstOrDefault();
                     ClinicDTO ClinicDTO = Mapper.Map<ClinicDTO>(dbClinic);
                     return new Response<ClinicDTO>(true, null, ClinicDTO);
                 }
@@ -58,7 +58,7 @@ namespace VaccineDose.Controllers
                     Clinic clinicDb = Mapper.Map<Clinic>(clinicDTO);
                     entities.Clinics.Add(clinicDb);
                     entities.SaveChanges();
-                    clinicDTO.ID = clinicDb.ID;
+                    clinicDTO.ID = clinicDb.ID; 
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
@@ -86,9 +86,32 @@ namespace VaccineDose.Controllers
                     dbClinic.Lat = clinicDTO.Lat;
                     dbClinic.Long = clinicDTO.Long;
                     dbClinic.Address = clinicDTO.Address;
-
-
                     entities.SaveChanges();
+                    foreach (var clinicTiming in clinicDTO.ClinicTimings)
+                    {
+                        ClinicTiming dbClinicTiming = entities.ClinicTimings.Where(x => x.ID == clinicTiming.ID).FirstOrDefault();
+                        if (dbClinicTiming != null)
+                        {
+                            dbClinicTiming.ClinicID = Id;
+                            dbClinicTiming.Day = clinicTiming.Day;
+                            dbClinicTiming.StartTime = clinicTiming.StartTime;
+                            dbClinicTiming.EndTime = clinicTiming.EndTime;
+                            dbClinicTiming.Session = clinicTiming.Session;
+                            dbClinicTiming.IsOpen = clinicTiming.IsOpen;
+                        }
+                        else if (dbClinicTiming == null && clinicTiming.IsOpen)
+                        {
+                            ClinicTiming newClinicTiming = new ClinicTiming();
+                            newClinicTiming.ClinicID = Id;
+                            newClinicTiming.Day = clinicTiming.Day;
+                            newClinicTiming.StartTime = clinicTiming.StartTime;
+                            newClinicTiming.EndTime = clinicTiming.EndTime;
+                            newClinicTiming.Session = clinicTiming.Session;
+                            newClinicTiming.IsOpen = clinicTiming.IsOpen;
+                            entities.ClinicTimings.Add(newClinicTiming);
+                        }
+                        entities.SaveChanges();
+                    }
                     return new Response<ClinicDTO>(true, null, clinicDTO);
                 }
             }
@@ -121,7 +144,7 @@ namespace VaccineDose.Controllers
         }
 
         #endregion
-        
+
 
         [HttpPut]
         [Route("api/clinic/editClinic")]

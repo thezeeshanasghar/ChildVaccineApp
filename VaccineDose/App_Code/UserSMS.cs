@@ -140,9 +140,9 @@ namespace VaccineDose.App_Code
         }
         public static string SendSMS(string CountryCode, string MobileNumber, string Email, string text)
         {
-            
+
             //string webTarget = "http://icworldsms.com:82/Service.asmx/SendSMS?SessionID=Ud1vaibfSexGvkohsFVVVEzoWrhUKfpylFZqOFVy9EB7CaifKP&CompaignName=text&MobileNo={0}&MaskName=VACCS+IO&Message={1}&MessageType=English";
-            //string url = String.Format(webTarget, "0" + MobileNumber, HttpUtility.UrlEncode(text));
+            //string url = String.Format(webTarget, "0" + MobileNumber, HttpUtility.0UrlEncode(text));
 
             string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";
             string url = String.Format(webTarget, "92" + MobileNumber, HttpUtility.UrlEncode(text));

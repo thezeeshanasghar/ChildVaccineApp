@@ -45,6 +45,8 @@ namespace VaccineDose
         public bool AllowInventory { get; set; }
         public int SMSLimit { get; set; }
         public string DoctorType { get; set; }
+        public string Qualification { get; set; }
+        public string AdditionalInfo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BrandAmount> BrandAmounts { get; set; }

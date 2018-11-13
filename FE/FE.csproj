@@ -74,6 +74,7 @@
     <Content Include="child\vaccine-information.html" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\intlTelInput.css" />
+    <Content Include="css\jquery.multiselect.css" />
     <Content Include="css\selectize.bootstrap3.css" />
     <Content Include="doctor\add-vacation.html" />
     <Content Include="doctor\add-vacation.js" />
@@ -148,6 +149,7 @@
     <Content Include="js\Chart.min.js" />
     <Content Include="js\intlTelInput.min.js" />
     <Content Include="js\jquery-ui.js" />
+    <Content Include="js\jquery.multiselect.js" />
     <Content Include="js\selectize.min.js" />
     <Content Include="js\utils.js" />
     <Content Include="js\wizard.js" />

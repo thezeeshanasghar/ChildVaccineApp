@@ -106,7 +106,7 @@
                                 &nbsp;&nbsp;&nbsp;<input id="Sunday" class="OffDays" name="OffDays" type="checkbox" value="Sunday" />&nbsp;Sunday
                             </div>
 
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="StartTime">Strat Time</label>
@@ -125,6 +125,374 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>-->
+
+                            <div class="row time_spam">
+                                <div class="col-md-6"><b>Monday</b></div>
+                                <input type="text" id="MondaySession1ID" hidden />
+                                <input type="text" id="MondaySession2ID" hidden />
+                                <div class="col-md-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenMonday" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeMonday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeMonday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeMonday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeMonday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeMonday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeMonday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeMonday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeMonday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row time_spam">
+                                <div class="col-md-6"><b>Tuesday</b></div>
+                                <input type="text" id="TuesdaySession1ID" hidden />
+                                <input type="text" id="TuesdaySession2ID" hidden />
+                                <div class="col-md-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenTuesday" type="checkbox" >
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeTuesday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeTuesday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeTuesday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeTuesday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeTuesday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeTuesday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeTuesday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeTuesday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row time_spam">
+                                <div class="col-md-6"><b>Wednesday</b></div>
+                                <input type="text" id="WednesdaySession1ID" hidden />
+                                <input type="text" id="WednesdaySession2ID" hidden />                                <div class="col-md-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenWednesday" type="checkbox" >
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeWednesday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeWednesday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeWednesday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeWednesday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeWednesday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeWednesday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeWednesday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeWednesday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row time_spam">
+                                <div class="col-md-6 col-sm-6"><b>Thursday</b></div>
+                                <input type="text" id="ThursdaySession1ID" hidden />
+                                <input type="text" id="ThursdaySession2ID" hidden />                                     <div class="col-md-6 col-sm-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenThursday" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="StartTimeThursday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeThursday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="EndTimeThursday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeThursday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="StartTimeThursday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeThursday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="EndTimeThursday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeThursday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row time_spam">
+                                <div class="col-md-6"><b>Friday</b></div>
+                                <input type="text" id="FridaySession1ID" hidden />
+                                <input type="text" id="FridaySession2ID" hidden /> 
+                                <div class="col-md-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenFriday" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeFriday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeFriday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeFriday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeFriday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeFriday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeFriday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeFriday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeFriday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row time_spam">
+                                <div class="col-md-6"><b>Saturday</b></div>
+                                <input type="text" id="SaturdaySession1ID" hidden />
+                                <input type="text" id="SaturdaySession2ID" hidden />                                 <div class="col-md-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenSaturday" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeSaturday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeSaturday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeSaturday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeSaturday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeSaturday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeSaturday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeSaturday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeSaturday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row time_spam">
+                                <div class="col-md-6"><b>Sunday</b></div>
+                                <input type="text" id="SundaySession1ID" hidden />
+                                <input type="text" id="SundaySession2ID" hidden />                                    <div class="col-md-6">
+                                    <label class="switch pull-right">
+                                        <input id="IsOpenSunday" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center"><b>Session:1</b></div>
+                                    <div style="display:none;" class="col-md-6 text-center"><b>Session:2</b></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeSunday1">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeSunday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeSunday1">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeSunday1" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="StartTimeSunday2">Start Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="StartTimeSunday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:none;" class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="EndTimeSunday2">End Time</label>
+                                            <div class="input-group bootstrap-timepicker timepicker">
+                                                <input id="EndTimeSunday2" type="text" class="form-control input-small" required />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -135,8 +503,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Add</button>
-                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Update</button>
+                        <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Add</button>
+                        <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" >Update</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -185,10 +553,10 @@
                 console.log(error);
             },
     {
-         timeout: 10000,
-     });
+        timeout: 10000,
+    });
 
-  }
+        }
 
         function MapOnEdit() {
 
@@ -226,30 +594,245 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/bootstrap-timepicker.min.js"></script>
     <script src="../js/validator.min.js"></script>
-	
+
     <script src="/server.js"></script>
     <script src="/common.js"></script>
     <script src="clinic.js"></script>
 
     <script>
         $('#myModal').on('shown.bs.modal', function () {
-            
+
             google.maps.event.trigger(map, "resize");
-            
-            $('#StartTime').timepicker({
+            // Monday first row
+            $('#StartTimeMonday1').timepicker({
                 minuteStep: 30,
                 showMeridian: false,
                 disableFocus: false,
                 disableMousewheel: false
             });
-            $('#EndTime').timepicker({
+            $('#EndTimeMonday1').timepicker({
                 minuteStep: 30,
                 showMeridian: false,
                 disableFocus: false,
                 disableMousewheel: false
             });
-            $('#StartTime').timepicker('setTime', $('#StartTime').val());
-            $('#EndTime').timepicker('setTime', $('#EndTime').val());
+            $('#StartTimeMonday1').timepicker('setTime', $('#StartTimeMonday1').val());
+            $('#EndTimeMonday1').timepicker('setTime', $('#EndTimeMonday1').val());
+            // Monday second row
+            $('#StartTimeMonday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeMonday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeMonday2').timepicker('setTime', $('#StartTimeMonday2').val());
+            $('#EndTimeMonday2').timepicker('setTime', $('#EndTimeMonday2').val());
+            // Tuesday first row
+            $('#StartTimeTuesday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeTuesday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeTuesday1').timepicker('setTime', $('#StartTimeTuesday1').val());
+            $('#EndTimeTuesday1').timepicker('setTime', $('#EndTimeTuesday1').val());
+            // Tuesday second row
+            $('#StartTimeTuesday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeTuesday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeTuesday2').timepicker('setTime', $('#StartTimeTuesday2').val());
+            $('#EndTimeTuesday2').timepicker('setTime', $('#EndTimeTuesday2').val());
+
+            // Wednesday first row
+            $('#StartTimeWednesday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeWednesday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeWednesday1').timepicker('setTime', $('#StartTimeWednesday1').val());
+            $('#EndTimeWednesday1').timepicker('setTime', $('#EndTimeWednesday1').val());
+            // Wednesday second row
+            $('#StartTimeWednesday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeWednesday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeWednesday2').timepicker('setTime', $('#StartTimeWednesday2').val());
+            $('#EndTimeWednesday2').timepicker('setTime', $('#EndTimeWednesday2').val());
+
+            // Thursday first row
+            $('#StartTimeThursday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeThursday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeThursday1').timepicker('setTime', $('#StartTimeThursday1').val());
+            $('#EndTimeThursday1').timepicker('setTime', $('#EndTimeThursday1').val());
+            // Thursday second row
+            $('#StartTimeThursday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeThursday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeThursday2').timepicker('setTime', $('#StartTimeThursday2').val());
+            $('#EndTimeThursday2').timepicker('setTime', $('#EndTimeThursday2').val());
+
+            // Friday first row
+            $('#StartTimeFriday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeFriday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeFriday1').timepicker('setTime', $('#StartTimeFriday1').val());
+            $('#EndTimeFriday1').timepicker('setTime', $('#EndTimeFriday1').val());
+            // Friday second row
+            $('#StartTimeFriday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeFriday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeFriday2').timepicker('setTime', $('#StartTimeFriday2').val());
+            $('#EndTimeFriday2').timepicker('setTime', $('#EndTimeFriday2').val());
+
+            // Saturday first row
+            $('#StartTimeSaturday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeSaturday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeSaturday1').timepicker('setTime', $('#StartTimeSaturday1').val());
+            $('#EndTimeSaturday1').timepicker('setTime', $('#EndTimeSaturday1').val());
+            // Saturday second row
+            $('#StartTimeSaturday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeSaturday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeSaturday2').timepicker('setTime', $('#StartTimeSaturday2').val());
+            $('#EndTimeSaturday2').timepicker('setTime', $('#EndTimeSaturday2').val());
+
+            // Sunday first row
+            $('#StartTimeSunday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeSunday1').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeSunday1').timepicker('setTime', $('#StartTimeSunday1').val());
+            $('#EndTimeSunday1').timepicker('setTime', $('#EndTimeSunday1').val());
+            // Sunday second row
+            $('#StartTimeSunday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#EndTimeSunday2').timepicker({
+                minuteStep: 30,
+                showMeridian: false,
+                disableFocus: false,
+                disableMousewheel: false
+            });
+            $('#StartTimeSunday2').timepicker('setTime', $('#StartTimeSunday2').val());
+            $('#EndTimeSunday2').timepicker('setTime', $('#EndTimeSunday2').val());
+
+            //    $('#StartTime').timepicker({
+            //        minuteStep: 30,
+            //        showMeridian: false,
+            //        disableFocus: false,
+            //        disableMousewheel: false
+            //    });
+            //    $('#EndTime').timepicker({
+            //        minuteStep: 30,
+            //        showMeridian: false,
+            //        disableFocus: false,
+            //        disableMousewheel: false
+            //    });
+            //    $('#StartTime').timepicker('setTime', $('#StartTime').val());
+            //    $('#EndTime').timepicker('setTime', $('#EndTime').val());
         });
     </script>
 </body>

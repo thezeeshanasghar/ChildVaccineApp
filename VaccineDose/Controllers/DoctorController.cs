@@ -169,6 +169,8 @@ namespace VaccineDose.Controllers
                     dbDoctor.PhoneNo = doctorDTO.PhoneNo;
                     dbDoctor.ShowPhone = doctorDTO.ShowPhone;
                     dbDoctor.ShowMobile = doctorDTO.ShowMobile;
+                    dbDoctor.Qualification = doctorDTO.Qualification;
+                    dbDoctor.AdditionalInfo = doctorDTO.AdditionalInfo;
 
                     //dbDoctor = Mapper.Map<DoctorDTO, Doctor>(doctorDTO, dbDoctor);
                     //entities.Entry<Doctor>(dbDoctor).State = System.Data.Entity.EntityState.Modified;
@@ -439,16 +441,17 @@ namespace VaccineDose.Controllers
                                 childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x => x.Name.ToLower()
                                 .Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower()) ||
                                  x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
+                                currentPage = 0;
                             }
                             else
-                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>().Skip(pageSize*currentPage).Take(pageSize)));
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.ToList<Child>()));
                         }
                         foreach (var item in childDTOs)
                         {
                             var dbChild = entities.Children.Where(x => x.ID == item.ID).FirstOrDefault();
                             item.MobileNumber = dbChild.User.CountryCode + dbChild.User.MobileNumber;
                         }
-                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderByDescending(x => x.ID).ToList());
+                        return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs.OrderByDescending(x => x.ID).ToList().Skip(pageSize * currentPage).Take(pageSize));
                     }
                 }
             }

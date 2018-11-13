@@ -78,6 +78,7 @@
     <None Include="Scripts\DB-Changes.sql" />
     <None Include="Scripts\Server-data-backup-18-Feb-2018.sql" />
     <None Include="Scripts\Server-data-backup-13-Jun-2018.sql" />
+    <Build Include="dbo\Tables\ClinicTiming.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script_1.PostDeployment1.sql" />

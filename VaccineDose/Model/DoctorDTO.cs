@@ -31,6 +31,8 @@ namespace VaccineDose
         public bool AllowInventory { get; set; }
         public int SMSLimit { get; set; }
         public string DoctorType { get; set; }
+        public string Qualification { get; set; }
+        public string AdditionalInfo { get; set; }
 
         public ClinicDTO ClinicDTO { get; set; }
         public List<ClinicDTO> Clinics { get; set; }

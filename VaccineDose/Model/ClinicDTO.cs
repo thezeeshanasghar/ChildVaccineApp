@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using VaccineDose.Model;
 
 namespace VaccineDose
 {
@@ -24,7 +25,7 @@ namespace VaccineDose
         
         //to show child count 
         public int childrenCount { get; set; }
-
+        public List<ClinicTimingDTO> ClinicTimings { get; set; }
 
     }
 }

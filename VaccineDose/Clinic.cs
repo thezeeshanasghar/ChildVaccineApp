@@ -18,6 +18,7 @@ namespace VaccineDose
         public Clinic()
         {
             this.Children = new HashSet<Child>();
+            this.ClinicTimings = new HashSet<ClinicTiming>();
         }
     
         public int ID { get; set; }
@@ -36,5 +37,7 @@ namespace VaccineDose
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Child> Children { get; set; }
         public virtual Doctor Doctor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClinicTiming> ClinicTimings { get; set; }
     }
 }
