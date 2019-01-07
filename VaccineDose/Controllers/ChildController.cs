@@ -183,7 +183,7 @@ namespace VaccineDose.Controllers
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
                 var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
-                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, 0,20,"")));
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, 0, 20, "")));
             }
             catch (Exception e)
             {
@@ -236,7 +236,7 @@ namespace VaccineDose.Controllers
                     var dbChild = entities.Children.Where(c => c.ID == Id).FirstOrDefault();
                     //entities.Schedules.RemoveRange(dbChild.Schedules);
                     //entities.FollowUps.RemoveRange(dbChild.FollowUps);
-                    if(dbChild.User.Children.Count == 1)
+                    if (dbChild.User.Children.Count == 1)
                         entities.Users.Remove(dbChild.User);
                     entities.Children.Remove(dbChild);
                     entities.SaveChanges();
@@ -600,17 +600,18 @@ namespace VaccineDose.Controllers
                     // upperTable.DefaultCell.PaddingLeft = 4;
                     upperTable.SetWidths(upperTableWidths);
 
-                    upperTable.AddCell(CreateCell("Dr " + dbDoctor.FirstName + dbDoctor.LastName, "bold", 1, "left", "description"));
-                    //upperTable.AddCell(CreateCell("Invoice", "bold", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("Invoice # " + dbDoctor.InvoiceNumber, "bold", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("Dr " + dbDoctor.DisplayName, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Invoice # " + dbDoctor.InvoiceNumber, "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell(dbDoctor.Qualification, "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Date: " + DateTime.UtcNow.AddHours(5), "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell(dbDoctor.AdditionalInfo, "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Bill To: " + dbChild.Name, "bold", 1, "right", "description"));
 
-                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "", 1, "left", "description"));
 
                     //upperTable.AddCell(CreateCell("Clinic Ph: " + dbChild.Clinic.PhoneNumber, "noColor", 1, "left", "description"));
 
-                    upperTable.AddCell(CreateCell("Date: " + DateTime.UtcNow.AddHours(5), "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
 
                     if (childDTO.IsConsultationFee)
@@ -622,14 +623,14 @@ namespace VaccineDose.Controllers
                     //upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
                     upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
-                    upperTable.AddCell(CreateCell("Bill To: " + dbChild.Name, "noColor", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
                     //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     //upperTable.AddCell(CreateCell("Father: " + dbChild.FatherName, "", 1, "right", "description"));
                     //upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
                     //upperTable.AddCell(CreateCell("Child: " + dbChild.Name, "", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("P: " + dbDoctor.PhoneNo, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("P: " + dbDoctor.PhoneNo, "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
-                    upperTable.AddCell(CreateCell("M: " + dbDoctor.User.MobileNumber, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("M: " + dbDoctor.User.MobileNumber, "", 1, "left", "description"));
                     upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
 
                     document.Add(upperTable);
@@ -664,11 +665,11 @@ namespace VaccineDose.Controllers
                     //col = (col > 3) ? col - 3 : col-2;
                     if (col - 2 < 2)
                     {
-                        table.AddCell(CreateCell("Consultation Fee", "", col - 2, "left", "invoiceRecords"));
+                        table.AddCell(CreateCell("Consultation Fee", "", col - 2, "center", "invoiceRecords"));
                     }
                     else
                     {
-                        table.AddCell(CreateCell("Consultation Fee", "", 1, "left", "invoiceRecords"));
+                        table.AddCell(CreateCell("Consultation Fee", "", 1, "center", "invoiceRecords"));
                         table.AddCell(CreateCell("------------------", "", 1, "center", "invoiceRecords"));
 
                     }
@@ -691,8 +692,16 @@ namespace VaccineDose.Controllers
                                     table.AddCell(CreateCell(schedule.Brand.Name, "", 1, "center", "invoiceRecords"));
                                 }
                                 var brandAmount = entities.BrandAmounts.Where(x => x.BrandID == schedule.BrandId && x.DoctorID == childDTO.DoctorID).FirstOrDefault();
-                                amount = amount + Convert.ToInt32(brandAmount.Amount);
-                                table.AddCell(CreateCell(brandAmount.Amount.ToString(), "", 1, "right", "invoiceRecords"));
+                                if (brandAmount != null)
+                                {
+                                    amount = amount + Convert.ToInt32(brandAmount.Amount);
+                                    table.AddCell(CreateCell(brandAmount.Amount.ToString(), "", 1, "right", "invoiceRecords"));
+                                }
+                                else
+                                {
+                                    table.AddCell(CreateCell("0", "", 1, "right", "invoiceRecords"));
+                                }
+
                             }
 
                         }
@@ -721,7 +730,7 @@ namespace VaccineDose.Controllers
                     bottomTable.LockedWidth = true;
                     bottomTable.SetWidths(bottomTableWidths);
 
-                    bottomTable.AddCell(CreateCell("Thank you for your vaccination", "bold", 1, "left", "description"));
+                    bottomTable.AddCell(CreateCell("Thank you for your visit", "bold", 1, "left", "description"));
                     bottomTable.AddCell(CreateCell("Total Amount: " + amount.ToString() + "/-", "bold", 1, "right", "description"));
 
                     var imgcellLeft = CreateCell("", "", 1, "left", "description");
@@ -760,7 +769,7 @@ namespace VaccineDose.Controllers
                                 ContentType = new MediaTypeHeaderValue("application/pdf"),
                                 ContentDisposition = new ContentDispositionHeaderValue("attachment")
                                 {
-                                    FileName = childName.Replace(" ","") +"_FollowUp"+"_"+DateTime.UtcNow.AddHours(5).Date.ToString("MMMM-dd-yyyy")+".pdf"
+                                    FileName = childName.Replace(" ","") +"_Invoice"+"_"+DateTime.UtcNow.AddHours(5).Date.ToString("MMMM-dd-yyyy")+".pdf"
                                 }
                             }
                     },
@@ -790,7 +799,7 @@ namespace VaccineDose.Controllers
         {
 
             Font font = FontFactory.GetFont(FontFactory.HELVETICA, 10);
-            if (color == "bold")
+            if (color == "bold" || color == "backgroudLightGray")
             {
                 font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
             }
@@ -964,6 +973,149 @@ namespace VaccineDose.Controllers
 
         #endregion
 
+        #region Prescription PDF
+        [HttpPost]
+        [Route("api/child/print-prescription")]
+        public HttpResponseMessage printPrescription(ChildDTO childDTO)
+        {
+            try
+            {
+                Stream stream;
+                string childName = "";
+                using (var document = new Document(PageSize.A4, 50, 50, 25, 25))
+                {
+                    var output = new MemoryStream();
+
+                    var writer = PdfWriter.GetInstance(document, output);
+                    writer.CloseStream = false;
+
+                    document.Open();
+                    //Page Heading
+                    GetPDFHeading(document, "Prescription");
+
+                    //Access db data
+                    VDEntities entities = new VDEntities();
+                    var dbDoctor = entities.Doctors.Where(x => x.ID == childDTO.DoctorID).FirstOrDefault();
+                    var dbChild = entities.Children.Include("Clinic").Where(x => x.ID == childDTO.ID).FirstOrDefault();
+                    childName = dbChild.Name;
+                    //
+                    //Table 1 for description above amounts table
+                    PdfPTable upperTable = new PdfPTable(2);
+                    float[] upperTableWidths = new float[] { 250f, 250f };
+                    upperTable.HorizontalAlignment = 0;
+                    upperTable.TotalWidth = 500f;
+                    upperTable.LockedWidth = true;
+                    // upperTable.DefaultCell.PaddingLeft = 4;
+                    upperTable.SetWidths(upperTableWidths);
+
+                    // Calculate the age.
+                    string age = CalculateYourAge(dbChild.DOB);
+
+                    upperTable.AddCell(CreateCell("Dr " + dbDoctor.FirstName + " " + dbDoctor.LastName, "bold", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell(dbChild.Name, "bold", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell(dbDoctor.Qualification, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell(dbChild.FatherName, "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell(dbDoctor.AdditionalInfo, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell(age.ToString(), "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell(dbChild.Clinic.Name, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("Consultation Fee: Rs " + dbChild.Clinic.ConsultationFee.ToString() + "/-", "noColor", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("" + DateTime.UtcNow.AddHours(5), "noColor", 1, "right", "description"));
+
+
+                    upperTable.AddCell(CreateCell("P: " + dbDoctor.PhoneNo, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+                    upperTable.AddCell(CreateCell("M: " + dbDoctor.User.MobileNumber, "noColor", 1, "left", "description"));
+                    upperTable.AddCell(CreateCell("", "", 1, "right", "description"));
+
+                    document.Add(upperTable);
+                    document.Add(new Paragraph(""));
+
+                    document.Add(new Chunk("\n"));
+                    //Table 3 for description above amounts table
+                    PdfPTable bottomTable = new PdfPTable(2);
+                    float[] bottomTableWidths = new float[] { 200f, 200f };
+                    bottomTable.HorizontalAlignment = 0;
+                    bottomTable.TotalWidth = 400f;
+                    bottomTable.LockedWidth = true;
+                    bottomTable.SetWidths(bottomTableWidths);
+
+                    var imgcellLeft = CreateCell("", "", 1, "left", "description");
+                    imgcellLeft.PaddingTop = 5;
+                    bottomTable.AddCell(imgcellLeft);
+
+                    var imgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/UserImages");
+                    var signatureImage = dbDoctor.SignatureImage;
+                    if (signatureImage == null)
+                    {
+                        signatureImage = "avatar.png";
+                    }
+                    Image img = Image.GetInstance(imgPath + "\\" + signatureImage);
+
+                    img.ScaleAbsolute(2f, 2f);
+                    PdfPCell imageCell = new PdfPCell(img, true);
+                    imageCell.PaddingTop = 5;
+                    imageCell.Colspan = 1; // either 1 if you need to insert one cell
+                    imageCell.Border = 0;
+                    imageCell.FixedHeight = 40f;
+                    imageCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    bottomTable.AddCell(imageCell);
+
+                    document.Add(bottomTable);
+                    document.Close();
+                    output.Seek(0, SeekOrigin.Begin);
+                    stream = output;
+
+                }
+                return new HttpResponseMessage
+                {
+                    Content = new StreamContent(stream)
+                    {
+                        Headers =
+                            {
+                                ContentType = new MediaTypeHeaderValue("application/pdf"),
+                                ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                                {
+                                    FileName = childName.Replace(" ","") +"_Prescription"+"_"+DateTime.UtcNow.AddHours(5).Date.ToString("MMMM-dd-yyyy")+".pdf"
+                                }
+                            }
+                    },
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message);
+            }
+
+        }
+
+
+        static string CalculateYourAge(DateTime Dob)
+        {
+            DateTime Now = DateTime.Now;
+            int Years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
+            DateTime PastYearDate = Dob.AddYears(Years);
+            int Months = 0;
+            for (int i = 1; i <= 12; i++)
+            {
+                if (PastYearDate.AddMonths(i) == Now)
+                {
+                    Months = i;
+                    break;
+                }
+                else if (PastYearDate.AddMonths(i) >= Now)
+                {
+                    Months = i - 1;
+                    break;
+                }
+            }
+            int Days = Now.Subtract(PastYearDate.AddMonths(Months)).Days;
+            int Hours = Now.Subtract(PastYearDate).Hours;
+            return String.Format("{0} Year(s) {1} Month(s) {2} Day(s)",
+            Years, Months, Days);
+        }
+        #endregion
         [HttpPost]
         [Route("api/child/change-doctor")]
         public Response<ChildDTO> ChangeDoctor(ChildDTO childDTO)
@@ -1109,7 +1261,7 @@ namespace VaccineDose.Controllers
                     return new Response<ChildDTO>(true, null, childDTO);
                 }
                 var cache = Configuration.CacheOutputConfiguration().GetCacheOutputProvider(Request);
-                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, 0,20,"")));
+                cache.RemoveStartsWith(Configuration.CacheOutputConfiguration().MakeBaseCachekey((DoctorController t) => t.GetAllChildsOfaDoctor(0, 0, 20, "")));
             }
             catch (Exception e)
             {
