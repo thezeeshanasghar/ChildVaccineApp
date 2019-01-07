@@ -10,6 +10,12 @@ namespace VaccineDose.Controllers
 {
     public class BaseController : ApiController
     {
+        public String CANNOT_DELETE_VACCINE_BRAND_ALREADY_EXISTS = "Cannot delete vaccine because it's brands exists. Delete the brands first";
+        public String RECORD_DELETED = "record deleted";
+        public String CANNOT_DELETE_VACCINE_DOSES_ALREADY_EXISTS = "Cannot delete vaccine because it's doses exists. Delete the doses first.";
+        public String DELETE_CONFLICTED_WITH_REFERENCE_CONSTRAINT = "The DELETE statement conflicted with the REFERENCE constraint";
+        public String VACCINE_NOT_FOUND = "Vaccine not found";
+
         public static string GetMessageFromExceptionObject(Exception ex)
         {
             String message = ex.Message;
