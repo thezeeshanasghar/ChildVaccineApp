@@ -434,13 +434,15 @@ namespace VaccineDose.Controllers
                         {
                             if (!String.IsNullOrEmpty(searchKeyword))
                             {
+                                searchKeyword = searchKeyword.Trim();
                                 if (searchKeyword.StartsWith("+")) searchKeyword = searchKeyword.Substring(1);
                                 if (searchKeyword.StartsWith("0")) searchKeyword = searchKeyword.Substring(1);
                                 if (searchKeyword.StartsWith("00")) searchKeyword = searchKeyword.Substring(2);
                                 if (searchKeyword.StartsWith("92")) searchKeyword = searchKeyword.Substring(2);
-                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(clinic.Children.Where(x => x.Name.ToLower()
-                                .Contains(searchKeyword.ToLower()) || x.FatherName.ToLower().Contains(searchKeyword.ToLower()) ||
-                                 x.User.MobileNumber.Contains(searchKeyword.ToLower())).ToList<Child>()));
+                                childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(
+                                    clinic.Children.Where(x => x.Name.Trim().ToLower().Contains(searchKeyword.ToLower())
+                                    || x.FatherName.Trim().ToLower().Contains(searchKeyword.ToLower())
+                                    || x.User.MobileNumber.Trim().Contains(searchKeyword.ToLower())).ToList<Child>()));
                                 currentPage = 0;
                             }
                             else
