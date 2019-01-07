@@ -22,6 +22,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -261,7 +262,9 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\Brand2Controller.cs" />
     <Compile Include="Controllers\BrandAmountController.cs" />
+    <Compile Include="Controllers\Dose2Controller.cs" />
     <Compile Include="Controllers\FollowUpController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
@@ -274,6 +277,7 @@
     <Compile Include="Controllers\DoseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\DoctorScheduleController.cs" />
+    <Compile Include="Controllers\Vaccine2Controller.cs" />
     <Compile Include="Controllers\VaccineController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Doctor.cs">
