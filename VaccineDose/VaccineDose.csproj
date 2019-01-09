@@ -267,6 +267,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Brand2Controller.cs" />
     <Compile Include="Controllers\BrandAmountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\Dose2Controller.cs" />
     <Compile Include="Controllers\FollowUpController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Model\ChangePasswordRequestDTO.cs" />
     <Compile Include="Model\ChildDTO.cs" />
     <Compile Include="Model\ClinicTimingDTO.cs" />
+    <Compile Include="Model\DashboardDTO.cs" />
     <Compile Include="Model\DoctorScheduleDTO.cs" />
     <Compile Include="Model\FollowUpDTO.cs" />
     <Compile Include="Model\MessageDTO.cs" />
@@ -482,7 +484,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4309</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
