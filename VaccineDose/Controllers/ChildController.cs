@@ -1176,6 +1176,56 @@ namespace VaccineDose.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/child/search")]
+        public Response<IEnumerable<ChildDTO>> SearchChildrenByCity([FromUri] string name = "", [FromUri] string city = "")
+        {
+            try
+            {
+                using (VDEntities entities = new VDEntities())
+                {
+
+                    List<Child> dbChildrenResults = new List<Child>();
+                    List<ChildDTO> childDTOs = new List<ChildDTO>();
+                    if (!String.IsNullOrEmpty(name) && !String.IsNullOrEmpty(name))
+                    {
+                        dbChildrenResults = entities.Children.Where( c => 
+                            (
+                                c.Name.ToLower().Contains(name.ToLower()) ||
+                                c.FatherName.ToLower().Contains(name.ToLower()) 
+                            ) &&
+                                c.City.ToLower().Contains(city.ToLower())
+                            ).ToList();
+                    }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(name))
+                        {
+                            name = name.Trim();
+                            dbChildrenResults = entities.Children.Where(c => c.Name.ToLower().Contains(name.ToLower()) ||
+                                               c.FatherName.ToLower().Contains(name.ToLower())).ToList();
+                        }
+                        if (!String.IsNullOrEmpty(city))
+                        {
+                            city = city.Trim();
+                            dbChildrenResults = entities.Children.Where(c => c.City.ToLower().Contains(city.ToLower())).ToList();
+                        }
+                    }
+                    childDTOs.AddRange(Mapper.Map<List<ChildDTO>>(dbChildrenResults));
+
+                    foreach (var item in childDTOs)
+                    {
+                        item.MobileNumber = dbChildrenResults.Where(x => x.ID == item.ID).FirstOrDefault().User.MobileNumber;
+                    }
+
+                    return new Response<IEnumerable<ChildDTO>>(true, null, childDTOs);
+                }
+            }
+            catch (Exception e)
+            {
+                return new Response<IEnumerable<ChildDTO>>(false, GetMessageFromExceptionObject(e), null);
+            }
+        }
 
         [HttpPost]
         [Route("api/child/validate-nameAndNumber")]
