@@ -11,5 +11,9 @@ namespace VaccineDose
         public string Name { get; set; }
         public Nullable<int> MinAge { get; set; }
         public Nullable<int> MaxAge { get; set; }
+
+        public int NumOfDoses { get; set; }
+
+        public int NumOfBrands { get; set; }
     }
 }

@@ -24,6 +24,11 @@ namespace VaccineDose.Controllers
                 {
                     var dbVaccines = entities.Vaccines.OrderBy(x => x.MinAge).ToList();
                     vaccineDTOs = Mapper.Map<IEnumerable<VaccineDTO>>(dbVaccines);
+                    foreach (var vaccineDTO in vaccineDTOs)
+                    {
+                        vaccineDTO.NumOfBrands = entities.Vaccines.Where(x => x.ID == vaccineDTO.ID).First().Brands.Count();
+                        vaccineDTO.NumOfDoses = entities.Vaccines.Where(x => x.ID == vaccineDTO.ID).First().Doses.Count();
+                    }
                     return Ok(vaccineDTOs);
                 }
             }
@@ -139,7 +144,7 @@ namespace VaccineDose.Controllers
             return content.ToString();
         }
 
-        [Route("api/vaccine/{id}/dosses")]
+        [Route("api/vaccine2/{id}/dosses")]
         public IHttpActionResult GetDossesByVaccineId(int id)
         {
             try
@@ -162,7 +167,7 @@ namespace VaccineDose.Controllers
             }
         }
 
-        [Route("api/vaccine/{id}/brands")]
+        [Route("api/vaccine2/{id}/brands")]
         public IHttpActionResult GetBrands(int id)
         {
             try
@@ -186,7 +191,7 @@ namespace VaccineDose.Controllers
         }
 
         [HttpGet]
-        [Route("api/vaccine/vaccine-with-brands")]
+        [Route("api/vaccine2/vaccine-with-brands")]
 
         public IHttpActionResult GetAllVaccineWithBrands()
         {

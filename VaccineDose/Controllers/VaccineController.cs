@@ -23,6 +23,11 @@ namespace VaccineDose.Controllers
                 {
                     var dbVaccines = entities.Vaccines.OrderBy(x=>x.MinAge).ToList();
                     IEnumerable<VaccineDTO> vaccineDTOs = Mapper.Map<IEnumerable<VaccineDTO>>(dbVaccines);
+                    foreach(var vaccineDTO in vaccineDTOs)
+                    {
+                        vaccineDTO.NumOfBrands = entities.Vaccines.Where(x => x.ID == vaccineDTO.ID).First().Brands.Count();
+                        vaccineDTO.NumOfDoses = entities.Vaccines.Where(x => x.ID == vaccineDTO.ID).First().Doses.Count();
+                    }
                     return new Response<IEnumerable<VaccineDTO>>(true, null, vaccineDTOs);
                 }
             }
