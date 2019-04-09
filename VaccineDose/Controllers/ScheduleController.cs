@@ -340,13 +340,14 @@ namespace VaccineDose.Controllers
             DateTime AddedDateTime = CurrentPakDateTime.AddDays(GapDays);
             if (GapDays == 0)
             {
-                schedules = entities.Schedules.Include("Dose").Include("Child").Include("Child.User")
+                schedules = entities.Schedules.Include("Child")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date == CurrentPakDateTime.Date)
                     .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
-                var sc = entities.Schedules.Include("Dose").Include("Child").Include("Child.User")
+                var sc = entities.Schedules.Include("Child")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
+                    .Where(c => c.Child.PreferredDayOfReminder != 0)
                     .Where(c => c.Date == DbFunctions.AddDays(CurrentPakDateTime.Date, c.Child.PreferredDayOfReminder))
                     .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date).ToList<Schedule>();
@@ -355,7 +356,7 @@ namespace VaccineDose.Controllers
             else if (GapDays > 0)
             {
                 AddedDateTime = AddedDateTime.AddDays(1);
-                schedules = entities.Schedules.Include("Child").Include("Dose")
+                schedules = entities.Schedules.Include("Child")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date > CurrentPakDateTime.Date && c.Date <= AddedDateTime)
                     .Where(c => c.IsDone == false)
@@ -365,14 +366,28 @@ namespace VaccineDose.Controllers
             }
             else if (GapDays < 0)
             {
-                schedules = entities.Schedules.Include("Child").Include("Dose")
+                schedules = entities.Schedules.Include("Child")
                     .Where(c => ClinicIDs.Contains(c.Child.ClinicID))
                     .Where(c => c.Date < CurrentPakDateTime.Date && c.Date >= AddedDateTime)
                     .Where(c => c.IsDone == false)
                     .OrderBy(x => x.Child.ID).ThenBy(x => x.Date)
                     .ToList<Schedule>();
             }
+            schedules = removeDuplicateRecords(schedules);
             return schedules;
+        }
+
+        private static List<Schedule> removeDuplicateRecords(List<Schedule> schedules)
+        {
+            List<Schedule> uniqueSchedule = new List<Schedule>();
+            long childId = 0;
+            foreach(Schedule s in schedules)
+            {
+                if(childId != s.ChildId)
+                    uniqueSchedule.Add(s); 
+                childId = s.ChildId;
+            }
+            return uniqueSchedule;
         }
 
         [HttpGet]
