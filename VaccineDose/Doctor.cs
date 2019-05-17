@@ -19,9 +19,9 @@ namespace VaccineDose
         {
             this.BrandAmounts = new HashSet<BrandAmount>();
             this.BrandInventories = new HashSet<BrandInventory>();
-            this.Clinics = new HashSet<Clinic>();
             this.DoctorSchedules = new HashSet<DoctorSchedule>();
             this.FollowUps = new HashSet<FollowUp>();
+            this.Clinics = new HashSet<Clinic>();
         }
     
         public int ID { get; set; }
@@ -52,12 +52,12 @@ namespace VaccineDose
         public virtual ICollection<BrandAmount> BrandAmounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BrandInventory> BrandInventories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Clinic> Clinics { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorSchedule> DoctorSchedules { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FollowUp> FollowUps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Clinic> Clinics { get; set; }
     }
 }

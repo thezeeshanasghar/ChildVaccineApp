@@ -57,9 +57,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ConsultationFee" Type="int" />
-          <Property Name="OffDays" Type="nvarchar" MaxLength="56" Nullable="false" />
-          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="Lat" Type="float" Nullable="false" />
           <Property Name="Long" Type="float" Nullable="false" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
@@ -72,9 +69,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Day" Type="nvarchar" MaxLength="50" />
-          <Property Name="StartTime" Type="time" Precision="7" />
-          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="Day" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="Session" Type="int" Nullable="false" />
           <Property Name="IsOpen" Type="bit" Nullable="false" />
           <Property Name="ClinicID" Type="int" Nullable="false" />
@@ -349,7 +346,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FollowUp_Child">
-          <End Role="Child" Type="Self.Child" Multiplicity="1" />
+          <End Role="Child" Type="Self.Child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="FollowUp" Type="Self.FollowUp" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Child">
@@ -397,7 +396,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schedule_Child">
-          <End Role="Child" Type="Self.Child" Multiplicity="1" />
+          <End Role="Child" Type="Self.Child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Child">
@@ -570,30 +571,10 @@
           <Property Name="IsVerified" Type="Boolean" />
           <Property Name="ClinicID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Clinic" Relationship="Self.FK_Child_Clinic" FromRole="Child" ToRole="Clinic" />
           <NavigationProperty Name="User" Relationship="Self.FK_Child_User" FromRole="Child" ToRole="User" />
           <NavigationProperty Name="FollowUps" Relationship="Self.FK_FollowUp_Child" FromRole="Child" ToRole="FollowUp" />
           <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_Child" FromRole="Child" ToRole="Schedule" />
-        </EntityType>
-        <EntityType Name="Clinic">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ConsultationFee" Type="Int32" />
-          <Property Name="OffDays" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="Lat" Type="Double" Nullable="false" />
-          <Property Name="Long" Type="Double" Nullable="false" />
-          <Property Name="DoctorID" Type="Int32" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Children" Relationship="Self.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
-          <NavigationProperty Name="Doctor" Relationship="Self.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
-          <NavigationProperty Name="ClinicTimings" Relationship="VDConnectionString.FK_ClinicTiming_Clinic" FromRole="Clinic" ToRole="ClinicTiming" />
+          <NavigationProperty Name="Clinic" Relationship="VDConnectionString.FK_Child_Clinic" FromRole="Child" ToRole="Clinic" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -622,12 +603,12 @@
           <Property Name="DoctorType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="BrandAmounts" Relationship="Self.FK_BrandAmount_Doctor" FromRole="Doctor" ToRole="BrandAmount" />
           <NavigationProperty Name="BrandInventories" Relationship="Self.FK_BrandInventory_Doctor" FromRole="Doctor" ToRole="BrandInventory" />
-          <NavigationProperty Name="Clinics" Relationship="Self.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
           <NavigationProperty Name="User" Relationship="Self.FK_Doctor_User" FromRole="Doctor" ToRole="User" />
           <NavigationProperty Name="DoctorSchedules" Relationship="Self.FK_DoctorSchedule_Doctor" FromRole="Doctor" ToRole="DoctorSchedule" />
           <NavigationProperty Name="FollowUps" Relationship="Self.FK_FollowUp_Doctor" FromRole="Doctor" ToRole="FollowUp" />
           <Property Name="Qualification" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AdditionalInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clinics" Relationship="VDConnectionString.FK_Clinic_Doctor" FromRole="Doctor" ToRole="Clinic" />
         </EntityType>
         <EntityType Name="DoctorSchedule">
           <Key>
@@ -800,18 +781,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Child_Clinic">
-          <End Role="Clinic" Type="Self.Clinic" Multiplicity="1" />
-          <End Role="Child" Type="Self.Child" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clinic">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Child">
-              <PropertyRef Name="ClinicID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Child_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Child" Type="Self.Child" Multiplicity="*" />
@@ -845,18 +814,6 @@
             </Principal>
             <Dependent Role="Schedule">
               <PropertyRef Name="ChildId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Clinic_Doctor">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="Clinic" Type="Self.Clinic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctor">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Clinic">
-              <PropertyRef Name="DoctorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -953,7 +910,6 @@
           <EntitySet Name="BrandAmounts" EntityType="Self.BrandAmount" />
           <EntitySet Name="BrandInventories" EntityType="Self.BrandInventory" />
           <EntitySet Name="Children" EntityType="Self.Child" />
-          <EntitySet Name="Clinics" EntityType="Self.Clinic" />
           <EntitySet Name="Doctors" EntityType="Self.Doctor" />
           <EntitySet Name="DoctorSchedules" EntityType="Self.DoctorSchedule" />
           <EntitySet Name="Doses" EntityType="Self.Dose" />
@@ -986,10 +942,6 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="BrandInventory" EntitySet="BrandInventories" />
           </AssociationSet>
-          <AssociationSet Name="FK_Child_Clinic" Association="Self.FK_Child_Clinic">
-            <End Role="Clinic" EntitySet="Clinics" />
-            <End Role="Child" EntitySet="Children" />
-          </AssociationSet>
           <AssociationSet Name="FK_Child_User" Association="Self.FK_Child_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Child" EntitySet="Children" />
@@ -1001,10 +953,6 @@
           <AssociationSet Name="FK_Schedule_Child" Association="Self.FK_Schedule_Child">
             <End Role="Child" EntitySet="Children" />
             <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Clinic_Doctor" Association="Self.FK_Clinic_Doctor">
-            <End Role="Doctor" EntitySet="Doctors" />
-            <End Role="Clinic" EntitySet="Clinics" />
           </AssociationSet>
           <AssociationSet Name="FK_Doctor_User" Association="Self.FK_Doctor_User">
             <End Role="User" EntitySet="Users" />
@@ -1035,6 +983,15 @@
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
           <EntitySet Name="ClinicTimings" EntityType="VDConnectionString.ClinicTiming" />
+          <EntitySet Name="Clinics" EntityType="VDConnectionString.Clinic" />
+          <AssociationSet Name="FK_Child_Clinic" Association="VDConnectionString.FK_Child_Clinic">
+            <End Role="Clinic" EntitySet="Clinics" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clinic_Doctor" Association="VDConnectionString.FK_Clinic_Doctor">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="Clinic" EntitySet="Clinics" />
+          </AssociationSet>
           <AssociationSet Name="FK_ClinicTiming_Clinic" Association="VDConnectionString.FK_ClinicTiming_Clinic">
             <End Role="Clinic" EntitySet="Clinics" />
             <End Role="ClinicTiming" EntitySet="ClinicTimings" />
@@ -1045,14 +1002,55 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StartTime" Type="Time" Precision="7" />
-          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="Time" Precision="7" Nullable="false" />
           <Property Name="Session" Type="Int32" Nullable="false" />
           <Property Name="IsOpen" Type="Boolean" Nullable="false" />
           <Property Name="ClinicID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Clinic" Relationship="VDConnectionString.FK_ClinicTiming_Clinic" FromRole="ClinicTiming" ToRole="Clinic" />
         </EntityType>
+        <EntityType Name="Clinic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConsultationFee" Type="Int32" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Long" Type="Double" Nullable="false" />
+          <Property Name="DoctorID" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Children" Relationship="VDConnectionString.FK_Child_Clinic" FromRole="Clinic" ToRole="Child" />
+          <NavigationProperty Name="Doctor" Relationship="VDConnectionString.FK_Clinic_Doctor" FromRole="Clinic" ToRole="Doctor" />
+          <NavigationProperty Name="ClinicTimings" Relationship="VDConnectionString.FK_ClinicTiming_Clinic" FromRole="Clinic" ToRole="ClinicTiming" />
+        </EntityType>
+        <Association Name="FK_Child_Clinic">
+          <End Type="VDConnectionString.Clinic" Role="Clinic" Multiplicity="1" />
+          <End Type="VDConnectionString.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clinic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="ClinicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clinic_Doctor">
+          <End Type="VDConnectionString.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="VDConnectionString.Clinic" Role="Clinic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Clinic">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ClinicTiming_Clinic">
           <End Type="VDConnectionString.Clinic" Role="Clinic" Multiplicity="1" />
           <End Type="VDConnectionString.ClinicTiming" Role="ClinicTiming" Multiplicity="*" />
@@ -1117,24 +1115,6 @@
                 <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
                 <ScalarProperty Name="ClinicID" ColumnName="ClinicID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Clinics">
-            <EntityTypeMapping TypeName="VDConnectionString.Clinic">
-              <MappingFragment StoreEntitySet="Clinic">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
-                <ScalarProperty Name="OffDays" ColumnName="OffDays" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="Lat" ColumnName="Lat" />
-                <ScalarProperty Name="Long" ColumnName="Long" />
-                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1266,6 +1246,21 @@
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clinics">
+            <EntityTypeMapping TypeName="VDConnectionString.Clinic">
+              <MappingFragment StoreEntitySet="Clinic">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="ConsultationFee" ColumnName="ConsultationFee" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

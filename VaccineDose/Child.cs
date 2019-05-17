@@ -36,11 +36,11 @@ namespace VaccineDose
         public int ClinicID { get; set; }
         public int UserID { get; set; }
     
-        public virtual Clinic Clinic { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FollowUp> FollowUps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Schedule> Schedules { get; set; }
+        public virtual Clinic Clinic { get; set; }
     }
 }

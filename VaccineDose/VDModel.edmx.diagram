@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="VDConnectionString.BrandAmount" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VDConnectionString.BrandInventory" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VDConnectionString.Child" Width="1.5" PointX="7.5" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="VDConnectionString.Clinic" Width="1.5" PointX="5.25" PointY="21.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VDConnectionString.Doctor" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VDConnectionString.DoctorSchedule" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VDConnectionString.Dose" Width="1.5" PointX="6" PointY="9.375" IsExpanded="true" />
@@ -24,11 +23,9 @@
         <AssociationConnector Association="VDConnectionString.FK_Schedule_Brand" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_BrandAmount_Doctor" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_BrandInventory_Doctor" ManuallyRouted="false" />
-        <AssociationConnector Association="VDConnectionString.FK_Child_Clinic" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_Child_User" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_FollowUp_Child" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_Schedule_Child" ManuallyRouted="false" />
-        <AssociationConnector Association="VDConnectionString.FK_Clinic_Doctor" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_Doctor_User" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_DoctorSchedule_Doctor" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_FollowUp_Doctor" ManuallyRouted="false" />
@@ -37,6 +34,9 @@
         <AssociationConnector Association="VDConnectionString.FK_Schedule_Dose" ManuallyRouted="false" />
         <AssociationConnector Association="VDConnectionString.FK_Message_User" ManuallyRouted="false" />
         <EntityTypeShape EntityType="VDConnectionString.ClinicTiming" Width="1.5" PointX="7.5" PointY="22.5" />
+        <EntityTypeShape EntityType="VDConnectionString.Clinic" Width="1.5" PointX="5.125" PointY="23.75" />
+        <AssociationConnector Association="VDConnectionString.FK_Child_Clinic" />
+        <AssociationConnector Association="VDConnectionString.FK_Clinic_Doctor" />
         <AssociationConnector Association="VDConnectionString.FK_ClinicTiming_Clinic" />
       </Diagram>
     </edmx:Diagrams>

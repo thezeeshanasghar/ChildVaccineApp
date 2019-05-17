@@ -79,10 +79,7 @@ namespace VaccineDose.Controllers
                     clinicDTO.IsOnline = false;
                     dbClinic.Name = clinicDTO.Name;
                     dbClinic.ConsultationFee = clinicDTO.ConsultationFee;
-                    dbClinic.StartTime = clinicDTO.StartTime;
-                    dbClinic.EndTime = clinicDTO.EndTime;
                     dbClinic.PhoneNumber = clinicDTO.PhoneNumber;
-                    dbClinic.OffDays = clinicDTO.OffDays;
                     dbClinic.Lat = clinicDTO.Lat;
                     dbClinic.Long = clinicDTO.Long;
                     dbClinic.Address = clinicDTO.Address;

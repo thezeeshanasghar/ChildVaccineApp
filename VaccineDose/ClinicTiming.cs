@@ -16,8 +16,8 @@ namespace VaccineDose
     {
         public int ID { get; set; }
         public string Day { get; set; }
-        public Nullable<System.TimeSpan> StartTime { get; set; }
-        public Nullable<System.TimeSpan> EndTime { get; set; }
+        public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
         public int Session { get; set; }
         public bool IsOpen { get; set; }
         public int ClinicID { get; set; }

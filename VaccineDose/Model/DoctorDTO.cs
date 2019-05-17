@@ -34,6 +34,8 @@ namespace VaccineDose
         public string Qualification { get; set; }
         public string AdditionalInfo { get; set; }
 
+        public string[] Speciality { get; set; }
+
         public ClinicDTO ClinicDTO { get; set; }
         public List<ClinicDTO> Clinics { get; set; }
 
