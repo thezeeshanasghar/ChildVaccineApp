@@ -80,6 +80,7 @@
     <None Include="Scripts\Server-data-backup-13-Jun-2018.sql" />
     <Build Include="dbo\Tables\ClinicTiming.sql" />
     <None Include="Scripts\Serverdata-backup-14-Sep-2019.sql" />
+    <None Include="Scripts\Server-data-backup-11-Nov-2019.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script_1.PostDeployment1.sql" />
