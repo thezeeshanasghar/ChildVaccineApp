@@ -123,12 +123,12 @@ namespace VaccineDose.App_Code
                 mail.Body = body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.EnableSsl = true;
+                smtp.Host = "mail.vaccines.pk";
+                smtp.EnableSsl = false;
                 NetworkCredential NetworkCred = new NetworkCredential(teamEmail, teamEmailPassword);
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = NetworkCred;
-                smtp.Port = 587;
+                smtp.Port = 26;
                 try
                 {
                     smtp.Send(mail);

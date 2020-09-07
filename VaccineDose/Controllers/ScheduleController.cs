@@ -302,7 +302,10 @@ namespace VaccineDose.Controllers
             foreach (var d in AllDoses)
             {
                 var TargetSchedule = entities.Schedules.Where(x => x.ChildId == dbSchedule.ChildId && x.DoseId == d.ID).FirstOrDefault();
-                TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference); //TargetSchedule.Date.AddDays(daysDifference);
+                if (TargetSchedule != null)
+                {
+                    TargetSchedule.Date = calculateDate(TargetSchedule.Date, daysDifference); //TargetSchedule.Date.AddDays(daysDifference);
+                }
             }
 
         }
