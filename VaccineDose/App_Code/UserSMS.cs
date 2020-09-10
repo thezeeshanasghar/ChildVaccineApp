@@ -49,7 +49,8 @@ namespace VaccineDose.App_Code
         public static string ParentSMSAlert(string doseName, DateTime scheduleDate, Child child)
         {
 
-            string sms1 = "Mr. " + child.FatherName + "\n";
+            //string sms1 = "Mr. " + child.FatherName + "\n";
+            string sms1 = "";
             sms1 += doseName + " Vaccine for ";
             if (child.Gender == "Boy")
                 sms1 += "your son " + textInfo.ToTitleCase(child.Name);
@@ -59,13 +60,14 @@ namespace VaccineDose.App_Code
 
             sms1 += " is due ";
             if (scheduleDate.Date == DateTime.UtcNow.AddHours(5).Date)
-                sms1 += "Today ";
+                sms1 += "Today";
             else
                 sms1 += scheduleDate.Date.ToString("MM-dd-yyyy");
 
-            sms1 += " at " + textInfo.ToTitleCase(child.Clinic.Name) + "\n";
-            sms1 += "Plz confirm your appointment with Dr. " + textInfo.ToTitleCase(child.Clinic.Doctor.FirstName) + " " + textInfo.ToTitleCase(child.Clinic.Doctor.LastName);
+            //sms1 += " at " + textInfo.ToTitleCase(child.Clinic.Name) + "\n";
+            sms1 += ". Book appointment with Dr. " + textInfo.ToTitleCase(child.Clinic.Doctor.FirstName) + " " + textInfo.ToTitleCase(child.Clinic.Doctor.LastName);
             sms1 += " @ " + child.Clinic.Doctor.PhoneNo + " OR " + child.Clinic.PhoneNumber;
+            sms1 += "\nhttps://salmanbajwa.com/vaccines";
             var response1 = SendSMS(child.User.CountryCode, child.User.MobileNumber, child.Email, sms1);
             addMessageToDB(child.User.MobileNumber, response1, sms1, child.Clinic.Doctor.User.ID);
             minusDoctorSMSCount(child.Clinic.Doctor);
@@ -144,7 +146,9 @@ namespace VaccineDose.App_Code
             //string webTarget = "http://icworldsms.com:82/Service.asmx/SendSMS?SessionID=Ud1vaibfSexGvkohsFVVVEzoWrhUKfpylFZqOFVy9EB7CaifKP&CompaignName=text&MobileNo={0}&MaskName=VACCS+IO&Message={1}&MessageType=English";
             //string url = String.Format(webTarget, "0" + MobileNumber, HttpUtility.0UrlEncode(text));
 
-            string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";
+            //string webTarget = "http://58.65.138.38:8181/sc/smsApi/sendSms?username=vccsio&password=123456&mobileNumber={0}&message={1}&mask=VACCS%20IO";
+            string webTarget = "http://brandyourtext.com/sms/api/send?username=vaccsio&password=123456&mask=VACCS%20IO&mobile={0}&message={1}";
+
             string url = String.Format(webTarget, "92" + MobileNumber, HttpUtility.UrlEncode(text));
 
             return Controllers.VaccineController.sendRequest(url);
